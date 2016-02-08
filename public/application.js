@@ -4,9 +4,10 @@
 angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfiguration.applicationModuleVendorDependencies);
 
 // Setting HTML5 Location Mode
-angular.module(ApplicationConfiguration.applicationModuleName).config(['$locationProvider',
-	function($locationProvider) {
+angular.module(ApplicationConfiguration.applicationModuleName).config(['$locationProvider', '$animateProvider',
+	function($locationProvider, $animateProvider) {
 		$locationProvider.hashPrefix('!');
+		$animateProvider.classNameFilter(/carousel/);
 	}
 ]);
 
