@@ -63,11 +63,6 @@
 		<script type="text/javascript" src="{{jsFile}}"></script>
 	{% endfor %}
 
-	{% if process.env.NODE_ENV === 'development' %}
-	<!--Livereload script rendered -->
-	<script type="text/javascript" src="http://{{request.hostname}}:35729/livereload.js"></script>
-	{% endif %}
-
 	<!--[if lt IE 9]>
 	<section class="browsehappy jumbotron hide">
 		<h1>Hello there!</h1>
