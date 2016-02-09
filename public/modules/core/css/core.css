@@ -87,15 +87,6 @@ body.ng-cloak
 	position: relative;
 }
 
-.shadow-area {
-	-webkit-box-shadow: 0 0 25px 85px #ffffff;
-	-moz-box-shadow: 0 0 25px 85px #ffffff;
-	box-shadow: 0 0 25px 85px #ffffff;
-	background: #fff none repeat scroll 0 0;
-	bottom: 0;
-	position: absolute;
-	width: 100%;
-}
 .slide-area .signup-btn-area p {
 	line-height: 1.2em;
 }
@@ -256,6 +247,33 @@ body.ng-cloak
 	height: 111px;
 }
 
+@media (min-width: 320px) {
+	.navbar-brand img{
+		margin-left: 15px;
+	}
+	.home-class .gray-header-area {
+		display: block;
+	}
+
+	.slide-area .signup-btn-area {
+		display: none;
+	}
+
+	.home-class .sub-container {
+		margin-top: -30px;
+	}
+
+	.shadow-area {
+		-webkit-box-shadow: 0 0 25px 45px #ffffff;
+		-moz-box-shadow: 0 0 25px 45px #ffffff;
+		box-shadow: 0 0 25px 45px #ffffff;
+		background: #fff none repeat scroll 0 0;
+		bottom: 0;
+		position: absolute;
+		width: 100%;
+	}
+}
+
 @media (max-width: 370px) {
 	.footer-info {
 		padding: 15px 0;
@@ -275,6 +293,38 @@ body.ng-cloak
 	}
 }
 
+@media (min-width: 600px) {
+	.navbar-brand img{
+		margin-left: 15px;
+	}
+	.home-class .gray-header-area {
+		display: block;
+	}
+
+	.slide-area .signup-btn-area {
+		display: block;
+		font-size: 2em;
+		font-weight: bold;
+		left: 15px;
+		position: absolute;
+		top: 15%;
+	}
+
+	.home-class .sub-container {
+		margin-top: -70px;
+	}
+
+	.shadow-area {
+		-webkit-box-shadow: 0 0 25px 85px #ffffff;
+		-moz-box-shadow: 0 0 25px 85px #ffffff;
+		box-shadow: 0 0 25px 85px #ffffff;
+		background: #fff none repeat scroll 0 0;
+		bottom: 0;
+		position: absolute;
+		width: 100%;
+	}
+}
+
 @media (min-width: 768px) {
 	.container {
 		width: 100%;
@@ -286,6 +336,7 @@ body.ng-cloak
 	}
 
 	.slide-area .signup-btn-area {
+		display: block;
 		font-size: 2em;
 		font-weight: bold;
 		left: 20px;
@@ -300,6 +351,28 @@ body.ng-cloak
 	.footer .sub-container {
 		padding-top: 35px;
 	}
+
+	.navbar-brand img{
+		margin-left: 0;
+	}
+
+	.home-class .gray-header-area {
+		display: none;
+	}
+
+	.home-class .sub-container {
+		margin-top: -145px;
+	}
+
+	.shadow-area {
+		-webkit-box-shadow: 0 0 25px 85px #ffffff;
+		-moz-box-shadow: 0 0 25px 85px #ffffff;
+		box-shadow: 0 0 25px 85px #ffffff;
+		background: #fff none repeat scroll 0 0;
+		bottom: 0;
+		position: absolute;
+		width: 100%;
+	}
 }
 @media (min-width: 992px) {
 	.container {
@@ -312,6 +385,7 @@ body.ng-cloak
 	}
 
 	.slide-area .signup-btn-area {
+		display: block;
 		font-size: 2.3em;
 		font-weight: bold;
 		left: 50px;
@@ -330,6 +404,28 @@ body.ng-cloak
 	.footer .sub-container {
 		padding-top: 35px;
 	}
+
+	.navbar-brand img{
+		margin-left: 0;
+	}
+
+	.home-class .gray-header-area {
+		display: none;
+	}
+
+	.home-class .sub-container {
+		margin-top: -145px;
+	}
+
+	.shadow-area {
+		-webkit-box-shadow: 0 0 25px 85px #ffffff;
+		-moz-box-shadow: 0 0 25px 85px #ffffff;
+		box-shadow: 0 0 25px 85px #ffffff;
+		background: #fff none repeat scroll 0 0;
+		bottom: 0;
+		position: absolute;
+		width: 100%;
+	}
 }
 
 @media (min-width: 1366px) {
@@ -345,6 +441,7 @@ body.ng-cloak
 	}
 
 	.slide-area .signup-btn-area {
+		display: block;
 		font-size: 3.7em;
 		font-weight: bold;
 		left: 140px;
@@ -362,5 +459,27 @@ body.ng-cloak
 
 	.footer .sub-container {
 		padding-top: 35px;
+	}
+
+	.navbar-brand img{
+		margin-left: 0;
+	}
+
+	.home-class .gray-header-area {
+		display: none;
+	}
+
+	.home-class .sub-container {
+		margin-top: -145px;
+	}
+
+	.shadow-area {
+		-webkit-box-shadow: 0 0 25px 85px #ffffff;
+		-moz-box-shadow: 0 0 25px 85px #ffffff;
+		box-shadow: 0 0 25px 85px #ffffff;
+		background: #fff none repeat scroll 0 0;
+		bottom: 0;
+		position: absolute;
+		width: 100%;
 	}
 }

@@ -1,13 +1,12 @@
 <section data-ng-controller="HomeController" class="home-class">
+	<div class="gray-header-area"></div>
 	<div class="slide-area">
-		<div class="slide-area">
-			<carousel interval="myInterval" no-transition="false">
-				<slide ng-repeat="slide in slides" active="slide.active">
-					<img ng-src="{{slide.image}}" style="margin:auto;">
-				</slide>
-			</carousel>
-			<div class="shadow-area"></div>
-		</div>
+		<carousel interval="myInterval" no-transition="false">
+			<slide ng-repeat="slide in slides" active="slide.active">
+				<img ng-src="{{slide.image}}" style="margin:auto;">
+			</slide>
+		</carousel>
+
 		<div class="signup-btn-area">
 			<p class="white-color">Are you a resident?</p>
 			<p class="light-green-color">Rent with confidence</p>
