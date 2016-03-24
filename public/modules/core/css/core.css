@@ -56,6 +56,26 @@ body.ng-cloak
 	text-align: right;
 }
 
+.user-header {
+	background-color: #487e2c;
+}
+
+.user-header .navbar-nav > li > a {
+	color: #fff;
+}
+
+.user-header .navbar-nav > .open > a, .user-header .navbar-nav > .active > a {
+	background: #487925;
+	color: #fff;
+}
+
+.user-header .navbar-nav > .open > a,
+.user-header .navbar-nav > .open > a:hover,
+.user-header .navbar-nav > .open > a:focus {
+	color: #fff;
+	background-color: #487925;
+}
+
 .login-navbar .login-form {
 	padding: 20px 0;
 }
@@ -483,3 +503,4 @@ body.ng-cloak
 		width: 100%;
 	}
 }
+

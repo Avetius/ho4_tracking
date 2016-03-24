@@ -1,0 +1,34 @@
+<section class="row margin-header" data-ng-controller="SettingsController" data-ng-init="findPolicies()">
+	<div class="col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4">
+		<ul class="nav nav-pills">
+			<li role="presentation"><a href="/#!/settings/profile">Account</a></li>
+			<li role="presentation"><a href="/#!/settings/policy">Policy Information</a></li>
+			<li role="presentation" class="active"><a href="#">Policy History</a></li>
+			<li role="presentation"><a href="/#!/settings/password">Settings</a></li>
+		</ul>
+	</div>
+	<div class="col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4">
+		<div class="table-responsive">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>Expiration Date</th>
+						<th>Policy Name</th>
+						<th>Status</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="policy in policies">
+						<td>{{policy.policyEndDate | date: 'MM/dd/yyyy'}}</td>
+						<td>{{policy.policyName}}</td>
+						<td>{{policy.status}}</td>
+						<td>
+							<a href="#">Previw the certificate</a> | <a href="#">Details</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,79 @@
+<section class="row margin-header" data-ng-controller="SettingsController">
+	<h3 class="col-md-12 text-center">Policy Information</h3>
+	<div class="col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4">
+		<form name="policyForm" data-ng-submit="addPolicyInfo(policyForm.$valid)" class="signin form-horizontal" autocomplete="off">
+			<fieldset>
+				<div class="form-group">
+					<div ngf-drop ngf-select="uploadFiles($files)" class="drop-box"
+						 ngf-drag-over-class="'dragover'" ngf-multiple="false"
+						 ngf-pattern="'image/*,application/pdf'" ng-model="file">Drop Images or PDFs files here</div>
+					<div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+					<h3>{{file.name}} {{f.$error}} {{f.$errorParam}}</h3>
+					<div class="status">{{file.status}}</div>
+					<div class="progress-bar">
+						<div class="progress" style="width: {{file.progress}}%" ng-init="progress=0"></div>
+					</div>
+					<div class="form_line">
+						<div class="form_controls">
+							<div class="preview">
+								<img ngf-src="file.result.url || file">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="insuranceName">Name of Insurance</label>
+					<input type="text" id="insuranceName" name="insuranceName" class="form-control" data-ng-model="policy.insuranceName" placeholder="Name of Insurance">
+				</div>
+				<div class="form-group">
+					<label for="insuranceName">Insurer's Name</label>
+					<input type="text" id="insurerName" name="insurerName" class="form-control" data-ng-model="policy.insurerName" placeholder="Insurer's Name">
+				</div>
+				<div class="form-group">
+					<label for="insuranceName">Unit #</label>
+					<input type="text" id="unitNumber" name="unitNumber" class="form-control" data-ng-model="policy.unitNumber" placeholder="Unit #">
+				</div>
+				<div class="form-group">
+					<label for="insuranceName">Policy's Holder Name</label>
+					<input type="text" id="policyHolderName" name="policyHolderName" class="form-control" data-ng-model="policy.policyHolderName" placeholder="Policy's Holder Name">
+				</div>
+				<div class="form-group">
+					<label for="insuranceName">Policy Name</label>
+					<input type="text" id="policyName" name="policyName" class="form-control" data-ng-model="policy.policyName" placeholder="Policy Name">
+				</div>
+				<div class="form-group">
+					<label for="insuranceName">Policy Number</label>
+					<input type="text" id="policyNumber" name="policyNumber" class="form-control" data-ng-model="policy.policyNumber" placeholder="Policy Number">
+				</div>
+				<div class="form-group">
+					<label for="insuranceName">Policy Start Date</label>
+					<div class="input-group">
+						<input type="text" class="form-control" datepicker-popup ng-model="policy.policyStartDate"
+							   is-open="fromElements.opened" max-date="policy.policyEndDate" close-text="Close"/>
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="from_open($event)"><i
+									class="glyphicon glyphicon-calendar"></i></button>
+						</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="insuranceName">Policy End Date</label>
+					<div class="input-group">
+						<input type="text" class="form-control" datepicker-popup ng-model="policy.policyEndDate"
+							   is-open="toElements.opened" min-date="policy.policyStartDate" close-text="Close"/>
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="to_open($event)"><i
+									class="glyphicon glyphicon-calendar"></i></button>
+						</span>
+					</div>
+				</div>
+				<div class="text-center form-group">
+					<button type="submit" class="btn btn-large btn-primary">Submit</button>
+				</div>
+				<div data-ng-show="error" class="text-center text-danger">
+					<strong data-ng-bind="error"></strong>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</section>

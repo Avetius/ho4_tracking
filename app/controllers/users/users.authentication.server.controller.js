@@ -7,7 +7,11 @@ var _ = require('lodash'),
 	errorHandler = require('../errors.server.controller'),
 	mongoose = require('mongoose'),
 	passport = require('passport'),
-	User = mongoose.model('User');
+	config = require('../../../config/config'),
+	sendgrid  = require('sendgrid')(config.sendgrid_api),
+	crypto = require('crypto'),
+	User = mongoose.model('User'),
+	Profile = mongoose.model('Profile');
 
 /**
  * Signup
@@ -23,6 +27,8 @@ exports.signup = function(req, res) {
 	// Add missing user fields
 	user.provider = 'local';
 	user.displayName = user.firstName + ' ' + user.lastName;
+	user.username = user.email;
+	user.verifyToken = crypto.randomBytes(32).toString('base64').replace(/[^A-Z0-9]+/ig, "_");
 
 	// Then save the user
 	user.save(function(err) {
@@ -34,12 +40,34 @@ exports.signup = function(req, res) {
 			// Remove sensitive data before login
 			user.password = undefined;
 			user.salt = undefined;
-
-			req.login(user, function(err) {
+			var profile = new Profile({
+				user: user._id
+			});
+			profile.save(function(err) {
 				if (err) {
-					res.status(400).send(err);
+					return res.status(400).send({
+						message: errorHandler.getErrorMessage(err)
+					});
 				} else {
-					res.json(user);
+					req.login(user, function (err) {
+						if (err) {
+							res.status(400).send(err);
+						} else {
+							/*var emailHTML = '<h3>HO4 Sign Up Confirmation</h3>';
+							 emailHTML += '<p>Thank you '+ user.displayName +' for your interest in the HO4.</p>';
+							 var verifyURL = 'http://127.0.0.1:3000/user/verify?token=' + user.verifyToken;
+							 emailHTML += '<a href="'+verifyURL+'">'+verifyURL+'</a>';
+							 sendgrid.send({
+							 to: user.email,
+							 from: 'enterscompliance@veracityins.com',
+							 subject: 'HO4 Verification',
+							 html: emailHTML
+							 }, function (err, json) {
+							 console.log(json);
+							 });*/
+							res.json(user);
+						}
+					});
 				}
 			});
 		}

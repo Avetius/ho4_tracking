@@ -13,10 +13,6 @@ angular.module('users').config(['$stateProvider',
 			url: '/settings/password',
 			templateUrl: 'modules/users/views/settings/change-password.client.view.html'
 		}).
-		state('accounts', {
-			url: '/settings/accounts',
-			templateUrl: 'modules/users/views/settings/social-accounts.client.view.html'
-		}).
 		state('signup', {
 			url: '/signup',
 			templateUrl: 'modules/users/views/authentication/signup.client.view.html'
@@ -40,6 +36,22 @@ angular.module('users').config(['$stateProvider',
 		state('reset', {
 			url: '/password/reset/:token',
 			templateUrl: 'modules/users/views/password/reset-password.client.view.html'
+		}).
+		state('signup_account_info', {
+			url: '/signup_account_info',
+			templateUrl: 'modules/users/views/settings/signup_account_info.client.view.html'
+		}).
+		state('signup_policy_info', {
+			url: '/signup_policy_info',
+			templateUrl: 'modules/users/views/settings/signup_policy_info.client.view.html'
+		}).
+		state('edit_policy', {
+			url: '/settings/policy',
+			templateUrl: 'modules/users/views/settings/edit-policy.client.view.html'
+		}).
+		state('policy_history', {
+			url: '/settings/policy_history',
+			templateUrl: 'modules/users/views/settings/policy_history.client.view.html'
 		});
 	}
 ]);

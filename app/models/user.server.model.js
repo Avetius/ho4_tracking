@@ -62,6 +62,12 @@ var UserSchema = new Schema({
 	salt: {
 		type: String
 	},
+	propertyID: {
+		type: String
+	},
+	appartmentNumber: {
+		type: String
+	},
 	provider: {
 		type: String,
 		required: 'Provider is required'
@@ -81,6 +87,13 @@ var UserSchema = new Schema({
 	created: {
 		type: Date,
 		default: Date.now
+	},
+	verifyToken: {
+		type: String
+	},
+	verified: {
+		type: Boolean,
+		default: false
 	},
 	/* For reset password */
 	resetPasswordToken: {

@@ -1,4 +1,4 @@
-<div class="container" data-ng-controller="HeaderController">
+<div class="container" data-ng-controller="HeaderController" ng-class="{'user-header' : authentication.user}">
 	<div class="sub-container">
 		<div class="navbar-header">
 			<button class="navbar-toggle" type="button" data-ng-click="toggleCollapsibleMenu()">
@@ -32,12 +32,12 @@
 					<span class="underline">866.395.1308</span>
 				</li>
 				<li>
-					<form class="form-inline login-form">
+					<form class="form-inline login-form" data-ng-submit="signin()">
 						<div class="form-group">
-							<input type="email" class="form-control" placeholder="Email">
+							<input type="email" class="form-control" placeholder="Email" data-ng-model="credentials.username">
 						</div>
 						<div class="form-group">
-							<input type="password" class="form-control" placeholder="Password">
+							<input type="password" class="form-control" placeholder="Password" data-ng-model="credentials.password">
 						</div>
 						<button type="submit" class="btn btn-success login-btn green-btn-color">
 							<span class="glyphicon glyphicon-lock"></span>
@@ -54,12 +54,6 @@
 					<ul class="dropdown-menu">
 						<li>
 							<a href="/#!/settings/profile">Edit Profile</a>
-						</li>
-						<li>
-							<a href="/#!/settings/accounts">Manage Social Accounts</a>
-						</li>
-						<li data-ng-show="authentication.user.provider === 'local'">
-							<a href="/#!/settings/password">Change Password</a>
 						</li>
 						<li class="divider"></li>
 						<li>

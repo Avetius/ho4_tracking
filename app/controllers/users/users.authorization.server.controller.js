@@ -5,6 +5,7 @@
  */
 var _ = require('lodash'),
 	mongoose = require('mongoose'),
+	errorHandler = require('../errors.server.controller'),
 	User = mongoose.model('User');
 
 /**
@@ -49,4 +50,26 @@ exports.hasAuthorization = function(roles) {
 			}
 		});
 	};
+};
+
+exports.verifyUser = function(req, res, next) {
+	User.findOne({verifyToken: req.query.token}).exec(function(err, user) {
+		if (user) {
+			user.verified = true;
+			user.verifyToken = '';
+			user.save(function (err) {
+				if (err) {
+					return res.status(400).send({
+						message: errorHandler.getErrorMessage(err)
+					});
+				} else {
+					res.redirect('/#!/settings/profile');
+				}
+			});
+		} else {
+			return res.status(403).send({
+				message: 'Token is invalid one.'
+			});
+		}
+	});
 };

@@ -4,7 +4,8 @@
  * Module dependencies.
  */
 var passport = require('passport');
-
+var multipart = require('connect-multiparty'),
+	multipartMiddleware = multipart();
 module.exports = function(app) {
 	// User Routes
 	var users = require('../../app/controllers/users.server.controller');
@@ -51,6 +52,24 @@ module.exports = function(app) {
 	// Setting the github oauth routes
 	app.route('/auth/github').get(passport.authenticate('github'));
 	app.route('/auth/github/callback').get(users.oauthCallback('github'));
+
+	app.route('/user/verify').get(users.verifyUser);
+
+	app.route('/profiles/byuser/:userId')
+		.get(users.requiresLogin, users.getProfileByUserId)
+		.put(users.requiresLogin, users.updateProfile);
+
+	app.route('/user_policies/:userId').get(users.requiresLogin, users.getPoliciesByUserId);
+
+	app.route('/policy')
+		.get(users.requiresLogin, users.getPolicies)
+		.post(users.requiresLogin, users.createPolicy);
+
+	app.route('/policy/:policyId')
+		.get(users.requiresLogin, users.getPolicy)
+		.put(users.requiresLogin, users.updatePolicy);
+
+	app.route('/upload_insurance').post(multipartMiddleware, users.uploadInsurance);
 
 	// Finish by binding the user middleware
 	app.param('userId', users.userByID);

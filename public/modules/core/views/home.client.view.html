@@ -1,47 +1,50 @@
 <section data-ng-controller="HomeController" class="home-class">
-	<div class="gray-header-area"></div>
-	<div class="slide-area">
-		<carousel interval="myInterval" no-transition="false">
-			<slide ng-repeat="slide in slides" active="slide.active">
-				<img ng-src="{{slide.image}}" style="margin:auto;">
-			</slide>
-		</carousel>
+	<div ng-if="!authentication.user">
+		<div class="gray-header-area"></div>
+		<div class="slide-area">
+			<carousel interval="myInterval" no-transition="false">
+				<slide ng-repeat="slide in slides" active="slide.active">
+					<img ng-src="{{slide.image}}" style="margin:auto;">
+				</slide>
+			</carousel>
 
-		<div class="signup-btn-area">
-			<p class="white-color">Are you a resident?</p>
-			<p class="light-green-color">Rent with confidence</p>
-			<a href="#!/signup" class="btn btn-success green-btn-color btn-lg getstarted-btn">Get Started</a>
+			<div class="signup-btn-area">
+				<p class="white-color">Are you a resident?</p>
+				<p class="light-green-color">Rent with confidence</p>
+				<a href="#!/signup" class="btn btn-success green-btn-color btn-lg getstarted-btn">Get Started</a>
+			</div>
+			<div class="shadow-area"></div>
 		</div>
-		<div class="shadow-area"></div>
-	</div>
-	<div class="sub-container">
-		<div class="text-center">
-			<div class="row thumbnail-group">
-				<div class="col-sm-12 col-md-6">
-					<div class="thumbnail">
-						<img src="modules/core/img/thumb1.png">
-						<div class="caption text-left">
-							<h3 class="green-color thumbnail-title">For Property Managers</h3>
-							<p class="thumbnail-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla semper condimentum mi, in imperdiet urna hendrerit in. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer eget quam vitae ante tempor sagittis ut nec justo. Ut et felis ac tortor commodo rutrum ac vel enim. Sed sodales fringilla metus, quis porttitor dolor iaculis eget. Vestibulum gravida, magna eu volutpat vehicula, arcu sem vulputate lectus, sit amet commodo nulla mauris ut sem. Suspendisse a nulla at nisl luctus ultrices id vitae sapien.</p>
-							<p class="text-right"><a href="#!/signup" class="btn btn-success green-btn-color thumbnail-btn" role="button">Get Started</a></p>
+		<div class="sub-container">
+			<div class="text-center">
+				<div class="row thumbnail-group">
+					<div class="col-sm-12 col-md-6">
+						<div class="thumbnail">
+							<img src="modules/core/img/thumb1.png">
+							<div class="caption text-left">
+								<h3 class="green-color thumbnail-title">For Property Managers</h3>
+								<p class="thumbnail-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla semper condimentum mi, in imperdiet urna hendrerit in. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer eget quam vitae ante tempor sagittis ut nec justo. Ut et felis ac tortor commodo rutrum ac vel enim. Sed sodales fringilla metus, quis porttitor dolor iaculis eget. Vestibulum gravida, magna eu volutpat vehicula, arcu sem vulputate lectus, sit amet commodo nulla mauris ut sem. Suspendisse a nulla at nisl luctus ultrices id vitae sapien.</p>
+								<p class="text-right"><a href="#!/signup" class="btn btn-success green-btn-color thumbnail-btn" role="button">Get Started</a></p>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-sm-12 col-md-6">
-					<div class="thumbnail">
-						<img src="modules/core/img/thumb2.png">
-						<div class="caption text-left">
-							<h3 class="green-color thumbnail-title">For Property Managers</h3>
-							<p class="thumbnail-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla semper condimentum mi, in imperdiet urna hendrerit in. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer eget quam vitae ante tempor sagittis ut nec justo. Ut et felis ac tortor commodo rutrum ac vel enim. Sed sodales fringilla metus, quis porttitor dolor iaculis eget. Vestibulum gravida, magna eu volutpat vehicula, arcu sem vulputate lectus, sit amet commodo nulla mauris ut sem. Suspendisse a nulla at nisl luctus ultrices id vitae sapien.</p>
-							<p class="text-right"><a href="#!/signup" class="btn btn-success green-btn-color thumbnail-btn" role="button">Get Started</a></p>
+					<div class="col-sm-12 col-md-6">
+						<div class="thumbnail">
+							<img src="modules/core/img/thumb2.png">
+							<div class="caption text-left">
+								<h3 class="green-color thumbnail-title">For Property Managers</h3>
+								<p class="thumbnail-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla semper condimentum mi, in imperdiet urna hendrerit in. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer eget quam vitae ante tempor sagittis ut nec justo. Ut et felis ac tortor commodo rutrum ac vel enim. Sed sodales fringilla metus, quis porttitor dolor iaculis eget. Vestibulum gravida, magna eu volutpat vehicula, arcu sem vulputate lectus, sit amet commodo nulla mauris ut sem. Suspendisse a nulla at nisl luctus ultrices id vitae sapien.</p>
+								<p class="text-right"><a href="#!/signup" class="btn btn-success green-btn-color thumbnail-btn" role="button">Get Started</a></p>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
 </section>
-<footer class="footer">
+<!--<footer class="footer">
 	<div class="footer-info text-center">
 		<span class="glyphicon glyphicon-phone-alt"></span>
 		<span>For more information, Call us <b>866.395.1308</b></span>
@@ -67,4 +70,4 @@
 		</ul>
 		<p class="navbar-text copyright-field">Copyright © 2016, Renters Legal Liability LLC</p>
 	</div>
-</footer>
+</footer>-->

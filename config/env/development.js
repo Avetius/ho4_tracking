@@ -20,6 +20,9 @@ module.exports = {
 	app: {
 		title: 'RLL Insure HO4'
 	},
+
+	sendgrid_api: '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',
+
 	facebook: {
 		clientID: process.env.FACEBOOK_ID || 'APP_ID',
 		clientSecret: process.env.FACEBOOK_SECRET || 'APP_SECRET',
