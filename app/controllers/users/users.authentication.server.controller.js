@@ -90,14 +90,14 @@ exports.signup = function(req, res) {
 										name: user.displayName,
 										url: 'http://' + req.headers.host + '/user/verify?token=' + user.verifyToken
 									}, function(err, emailHTML) {
-										/*sendgrid.send({
+										sendgrid.send({
 											to: user.email,
 											from: 'enterscompliance@veracityins.com',
 											subject: user.displayName + ' Please verify your email address ',
 											html: emailHTML
 										}, function (err, json) {
 											console.log(json);
-										});*/
+										});
 										res.json(user);
 									});
 									/*var emailHTML = '<table width="100%" align="center" cellspacing="0" cellpadding="0" border="0" style="width: 100%; max-width: 600px;">';

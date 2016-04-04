@@ -68,7 +68,7 @@ exports.forgot = function(req, res, next) {
 		},
 		// If valid email, send reset email using service
 		function(emailHTML, user, done) {
-			/*sendgrid.send({
+			sendgrid.send({
 				to: user.email,
 				from: 'enterscompliance@veracityins.com',
 				subject: 'Password Reset',
@@ -83,8 +83,8 @@ exports.forgot = function(req, res, next) {
 						message: 'Failure sending email'
 					});
 				}
-			});*/
-			var mailOptions = {
+			});
+			/*var mailOptions = {
 				to: user.email,
 				from: config.mailer.from,
 				subject: 'Password Reset',
@@ -102,7 +102,7 @@ exports.forgot = function(req, res, next) {
 				}
 
 				done(err);
-			});
+			});*/
 		}
 	], function(err) {
 		if (err) return next(err);
@@ -189,15 +189,15 @@ exports.reset = function(req, res, next) {
 		},
 		// If valid email, send reset email using service
 		function(emailHTML, user, done) {
-			/*sendgrid.send({
+			sendgrid.send({
 				to: user.email,
 				from: 'enterscompliance@veracityins.com',
 				subject: 'Your password has been changed',
 				html: emailHTML
 			}, function (err, json) {
 				done(err, 'done');
-			});*/
-			var mailOptions = {
+			});
+			/*var mailOptions = {
 				to: user.email,
 				from: config.mailer.from,
 				subject: 'Your password has been changed',
@@ -206,7 +206,7 @@ exports.reset = function(req, res, next) {
 
 			smtpTransport.sendMail(mailOptions, function(err) {
 				done(err, 'done');
-			});
+			});*/
 		}
 	], function(err) {
 		if (err) return next(err);
