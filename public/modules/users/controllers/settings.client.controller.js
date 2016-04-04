@@ -15,6 +15,10 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 			untilDate: null
 		};
 
+		$scope.datePickerOptions = {
+			showWeeks: false
+		};
+
 		$scope.fromElements = {};
 		$scope.fromElements.opened = false;
 
@@ -179,6 +183,10 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 			}).error(function (data, status, headers, config) {
 				$scope.file.result = data;
 			});
-		}
+		};
+
+		$scope.showPolicyDetailModal = function(policy) {
+
+		};
 	}
 ]);

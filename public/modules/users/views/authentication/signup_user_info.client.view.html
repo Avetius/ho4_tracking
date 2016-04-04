@@ -1,0 +1,39 @@
+<div class="form-group no-margin">
+	<input type="text" id="firstName" name="firstName" class="form-control" data-ng-model="credentials.firstName" placeholder="First Name">
+	<span class="text-danger text-left" ng-if="errorFirstName">Please enter your first name.</span>
+</div>
+<div class="form-group no-margin">
+	<input type="text" id="lastName" name="lastName" class="form-control" data-ng-model="credentials.lastName" placeholder="Last Name">
+	<span class="text-danger text-left" ng-if="errorLastName">Please enter your last name.</span>
+</div>
+<div class="form-group no-margin">
+	<input type="email" id="email" name="email" class="form-control" data-ng-model="credentials.email" placeholder="Email">
+	<span class="text-danger text-left" ng-if="errorEmail">Please enter a valid email address.</span>
+</div>
+<div class="form-group no-margin">
+	<input type="email" id="confirm_email" name="confirm_email" class="form-control" data-ng-model="credentials.confirm_email" placeholder="Confirm Email">
+	<span class="text-danger text-left" ng-if="errorConfirmEmail">Please enter a valid email address.</span>
+</div>
+<div class="form-group inner-addon right-addon no-margin">
+	<i class="glyphicon glyphicon-lock gray-color"></i>
+	<input type="password" id="password" name="password" class="form-control" data-ng-model="credentials.password" placeholder="Password">
+	<span class="text-danger text-left" ng-if="errorPassword">Please enter password.</span>
+</div>
+<div class="form-group no-margin">
+	<input type="password" id="confirm_password" name="confirm_password" class="form-control" data-ng-model="credentials.confirm_password" placeholder="Confirm Password">
+	<span class="text-danger text-left" ng-if="errorConfirmPassword">Please enter confirm password.</span>
+</div>
+<div class="form-group inner-addon right-addon no-margin">
+	<i class="glyphicon glyphicon-question-sign gray-color"></i>
+	<input type="text" required id="property_code" name="property_code" class="form-control" data-ng-model="credentials.propertyID" placeholder="Property Code">
+	<span class="text-danger text-left" ng-if="errorPropertyCode">Please enter property code.</span>
+</div>
+<div class="form-group no-margin">
+	<input type="text" id="unit_num" name="unit_num" class="form-control" data-ng-model="credentials.appartmentNumber" placeholder="Apartment/Unit Number">
+	<span class="text-danger text-left" ng-if="errorUnitNum">Please enter unit number.</span>
+</div>
+<button type="button" class="btn btn-large btn-success btn-block" ng-click="checkValidationGotoNext('account_info')" style="padding: 15px;">
+	<span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span>
+	<span>Next Step</span>
+</button>
+

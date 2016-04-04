@@ -1,3 +1,11 @@
+body {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
 .undecorated-link:hover {
 	text-decoration: none;
 }
@@ -223,9 +231,7 @@ body.ng-cloak
 .signup-page {
 	margin-right: 0;
 	margin-left: 0;
-	background-image: url('/modules/core/img/signup-bg.png');
 	padding-top: 35px;
-	background-color: #e0e4eb;
 }
 
 .no-margin {
@@ -238,6 +244,11 @@ body.ng-cloak
 	padding: 10px 30px;
 	margin-top: 20px;
 	margin-bottom: 50px;
+}
+
+.btn-success {
+	background-image: none;
+
 }
 
 .signup-form .form-control {
@@ -267,6 +278,142 @@ body.ng-cloak
 	height: 111px;
 }
 
+.mainpage-content .gray-header-area {
+	height: 90px;
+}
+
+.signup-login-btn {
+	background-image: none;
+	border-radius: 0;
+	color: #9EBB91;
+	text-shadow: none;
+	padding-left: 35px;
+	padding-right: 35px;
+}
+
+.signup-login-btn:hover, .signup-login-btn:focus {
+	color: #9EBB91;
+}
+
+.signup-navbar {
+	float: none;
+}
+
+.mainpage-content {
+	background-color: #f7f7f7;
+	min-height: 100%;
+	padding-bottom: 105px;
+	position: relative;
+}
+
+.mainpage-content .footer {
+	bottom: 0;
+	left: 0;
+	position: absolute;
+	right: 0;
+}
+
+.main-header {
+	background-color: #ffffff;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+	color: #333;
+	text-shadow: none;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus {
+	color: #ccc;
+	background-color: transparent;
+}
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > .active > a:focus {
+	color: #333;
+	background-color: #eee;
+}
+.navbar-inverse .navbar-nav > .disabled > a,
+.navbar-inverse .navbar-nav > .disabled > a:hover,
+.navbar-inverse .navbar-nav > .disabled > a:focus {
+	color: #444;
+	background-color: transparent;
+}
+.navbar-inverse .navbar-toggle {
+	border-color: #333;
+}
+.navbar-inverse .navbar-toggle:hover,
+.navbar-inverse .navbar-toggle:focus {
+	background-color: #333;
+}
+.navbar-inverse .navbar-toggle .icon-bar {
+	background-color: #fff;
+}
+.navbar-inverse .navbar-collapse,
+.navbar-inverse .navbar-form {
+	border-color: #101010;
+}
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a:focus {
+	color: #333;
+	background-color: #ccc;
+}
+
+.navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .active > a {
+	background-image: none;
+	box-shadow: none;
+}
+
+.policy-list {
+	background-color: #ffffff;
+	margin-top: 30px;
+	padding: 20px;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.upper-letters {
+	text-transform: uppercase;
+}
+
+.label.insurance-status-label {
+	padding: 0.3em 0.6em 0.2em;
+	font-size: 70%;
+	font-weight: normal;
+	border-radius: 10px;
+}
+
+.status-label {
+	text-transform: capitalize;
+}
+
+/* enable absolute positioning */
+.inner-addon {
+	position: relative;
+}
+
+/* style icon */
+.inner-addon .glyphicon {
+	position: absolute;
+	padding: 10px;
+	pointer-events: none;
+}
+
+/* align icon */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+
+.gray-color {
+	color: #c5c5c5;
+}
+
 @media (min-width: 320px) {
 	.navbar-brand img{
 		margin-left: 15px;
@@ -294,6 +441,13 @@ body.ng-cloak
 	}
 }
 
+.datepicker-popup .dropdown-menu {
+	min-width: 250px;
+}
+
+.datepicker-popup .dropdown-menu .btn-default {
+	background-image: none;
+}
 @media (max-width: 370px) {
 	.footer-info {
 		padding: 15px 0;
@@ -503,4 +657,3 @@ body.ng-cloak
 		width: 100%;
 	}
 }
-

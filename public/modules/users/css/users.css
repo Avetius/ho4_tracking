@@ -17,9 +17,127 @@
 }
 
 .drop-box {
-	background: rgba(0, 0, 0, 0.03) none repeat scroll 0 0;
-	border: 1px solid rgba(0, 0, 0, 0.03);
+	background: #ffffff;
+	border: 1px solid #ccc;
 	border-radius: 3px;
-	min-height: 170px;
-	padding: 23px;
+	padding: 15px;
+	text-align: center;
+	color: #5C8C45;
+}
+
+.main-header {
+	background-color: #ffffff;
+}
+
+#status-buttons {
+	padding: 20px 0;
+}
+#status-buttons a {
+	color:#7a7a7a;
+	display:inline-block;
+	font-size:12px;
+	margin-right:10px;
+	text-align:center;
+	text-decoration: none;
+}
+#status-buttons a:hover {
+	text-decoration:none;
+}
+#status-buttons span {
+	display:block;
+	font-size: 25px;
+	color: #D7D7D7;
+	padding: 20px;
+}
+
+#status-buttons span.complete-icon {
+	color: #5c8c45;
+}
+
+/* active buttons */
+#status-buttons a.active {
+	color: #000000;
+}
+#status-buttons a.active span {
+	color:#4A5B5C;
+}
+
+.signup-wizard-area {
+	background-color: #ffffff;
+	padding: 30px;
+}
+
+.asterisk_input:after {
+	color: #e32;
+	content: " *";
+	font-size: xx-large;
+	margin: 0 0 0 -20px;
+	padding: 0 3px 0 0;
+	position: absolute;
+	right: 0;
+	top: 2px;
+}
+
+
+.validation-invalid {
+	color: #e32;
+}
+
+.validation-valid {
+	display: none;
+}
+
+#status-buttons::before {
+	left: calc(100% / 6 / 2);
+	right: calc(100% / 6 / 2);
+	top: 99px;
+	background-color: #e6e6e6;
+	content: "";
+	height: 1px;
+	position: absolute;
+}
+
+#signup-form input.form-control,
+#signin-form input.form-control,
+input.form-control{
+	background: transparent;
+	border-left: 0;
+	border-right: 0;
+	border-top: 0;
+	border-radius: 0;
+	box-shadow: none;
+}
+
+.form-control:focus {
+	box-shadow: none;
+}
+
+.main-header .navbar-brand {
+	margin: 15px 0 !important;
+}
+
+.navbar.main-header {
+	min-height: 90px;
+}
+
+.signin-area {
+	background-color: #ffffff;
+	padding: 45px;
+}
+
+#signin-form .forgot-password {
+	text-align: center;
+}
+
+#signin-form .forgot-password a {
+	color: #5c8c45;
+}
+
+.login-form input.form-control{
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+	color: #555;
 }

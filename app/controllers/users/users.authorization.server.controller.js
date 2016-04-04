@@ -73,3 +73,15 @@ exports.verifyUser = function(req, res, next) {
 		}
 	});
 };
+
+/**
+ * Admin authorization middleware
+ */
+exports.isAdminUser = function(req, res, next) {
+	if (!req.user.roles.indexOf('admin') < 0) {
+		return res.status(403).send({
+			message: 'You don\'t have a permission for this page'
+		});
+	}
+	next();
+};

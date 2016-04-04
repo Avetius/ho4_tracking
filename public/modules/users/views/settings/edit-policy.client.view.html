@@ -38,7 +38,7 @@
 					<label for="insuranceName">Policy Start Date</label>
 					<div class="input-group">
 						<input type="text" class="form-control" datepicker-popup ng-model="policy.policyStartDate"
-							   is-open="fromElements.opened" max-date="policy.policyEndDate" close-text="Close"/>
+							   is-open="fromElements.opened" max-date="policy.policyEndDate" close-text="Close" show-button-bar="false" datepicker-options="datePickerOptions"/>
 						<span class="input-group-btn">
 							<button type="button" class="btn btn-default" ng-click="from_open($event)"><i
 									class="glyphicon glyphicon-calendar"></i></button>
@@ -49,7 +49,7 @@
 					<label for="insuranceName">Policy End Date</label>
 					<div class="input-group">
 						<input type="text" class="form-control" datepicker-popup ng-model="policy.policyEndDate"
-							   is-open="toElements.opened" min-date="policy.policyStartDate" close-text="Close"/>
+							   is-open="toElements.opened" min-date="policy.policyStartDate" close-text="Close" show-button-bar="false" datepicker-options="datePickerOptions"/>
 						<span class="input-group-btn">
 							<button type="button" class="btn btn-default" ng-click="to_open($event)"><i
 									class="glyphicon glyphicon-calendar"></i></button>

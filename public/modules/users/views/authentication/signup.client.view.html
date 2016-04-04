@@ -1,69 +1,27 @@
 <div class="gray-header-area"></div>
-<section class="row signup-page" data-ng-controller="AuthenticationController">
-	<h2 class="col-md-12 text-center green-color" style="font-size: 30pt; font-weight: bold;">Register</h2>
-	<p class="col-md-12 text-center" style="padding: 25px 0; font-size: 1em;">Register for an account below. Make sure to fill out all the fields</p>
+<section class="row signup-page">
+	<h2 class="col-md-12 text-center" style="font-size: 30pt;">Sign up now</h2>
+	<p class="col-md-12 text-center" style="font-size: 1em; color: #7a7a7a;">Are you a Resident?</p>
+	<p class="col-md-12 text-center" style="font-size: 1em; color: #7a7a7a;">Register for an account below</p>
 
-	<form name="userForm" data-ng-submit="signup()" class="signin form-horizontal signup-form" novalidate autocomplete="off">
-		<div class="col-xs-offset-2 col-xs-8 col-md-offset-3 col-md-6 signup-row">
-			<div class="form-group col-md-6 no-margin">
-				<input type="text" required id="firstName" name="firstName" class="form-control" data-ng-model="credentials.firstName" placeholder="First Name">
-			</div>
-			<div class="form-group col-md-6 no-margin">
-				<input type="text" id="lastName" name="lastName" class="form-control" data-ng-model="credentials.lastName" placeholder="Last Name">
-			</div>
+	<div class="col-md-offset-4 col-md-4 signup-wizard-area">
+		<div id="status-buttons" class="text-center">
+			<a ui-sref-active="active" ui-sref=".user_info">
+				1. Basic info
+				<span class="glyphicon glyphicon-record" aria-hidden="true" ng-if="!finishUserInfoStep"></span>
+				<span class="glyphicon glyphicon-ok-sign complete-icon" aria-hidden="true" ng-if="finishUserInfoStep"></span>
+			</a>
+			<a ui-sref-active="active" ui-sref=".account_info">
+				2. Account info
+				<span class="glyphicon glyphicon-record" aria-hidden="true" ng-if="!finishAccountInfoStep"></span>
+				<span class="glyphicon glyphicon-ok-sign complete-icon" aria-hidden="true" ng-if="finishAccountInfoStep"></span>
+			</a>
+			<a ui-sref-active="active" ui-sref=".policy_info">3. Policy info<span class="glyphicon glyphicon-record" aria-hidden="true"></span></a>
 		</div>
-		<div class="col-xs-offset-2 col-xs-8 col-md-offset-3 col-md-6 signup-row">
-			<div class="form-group col-md-6 no-margin">
-				<input type="email" id="email" name="email" class="form-control" data-ng-model="credentials.email" placeholder="Email">
-			</div>
-			<div class="form-group col-md-6 no-margin">
-				<input type="email" id="confirm_email" name="confirm_email" class="form-control" data-ng-model="credentials.confirm_email" placeholder="Confirm Email">
-			</div>
-		</div>
-		<div class="col-xs-offset-2 col-xs-8 col-md-offset-3 col-md-6 signup-row">
-			<div class="form-group col-md-6 no-margin">
-				<input type="password" id="password" name="password" class="form-control" data-ng-model="credentials.password" placeholder="Password">
-			</div>
-			<div class="form-group col-md-6 no-margin">
-				<input type="password" id="confirm_password" name="confirm_password" class="form-control" data-ng-model="credentials.confirm_password" placeholder="Confirm Password">
-			</div>
-		</div>
-		<div class="col-xs-offset-2 col-xs-8 col-md-offset-3 col-md-6 signup-row">
-			<div class="form-group col-md-6 no-margin">
-				<input type="text" required id="property_code" name="property_code" class="form-control" data-ng-model="credentials.property_code" placeholder="Property Code">
-			</div>
-			<div class="form-group col-md-6 no-margin">
-				<input type="text" id="unit_num" name="unit_num" class="form-control" data-ng-model="credentials.unit_num" placeholder="Apartment/Unit Number">
-			</div>
-		</div>
-		<div class="text-center col-xs-offset-2 col-xs-8 col-md-offset-3 col-md-6 signup-row">
-			<button type="submit" class="btn btn-large btn-success green-color signup-btn">Sign up</button>
-		</div>
-		<div data-ng-show="error" class="text-center text-danger col-xs-offset-2 col-xs-8 col-md-offset-3 col-md-6">
-			<strong data-ng-bind="error"></strong>
-		</div>
-	</form>
 
-</section>
-<footer class="footer">
-	<div class="sub-container">
-		<ul class="list-inline navbar-text">
-			<li>
-				<a href="#">Home</a>
-			</li>
-			<li>
-				<a href="#">Services</a>
-			</li>
-			<li>
-				<a href="#">Privacy Policy</a>
-			</li>
-			<li>
-				<a href="#">FAQs</a>
-			</li>
-			<li>
-				<a href="#">Contact us</a>
-			</li>
-		</ul>
-		<p class="navbar-text copyright-field">Copyright © 2016, Renters Legal Liability LLC</p>
+		<form id="signup-form" name="signupForm" ng-submit="signup()">
+			<!-- our nested state views will be injected here -->
+			<div id="form-views" ui-view></div>
+		</form>
 	</div>
-</footer>
+</section>

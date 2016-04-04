@@ -15,7 +15,20 @@ angular.module('users').config(['$stateProvider',
 		}).
 		state('signup', {
 			url: '/signup',
-			templateUrl: 'modules/users/views/authentication/signup.client.view.html'
+			templateUrl: 'modules/users/views/authentication/signup.client.view.html',
+			controller: 'AuthenticationController'
+		}).
+		state('signup.user_info', {
+			url: '/signup_user_info',
+			templateUrl: 'modules/users/views/authentication/signup_user_info.client.view.html'
+		}).
+		state('signup.account_info', {
+			url: '/signup_account_info',
+			templateUrl: 'modules/users/views/authentication/signup_account_info.client.view.html'
+		}).
+		state('signup.policy_info', {
+			url: '/signup_policy_info',
+			templateUrl: 'modules/users/views/authentication/signup_policy_info.client.view.html'
 		}).
 		state('signin', {
 			url: '/signin',
@@ -36,14 +49,6 @@ angular.module('users').config(['$stateProvider',
 		state('reset', {
 			url: '/password/reset/:token',
 			templateUrl: 'modules/users/views/password/reset-password.client.view.html'
-		}).
-		state('signup_account_info', {
-			url: '/signup_account_info',
-			templateUrl: 'modules/users/views/settings/signup_account_info.client.view.html'
-		}).
-		state('signup_policy_info', {
-			url: '/signup_policy_info',
-			templateUrl: 'modules/users/views/settings/signup_policy_info.client.view.html'
 		}).
 		state('edit_policy', {
 			url: '/settings/policy',

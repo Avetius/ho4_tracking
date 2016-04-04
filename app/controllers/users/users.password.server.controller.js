@@ -10,6 +10,7 @@ var _ = require('lodash'),
 	User = mongoose.model('User'),
 	config = require('../../../config/config'),
 	nodemailer = require('nodemailer'),
+	sendgrid  = require('sendgrid')(config.sendgrid_api),
 	async = require('async'),
 	crypto = require('crypto');
 
@@ -67,6 +68,22 @@ exports.forgot = function(req, res, next) {
 		},
 		// If valid email, send reset email using service
 		function(emailHTML, user, done) {
+			/*sendgrid.send({
+				to: user.email,
+				from: 'enterscompliance@veracityins.com',
+				subject: 'Password Reset',
+				html: emailHTML
+			}, function (err, json) {
+				if (!err) {
+					res.send({
+						message: 'An email has been sent to ' + user.email + ' with further instructions.'
+					});
+				} else {
+					return res.status(400).send({
+						message: 'Failure sending email'
+					});
+				}
+			});*/
 			var mailOptions = {
 				to: user.email,
 				from: config.mailer.from,
@@ -172,6 +189,14 @@ exports.reset = function(req, res, next) {
 		},
 		// If valid email, send reset email using service
 		function(emailHTML, user, done) {
+			/*sendgrid.send({
+				to: user.email,
+				from: 'enterscompliance@veracityins.com',
+				subject: 'Your password has been changed',
+				html: emailHTML
+			}, function (err, json) {
+				done(err, 'done');
+			});*/
 			var mailOptions = {
 				to: user.email,
 				from: config.mailer.from,

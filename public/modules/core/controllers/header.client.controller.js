@@ -1,8 +1,29 @@
 'use strict';
 
-angular.module('core').controller('HeaderController', ['$scope', 'Authentication', 'Menus', '$http', '$location',
-	function($scope, Authentication, Menus, $http, $location) {
+angular.module('core').controller('HeaderController', ['$scope', 'Authentication', 'Menus', '$http', '$location', '$state', '$rootScope', '$window',
+	function($scope, Authentication, Menus, $http, $location, $state, $rootScope, $window) {
 		$scope.authentication = Authentication;
+
+		$scope.mainpage_header = false;
+		$scope.signup_header = false;
+		$scope.signin_header = false;
+
+		if($location.path() !== '/') $scope.mainpage_header = true;
+		if($location.path().indexOf('/signup') > -1) $scope.signup_header = true;
+		if($location.path().indexOf('/signin') > -1) $scope.signin_header = true;
+
+		$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
+			if (toState.name !== 'home') $scope.mainpage_header = true;
+			else $scope.mainpage_header = false;
+
+			if(toState.name.indexOf('signup') > -1) $scope.signup_header = true;
+			else $scope.signup_header = false;
+
+			if(toState.name.indexOf('signin') > -1) $scope.signin_header = true;
+			else $scope.signin_header = false;
+		});
+
+
 		$scope.isCollapsed = false;
 		$scope.menu = Menus.getMenu('topbar');
 
@@ -21,7 +42,7 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 				$scope.authentication.user = response;
 
 				// And redirect to the index page
-				$location.path('/settings/profile');
+				$window.location.reload();
 			}).error(function(response) {
 				$scope.error = response.message;
 			});

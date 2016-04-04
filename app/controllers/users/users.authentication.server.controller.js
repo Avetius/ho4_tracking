@@ -11,7 +11,8 @@ var _ = require('lodash'),
 	sendgrid  = require('sendgrid')(config.sendgrid_api),
 	crypto = require('crypto'),
 	User = mongoose.model('User'),
-	Profile = mongoose.model('Profile');
+	Profile = mongoose.model('Profile'),
+	Policy = mongoose.model('Policy');
 
 /**
  * Signup
@@ -21,7 +22,15 @@ exports.signup = function(req, res) {
 	delete req.body.roles;
 
 	// Init Variables
-	var user = new User(req.body);
+	var residentObj = req.body;
+	var user = new User({
+		firstName: residentObj.firstName,
+		lastName: residentObj.lastName,
+		email: residentObj.email,
+		password: residentObj.password,
+		propertyID: residentObj.propertyID,
+		appartmentNumber: residentObj.appartmentNumber
+	});
 	var message = null;
 
 	// Add missing user fields
@@ -41,6 +50,12 @@ exports.signup = function(req, res) {
 			user.password = undefined;
 			user.salt = undefined;
 			var profile = new Profile({
+				phoneNumber: residentObj.phoneNumber,
+				address: residentObj.address,
+				city: residentObj.city,
+				state: residentObj.state,
+				zipcode: residentObj.zipcode,
+				country: residentObj.country,
 				user: user._id
 			});
 			profile.save(function(err) {
@@ -49,23 +64,70 @@ exports.signup = function(req, res) {
 						message: errorHandler.getErrorMessage(err)
 					});
 				} else {
-					req.login(user, function (err) {
+					var policy = new Policy({
+						unitNumber: residentObj.unitNumber,
+						policyHolderName: residentObj.policyHolderName,
+						policyName: residentObj.policyName,
+						policyNumber: residentObj.policyNumber,
+						policyStartDate: residentObj.policyStartDate,
+						policyEndDate: residentObj.policyEndDate,
+						insuranceFilePath: residentObj.insuranceFilePath,
+						insuranceName: residentObj.insuranceName,
+						insurerName: residentObj.insurerName,
+						user: user._id
+					});
+					policy.save(function(err) {
 						if (err) {
-							res.status(400).send(err);
+							return res.status(400).send({
+								message: errorHandler.getErrorMessage(err)
+							});
 						} else {
-							/*var emailHTML = '<h3>HO4 Sign Up Confirmation</h3>';
-							 emailHTML += '<p>Thank you '+ user.displayName +' for your interest in the HO4.</p>';
-							 var verifyURL = 'http://127.0.0.1:3000/user/verify?token=' + user.verifyToken;
-							 emailHTML += '<a href="'+verifyURL+'">'+verifyURL+'</a>';
-							 sendgrid.send({
-							 to: user.email,
-							 from: 'enterscompliance@veracityins.com',
-							 subject: 'HO4 Verification',
-							 html: emailHTML
-							 }, function (err, json) {
-							 console.log(json);
-							 });*/
-							res.json(user);
+							req.login(user, function (err) {
+								if (err) {
+									res.status(400).send(err);
+								} else {
+									res.render('templates/email-verify', {
+										name: user.displayName,
+										url: 'http://' + req.headers.host + '/user/verify?token=' + user.verifyToken
+									}, function(err, emailHTML) {
+										/*sendgrid.send({
+											to: user.email,
+											from: 'enterscompliance@veracityins.com',
+											subject: user.displayName + ' Please verify your email address ',
+											html: emailHTML
+										}, function (err, json) {
+											console.log(json);
+										});*/
+										res.json(user);
+									});
+									/*var emailHTML = '<table width="100%" align="center" cellspacing="0" cellpadding="0" border="0" style="width: 100%; max-width: 600px;">';
+									 emailHTML += '<tbody><tr>';
+									 emailHTML += '<td width="100%" align="left" bgcolor="#FFFFFF" style="padding:0px 0px 0px 0px; color:#000000; text-align:left">';
+									 emailHTML += '<table width="100%" align="center" cellspacing="0" cellpadding="0" border="0" style="display:none!important; visibility:hidden; color:transparent; height:0; width:0" class="x_module x_preheader x_preheader-hide">';
+									 emailHTML += '<tbody><tr><td><p></p></td></tr></tbody></table>';
+									 emailHTML += '<table width="100%" cellspacing="0" cellpadding="0" border="0" style="table-layout:fixed" class="x_module">';
+									 emailHTML += '<tbody><tr><td bgcolor="#ffffff" style="padding:0px 0px 0px 0px">';
+									 emailHTML += '<div><span class="x_sg-image"><img width="250" height="71" style="width:250px; height:71px" src="https://marketing-image-production.s3.amazonaws.com/uploads/05ecfeceadcbb1b43ca02460647f0bc083e6d47e0dafd49445e50f1d6cf75625641df17d5e3ec20193c2f6af04b64bc580b42ab4ac8c04137912f0dd450ce51e.png"></span></div>';
+									 emailHTML += '<div></div><div>&nbsp;</div>';
+									 emailHTML += '<div>Hi <span style="color:rgb(34,34,34); font-family:Menlo,Monaco,'Andale Mono','lucida console','Courier New',monospace; font-size:13px; line-height:19.5px; white-space:pre; background-color:rgb(251,251,252)">'+ user.displayName +'</span>,</div>';
+									 emailHTML += '<div><br>Thanks for creating an account with RLL.</div>';
+									 emailHTML += '<div><br><div>Click below to confirm your email address:</div></div>';
+									 var verifyURL = 'http://127.0.0.1:3000/user/verify?token=' + user.verifyToken;
+									 emailHTML += '<a href="'+verifyURL+'">'+verifyURL+'</a>';
+									 emailHTML += '<div><br>If you have problems, please paste the above URL into your web browser.<br>&nbsp;</div>';
+									 emailHTML += '<div><br>Thanks,<br>RLL Support</div><div>&nbsp;</div>';
+									 emailHTML += '</td></tr></tbody></table></td></tr></tbody></table>';
+									 sendgrid.send({
+									 to: user.email,
+									 from: 'enterscompliance@veracityins.com',
+									 subject: user.displayName + ' Please verify your email address ',
+									 html: emailHTML
+									 }, function (err, json) {
+									 console.log(json);
+									 });*/
+
+								}
+							});
 						}
 					});
 				}

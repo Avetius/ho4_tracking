@@ -6,6 +6,7 @@
 var _ = require('lodash'),
 	fs = require('fs'),
 	path = require('path'),
+	crypto = require('crypto'),
 	errorHandler = require('../errors.server.controller.js'),
 	mongoose = require('mongoose'),
 	passport = require('passport'),
@@ -108,15 +109,18 @@ exports.updateProfile = function(req, res) {
 };
 
 exports.uploadInsurance = function(req, res) {
-	var fields = req.body;
 	var files = req.files;
 	if (files.file) {
-		var fileName = files.file.name;
 		if (!fs.existsSync(path.resolve('public/insurance'))){
 			fs.mkdirSync(path.resolve('public/insurance'), '0777');
 		}
-		fs.rename(files.file.path, path.resolve('public/insurance/' + fileName), function () {
-			res.jsonp({file: fileName});
+		var fileName = files.file.name;
+		var i = fileName.lastIndexOf('.');
+		var fileExt = (i < 0) ? '' : fileName.substr(i);
+		var newFileName = crypto.randomBytes(32).toString('base64');
+		newFileName=newFileName.replace(/[=&\/\\#,+()$~%.'":*?<>{}]/g, '').replace(/\s/g, '');
+		fs.rename(files.file.path, path.resolve('public/insurance/' + newFileName+fileExt), function () {
+			res.jsonp({file: '/insurance/'+newFileName+fileExt, path: '/insurance/'+newFileName+fileExt, is_pdf: fileExt.indexOf('pdf') > -1});
 		});
 	} else {
 		res.status(400).send({error: 'File upload error'});
@@ -136,7 +140,11 @@ exports.getPoliciesByUserId = function(req, res) {
 };
 
 exports.getPolicies = function(req, res) {
-	Policy.find({user: req.user._id}).populate('user').sort('-updated').exec(function(err, policies) {
+	var query = {user: req.user._id};
+	if(req.user.roles.indexOf('admin') > -1) {
+		query = {};
+	}
+	Policy.find(query).populate('user').sort('-updated').exec(function(err, policies) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -174,7 +182,6 @@ exports.getPolicy = function(req, res) {
 				message: 'Policy not found'
 			});
 		}
-
 		res.json(policy);
 	});
 };
