@@ -1,0 +1,43 @@
+<div class="gray-header-area"></div>
+<section data-ng-controller="InsurancesController" data-ng-init="findPolicies()">
+	<div class="sub-container" style="margin-top: 20px;">
+		<div class="sub-header">
+			<h3 class="pull-left">Policy history</h3>
+			<div class="pull-right">
+				<button type="button" class="btn btn-large btn-success btn-block" style="padding: 15px;" ng-click="openInsuranceModal()">Add new insurance</button>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="">
+			<div ng-if="policies.$resolved && !policies.length" class="text-center" style="color: #7a7a7a; padding-top: 50px">
+				<span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 50px;"></span>
+				<p>You don't have uploaded insurances.</p>
+				<p>Add your first insurance.</p>
+			</div>
+			<div class="policy-list" ng-if="policies.$resolved && policies.length>0">
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+						<tr>
+							<th>Name of Insurance</th>
+							<th>Status</th>
+							<th>Expiration Date</th>
+							<th>Actions</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr ng-repeat="policy in policies">
+							<td>{{policy.insuranceName}}</td>
+							<td>{{policy.status}}</td>
+							<td>{{policy.policyEndDate | date: 'MMM d, yyyy'}}</td>
+							<td>
+								<a href="#!/insurances/{{policy._id}}">Details</a>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

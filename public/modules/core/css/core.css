@@ -282,15 +282,16 @@ body.ng-cloak
 	height: 90px;
 }
 
+.custom-gray-btn,
 .signup-login-btn {
 	background-image: none;
-	border-radius: 0;
 	color: #9EBB91;
 	text-shadow: none;
 	padding-left: 35px;
 	padding-right: 35px;
 }
 
+.custom-gray-btn:hover, .custom-gray-btn:focus,
 .signup-login-btn:hover, .signup-login-btn:focus {
 	color: #9EBB91;
 }
@@ -448,6 +449,13 @@ body.ng-cloak
 .datepicker-popup .dropdown-menu .btn-default {
 	background-image: none;
 }
+
+.user-dropdownmenu .dropdown-menu > li > a:hover,
+.user-dropdownmenu .dropdown-menu > li > a:focus {
+	border-left: 2px solid #5C8C45;
+	background-color: #F6FBF4;
+}
+
 @media (max-width: 370px) {
 	.footer-info {
 		padding: 15px 0;

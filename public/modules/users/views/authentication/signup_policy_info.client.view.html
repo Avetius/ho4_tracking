@@ -39,7 +39,7 @@
 <div class="form-group">
 	<div ngf-drop ngf-select="uploadFiles($files)" class="drop-box"
 		 ngf-drag-over-class="'dragover'" ngf-multiple="false"
-		 ngf-pattern="'image/*,application/pdf'" ng-model="file">Upload Insurance</div>
+		 ngf-pattern="'image/*,application/pdf'" ng-model="file" style="cursor: pointer;">Upload Insurance</div>
 	<div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
 	<h3>{{file.name}} {{f.$error}} {{f.$errorParam}}</h3>
 	<div class="status">{{file.status}}</div>

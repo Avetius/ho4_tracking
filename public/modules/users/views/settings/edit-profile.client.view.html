@@ -1,61 +1,82 @@
 <section class="row margin-header" data-ng-controller="SettingsController" data-ng-init="findOne()">
-	<div class="col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4">
-		<ul class="nav nav-pills">
-			<li role="presentation" class="active"><a href="#">Account</a></li>
-			<li role="presentation"><a href="/#!/settings/policy">Policy Information</a></li>
-			<li role="presentation"><a href="/#!/settings/policy_history">Policy History</a></li>
-			<li role="presentation"><a href="/#!/settings/password">Settings</a></li>
-		</ul>
-	</div>
-	<div class="col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4">
-		<form name="userForm" data-ng-submit="updateUserProfile(userForm.$valid)" class="signin form-horizontal" autocomplete="off">
-			<fieldset>
-				<div class="form-group">
-					<label for="firstName">First Name</label>
-					<input type="text" id="firstName" name="firstName" class="form-control" data-ng-model="profile.user.firstName" placeholder="First Name">
-				</div>
-				<div class="form-group">
-					<label for="lastName">Last Name</label>
-					<input type="text" id="lastName" name="lastName" class="form-control" data-ng-model="profile.user.lastName" placeholder="Last Name">
-				</div>
-				<div class="form-group">
-					<label for="email">Email</label>
-					<input type="email" id="email" name="email" class="form-control" data-ng-model="profile.user.email" placeholder="Email">
-				</div>
-				<div class="form-group">
-					<label for="phoneNumber">Phone Number</label>
-					<input type="text" id="phoneNumber" name="phoneNumber" class="form-control" data-ng-model="profile.phoneNumber" placeholder="Phone Number">
-				</div>
-				<div class="form-group">
-					<label for="address">Address</label>
-					<input type="text" id="address" name="address" class="form-control" data-ng-model="profile.address" placeholder="Address">
-				</div>
-				<div class="form-group">
-					<label for="city">City</label>
-					<input type="text" id="city" name="city" class="form-control" data-ng-model="profile.city" placeholder="City">
-				</div>
-				<div class="form-group">
-					<label for="state">State</label>
-					<input type="text" id="state" name="state" class="form-control" data-ng-model="profile.state" placeholder="State">
-				</div>
-				<div class="form-group">
-					<label for="zipcode">Zipcode</label>
-					<input type="text" id="zipcode" name="zipcode" class="form-control" data-ng-model="profile.zipcode" placeholder="Zipcode">
-				</div>
-				<div class="form-group">
-					<label for="country">Country</label>
-					<input type="text" id="country" name="country" class="form-control" data-ng-model="profile.country" placeholder="Country">
-				</div>
-				<div class="text-center form-group">
-					<button type="submit" class="btn btn-large btn-primary">Save</button>
-				</div>
-				<div data-ng-show="success" class="text-center text-success">
-					<strong>Account Information Saved Successfully</strong>
-				</div>
-				<div data-ng-show="error" class="text-center text-danger">
-					<strong data-ng-bind="error"></strong>
-				</div>
-			</fieldset>
-		</form>
-	</div>
+	<div class="sub-container">
+		<div class="sub-header">
+			<h3>My Account</h3>
+		</div>
+		<div class="row account-page">
+			<div style="padding-bottom: 30px;">
+				<ul class="nav nav-pills">
+					<li role="presentation" class="active"><a href="#">Basic info</a></li>
+					<li role="presentation"><a href="/#!/settings/password">Change password</a></li>
+				</ul>
+			</div>
+			<div class="col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4">
+				<form name="userForm" data-ng-submit="updateUserProfile(userForm.$valid)" class="signin form-horizontal" autocomplete="off">
+					<fieldset>
+						<div class="form-group">
+							<label for="firstName" class="col-sm-5 control-label">First Name</label>
+							<div class="col-sm-7">
+								<input type="text" id="firstName" name="firstName" class="form-control" data-ng-model="profile.user.firstName" placeholder="First Name">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="lastName" class="col-sm-5 control-label">Last Name</label>
+							<div class="col-sm-7">
+								<input type="text" id="lastName" name="lastName" class="form-control" data-ng-model="profile.user.lastName" placeholder="Last Name">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="email" class="col-sm-5 control-label">Email</label>
+							<div class="col-sm-7">
+								<input type="email" id="email" name="email" class="form-control" data-ng-model="profile.user.email" placeholder="Email">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="phoneNumber" class="col-sm-5 control-label">Phone Number</label>
+							<div class="col-sm-7">
+								<input type="text" id="phoneNumber" name="phoneNumber" class="form-control" data-ng-model="profile.phoneNumber" placeholder="Phone Number">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="address" class="col-sm-5 control-label">Address</label>
+							<div class="col-sm-7">
+								<input type="text" id="address" name="address" class="form-control" data-ng-model="profile.address" placeholder="Address">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="city" class="col-sm-5 control-label">City</label>
+							<div class="col-sm-7">
+								<input type="text" id="city" name="city" class="form-control" data-ng-model="profile.city" placeholder="City">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="state" class="col-sm-5 control-label">State</label>
+							<div class="col-sm-7">
+								<input type="text" id="state" name="state" class="form-control" data-ng-model="profile.state" placeholder="State">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="zipcode" class="col-sm-5 control-label">Zipcode</label>
+							<div class="col-sm-7">
+								<input type="text" id="zipcode" name="zipcode" class="form-control" data-ng-model="profile.zipcode" placeholder="Zipcode">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="country" class="col-sm-5 control-label">Country</label>
+							<div class="col-sm-7">
+								<input type="text" id="country" name="country" class="form-control" data-ng-model="profile.country" placeholder="Country">
+							</div>
+						</div>
+						<div class="text-center form-group">
+							<button type="submit" class="btn btn-success btn-lg">Save</button>
+						</div>
+						<div data-ng-show="success" class="text-center text-success">
+							<strong>Account Information Saved Successfully</strong>
+						</div>
+						<div data-ng-show="error" class="text-center text-danger">
+							<strong data-ng-bind="error"></strong>
+						</div>
+					</fieldset>
+				</form>
+			</div>
 </section>

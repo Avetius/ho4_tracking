@@ -13,6 +13,10 @@ angular.module('insurances').controller('InsurancesController', ['$scope', '$sta
 
 		};
 
+		$scope.findPolicies = function() {
+			if($scope.authentication.user) $scope.policies = Insurances.query();
+		};
+
 		$scope.openInsuranceModal = function(insurance) {
 			var modalInstance = $modal.open({
 				templateUrl: 'modules/insurances/views/policy-form.modal.html',

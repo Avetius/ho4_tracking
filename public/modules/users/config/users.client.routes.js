@@ -53,10 +53,6 @@ angular.module('users').config(['$stateProvider',
 		state('edit_policy', {
 			url: '/settings/policy',
 			templateUrl: 'modules/users/views/settings/edit-policy.client.view.html'
-		}).
-		state('policy_history', {
-			url: '/settings/policy_history',
-			templateUrl: 'modules/users/views/settings/policy_history.client.view.html'
 		});
 	}
 ]);

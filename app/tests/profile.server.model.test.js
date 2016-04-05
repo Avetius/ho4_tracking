@@ -6,17 +6,17 @@
 var should = require('should'),
 	mongoose = require('mongoose'),
 	User = mongoose.model('User'),
-	Article = mongoose.model('Article');
+	Profile = mongoose.model('Profile');
 
 /**
  * Globals
  */
-var user, article;
+var user, profile;
 
 /**
  * Unit tests
  */
-describe('Article Model Unit Tests:', function() {
+describe('Profile Model Unit Tests:', function() {
 	beforeEach(function(done) {
 		user = new User({
 			firstName: 'Full',
@@ -24,13 +24,14 @@ describe('Article Model Unit Tests:', function() {
 			displayName: 'Full Name',
 			email: 'test@test.com',
 			username: 'username',
-			password: 'password'
+			password: 'password',
+			provider: 'local'
 		});
 
 		user.save(function() {
-			article = new Article({
-				title: 'Article Title',
-				content: 'Article Content',
+			profile = new Profile({
+				phoneNumber: 'Phone number',
+				address: 'Address',
 				user: user
 			});
 
@@ -40,24 +41,15 @@ describe('Article Model Unit Tests:', function() {
 
 	describe('Method Save', function() {
 		it('should be able to save without problems', function(done) {
-			return article.save(function(err) {
+			return profile.save(function(err) {
 				should.not.exist(err);
-				done();
-			});
-		});
-
-		it('should be able to show an error when try to save without title', function(done) {
-			article.title = '';
-
-			return article.save(function(err) {
-				should.exist(err);
 				done();
 			});
 		});
 	});
 
 	afterEach(function(done) {
-		Article.remove().exec(function() {
+		Profile.remove().exec(function() {
 			User.remove().exec(done);
 		});
 	});

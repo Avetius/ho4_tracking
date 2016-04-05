@@ -12,9 +12,9 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 			image: 'modules/core/img/image2.png'
 		}];
 
-		$scope.findPolicies = function() {
+		/*$scope.findPolicies = function() {
 			if($scope.authentication.user) $scope.policies = Policies.query();
-		};
+		};*/
 
 		$scope.openInsuranceModal = function(insurance) {
 			var modalInstance = $modal.open({

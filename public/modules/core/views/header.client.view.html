@@ -52,18 +52,30 @@
 					</form>
 				</li>
 			</ul>
-			<ul class="nav navbar-nav navbar-right" data-ng-show="authentication.user">
+			<ul class="nav navbar-nav navbar-right user-dropdownmenu" data-ng-show="authentication.user">
 				<li class="dropdown" dropdown>
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle>
 						<span data-ng-bind="authentication.user.displayName"></span> <b class="caret"></b>
 					</a>
 					<ul class="dropdown-menu">
 						<li>
-							<a href="/#!/settings/profile">Edit Profile</a>
+							<a href="/#!/insurances">
+								<i class="glyphicon glyphicon-file"></i>
+								Policy history
+							</a>
+						</li>
+						<li>
+							<a href="/#!/settings/profile">
+								<i class="glyphicon glyphicon-user"></i>
+								My Account
+							</a>
 						</li>
 						<li class="divider"></li>
 						<li>
-							<a href="/auth/signout">Signout</a>
+							<a href="/auth/signout">
+								<i class=" glyphicon glyphicon-log-out"></i>
+								Signout
+							</a>
 						</li>
 					</ul>
 				</li>

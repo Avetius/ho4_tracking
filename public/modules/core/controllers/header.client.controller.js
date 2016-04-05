@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('core').controller('HeaderController', ['$scope', 'Authentication', 'Menus', '$http', '$location', '$state', '$rootScope', '$window',
-	function($scope, Authentication, Menus, $http, $location, $state, $rootScope, $window) {
+angular.module('core').controller('HeaderController', ['$scope', 'Authentication', 'Menus', '$http', '$location', '$state', '$rootScope',
+	function($scope, Authentication, Menus, $http, $location, $state, $rootScope) {
 		$scope.authentication = Authentication;
 
 		$scope.mainpage_header = false;
@@ -42,7 +42,7 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 				$scope.authentication.user = response;
 
 				// And redirect to the index page
-				$window.location.reload();
+				$location.path('/insurances');
 			}).error(function(response) {
 				$scope.error = response.message;
 			});

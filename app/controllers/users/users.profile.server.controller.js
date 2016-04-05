@@ -179,7 +179,7 @@ exports.getPolicy = function(req, res) {
 		}
 		if (!policy) {
 			return res.status(404).send({
-				message: 'Policy not found'
+				message: 'Policy is invalid'
 			});
 		}
 		res.json(policy);
@@ -195,7 +195,7 @@ exports.updatePolicy = function(req, res) {
 		}
 		if (!policy) {
 			return res.status(404).send({
-				message: 'Policy not found'
+				message: 'Policy is invalid'
 			});
 		}
 
