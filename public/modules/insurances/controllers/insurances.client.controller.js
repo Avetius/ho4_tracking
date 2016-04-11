@@ -23,15 +23,15 @@ angular.module('insurances').controller('InsurancesController', ['$scope', '$sta
 				size: 'lg',
 				scope: function () {
 					var scope = $rootScope.$new();
-					scope.insurance = insurance;
-					scope.add_insurance = false;
+					scope.insurance = insurance || {};
+					scope.add_insurance = !insurance;
 					return scope;
 				}(),
 				controller: 'InsuranceFormController'
 			});
 
 			modalInstance.result.then(function (selectedItem) {
-
+				$scope.findPolicies();
 			}, function () {
 				console.log('Modal dismissed at: ' + new Date());
 			});

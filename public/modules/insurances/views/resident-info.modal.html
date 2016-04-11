@@ -1,0 +1,51 @@
+<div class="modal-header">
+	<i ng-click="cancel()" class="glyphicon glyphicon-remove icon-arrow-right pull-right" style="cursor: pointer; font-size: 22px; font-weight: normal;"></i>
+	<h3 class="modal-title">{{resident.user.displayName}}</h3>
+</div>
+<div class="modal-body row">
+	<div class="col-md-6">
+		<div class="row" style="padding: 20px 10px;">
+			<span class="col-md-5 upper-letters" style="color: #7a7a7a;">First Name</span>
+			<span class="col-md-6 bold">{{resident.user.firstName}}</span>
+		</div>
+		<div class="row" style="padding: 20px 10px;">
+			<span class="col-md-5 upper-letters" style="color: #7a7a7a;">Last Name</span>
+			<span class="col-md-6 bold">{{resident.user.lastName}}</span>
+		</div>
+		<div class="row" style="padding: 20px 10px;">
+			<span class="col-md-5 upper-letters" style="color: #7a7a7a;">Email</span>
+			<span class="col-md-6 bold">{{resident.user.email}}</span>
+		</div>
+		<div class="row" style="padding: 20px 10px;">
+			<span class="col-md-5 upper-letters" style="color: #7a7a7a;">Property ID</span>
+			<span class="col-md-6 bold">{{resident.user.propertyID}}</span>
+		</div>
+		<div class="row" style="padding: 20px 10px;">
+			<span class="col-md-5 upper-letters" style="color: #7a7a7a;">Apartment/Unit #</span>
+			<span class="col-md-6 bold">{{resident.user.appartmentNumber}}</span>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="row" style="padding: 20px 10px;">
+			<span class="col-md-5 upper-letters" style="color: #7a7a7a;">Phone Number</span>
+			<span class="col-md-6 bold">{{resident.phoneNumber}}</span>
+		</div>
+		<div class="row" style="padding: 20px 10px;">
+			<span class="col-md-5 upper-letters" style="color: #7a7a7a;">Address</span>
+			<span class="col-md-6 bold">{{resident.address}}</span>
+		</div>
+		<div class="row" style="padding: 20px 10px;">
+			<span class="col-md-5 upper-letters" style="color: #7a7a7a;">City</span>
+			<span class="col-md-6 bold">{{resident.city}}</span>
+		</div>
+		<div class="row" style="padding: 20px 10px;">
+			<span class="col-md-5 upper-letters" style="color: #7a7a7a;">State</span>
+			<span class="col-md-6 bold">{{resident.state}}</span>
+		</div>
+		<div class="row" style="padding: 20px 10px;">
+			<span class="col-md-5 upper-letters" style="color: #7a7a7a;">Zip Code</span>
+			<span class="col-md-6 bold">{{resident.zipcode}}</span>
+		</div>
+	</div>
+</div>
+

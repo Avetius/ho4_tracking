@@ -1,0 +1,44 @@
+<div class="gray-header-area"></div>
+<section data-ng-controller="ManagerInsurancesController" data-ng-init="findPolicies()">
+	<div class="sub-container" style="margin-top: 20px;">
+		<ol class="breadcrumb">
+			<li><a href="#!/properties">Active policies</a></li>
+			<li><a href="#!/properties/{{property._id}}/units">{{property.propertyName}}</a></li>
+			<li class="active">{{unit.resident.displayName}}</li>
+		</ol>
+		<div class="sub-header">
+			<h3 class="pull-left">{{unit.resident.displayName}}</h3>
+			<div class="pull-right">
+				<button type="button" class="btn btn-large custom-gray-btn" style="padding: 15px; border: 1px solid; margin-right: 10px;" ng-click="openResidentInfo()">Resident info</button>
+				<button type="button" class="btn btn-large btn-success" style="padding: 15px;" ng-click="openInsuranceModal()">Add Insurance</button>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="">
+			<div class="policy-list">
+				<div class="table-responsive">
+					<table st-table="insurances" class="table table-striped">
+						<thead>
+						<tr>
+							<th>Name of Insurance</th>
+							<th>Status</th>
+							<th>Expiration Date</th>
+							<th>Actions</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr ng-repeat="insurance in insurances">
+							<td>{{insurance.insuranceName}}</td>
+							<td>{{insurance.status}}</td>
+							<td>{{insurance.policyEndDate | date: 'MMM d, yyyy'}}</td>
+							<td>
+								<a href="#!/properties/{{propertyId}}/units/{{unitId}}/{{residentId}}/insurances/{{insurance._id}}">View Details</a>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

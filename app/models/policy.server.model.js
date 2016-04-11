@@ -6,12 +6,7 @@
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
 
-/**
- * A Validation function for local strategy properties
- */
-var validateLocalStrategyProperty = function(property) {
-	return property.length;
-};
+
 /**
  * Policy Schema
  */
@@ -31,8 +26,7 @@ var PolicySchema = new Schema({
 	},
 	policyName: {
 		type: String,
-		trim: true,
-		validate: [validateLocalStrategyProperty, 'Please fill in policy name']
+		trim: true
 	},
 	policyNumber: {
 		type: String

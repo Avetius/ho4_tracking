@@ -53,6 +53,10 @@ angular.module('users').config(['$stateProvider',
 		state('edit_policy', {
 			url: '/settings/policy',
 			templateUrl: 'modules/users/views/settings/edit-policy.client.view.html'
+		}).
+		state('property_manager_list', {
+			url: '/property_managers',
+			templateUrl: 'modules/users/views/property_managers/property-manager-list.client.view.html'
 		});
 	}
 ]);

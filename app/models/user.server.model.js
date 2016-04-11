@@ -50,7 +50,7 @@ var UserSchema = new Schema({
 	},
 	username: {
 		type: String,
-		unique: 'Username already exists',
+		unique: 'Email already exists',
 		required: 'Please fill in a username',
 		trim: true
 	},

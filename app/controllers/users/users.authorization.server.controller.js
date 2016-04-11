@@ -85,3 +85,15 @@ exports.isAdminUser = function(req, res, next) {
 	}
 	next();
 };
+
+/**
+ * Property Manager authorization middleware
+ */
+exports.isPropertyManager = function(req, res, next) {
+	if (!(req.user.roles.indexOf('pmanager') < 0) && !(req.user.roles.indexOf('admin') < 0)) {
+		return res.status(403).send({
+			message: 'You don\'t have a permission for this page'
+		});
+	}
+	next();
+};

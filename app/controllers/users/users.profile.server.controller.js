@@ -7,11 +7,13 @@ var _ = require('lodash'),
 	fs = require('fs'),
 	path = require('path'),
 	crypto = require('crypto'),
+	async = require('async'),
 	errorHandler = require('../errors.server.controller.js'),
 	mongoose = require('mongoose'),
 	passport = require('passport'),
 	User = mongoose.model('User'),
 	Profile = mongoose.model('Profile'),
+	Property = mongoose.model('Property'),
 	Policy = mongoose.model('Policy');
 
 /**
@@ -158,7 +160,7 @@ exports.getPolicies = function(req, res) {
 exports.createPolicy = function(req, res) {
 	var policy = new Policy(req.body);
 	policy.user = req.user;
-
+	policy.updated = Date.now();
 	policy.save(function(err) {
 		if (err) {
 			return res.status(400).send({
@@ -200,6 +202,7 @@ exports.updatePolicy = function(req, res) {
 		}
 
 		policy = _.extend(policy, req.body);
+		policy.updated = Date.now();
 		policy.save(function(err) {
 			if (err) {
 				return res.status(400).send({
@@ -207,6 +210,116 @@ exports.updatePolicy = function(req, res) {
 				});
 			} else {
 				res.json(policy);
+			}
+		});
+	});
+};
+
+exports.getAllResidentsList = function(req, res) {
+	User.find({roles: 'user'}).exec(function(err, users) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		}
+		res.json(users);
+	});
+};
+
+exports.getAllPropertyManagerList =  function(req, res) {
+	var start = req.query.start;
+	var num = req.query.num;
+	var query = {roles: 'pmanager'};
+	User.count(query, function (err, count) {
+		User.find(query).limit(num).skip(start).exec(function (err, users) {
+			if (err) {
+				return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+			}
+			var user_property_callbacks = [];
+			_.each(users, function(user) {
+				user_property_callbacks.push(function(cb) {
+					Property.count({propertyManager: user._id}, function (err, property_count) {
+						var tmp_user = user.toObject();
+						tmp_user.property_count = property_count;
+						cb(err, tmp_user);
+					});
+				});
+			});
+			async.parallel(user_property_callbacks, function(err, results) {
+				res.json({count: count, property_managers: results});
+			});
+		});
+	});
+};
+
+exports.addPropertyManaget = function(req, res) {
+	var propertyManager = new User(req.body);
+	propertyManager.displayName = propertyManager.firstName + ' ' + propertyManager.lastName;
+	propertyManager.username = propertyManager.email;
+	propertyManager.roles = ['pmanager'];
+	propertyManager.provider = 'local';
+	propertyManager.password = 'password';
+	propertyManager.updated = Date.now();
+	propertyManager.save(function(err) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			var profile = new Profile({
+				user: propertyManager._id
+			});
+			profile.save(function(err) {
+				if (err) {
+					return res.status(400).send({
+						message: errorHandler.getErrorMessage(err)
+					});
+				}
+				res.json(propertyManager);
+			});
+		}
+	});
+};
+
+exports.getPropertyManager = function(req, res) {
+	User.findById(req.params.propertyManagerId).exec(function(err, user) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		}
+		res.json(user);
+	});
+};
+
+exports.updatePropertyManager = function(req, res) {
+	var updateObj = {firstName: req.body.firstName, lastName: req.body.lastName, email: req.body.email, displayName: req.body.firstName + ' ' + req.body.lastName};
+	User.update({_id: req.params.propertyManagerId}, updateObj, function(err, user) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		}
+		res.json(user);
+	})
+};
+
+exports.deletePropertyManager = function(req, res) {
+	User.findById(req.params.propertyManagerId).exec(function(err, user) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		}
+		user.remove(function(err) {
+			if (err) {
+				return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+			} else {
+				res.json(user);
 			}
 		});
 	});

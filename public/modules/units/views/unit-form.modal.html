@@ -1,0 +1,36 @@
+<div class="modal-header">
+	<i ng-click="cancel()" class="glyphicon glyphicon-remove icon-arrow-right pull-right" style="cursor: pointer; font-size: 22px; font-weight: normal;"></i>
+	<h3 class="modal-title">Unit</h3>
+</div>
+<div class="modal-body row">
+	<div class="col-md-6 col-md-offset-3">
+		<div class="form-group no-margin">
+			<input type="text" id="unitNumber" name="unitNumber" class="form-control" data-ng-model="unit.unitNumber" placeholder="Unit Number">
+			<span class="text-danger text-left" ng-if="errorUnitNumber">Please enter unit number.</span>
+		</div>
+		<div class="form-group no-margin">
+			<input type="text" id="buildingNumber" name="buildingNumber" class="form-control" data-ng-model="unit.buildingNumber" placeholder="Building Number">
+		</div>
+		<div class="form-group no-margin">
+			<select class="form-control" ng-options="resident as resident.displayName for resident in residents track by resident._id" ng-model="unit.resident">
+
+			</select>
+		</div>
+		<div class="row">
+			<div class="form-group  col-md-6 datepicker-popup">
+				<input type="text" class="form-control" datepicker-popup ng-model="unit.moveInDate" placeholder="Move in Date"
+					   is-open="fromElements.opened" close-text="Close" show-button-bar="false"
+					   datepicker-options="datePickerOptions" ng-focus="from_open($event)"/>
+			</div>
+			<div class="form-group col-md-6 datepicker-popup">
+				<input type="text" class="form-control" datepicker-popup ng-model="unit.moveOutDate" placeholder="Move out Date"
+					   is-open="toElements.opened" close-text="Close" show-button-bar="false"
+					   datepicker-options="datePickerOptions" ng-focus="to_open($event)"/>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-default btn-lg custom-gray-btn" type="button" ng-click="cancel()">Cancel</button>
+	<button class="btn btn-success btn-lg" type="button" ng-click="saveUnit()">Save</button>
+</div>

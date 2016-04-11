@@ -1,0 +1,60 @@
+<div class="gray-header-area"></div>
+<section data-ng-controller="ManagerInsurancesController" data-ng-init="findOne()">
+	<div class="sub-container" style="margin-top: 20px;">
+		<ol class="breadcrumb">
+			<li><a href="#!/properties">Active policies</a></li>
+			<li><a href="#!/properties/{{propertyId}}/units">{{property.propertyName}}</a></li>
+			<li><a href="#!/properties/{{propertyId}}/units/{{unitId}}/{{residentId}}/insurances">{{unit.resident.displayName}}</a></li>
+			<li class="active">{{insurance.insuranceName}}</li>
+		</ol>
+		<div class="sub-header">
+			<h3 class="pull-left">
+				{{insurance.insuranceName}}
+				<span class="label label-primary insurance-status-label" ng-if="insurance.status=='approved'">{{insurance.status}}</span>
+				<span class="label label-warning insurance-status-label" ng-if="insurance.status=='pending'">{{insurance.status}}</span>
+				<span class="label label-danger insurance-status-label" ng-if="insurance.status=='rejected'">{{insurance.status}}</span>
+			</h3>
+			<div class="pull-right">
+				<button type="button" class="btn btn-large btn-success btn-block" style="padding: 15px;" ng-click="openInsuranceModal(insurance)">Edit Insurance</button>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="policy-list row">
+			<div class="col-md-6" style="min-height: 500px; overflow: auto; border-right: 2px solid #ccc;">
+				<img ngf-src="insurance.insuranceFilePath" style="width: 100%;" ng-if="insurance.insuranceFilePath.indexOf('pdf')<0">
+				<iframe ngf-src="insurance.insuranceFilePath" frameBorder="0" width="100%" height="100%" ng-if="insurance.insuranceFilePath.indexOf('pdf')>-1" style="min-height: 500px;"></iframe>
+			</div>
+			<div class="col-md-6">
+				<h2>Insurance details</h2>
+				<div class="row" style="padding: 15px;">
+					<span class="col-sm-4 upper-letters" style="color: #7a7a7a; font-size: 11px;">Name of Insurance</span>
+					<span class="col-sm-6 bold">{{insurance.insuranceName}}</span>
+				</div>
+				<div class="row" style="padding: 15px;">
+					<span class="col-sm-4 upper-letters" style="color: #7a7a7a; font-size: 11px;">Insurer's Name</span>
+					<span class="col-sm-6 bold">{{insurance.insurerName}}</span>
+				</div>
+				<div class="row" style="padding: 15px;">
+					<span class="col-sm-4 upper-letters" style="color: #7a7a7a; font-size: 11px;">Unit #</span>
+					<span class="col-sm-6 bold">{{insurance.unitNumber}}</span>
+				</div>
+				<div class="row" style="padding: 15px;">
+					<span class="col-sm-4 upper-letters" style="color: #7a7a7a; font-size: 11px;">Policy's Holder Name</span>
+					<span class="col-sm-6 bold">{{insurance.policyHolderName}}</span>
+				</div>
+				<div class="row" style="padding: 15px;">
+					<span class="col-sm-4 upper-letters" style="color: #7a7a7a; font-size: 11px;">Policy Number</span>
+					<span class="col-sm-6 bold">{{insurance.policyNumber}}</span>
+				</div>
+				<div class="row" style="padding: 15px;">
+					<span class="col-sm-4 upper-letters" style="color: #7a7a7a; font-size: 11px;">Policy Period</span>
+					<span class="col-sm-6 bold">{{insurance.policyStartDate | date: 'MMM d, yyyy'}} - {{insurance.policyEndDate | date: 'MMM d, yyyy'}}</span>
+				</div>
+				<div class="row" style="padding: 15px;">
+					<span class="col-sm-4 upper-letters" style="color: #7a7a7a; font-size: 11px;">Status</span>
+					<span class="col-sm-6 status-label" ng-style="insurance.status === 'approved' && {'color':'#5C8C45'} || insurance.status === 'pending' && {'color':'#f0ad4e'} || insurance.status === 'rejected' && {'color':'#d9534f'}">{{insurance.status}}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

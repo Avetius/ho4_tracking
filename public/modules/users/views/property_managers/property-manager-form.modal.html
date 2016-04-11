@@ -1,0 +1,27 @@
+<div class="modal-header">
+	<i ng-click="cancel()" class="glyphicon glyphicon-remove icon-arrow-right pull-right" style="cursor: pointer; font-size: 22px; font-weight: normal;"></i>
+	<h3 class="modal-title">Property Manager</h3>
+</div>
+<div class="modal-body row">
+	<div class="col-md-12">
+		<div class="form-group no-margin">
+			<input type="text" id="firstName" name="firstName" class="form-control" data-ng-model="propertyManager.firstName" placeholder="First Name">
+			<span class="text-danger text-left" ng-if="errorFirstName">Please enter your first name.</span>
+		</div>
+		<div class="form-group no-margin">
+			<input type="text" id="lastName" name="lastName" class="form-control" data-ng-model="propertyManager.lastName" placeholder="Last Name">
+			<span class="text-danger text-left" ng-if="errorLastName">Please enter your last name.</span>
+		</div>
+		<div class="form-group no-margin">
+			<input type="email" id="email" name="email" class="form-control" data-ng-model="propertyManager.email" placeholder="Email">
+			<span class="text-danger text-left" ng-if="errorEmail">Please enter a valid email address.</span>
+		</div>
+		<div data-ng-show="error" class="text-center text-danger">
+			<strong data-ng-bind="error"></strong>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-default btn-lg custom-gray-btn" type="button" ng-click="cancel()">Cancel</button>
+	<button class="btn btn-success btn-lg" type="button" ng-click="savePropertyManager()">Save</button>
+</div>

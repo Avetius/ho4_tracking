@@ -8,9 +8,9 @@
 		<div class="sub-header">
 			<h3 class="pull-left">
 				{{insurance.insuranceName}}
-				<span class="label label-primary insurance-status-label" ng-if="insurance.status=='active'">Active</span>
-				<span class="label label-warning insurance-status-label" ng-if="insurance.status=='pending'">Pending</span>
-				<span class="label label-danger insurance-status-label" ng-if="insurance.status=='cancelled'">Cancelled</span>
+				<span class="label label-primary insurance-status-label" ng-if="insurance.status=='approved'">{{insurance.status}}</span>
+				<span class="label label-warning insurance-status-label" ng-if="insurance.status=='pending'">{{insurance.status}}</span>
+				<span class="label label-danger insurance-status-label" ng-if="insurance.status=='rejected'">{{insurance.status}}</span>
 			</h3>
 			<div class="pull-right">
 				<button type="button" class="btn btn-large btn-success btn-block" style="padding: 15px;" ng-click="openInsuranceModal(insurance)">Edit Insurance</button>
@@ -50,7 +50,7 @@
 				</div>
 				<div class="row" style="padding: 15px;">
 					<span class="col-sm-4 upper-letters" style="color: #7a7a7a; font-size: 11px;">Status</span>
-					<span class="col-sm-6 status-label" ng-style="insurance.status === 'active' && {'color':'#5C8C45'} || insurance.status === 'pending' && {'color':'#f0ad4e'} || insurance.status === 'cancelled' && {'color':'#d9534f'}">{{insurance.status}}</span>
+					<span class="col-sm-6 status-label" ng-style="insurance.status === 'approved' && {'color':'#5C8C45'} || insurance.status === 'pending' && {'color':'#f0ad4e'} || insurance.status === 'rejected' && {'color':'#d9534f'}">{{insurance.status}}</span>
 				</div>
 			</div>
 		</div>

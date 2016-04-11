@@ -107,7 +107,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 				$scope.errorState = false;
 				$scope.errorZip = false;
 				$scope.errorCountry = false;
-				if(!$scope.credentials.phoneNumber || $scope.credentials.phoneNumber == "") {
+				/*if(!$scope.credentials.phoneNumber || $scope.credentials.phoneNumber == "") {
 					$scope.errorPhone = true;
 					invalidItems++;
 				}
@@ -130,7 +130,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 				if(!$scope.credentials.country || $scope.credentials.country == "") {
 					$scope.errorCountry = true;
 					invalidItems++;
-				}
+				}*/
 			}
 			if(invalidItems == 0) {
 				if(path === 'account_info') $scope.finishUserInfoStep = true;
@@ -153,7 +153,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 			$scope.errorPolicyStartDate = false;
 			$scope.errorPolicyEndDate = false;
 			$scope.errorInsuranceFile = false;
-			if(!$scope.credentials.insuranceName || $scope.credentials.insuranceName == "") {
+			/*if(!$scope.credentials.insuranceName || $scope.credentials.insuranceName == "") {
 				$scope.errorInsuranceName = true;
 				invalidItems++;
 			}
@@ -188,7 +188,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 			if(!$scope.credentials.insuranceFilePath || $scope.credentials.insuranceFilePath == "") {
 				$scope.errorInsuranceFile = true;
 				invalidItems++;
-			}
+			}*/
 
 			if(invalidItems == 0 && $scope.finishUserInfoStep && $scope.finishAccountInfoStep) {
 				$http.post('/auth/signup', $scope.credentials).success(function(response) {
@@ -209,7 +209,9 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 				$scope.authentication.user = response;
 
 				// And redirect to the index page
-				$location.path('/insurances');
+				if($scope.authentication.user.roles.indexOf('pmanager')> -1) $location.path('/properties');
+				else if($scope.authentication.user.roles.indexOf('admin')> -1) $location.path('/property_managers');
+				else $location.path('/insurances');
 			}).error(function(response) {
 				$scope.error = response.message;
 			});

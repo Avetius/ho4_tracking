@@ -54,7 +54,8 @@ module.exports = {
 				'public/lib/angular-ui-utils/ui-utils.js',
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
 				'public/lib/ng-file-upload/ng-file-upload-shim.js',
-				'public/lib/ng-file-upload/ng-file-upload.js'
+				'public/lib/ng-file-upload/ng-file-upload.js',
+				'public/lib/angular-smart-table/dist/smart-table.js'
 			]
 		},
 		css: [

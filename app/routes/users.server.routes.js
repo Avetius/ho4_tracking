@@ -71,6 +71,17 @@ module.exports = function(app) {
 
 	app.route('/upload_insurance').post(multipartMiddleware, users.uploadInsurance);
 
+	app.route('/residents_list').get(users.requiresLogin, users.isPropertyManager, users.getAllResidentsList);
+
+	app.route('/property_managers')
+		.get(users.requiresLogin, users.isAdminUser, users.getAllPropertyManagerList)
+		.post(users.requiresLogin, users.isAdminUser, users.addPropertyManaget);
+
+	app.route('/property_managers/:propertyManagerId')
+		.get(users.requiresLogin, users.isAdminUser, users.getPropertyManager)
+		.put(users.requiresLogin, users.isAdminUser, users.updatePropertyManager)
+		.delete(users.requiresLogin, users.isAdminUser, users.deletePropertyManager);
+
 	// Finish by binding the user middleware
 	app.param('userId', users.userByID);
 };

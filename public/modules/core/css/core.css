@@ -415,6 +415,12 @@ body.ng-cloak
 	color: #c5c5c5;
 }
 
+.maincontent-area {
+	background-color: #ffffff;
+	margin-top: 30px;
+	padding: 20px;
+}
+
 @media (min-width: 320px) {
 	.navbar-brand img{
 		margin-left: 15px;

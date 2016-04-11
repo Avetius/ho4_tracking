@@ -42,7 +42,9 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 				$scope.authentication.user = response;
 
 				// And redirect to the index page
-				$location.path('/insurances');
+				if($scope.authentication.user.roles.indexOf('pmanager')> -1) $location.path('/properties');
+				else if($scope.authentication.user.roles.indexOf('admin')> -1) $location.path('/property_managers');
+				else $location.path('/insurances');
 			}).error(function(response) {
 				$scope.error = response.message;
 			});

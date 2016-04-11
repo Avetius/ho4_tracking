@@ -29,15 +29,16 @@ module.exports = {
 				'public/lib/angular-animate/angular-animate.min.js',
 				'public/lib/angular-ui-router/release/angular-ui-router.min.js',
 				'public/lib/angular-ui-utils/ui-utils.min.js',
-				'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js'
+				'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
+				'public/lib/ng-file-upload/ng-file-upload-shim.min.js',
+				'public/lib/ng-file-upload/ng-file-upload.min.js',
+				'public/lib/angular-smart-table/dist/smart-table.min.js'
 			]
 		},
 		css: 'public/dist/application.min.css',
 		js: 'public/dist/application.min.js'
 	},
-	
 	sendgrid_api: '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',
-
 	facebook: {
 		clientID: process.env.FACEBOOK_ID || 'APP_ID',
 		clientSecret: process.env.FACEBOOK_SECRET || 'APP_SECRET',

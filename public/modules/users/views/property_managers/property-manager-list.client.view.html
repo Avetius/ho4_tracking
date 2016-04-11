@@ -1,0 +1,51 @@
+<div class="gray-header-area"></div>
+<section data-ng-controller="PropertyManagerController">
+	<div class="sub-container" style="margin-top: 20px;">
+		<div class="sub-header">
+			<h3 class="pull-left">Property Managers</h3>
+			<div class="pull-right">
+				<button type="button" class="btn btn-large btn-success btn-block" style="padding: 15px;" ng-click="openPropertyManagerModal()">Add property manager</button>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="maincontent-area">
+			<div class="table-responsive">
+				<table class="table table-hover" st-pipe="findPropertyManagers" st-table="property_managers" st-safe-src="property_managers">
+					<thead>
+					<tr>
+						<th>Property Manager</th>
+						<th>Properties</th>
+						<th>Email</th>
+						<th>Action</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr ng-repeat="property_manager in property_managers">
+						<td><a href="#!/properties_by_manager/{{property_manager._id}}">{{property_manager.displayName}}</a></td>
+						<td>{{property_manager.property_count}}</td>
+						<td>{{property_manager.email}}</td>
+						<td>
+							<a href="" ng-click="openPropertyManagerModal(property_manager)">Edit</a> |
+							<a href="" ng-click="removePropertyManager(property_manager)">Remove</a>
+						</td>
+					</tr>
+					</tbody>
+					<tfoot>
+					<tr>
+						<td class="text-center" colspan="4">
+							<span class="pull-left" style="margin: 20px 0;">Total: {{totalItems}}</span>
+							<nav class="pull-right" ng-if="numberOfPages >= 2">
+								<ul class="pagination">
+									</li><li><a ng-click="selectPage(currentPage - 1)">&lt;</a>
+								</li><li><a>{{currentPage}} of {{numberOfPages}}</a>
+								</li><li><a ng-click="selectPage(currentPage + 1)">&gt;</a>
+								</ul>
+							</nav>
+						</td>
+					</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+	</div>
+</section>
