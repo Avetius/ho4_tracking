@@ -5,6 +5,7 @@
  */
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors.server.controller'),
+	User = mongoose.model('User'),
 	Property = mongoose.model('Property'),
 	Unit = mongoose.model('Unit'),
 	_ = require('lodash');
@@ -125,6 +126,7 @@ exports.list = function(req, res) {
 exports.propertyUnitList = function(req, res) {
 	var start = req.query.start;
 	var num = req.query.num;
+
 	Unit.count({property: req.params.propertyId}, function (err, count) {
 		Unit.find({property: req.params.propertyId}).sort('-created').populate('resident', 'displayName').limit(num).skip(start).exec(function (err, units) {
 			if (err) {
@@ -132,7 +134,13 @@ exports.propertyUnitList = function(req, res) {
 					message: errorHandler.getErrorMessage(err)
 				});
 			} else {
-				res.json({count: count, units: units, property: req.property});
+				if(req.query.propertyManagerId) {
+					User.findById(req.query.propertyManagerId).exec(function (err, property_manager) {
+						res.json({count: count, units: units, property: req.property, property_manager: property_manager});
+					});
+				} else {
+					res.json({count: count, units: units, property: req.property, property_manager: null});
+				}
 			}
 		});
 	});

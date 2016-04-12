@@ -9,8 +9,8 @@ angular.module('properties').config(['$stateProvider',
 			url: '/properties',
 			templateUrl: 'modules/properties/views/property-list.client.view.html'
 		}).
-		state('listPropertyByUserId', {
-			url: '/properties_by_manager/:propertyManagerId',
+		state('listPropertyByPropertyManagerId', {
+			url: '/properties_by_manager/:propertyManagerId/properties',
 			templateUrl: 'modules/properties/views/property-list.client.view.html'
 		});
 	}

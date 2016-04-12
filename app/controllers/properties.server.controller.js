@@ -5,6 +5,7 @@
  */
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors.server.controller'),
+	User = mongoose.model('User'),
 	Property = mongoose.model('Property'),
 	_ = require('lodash');
 
@@ -94,7 +95,13 @@ exports.list = function(req, res) {
 					message: errorHandler.getErrorMessage(err)
 				});
 			} else {
-				res.json({count: count, properties: properties});
+				if(req.query.propertyManagerId) {
+					User.findById(req.query.propertyManagerId).exec(function (err, property_manager) {
+						res.json({count: count, properties: properties, property_manager: property_manager});
+					});
+				} else {
+					res.json({count: count, properties: properties, property_manager: null});
+				}
 			}
 		});
 	});

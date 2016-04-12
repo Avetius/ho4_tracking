@@ -8,6 +8,7 @@ var _ = require('lodash'),
 	path = require('path'),
 	crypto = require('crypto'),
 	async = require('async'),
+	randomstring = require('randomstring'),
 	errorHandler = require('../errors.server.controller.js'),
 	mongoose = require('mongoose'),
 	passport = require('passport'),
@@ -255,12 +256,13 @@ exports.getAllPropertyManagerList =  function(req, res) {
 };
 
 exports.addPropertyManaget = function(req, res) {
+	var password = randomstring.generate(8);
 	var propertyManager = new User(req.body);
 	propertyManager.displayName = propertyManager.firstName + ' ' + propertyManager.lastName;
 	propertyManager.username = propertyManager.email;
 	propertyManager.roles = ['pmanager'];
 	propertyManager.provider = 'local';
-	propertyManager.password = 'password';
+	propertyManager.password = password;
 	propertyManager.updated = Date.now();
 	propertyManager.save(function(err) {
 		if (err) {
@@ -277,7 +279,23 @@ exports.addPropertyManaget = function(req, res) {
 						message: errorHandler.getErrorMessage(err)
 					});
 				}
-				res.json(propertyManager);
+				res.render('templates/send-invitation', {
+					name: propertyManager.displayName,
+					password: password,
+					url: 'http://' + req.headers.host + '/user/verify'
+				}, function(err, emailHTML) {
+					/*sendgrid.send({
+					 to: user.email,
+					 from: 'enterscompliance@veracityins.com',
+					 subject: user.displayName + ' Please verify your email address ',
+					 html: emailHTML
+					 }, function (err, json) {
+					 console.log(json);
+					 });*/
+					 console.log(password);
+					 
+					 res.json(propertyManager);
+				});
 			});
 		}
 	});

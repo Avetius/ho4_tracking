@@ -5,12 +5,13 @@ angular.module('units').factory('Units', ['$q', '$filter', '$timeout', '$http',
 	function ($q, $filter, $timeout, $http) {
 		return {
 			//Get orders by page and search values
-			getPage: function (start, number, propertyId) {
+			getPage: function (start, number, propertyId, propertyManagerId) {
 				var deferred = $q.defer();
-				$http.get('/property_units/'+propertyId+'?start=' + start + '&num=' + number).success(function (data) {
+				$http.get('/property_units/'+propertyId+'?start=' + start + '&num=' + number + '&propertyManagerId=' + propertyManagerId).success(function (data) {
 					deferred.resolve({
 						data: data.units,
 						property: data.property,
+						property_manager: data.property_manager,
 						numberOfPages: Math.ceil(data.count / number),
 						count: data.count
 					});

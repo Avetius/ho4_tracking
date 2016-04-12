@@ -41,6 +41,7 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 				$scope.properties = result.data;
 				$scope.numberOfPages = result.numberOfPages;
 				$scope.totalItems = result.count;
+				$scope.property_manager = result.property_manager;
 			});
 		};
 
@@ -57,6 +58,7 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 				scope: function () {
 					var scope = $rootScope.$new();
 					scope.property = property || {};
+					scope.property_manager = $scope.property_manager;
 					scope.add_property= !property;
 					return scope;
 				}(),

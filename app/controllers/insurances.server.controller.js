@@ -26,7 +26,13 @@ exports.residentInsurances = function(req, res) {
 						message: errorHandler.getErrorMessage(err)
 					});
 				} else {
-					res.json({count: count, insurances: insurances, property: req.property, unit: req.unit, resident: profile});
+					if(req.query.propertyManagerId) {
+						User.findById(req.query.propertyManagerId).exec(function (err, property_manager) {
+							res.json({count: count, insurances: insurances, property: req.property, unit: req.unit, resident: profile, property_manager: property_manager});
+						});
+					} else {
+						res.json({count: count, insurances: insurances, property: req.property, unit: req.unit, resident: profile});
+					}
 				}
 			});
 		});
@@ -34,7 +40,13 @@ exports.residentInsurances = function(req, res) {
 };
 
 exports.residentInsurance = function(req, res) {
-	res.json({insurance: req.insurance, property: req.property, unit: req.unit});
+	if(req.query.propertyManagerId) {
+		User.findById(req.query.propertyManagerId).exec(function (err, property_manager) {
+			res.json({insurance: req.insurance, property: req.property, unit: req.unit, property_manager: property_manager});
+		});
+	} else {
+		res.json({insurance: req.insurance, property: req.property, unit: req.unit});
+	}
 };
 
 exports.createResidentInsurances = function(req, res) {
@@ -76,6 +88,42 @@ exports.updateResidentInsurance = function(req, res) {
 				res.json(policy);
 			}
 		});
+	});
+};
+
+exports.recentInsurances = function(req, res) {
+	var start = req.query.start;
+	var num = req.query.num;
+	var query = {};
+	Policy.count(query, function (err, count) {
+		Policy.find(query).sort('-created').populate('user', 'displayName').limit(num).skip(start).exec(function (err, insurances) {
+			if (err) {
+				return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+			} else {
+				res.json({count: count, insurances: insurances});
+			}
+		});
+	});
+};
+
+exports.recentInsuranceDetail = function(req, res) {
+	res.json({insurance: req.insurance});
+};
+
+exports.updateStatusInsurance = function(req, res) {
+	var insurance = req.insurance;
+	insurance.status = req.body.status;
+	insurance.updated = Date.now();
+	insurance.save(function(err) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.json({success: true});
+		}
 	});
 };
 

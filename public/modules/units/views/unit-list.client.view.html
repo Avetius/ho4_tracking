@@ -1,8 +1,13 @@
 <div class="gray-header-area"></div>
 <section data-ng-controller="UnitsController">
 	<div class="sub-container" style="margin-top: 20px;">
-		<ol class="breadcrumb">
-			<li><a href="#!/properties">Active policies</a></li>
+		<ol class="breadcrumb" ng-if="authentication.user.roles.indexOf('admin')>-1">
+			<li><a href="#!/property_managers">Property Manager</a></li>
+			<li><a href="#!/properties_by_manager/{{property_manager._id}}/properties">{{property_manager.displayName}}</a></li>
+			<li class="active">{{property.propertyName}}</li>
+		</ol>
+		<ol class="breadcrumb" ng-if="authentication.user.roles.indexOf('pmanager')>-1">
+			<li><a href="#!/properties">Active properties</a></li>
 			<li class="active">{{property.propertyName}}</li>
 		</ol>
 		<div class="sub-header">
@@ -28,7 +33,14 @@
 					<tr ng-repeat="unit in units">
 						<td>{{unit.unitNumber}}</td>
 						<td>{{unit.buildingNumber}}</td>
-						<td><a href="#!/properties/{{property._id}}/units/{{unit._id}}/{{unit.resident._id}}/insurances">{{unit.resident.displayName}}</a></td>
+						<td>
+							<a href="#!/properties/{{property._id}}/units/{{unit._id}}/{{unit.resident._id}}/insurances" ng-if="authentication.user.roles.indexOf('pmanager')>-1">
+								{{unit.resident.displayName}}
+							</a>
+							<a href="#!/properties_by_manager/{{property_manager._id}}/properties/{{property._id}}/units/{{unit._id}}/{{unit.resident._id}}/insurances" ng-if="authentication.user.roles.indexOf('admin')>-1">
+								{{unit.resident.displayName}}
+							</a>
+						</td>
 						<td>
 							<a href="" ng-click="openUnitModal(unit)">Edit</a> |
 							<a href="" ng-click="removeUnit(unit)">Remove</a>

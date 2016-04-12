@@ -16,8 +16,14 @@ module.exports = function(app) {
 
 	app.route('/resident_insurances/:propertyId/:unitId/:residentId/insurances/:insuranceId')
 		.get(users.requiresLogin, users.isPropertyManager, insurances.residentInsurance)
-		.put(users.requiresLogin, users.isPropertyManager, insurances.updateResidentInsurance);
+	app.route('/resident_insurances/:insuranceId').put(users.requiresLogin, users.isPropertyManager, insurances.updateResidentInsurance);
 
+	app.route('/recent_insurances').get(users.requiresLogin, users.isAdminUser, insurances.recentInsurances);
+	app.route('/recent_insurances/:insuranceId')
+		.get(users.requiresLogin, users.isAdminUser, insurances.recentInsuranceDetail);
+
+	app.route('/insurance_status/:insuranceId')
+		.post(users.requiresLogin, users.isAdminUser, insurances.updateStatusInsurance);
 	// Finish by binding the user middleware
 	app.param('insuranceId', insurances.insuranceByID);
 };

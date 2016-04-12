@@ -1,8 +1,14 @@
 <div class="gray-header-area"></div>
 <section data-ng-controller="ManagerInsurancesController" data-ng-init="findPolicies()">
 	<div class="sub-container" style="margin-top: 20px;">
-		<ol class="breadcrumb">
-			<li><a href="#!/properties">Active policies</a></li>
+		<ol class="breadcrumb" ng-if="authentication.user.roles.indexOf('admin')>-1">
+			<li><a href="#!/property_managers">Property Manager</a></li>
+			<li><a href="#!/properties_by_manager/{{property_manager._id}}/properties">{{property_manager.displayName}}</a></li>
+			<li><a href="#!/properties_by_manager/{{property_manager._id}}/properties/{{property._id}}/units">{{property.propertyName}}</a></li>
+			<li class="active">{{unit.resident.displayName}}</li>
+		</ol>
+		<ol class="breadcrumb" ng-if="authentication.user.roles.indexOf('pmanager')>-1">
+			<li><a href="#!/properties">Active properties</a></li>
 			<li><a href="#!/properties/{{property._id}}/units">{{property.propertyName}}</a></li>
 			<li class="active">{{unit.resident.displayName}}</li>
 		</ol>
@@ -17,7 +23,7 @@
 		<div class="">
 			<div class="policy-list">
 				<div class="table-responsive">
-					<table st-table="insurances" class="table table-striped">
+					<table class="table table-striped">
 						<thead>
 						<tr>
 							<th>Name of Insurance</th>
@@ -32,7 +38,12 @@
 							<td>{{insurance.status}}</td>
 							<td>{{insurance.policyEndDate | date: 'MMM d, yyyy'}}</td>
 							<td>
-								<a href="#!/properties/{{propertyId}}/units/{{unitId}}/{{residentId}}/insurances/{{insurance._id}}">View Details</a>
+								<a href="#!/properties/{{propertyId}}/units/{{unitId}}/{{residentId}}/insurances/{{insurance._id}}" ng-if="authentication.user.roles.indexOf('pmanager')>-1">
+									View Details
+								</a>
+								<a href="#!/properties_by_manager/{{property_manager._id}}/properties/{{property._id}}/units/{{unit._id}}/{{unit.resident._id}}/insurances/{{insurance._id}}" ng-if="authentication.user.roles.indexOf('admin')>-1">
+									View Details
+								</a>
 							</td>
 						</tr>
 						</tbody>

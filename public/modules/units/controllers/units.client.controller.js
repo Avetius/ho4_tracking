@@ -5,7 +5,7 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 	function($scope, $stateParams, $location, Authentication, Units, $modal, $rootScope) {
 		$scope.authentication = Authentication;
 		$scope.propertyId = $stateParams.propertyId;
-
+		$scope.propertyManagerId = $stateParams.propertyManagerId;
 		$scope.numberOfPages = 1;
 		$scope.currentPage = 1;
 		$scope.itemsByPage = 10;
@@ -38,9 +38,10 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 
 			var start = pagination.start || 0;
 			var number = pagination.number || 10;
-			Units.getPage(start, number, $scope.propertyId).then(function (result) {
+			Units.getPage(start, number, $scope.propertyId, $scope.propertyManagerId).then(function (result) {
 				$scope.units = result.data;
 				$scope.property = result.property;
+				$scope.property_manager = result.property_manager;
 				$scope.numberOfPages = result.numberOfPages;
 				$scope.totalItems = result.count;
 			});
