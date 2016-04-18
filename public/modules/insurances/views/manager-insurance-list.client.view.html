@@ -1,14 +1,9 @@
 <div class="gray-header-area"></div>
 <section data-ng-controller="ManagerInsurancesController" data-ng-init="findPolicies()">
 	<div class="sub-container" style="margin-top: 20px;">
-		<ol class="breadcrumb" ng-if="authentication.user.roles.indexOf('admin')>-1">
-			<li><a href="#!/property_managers">Property Manager</a></li>
-			<li><a href="#!/properties_by_manager/{{property_manager._id}}/properties">{{property_manager.displayName}}</a></li>
-			<li><a href="#!/properties_by_manager/{{property_manager._id}}/properties/{{property._id}}/units">{{property.propertyName}}</a></li>
-			<li class="active">{{unit.resident.displayName}}</li>
-		</ol>
-		<ol class="breadcrumb" ng-if="authentication.user.roles.indexOf('pmanager')>-1">
-			<li><a href="#!/properties">Active properties</a></li>
+		<alert ng-repeat="alert in alerts" type="success">{{alert.msg}}</alert>
+		<ol class="breadcrumb">
+			<li><a href="#!/properties">Properties</a></li>
 			<li><a href="#!/properties/{{property._id}}/units">{{property.propertyName}}</a></li>
 			<li class="active">{{unit.resident.displayName}}</li>
 		</ol>
@@ -26,24 +21,32 @@
 					<table class="table table-striped">
 						<thead>
 						<tr>
-							<th>Name of Insurance</th>
-							<th>Status</th>
-							<th>Expiration Date</th>
-							<th>Actions</th>
+							<th class="text-center">Coverage Name</th>
+							<th class="text-center">Expiration Date</th>
+							<th class="text-center">Status</th>
+							<th class="text-center">Certificate</th>
+							<th class="text-center">Notes</th>
+							<th class="text-center">Actions</th>
 						</tr>
 						</thead>
 						<tbody>
 						<tr ng-repeat="insurance in insurances">
-							<td>{{insurance.insuranceName}}</td>
-							<td>{{insurance.status}}</td>
-							<td>{{insurance.policyEndDate | date: 'MMM d, yyyy'}}</td>
-							<td>
-								<a href="#!/properties/{{propertyId}}/units/{{unitId}}/{{residentId}}/insurances/{{insurance._id}}" ng-if="authentication.user.roles.indexOf('pmanager')>-1">
-									View Details
-								</a>
-								<a href="#!/properties_by_manager/{{property_manager._id}}/properties/{{property._id}}/units/{{unit._id}}/{{unit.resident._id}}/insurances/{{insurance._id}}" ng-if="authentication.user.roles.indexOf('admin')>-1">
-									View Details
-								</a>
+							<td class="text-center">{{insurance.insuranceName}}</td>
+							<td class="text-center">{{insurance.policyEndDate | date: 'MMM d, yyyy'}}</td>
+							<td class="text-center">
+								<span ng-if="authentication.user.roles.indexOf('admin')<0">{{insurance.status}}</span>
+								<select class="form-control" ng-model="insurance.status" ng-change="updateInsuranceStatus(insurance)" ng-if="authentication.user.roles.indexOf('admin')>-1">
+									<option value="approved">Approved</option>
+									<option value="rejected">Rejected</option>
+									<option value="pending">Pending</option>
+									<option value="expired">Expired</option>
+								</select>
+							</td>
+							<td class="text-center"><a style="cursor: pointer" ng-click="viewInsuranceCertificate(insurance.insuranceFilePath)"><span class="glyphicon glyphicon-file" ng-if="insurance.insuranceFilePath"></span></a></td>
+							<td><a style="cursor: pointer;" ng-click="viewInsuranceNotes(insurance.notes)"><span class="glyphicon glyphicon-list-alt" ng-if="insurance.notes"></span></a></td>
+							<td class="text-center">
+								<a style="cursor: pointer" ng-click="removeInsurance(insurance._id, $index)"><span class="glyphicon glyphicon-trash"></span></a> |
+								<a style="cursor: pointer" ng-click="openInsuranceModal(insurance)"><span class="glyphicon glyphicon-pencil"></span> </a>
 							</td>
 						</tr>
 						</tbody>

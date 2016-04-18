@@ -22,6 +22,8 @@ module.exports = {
 			css: [
 				'public/lib/bootstrap/dist/css/bootstrap.min.css',
 				'public/lib/bootstrap/dist/css/bootstrap-theme.min.css',
+				'public/lib/angular-loading-bar/build/loading-bar.min.css',
+				'public/lib/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.min.css'
 			],
 			js: [
 				'public/lib/angular/angular.min.js',
@@ -32,7 +34,10 @@ module.exports = {
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
 				'public/lib/ng-file-upload/ng-file-upload-shim.min.js',
 				'public/lib/ng-file-upload/ng-file-upload.min.js',
-				'public/lib/angular-smart-table/dist/smart-table.min.js'
+				'public/lib/angular-smart-table/dist/smart-table.min.js',
+				'public/lib/angular-touch/angular-touch.min.js',
+				'public/lib/angular-loading-bar/build/loading-bar.min.js',
+				'public/lib/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.min.js'
 			]
 		},
 		css: 'public/dist/application.min.css',

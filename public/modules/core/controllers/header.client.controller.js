@@ -8,7 +8,6 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 		$scope.signup_header = false;
 		$scope.signin_header = false;
 
-		if($location.path() !== '/') $scope.mainpage_header = true;
 		if($location.path().indexOf('/signup') > -1) $scope.signup_header = true;
 		if($location.path().indexOf('/signin') > -1) $scope.signin_header = true;
 
@@ -42,8 +41,8 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 				$scope.authentication.user = response;
 
 				// And redirect to the index page
-				if($scope.authentication.user.roles.indexOf('pmanager')> -1) $location.path('/properties');
-				else if($scope.authentication.user.roles.indexOf('admin')> -1) $location.path('/property_managers');
+				if($scope.authentication.user.roles.indexOf('pmanager')> -1) $location.path('/resident_insurances');
+				else if($scope.authentication.user.roles.indexOf('admin')> -1) $location.path('/resident_insurances');
 				else $location.path('/insurances');
 			}).error(function(response) {
 				$scope.error = response.message;

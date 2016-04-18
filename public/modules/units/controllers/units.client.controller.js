@@ -95,5 +95,24 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 				});
 			});
 		};
+
+		$scope.displayResidentModal = function(unit) {
+			var modalInstance = $modal.open({
+				templateUrl: 'modules/users/views/residents/resident-form.modal.html',
+				scope: function () {
+					var scope = $rootScope.$new();
+					scope.resident = {appartmentNumber: unit};
+					scope.add_resident = true;
+					return scope;
+				}(),
+				controller: 'ResidentFormController'
+			});
+
+			modalInstance.result.then(function (selectedItem) {
+				$scope.findUnits($scope.tableState);
+			}, function () {
+				console.log('Modal dismissed at: ' + new Date());
+			});
+		};
 	}
 ]);

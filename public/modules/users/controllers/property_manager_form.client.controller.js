@@ -43,9 +43,33 @@ angular.module('users').controller('PropertyManagerFormController', ['$scope', '
 			$modalInstance.dismiss('cancel');
 		};
 
+		$scope.assignNewProperty = function(newProperty) {
+			if(!$scope.propertyManager.assigned_properties) $scope.propertyManager.assigned_properties = [];
+			$scope.propertyManager.assigned_properties.pushIfNotExist(newProperty, function(e) {
+				return e._id === newProperty._id;
+			});
+		};
+
+		$scope.removeAssignedProperty = function(assigned_property, index) {
+			$scope.propertyManager.assigned_properties.splice(index, 1);
+		};
+
 		var validateEmail = function (email) {
 			var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 			return re.test(email);
+		};
+
+		Array.prototype.inArray = function(comparer) {
+			for(var i=0; i < this.length; i++) {
+				if(comparer(this[i])) return true;
+			}
+			return false;
+		};
+
+		Array.prototype.pushIfNotExist = function(element, comparer) {
+			if (!this.inArray(comparer)) {
+				this.push(element);
+			}
 		};
 	}
 ]);

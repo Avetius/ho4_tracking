@@ -1,0 +1,26 @@
+<div class="modal-header">
+	<i ng-click="cancel()" class="glyphicon glyphicon-remove icon-arrow-right pull-right" style="cursor: pointer; font-size: 22px; font-weight: normal;"></i>
+	<h3 class="modal-title">Notes</h3>
+</div>
+<div class="modal-body row">
+	<div class="table-responsive">
+		<table st-table="policies" class="table table-striped">
+			<thead>
+			<tr>
+				<th>Name of Insurance</th>
+				<th>Date</th>
+				<th>Created By</th>
+				<th>Content</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr ng-repeat="note in notes">
+				<td>{{note.subject}}</td>
+				<td>{{note.created | date: 'MMM d, yyyy'}}</td>
+				<td>{{note.user.displayName}}</td>
+				<td>{{note.content}}</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

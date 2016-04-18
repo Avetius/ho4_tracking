@@ -15,6 +15,7 @@ var _ = require('lodash'),
 	User = mongoose.model('User'),
 	Profile = mongoose.model('Profile'),
 	Property = mongoose.model('Property'),
+	Unit = mongoose.model('Unit'),
 	Policy = mongoose.model('Policy');
 
 /**
@@ -238,18 +239,25 @@ exports.getAllPropertyManagerList =  function(req, res) {
 					message: errorHandler.getErrorMessage(err)
 				});
 			}
-			var user_property_callbacks = [];
-			_.each(users, function(user) {
-				user_property_callbacks.push(function(cb) {
-					Property.count({propertyManager: user._id}, function (err, property_count) {
-						var tmp_user = user.toObject();
-						tmp_user.property_count = property_count;
-						cb(err, tmp_user);
+			Property.find({}).exec(function(err, properties) {
+				if (err) {
+					return res.status(400).send({
+						message: errorHandler.getErrorMessage(err)
+					});
+				}
+				var user_property_callbacks = [];
+				_.each(users, function(user) {
+					user_property_callbacks.push(function(cb) {
+						Property.find({propertyManager: user._id}, function (err, assigned_properties) {
+							var tmp_user = user.toObject();
+							tmp_user.assigned_properties = assigned_properties;
+							cb(err, tmp_user);
+						});
 					});
 				});
-			});
-			async.parallel(user_property_callbacks, function(err, results) {
-				res.json({count: count, property_managers: results});
+				async.parallel(user_property_callbacks, function(err, results) {
+					res.json({count: count, property_managers: results, properties: properties});
+				});
 			});
 		});
 	});
@@ -279,22 +287,28 @@ exports.addPropertyManaget = function(req, res) {
 						message: errorHandler.getErrorMessage(err)
 					});
 				}
-				res.render('templates/send-invitation', {
-					name: propertyManager.displayName,
-					password: password,
-					url: 'http://' + req.headers.host + '/user/verify'
-				}, function(err, emailHTML) {
-					/*sendgrid.send({
-					 to: user.email,
-					 from: 'enterscompliance@veracityins.com',
-					 subject: user.displayName + ' Please verify your email address ',
-					 html: emailHTML
-					 }, function (err, json) {
-					 console.log(json);
-					 });*/
-					 console.log(password);
-					 
-					 res.json(propertyManager);
+				var assigned_property_ids = [];
+				_.each(req.body.assigned_properties, function(property) {
+					assigned_property_ids.push(property._id);
+				});
+				Property.update({_id: {$in: assigned_property_ids}}, {propertyManager: propertyManager._id}, {multi: true}, function(err, result) {
+					res.render('templates/send-invitation', {
+						name: propertyManager.displayName,
+						password: password,
+						url: 'http://' + req.headers.host + '/#!/signin'
+					}, function(err, emailHTML) {
+						sendgrid.send({
+						 to: user.email,
+						 from: 'enterscompliance@veracityins.com',
+						 subject: user.displayName + ' Invitation for Property Manager of HO4 ',
+						 html: emailHTML
+						 }, function (err, json) {
+						 console.log(json);
+						 });
+						console.log(password);
+
+						res.json(propertyManager);
+					});
 				});
 			});
 		}
@@ -320,12 +334,205 @@ exports.updatePropertyManager = function(req, res) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		}
-		res.json(user);
+		Property.update({propertyManager: req.params.propertyManagerId}, {propertyManager: null}, {multi: true}, function(err, result) {
+			var assigned_property_ids = [];
+			_.each(req.body.assigned_properties, function (property) {
+				assigned_property_ids.push(property._id);
+			});
+			Property.update({_id: {$in: assigned_property_ids}}, {propertyManager: req.params.propertyManagerId}, {multi: true}, function (err, result) {
+				res.json(user);
+			});
+		});
+
 	})
 };
 
 exports.deletePropertyManager = function(req, res) {
 	User.findById(req.params.propertyManagerId).exec(function(err, user) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		}
+		user.remove(function(err) {
+			if (err) {
+				return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+			} else {
+				res.json(user);
+			}
+		});
+	});
+};
+
+exports.getAllResidentList =  function(req, res) {
+	var start = req.query.start;
+	var num = req.query.num;
+	var query = {roles: 'user'};
+	User.count(query, function (err, count) {
+		User.find(query).limit(num).skip(start).exec(function (err, users) {
+			if (err) {
+				return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+			}
+			var user_policy_callbacks = [];
+			_.each(users, function(user) {
+				user_policy_callbacks.push(function(cb) {
+					Policy.count({user: user._id}, function (err, policy_count) {
+						var tmp_user = user.toObject();
+						tmp_user.policy_count = policy_count;
+						cb(err, tmp_user);
+					});
+				});
+			});
+			async.parallel(user_policy_callbacks, function(err, results) {
+				res.json({count: count, residents: results});
+			});
+		});
+	});
+};
+
+exports.addResident = function(req, res) {
+	var password = randomstring.generate(8);
+	var resident = new User(req.body);
+	if(typeof req.body.appartmentNumber === 'object') {
+		resident.appartmentNumber = req.body.appartmentNumber.unitNumber;
+	}
+	resident.displayName = resident.firstName + ' ' + resident.lastName;
+	resident.username = resident.email;
+	resident.roles = ['user'];
+	resident.provider = 'local';
+	resident.password = password;
+	resident.updated = Date.now();
+	resident.save(function(err) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			var profile = new Profile({
+				user: resident._id
+			});
+			profile.save(function(err) {
+				if (err) {
+					return res.status(400).send({
+						message: errorHandler.getErrorMessage(err)
+					});
+				}
+				if(typeof req.body.appartmentNumber === 'object') {
+					Unit.findById(req.body.appartmentNumber._id).exec(function (err, unit) {
+						if (err) {
+							return res.status(400).send({
+								message: errorHandler.getErrorMessage(err)
+							});
+						}
+						unit.resident = resident._id;
+						unit.save(function (err) {
+							if (err) {
+								return res.status(400).send({
+									message: errorHandler.getErrorMessage(err)
+								});
+							}
+							res.render('templates/send-invitation', {
+								name: resident.displayName,
+								password: password,
+								url: 'http://' + req.headers.host + '/#!/signin'
+							}, function (err, emailHTML) {
+								sendgrid.send({
+								  to: user.email,
+								  from: 'enterscompliance@veracityins.com',
+								  subject: user.displayName + ' Invitation from HO4 ',
+								  html: emailHTML
+								}, function (err, json) {
+								  console.log(json);
+								});
+								console.log(password);
+
+								res.json(resident);
+							});
+						});
+					});
+				} else {
+					res.render('templates/send-invitation', {
+						name: resident.displayName,
+						password: password,
+						url: 'http://' + req.headers.host + '/#!/signin'
+					}, function (err, emailHTML) {
+						sendgrid.send({
+						  to: user.email,
+						  from: 'enterscompliance@veracityins.com',
+						  subject: user.displayName + ' Invitation from HO4 ',
+						  html: emailHTML
+						}, function (err, json) {
+						  console.log(json);
+						});
+						console.log(password);
+
+						res.json(resident);
+					});
+				}
+			});
+		}
+	});
+};
+
+exports.getResident = function(req, res) {
+	User.findById(req.params.residentId).exec(function(err, user) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		}
+		res.json(user);
+	});
+};
+
+exports.updateResident = function(req, res) {
+	var updateObj = {
+		firstName: req.body.firstName,
+		lastName: req.body.lastName,
+		email: req.body.email,
+		displayName: req.body.firstName + ' ' + req.body.lastName
+	};
+
+	if(typeof req.body.appartmentNumber === 'object') {
+		updateObj.appartmentNumber = req.body.appartmentNumber.unitNumber;
+	} else {
+		updateObj.appartmentNumber = req.body.appartmentNumber;
+	}
+	User.update({_id: req.params.residentId}, updateObj, function(err, user) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		}
+		if(typeof req.body.appartmentNumber === 'object') {
+			Unit.findById(req.body.appartmentNumber._id).exec(function (err, unit) {
+				if (err) {
+					return res.status(400).send({
+						message: errorHandler.getErrorMessage(err)
+					});
+				}
+				unit.resident = req.params.residentId;
+				unit.save(function (err) {
+					if (err) {
+						return res.status(400).send({
+							message: errorHandler.getErrorMessage(err)
+						});
+					}
+					res.json(user);
+				});
+			});
+		} else {
+			res.json(user);
+		}
+	})
+};
+
+exports.deleteResident = function(req, res) {
+	User.findById(req.params.residentId).exec(function(err, user) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)

@@ -1,13 +1,8 @@
 <div class="gray-header-area"></div>
 <section data-ng-controller="UnitsController">
 	<div class="sub-container" style="margin-top: 20px;">
-		<ol class="breadcrumb" ng-if="authentication.user.roles.indexOf('admin')>-1">
-			<li><a href="#!/property_managers">Property Manager</a></li>
-			<li><a href="#!/properties_by_manager/{{property_manager._id}}/properties">{{property_manager.displayName}}</a></li>
-			<li class="active">{{property.propertyName}}</li>
-		</ol>
-		<ol class="breadcrumb" ng-if="authentication.user.roles.indexOf('pmanager')>-1">
-			<li><a href="#!/properties">Active properties</a></li>
+		<ol class="breadcrumb">
+			<li><a href="#!/properties">Properties</a></li>
 			<li class="active">{{property.propertyName}}</li>
 		</ol>
 		<div class="sub-header">
@@ -23,9 +18,12 @@
 				<table class="table table-hover" st-pipe="findUnits" st-table="units" st-safe-src="units">
 					<thead>
 					<tr>
-						<th>Number Of Unit</th>
+						<th>Unit #</th>
 						<th>Unit Address</th>
 						<th>Resident Name</th>
+						<th>Move in</th>
+						<th>Move out</th>
+						<th>Unit Status</th>
 						<th>Action</th>
 					</tr>
 					</thead>
@@ -34,28 +32,29 @@
 						<td>{{unit.unitNumber}}</td>
 						<td>{{unit.buildingNumber}}</td>
 						<td>
-							<a href="#!/properties/{{property._id}}/units/{{unit._id}}/{{unit.resident._id}}/insurances" ng-if="authentication.user.roles.indexOf('pmanager')>-1">
+							<a href="#!/properties/{{property._id}}/units/{{unit._id}}/{{unit.resident._id}}/insurances" ng-if="unit.resident">
 								{{unit.resident.displayName}}
 							</a>
-							<a href="#!/properties_by_manager/{{property_manager._id}}/properties/{{property._id}}/units/{{unit._id}}/{{unit.resident._id}}/insurances" ng-if="authentication.user.roles.indexOf('admin')>-1">
-								{{unit.resident.displayName}}
-							</a>
+							<button type="btn btn-default" ng-if="!unit.resident" ng-click="displayResidentModal(unit)">Add resident</button>
 						</td>
+						<td>{{unit.moveInDate | date: 'MMM d, yyyy'}}</td>
+						<td>{{unit.moveOutDate | date: 'MMM d, yyyy'}}</td>
+						<td></td>
 						<td>
-							<a href="" ng-click="openUnitModal(unit)">Edit</a> |
-							<a href="" ng-click="removeUnit(unit)">Remove</a>
+							<a href="" ng-click="removeUnit(unit)"><span class="glyphicon glyphicon-trash"></span></a> |
+							<a href="" ng-click="openUnitModal(unit)"><span class="glyphicon glyphicon-pencil"></span></a>
 						</td>
 					</tr>
 					</tbody>
 					<tfoot>
 					<tr>
-						<td class="text-center" colspan="4">
+						<td class="text-center" colspan="7">
 							<span class="pull-left" style="margin: 20px 0;">Total: {{totalItems}}</span>
 							<nav class="pull-right" ng-if="numberOfPages >= 2">
 								<ul class="pagination">
-									</li><li><a ng-click="selectPage(currentPage - 1)">&lt;</a>
-									</li><li><a>{{currentPage}} of {{numberOfPages}}</a>
-									</li><li><a ng-click="selectPage(currentPage + 1)">&gt;</a>
+									<li><a ng-click="selectPage(currentPage - 1)">&lt;</a></li>
+									<li><a>{{currentPage}} of {{numberOfPages}}</a></li>
+									<li><a ng-click="selectPage(currentPage + 1)">&gt;</a></li>
 								</ul>
 							</nav>
 						</td>

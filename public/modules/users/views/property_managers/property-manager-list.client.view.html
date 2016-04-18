@@ -21,12 +21,12 @@
 					</thead>
 					<tbody>
 					<tr ng-repeat="property_manager in property_managers">
-						<td><a href="#!/properties_by_manager/{{property_manager._id}}/properties">{{property_manager.displayName}}</a></td>
-						<td>{{property_manager.property_count}}</td>
+						<td>{{property_manager.displayName}}</td>
+						<td>{{property_manager.assigned_properties.length}}</td>
 						<td>{{property_manager.email}}</td>
 						<td>
-							<a href="" ng-click="openPropertyManagerModal(property_manager)">Edit</a> |
-							<a href="" ng-click="removePropertyManager(property_manager)">Remove</a>
+							<a href="" ng-click="removePropertyManager(property_manager)"><span class="glyphicon glyphicon-trash"></span></a> |
+							<a href="" ng-click="openPropertyManagerModal(property_manager)"><span class="glyphicon glyphicon-pencil"></span></a>
 						</td>
 					</tr>
 					</tbody>
@@ -36,9 +36,9 @@
 							<span class="pull-left" style="margin: 20px 0;">Total: {{totalItems}}</span>
 							<nav class="pull-right" ng-if="numberOfPages >= 2">
 								<ul class="pagination">
-									</li><li><a ng-click="selectPage(currentPage - 1)">&lt;</a>
-								</li><li><a>{{currentPage}} of {{numberOfPages}}</a>
-								</li><li><a ng-click="selectPage(currentPage + 1)">&gt;</a>
+									<li><a ng-click="selectPage(currentPage - 1)">&lt;</a></li>
+									<li><a>{{currentPage}} of {{numberOfPages}}</a></li>
+									<li><a ng-click="selectPage(currentPage + 1)">&gt;</a></li>
 								</ul>
 							</nav>
 						</td>

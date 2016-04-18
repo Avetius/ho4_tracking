@@ -1,43 +1,71 @@
 <div class="gray-header-area"></div>
 <section data-ng-controller="ManagerInsurancesController">
 	<div class="sub-container" style="margin-top: 20px;">
+		<alert ng-repeat="alert in alerts" type="success">{{alert.msg}}</alert>
 		<div class="sub-header">
-			<h3 class="pull-left">Recent Insurances</h3>
+			<h3 class="pull-left">Resident HO4 Coverage</h3>
 		</div>
 		<div class="clearfix"></div>
-		<div class="">
+		<div class="col-md-3 inner-addon right-addon">
+			<i class="glyphicon glyphicon-search"></i>
+			<input type="text" ng-model="search" class="form-control" ng-keypress="searchWithText($event)" placeholder="Search">
+		</div>
+		<div class="col-md-3 col-md-offset-6">
+			<select class="form-control" ng-model="insuranceFilter" ng-change="filterByInsuranceStatus(insuranceFilter)" ng-if="authentication.user.roles.indexOf('admin')>-1">
+				<option value="pending">Pending</option>
+				<option value="all">All</option>
+				<option value="expired">Expired</option>
+			</select>
+		</div>
+		<div style="padding-top: 30px;">
 			<div class="policy-list">
 				<div class="table-responsive">
 					<table class="table table-striped" st-pipe="findRecentInsurances" st-table="insurances" st-safe-src="insurances">
 						<thead>
 						<tr>
-							<th>Name of Insurance</th>
-							<th>Resident</th>
-							<th>Status</th>
-							<th>Expiration Date</th>
-							<th>Actions</th>
+							<th st-sort="propertyName">Property</th>
+							<th st-sort="unitNumber">Unit #</th>
+							<th st-sort="residentName">Resident Name</th>
+							<th st-sort="insuranceName">Coverage Name</th>
+							<th st-sort="policyEndDate">Expiration Date</th>
+							<th st-sort="status">Status</th>
+							<th>Certificate</th>
+							<th>Notes</th>
 						</tr>
 						</thead>
 						<tbody>
 						<tr ng-repeat="insurance in insurances">
-							<td>{{insurance.insuranceName}}</td>
-							<td>{{insurance.user.displayName}}</td>
-							<td>{{insurance.status}}</td>
-							<td>{{insurance.policyEndDate | date: 'MMM d, yyyy'}}</td>
+							<td ng-click="viewDetailRecentInsurance(insurance)">{{insurance.property.propertyName}}</td>
+							<td ng-click="viewDetailRecentInsurance(insurance)">{{insurance.unitNumber}}</td>
+							<td ng-click="viewDetailRecentInsurance(insurance)">{{insurance.user.displayName}}</td>
+							<td ng-click="viewDetailRecentInsurance(insurance)">{{insurance.insuranceName}}</td>
+							<td ng-click="viewDetailRecentInsurance(insurance)">{{insurance.policyEndDate | date: 'MMM d, yyyy'}}</td>
 							<td>
-								<a href="#!/recent_insurances/{{insurance._id}}">View Details</a>
+								<span ng-if="authentication.user.roles.indexOf('admin')<0">{{insurance.status}}</span>
+								<select class="form-control" ng-model="insurance.status" ng-change="updateInsuranceStatus(insurance)" ng-if="authentication.user.roles.indexOf('admin')>-1">
+									<option value="approved">Approved</option>
+									<option value="rejected">Rejected</option>
+									<option value="pending">Pending</option>
+									<option value="expired">Expired</option>
+								</select>
+							</td>
+							<td>
+								<a style="cursor: pointer;" ng-click="viewInsuranceCertificate(insurance.insuranceFilePath)"><span class="glyphicon glyphicon-file" ng-if="insurance.insuranceFilePath"></span></a>
+							</td>
+							<td>
+								<a style="cursor: pointer;" ng-click="viewInsuranceNotes(insurance.notes)"><span class="glyphicon glyphicon-list-alt" ng-if="insurance.notes"></span></a>
 							</td>
 						</tr>
 						</tbody>
 						<tfoot>
 						<tr>
-							<td class="text-center" colspan="5">
+							<td class="text-center" colspan="8">
 								<span class="pull-left" style="margin: 20px 0;">Total: {{totalItems}}</span>
 								<nav class="pull-right" ng-if="numberOfPages >= 2">
 									<ul class="pagination">
-										</li><li><a ng-click="selectPage(currentPage - 1)">&lt;</a>
-									</li><li><a>{{currentPage}} of {{numberOfPages}}</a>
-									</li><li><a ng-click="selectPage(currentPage + 1)">&gt;</a>
+										<li><a ng-click="selectPage(currentPage - 1)">&lt;</a></li>
+										<li><a>{{currentPage}} of {{numberOfPages}}</a></li>
+										<li><a ng-click="selectPage(currentPage + 1)">&gt;</a></li>
 									</ul>
 								</nav>
 							</td>

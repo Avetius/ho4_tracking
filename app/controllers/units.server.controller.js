@@ -112,7 +112,9 @@ exports.delete = function(req, res) {
  * List of Units
  */
 exports.list = function(req, res) {
-	Unit.find().sort('-created').populate('resident', 'displayName').exec(function(err, units) {
+	var query = {};
+	if(req.query.key) query = {unitNumber: {'$regex': req.query.key, '$options': 'i'}};
+	Unit.find(query).sort('-created').populate('resident', 'displayName').exec(function(err, units) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)

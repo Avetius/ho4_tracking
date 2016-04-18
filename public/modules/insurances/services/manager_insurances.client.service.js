@@ -37,9 +37,9 @@ angular.module('insurances').factory('ManagerInsurance', ['$q', '$filter', '$tim
 				});
 				return deferred.promise;
 			},
-			getRecentInsurances: function(start, number) {
+			getRecentInsurances: function(start, number, search, sort, filter) {
 				var deferred = $q.defer();
-				var url = '/recent_insurances?start=' + start + '&num=' + number;
+				var url = '/recent_insurances?start=' + start + '&num=' + number + '&search=' + search + '&sort=' + JSON.stringify(sort) + '&filter=' + filter;
 				$http.get(url).success(function (data) {
 					deferred.resolve({
 						data: data.insurances,
@@ -91,6 +91,29 @@ angular.module('insurances').factory('ManagerInsurance', ['$q', '$filter', '$tim
 				var deferred = $q.defer();
 				var data = JSON.stringify({status: insurance.status});
 				$http.post('/insurance_status/'+insurance._id, data).success(function (data) {
+					deferred.resolve({
+						data: data
+					});
+				}).error(function (msg, code) {
+					deferred.reject(msg);
+				});
+				return deferred.promise;
+			},
+			addNoteForInsuranceStatus: function(note) {
+				var deferred = $q.defer();
+				var data = JSON.stringify(note);
+				$http.post('/notes', data).success(function (data) {
+					deferred.resolve({
+						data: data
+					});
+				}).error(function (msg, code) {
+					deferred.reject(msg);
+				});
+				return deferred.promise;
+			},
+			removeInsurance: function(insuranceId) {
+				var deferred = $q.defer();
+				$http.delete('/resident_insurances/'+insuranceId).success(function (data) {
 					deferred.resolve({
 						data: data
 					});

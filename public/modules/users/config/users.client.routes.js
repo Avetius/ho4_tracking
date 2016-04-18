@@ -57,6 +57,10 @@ angular.module('users').config(['$stateProvider',
 		state('property_manager_list', {
 			url: '/property_managers',
 			templateUrl: 'modules/users/views/property_managers/property-manager-list.client.view.html'
+		}).
+		state('residents_list', {
+			url: '/residents',
+			templateUrl: 'modules/users/views/residents/resident-list.client.view.html'
 		});
 	}
 ]);

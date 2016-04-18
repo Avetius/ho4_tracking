@@ -198,6 +198,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 					// And redirect to the index page
 					$location.path('/insurances');
 				}).error(function(response) {
+					if(response.message === 'Username already exists') response.message = 'Email already exists';
 					$scope.error = response.message;
 				});
 			}
@@ -209,8 +210,8 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 				$scope.authentication.user = response;
 
 				// And redirect to the index page
-				if($scope.authentication.user.roles.indexOf('pmanager')> -1) $location.path('/properties');
-				else if($scope.authentication.user.roles.indexOf('admin')> -1) $location.path('/property_managers');
+				if($scope.authentication.user.roles.indexOf('pmanager')> -1) $location.path('/resident_insurances');
+				else if($scope.authentication.user.roles.indexOf('admin')> -1) $location.path('/resident_insurances');
 				else $location.path('/insurances');
 			}).error(function(response) {
 				$scope.error = response.message;

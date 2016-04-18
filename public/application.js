@@ -4,10 +4,11 @@
 angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfiguration.applicationModuleVendorDependencies);
 
 // Setting HTML5 Location Mode
-angular.module(ApplicationConfiguration.applicationModuleName).config(['$locationProvider', '$animateProvider',
-	function($locationProvider, $animateProvider) {
+angular.module(ApplicationConfiguration.applicationModuleName).config(['$locationProvider', '$animateProvider', 'LightboxProvider',
+	function($locationProvider, $animateProvider, LightboxProvider) {
 		$locationProvider.hashPrefix('!');
 		$animateProvider.classNameFilter(/carousel/);
+		LightboxProvider.fullScreenMode = true;
 	}
 ]);
 

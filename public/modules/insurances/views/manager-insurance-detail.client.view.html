@@ -20,7 +20,7 @@
 				{{insurance.insuranceName}}
 				<span class="label label-primary insurance-status-label" ng-if="insurance.status=='approved'">{{insurance.status}}</span>
 				<span class="label label-warning insurance-status-label" ng-if="insurance.status=='pending'">{{insurance.status}}</span>
-				<span class="label label-danger insurance-status-label" ng-if="insurance.status=='rejected'">{{insurance.status}}</span>
+				<span class="label label-danger insurance-status-label" ng-if="insurance.status=='rejected' || insurance.status=='expiring' || insurance.status=='expired'">{{insurance.status}}</span>
 			</h3>
 			<div class="pull-right">
 				<button type="button" class="btn btn-large btn-success btn-block" style="padding: 15px;" ng-click="openInsuranceModal(insurance)">Edit Insurance</button>
@@ -60,12 +60,15 @@
 				</div>
 				<div class="row" style="padding: 15px;">
 					<span class="col-sm-4 upper-letters" style="color: #7a7a7a; font-size: 11px;">Status</span>
-					<span ng-if="authentication.user.roles.indexOf('pmanager')>-1" class="col-sm-6 status-label" ng-style="insurance.status === 'approved' && {'color':'#5C8C45'} || insurance.status === 'pending' && {'color':'#f0ad4e'} || insurance.status === 'rejected' && {'color':'#d9534f'}">{{insurance.status}}</span>
+					<span ng-if="authentication.user.roles.indexOf('pmanager')>-1" class="col-sm-6 status-label"
+						  ng-style="insurance.status === 'approved' && {'color':'#5C8C45'} || insurance.status === 'pending' && {'color':'#f0ad4e'} || insurance.status === 'rejected' && {'color':'#d9534f'} || insurance.status === 'expiring' && {'color':'#d9534f'} || insurance.status === 'expired' && {'color':'#d9534f'}">{{insurance.status}}</span>
 					<div class="col-sm-6 " ng-if="authentication.user.roles.indexOf('admin')>-1">
 						<select class="form-control" ng-model="insurance.status" ng-change="updateInsuranceStatus(insurance)">
 							<option value="approved">Approved</option>
 							<option value="rejected">Rejected</option>
 							<option value="pending">Pending</option>
+							<option value="expiring">Expiring</option>
+							<option value="expired">Expired</option>
 						</select>
 					</div>
 				</div>

@@ -45,6 +45,9 @@ module.exports = {
 			css: [
 				'public/lib/bootstrap/dist/css/bootstrap.css',
 				'public/lib/bootstrap/dist/css/bootstrap-theme.css',
+				'public/lib/angular-material/angular-material.css',
+				'public/lib/angular-loading-bar/build/loading-bar.css',
+				'public/lib/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.css'
 			],
 			js: [
 				'public/lib/angular/angular.js',
@@ -53,9 +56,14 @@ module.exports = {
 				'public/lib/angular-ui-router/release/angular-ui-router.js',
 				'public/lib/angular-ui-utils/ui-utils.js',
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
+				'public/lib/angular-aria/angular-aria.js',
+				'public/lib/angular-material/angular-material.js',
 				'public/lib/ng-file-upload/ng-file-upload-shim.js',
 				'public/lib/ng-file-upload/ng-file-upload.js',
-				'public/lib/angular-smart-table/dist/smart-table.js'
+				'public/lib/angular-smart-table/dist/smart-table.js',
+				'public/lib/angular-touch/angular-touch.js',
+				'public/lib/angular-loading-bar/build/loading-bar.js',
+				'public/lib/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.js'
 			]
 		},
 		css: [

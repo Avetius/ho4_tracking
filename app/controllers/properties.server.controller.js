@@ -13,10 +13,8 @@ var mongoose = require('mongoose'),
  * Create a property
  */
 exports.create = function(req, res) {
+	req.body.propertyManager = req.body.propertyManager._id;
 	var property = new Property(req.body);
-	if(req.user.roles.indexOf('pmanager')>-1) {
-		property.propertyManager = req.user;
-	}
 	property.updated = Date.now();
 	property.save(function(err) {
 		if (err) {
@@ -41,7 +39,7 @@ exports.read = function(req, res) {
  */
 exports.update = function(req, res) {
 	var property = req.property;
-
+	req.body.propertyManager = req.body.propertyManager._id;
 	property = _.extend(property, req.body);
 	property.updated = Date.now();
 
@@ -79,9 +77,13 @@ exports.delete = function(req, res) {
 exports.list = function(req, res) {
 	var start = req.query.start;
 	var num = req.query.num;
+	var search = req.query.search || '';
+	var sort = JSON.parse(req.query.sort) || {};
 	var query = {};
+	if(search && search !== '') query = {propertyName: {'$regex': search, '$options': 'i'}};
 	if(req.user.roles.indexOf('pmanager')>-1) {
 		query = {propertyManager: req.user.id};
+		if(search && search !== '') query = {$and: [{propertyManager: req.user.id}, {propertyName: {'$regex': search, '$options': 'i'}}]};
 	}
 
 	if(req.query.propertyManagerId) {
@@ -89,7 +91,12 @@ exports.list = function(req, res) {
 	}
 
 	Property.count(query, function (err, count) {
-		Property.find(query).sort('-created').populate('propertyManager', 'displayName').limit(num).skip(start).exec(function (err, properties) {
+		var sortString = '-created';
+		if(sort.predicate) {
+			sortString = sort.predicate;
+			if(sort.reverse) sortString = '-' + sortString;
+		}
+		Property.find(query).sort(sortString).populate('propertyManager', 'displayName').limit(num).skip(start).exec(function (err, properties) {
 			if (err) {
 				return res.status(400).send({
 					message: errorHandler.getErrorMessage(err)
@@ -100,7 +107,9 @@ exports.list = function(req, res) {
 						res.json({count: count, properties: properties, property_manager: property_manager});
 					});
 				} else {
-					res.json({count: count, properties: properties, property_manager: null});
+					User.find({roles: 'pmanager'}).exec(function (err, managers) {
+						res.json({count: count, properties: properties, property_manager: null, managers: managers});
+					});
 				}
 			}
 		});

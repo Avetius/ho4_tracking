@@ -82,6 +82,16 @@ module.exports = function(app) {
 		.put(users.requiresLogin, users.isAdminUser, users.updatePropertyManager)
 		.delete(users.requiresLogin, users.isAdminUser, users.deletePropertyManager);
 
+	app.route('/residents')
+		.get(users.requiresLogin, users.isAdminUser, users.getAllResidentList)
+		.post(users.requiresLogin, users.isAdminUser, users.addResident);
+
+	app.route('/residents/:residentId')
+		.get(users.requiresLogin, users.isAdminUser, users.getResident)
+		.put(users.requiresLogin, users.isAdminUser, users.updateResident)
+		.delete(users.requiresLogin, users.isAdminUser, users.deleteResident);
+
+
 	// Finish by binding the user middleware
 	app.param('userId', users.userByID);
 };

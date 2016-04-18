@@ -16,6 +16,18 @@
 			<input type="email" id="email" name="email" class="form-control" data-ng-model="propertyManager.email" placeholder="Email">
 			<span class="text-danger text-left" ng-if="errorEmail">Please enter a valid email address.</span>
 		</div>
+		<div class="form-group no-margin">
+			<ul class="list-group">
+				<li class="list-group-item">Assigned Properties:</li>
+				<li class="list-group-item" ng-repeat="assigned_property in propertyManager.assigned_properties">
+					<a class="badge" ng-click="removeAssignedProperty(assigned_property, $index)"><span class="glyphicon glyphicon-remove"></span></a>
+					{{assigned_property.propertyName}}
+				</li>
+			</ul>
+			<select class="form-control" ng-options="property as property.propertyName for property in properties track by property._id" ng-model="new_property" ng-change="assignNewProperty(new_property)">
+
+			</select>
+		</div>
 		<div data-ng-show="error" class="text-center text-danger">
 			<strong data-ng-bind="error"></strong>
 		</div>

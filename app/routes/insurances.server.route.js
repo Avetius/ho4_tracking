@@ -15,8 +15,10 @@ module.exports = function(app) {
 		.post(users.requiresLogin, users.isPropertyManager, insurances.createResidentInsurances);
 
 	app.route('/resident_insurances/:propertyId/:unitId/:residentId/insurances/:insuranceId')
-		.get(users.requiresLogin, users.isPropertyManager, insurances.residentInsurance)
-	app.route('/resident_insurances/:insuranceId').put(users.requiresLogin, users.isPropertyManager, insurances.updateResidentInsurance);
+		.get(users.requiresLogin, users.isPropertyManager, insurances.residentInsurance);
+	app.route('/resident_insurances/:insuranceId')
+		.put(users.requiresLogin, users.isPropertyManager, insurances.updateResidentInsurance)
+		.delete(users.requiresLogin, users.isPropertyManager, insurances.removeInsurance);
 
 	app.route('/recent_insurances').get(users.requiresLogin, users.isAdminUser, insurances.recentInsurances);
 	app.route('/recent_insurances/:insuranceId')
@@ -24,6 +26,7 @@ module.exports = function(app) {
 
 	app.route('/insurance_status/:insuranceId')
 		.post(users.requiresLogin, users.isAdminUser, insurances.updateStatusInsurance);
+
 	// Finish by binding the user middleware
 	app.param('insuranceId', insurances.insuranceByID);
 };

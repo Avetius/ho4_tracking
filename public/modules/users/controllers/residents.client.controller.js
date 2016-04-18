@@ -1,8 +1,8 @@
 'use strict';
 
 // Property manager controller
-angular.module('users').controller('PropertyManagerController', ['$scope', '$stateParams', '$location', 'Authentication', 'PropertyManagers', '$modal', '$rootScope',
-	function($scope, $stateParams, $location, Authentication, PropertyManagers, $modal, $rootScope) {
+angular.module('users').controller('ResidentController', ['$scope', '$stateParams', '$location', 'Authentication', 'Residents', '$modal', '$rootScope',
+	function($scope, $stateParams, $location, Authentication, Residents, $modal, $rootScope) {
 		$scope.authentication = Authentication;
 
 		$scope.numberOfPages = 1;
@@ -27,45 +27,43 @@ angular.module('users').controller('PropertyManagerController', ['$scope', '$sta
 					sort: {}
 				};
 				$scope.currentPage = page;
-				$scope.findPropertyManagers(t);
+				$scope.findResidents(t);
 			}
 		};
 
-		$scope.findPropertyManagers = function(tableState) {
+		$scope.findResidents = function(tableState) {
 
 			var pagination = tableState.pagination;
 
 			var start = pagination.start || 0;
 			var number = pagination.number || 10;
-			PropertyManagers.getPage(start, number).then(function (result) {
-				$scope.property_managers = result.data;
-				$scope.properties = result.properties;
+			Residents.getPage(start, number).then(function (result) {
+				$scope.residents = result.data;
 				$scope.numberOfPages = result.numberOfPages;
 				$scope.totalItems = result.count;
 			});
 		};
 
-		$scope.removePropertyManager = function(property_manager) {
-			PropertyManagers.deletePropertyManager(property_manager).then(function (result) {
-				$scope.findPropertyManagers($scope.tableState);
+		$scope.removeResident = function(resident) {
+			Residents.deleteResident(resident).then(function (result) {
+				$scope.findResidents($scope.tableState);
 			});
 		};
 
-		$scope.openPropertyManagerModal = function(property_manager) {
+		$scope.openResidentModal = function(resident) {
 			var modalInstance = $modal.open({
-				templateUrl: 'modules/users/views/property_managers/property-manager-form.modal.html',
+				templateUrl: 'modules/users/views/residents/resident-form.modal.html',
 				scope: function () {
 					var scope = $rootScope.$new();
-					scope.propertyManager = property_manager || {};
-					scope.add_property_manager= !property_manager;
-					scope.properties = $scope.properties;
+					scope.resident = resident || {};
+					scope.add_resident = !resident;
 					return scope;
 				}(),
-				controller: 'PropertyManagerFormController'
+				controller: 'ResidentFormController'
 			});
 
 			modalInstance.result.then(function (selectedItem) {
-				$scope.findPropertyManagers($scope.tableState);
+				$scope.findResidents($scope.tableState);
 			}, function () {
 				console.log('Modal dismissed at: ' + new Date());
 			});

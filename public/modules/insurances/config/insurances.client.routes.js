@@ -36,6 +36,10 @@ angular.module('insurances').config(['$stateProvider',
 		state('viewInsuranceByManager', {
 			url: '/properties_by_manager/:propertyManagerId/properties/:propertyId/units/:unitId/:residentId/insurances/:insuranceId',
 			templateUrl: 'modules/insurances/views/manager-insurance-detail.client.view.html'
+		}).
+		state('listInsuranceForPropertyManager', {
+			url: '/resident_insurances',
+			templateUrl: 'modules/insurances/views/recent-insurance-list.client.view.html'
 		});
 	}
 ]);

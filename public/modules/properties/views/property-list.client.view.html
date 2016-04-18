@@ -1,64 +1,65 @@
 <div class="gray-header-area"></div>
 <section data-ng-controller="PropertiesController">
 	<div class="sub-container" style="margin-top: 20px;">
-		<ol class="breadcrumb" ng-if="authentication.user.roles.indexOf('admin')>-1">
-			<li><a href="#!/property_managers">Property Manager</a></li>
-			<li class="active">{{property_manager.displayName}}</li>
-		</ol>
 		<div class="sub-header">
-			<h3 class="pull-left" ng-if="authentication.user.roles.indexOf('pmanager')>-1">Active properties</h3>
-			<h3 class="pull-left" ng-if="authentication.user.roles.indexOf('admin')>-1">Properties</h3>
+			<h3 class="pull-left">Properties</h3>
 			<div class="pull-right">
-				<button type="button" class="btn btn-large btn-success btn-block" style="padding: 15px;" ng-click="openPropertyModal()">Add new property</button>
+				<button type="button" class="btn btn-large btn-success btn-block" style="padding: 15px;" ng-click="openPropertyModal()" ng-if="authentication.user.roles.indexOf('admin')>-1">Add new property</button>
 			</div>
 		</div>
 		<div class="clearfix"></div>
-		<div class="maincontent-area">
-			<div class="table-responsive">
-				<table class="table table-hover" st-pipe="findProperties" st-table="properties" st-safe-src="properties">
-					<thead>
-					<tr>
-						<th>Property Name</th>
-						<th ng-if="authentication.user.roles.indexOf('admin')>-1">Property Manager</th>
-						<th>Amount of Units</th>
-						<th>State</th>
-						<th ng-if="authentication.user.roles.indexOf('pmanager')>-1">Phone number</th>
-						<th>Last modified</th>
-						<th>Action</th>
-					</tr>
-					</thead>
-					<tbody>
-					<tr ng-repeat="property in properties">
-						<td>
-							<a href="#!/properties_by_manager/{{property_manager._id}}/properties/{{property._id}}/units" ng-if="authentication.user.roles.indexOf('admin')>-1">{{property.propertyName}}</a>
-							<a href="#!/properties/{{property._id}}/units" ng-if="authentication.user.roles.indexOf('pmanager')>-1">{{property.propertyName}}</a>
-						</td>
-						<td ng-if="authentication.user.roles.indexOf('admin')>-1">{{property.propertyManager.displayName}}</td>
-						<td>{{property.totalUnits}}</td>
-						<td>{{property.state}}</td>
-						<td ng-if="authentication.user.roles.indexOf('pmanager')>-1">{{property.phoneNumber}}</td>
-						<td>{{property.updated | date: 'MMM d, yyyy'}}</td>
-						<td>
-							<a href="" ng-click="openPropertyModal(property)">Edit</a> |
-							<a href="" ng-click="removeProperty(property)">Remove</a>
-						</td>
-					</tr>
-					</tbody>
-					<tfoot>
-					<tr>
-						<td class="text-center" colspan="6">
-							<span class="pull-left" style="margin: 20px 0;">Total: {{totalItems}}</span>
-							<nav class="pull-right" ng-if="numberOfPages >= 2">
-								<ul class="pagination">
-									</li><li><a ng-click="selectPage(currentPage - 1)">&lt;</a>
-									</li><li><a>{{currentPage}} of {{numberOfPages}}</a>
-									</li><li><a ng-click="selectPage(currentPage + 1)">&gt;</a>
-								</ul>
-							</nav>
-						</td>
-					</tr>
-					</tfoot>
-				</table>
+		<div class="col-md-3 inner-addon right-addon">
+			<i class="glyphicon glyphicon-search"></i>
+			<input type="text" ng-model="search" class="form-control" ng-keypress="searchWithText($event)" placeholder="Search">
+		</div>
+		<div  style="padding-top: 30px;">
+			<div class="maincontent-area">
+				<div class="table-responsive">
+					<table class="table table-hover" st-pipe="findProperties" st-table="properties" st-safe-src="properties">
+						<thead>
+						<tr>
+							<th st-sort="propertyName">Property Name</th>
+							<th ng-if="authentication.user.roles.indexOf('admin')>-1">Property Manager</th>
+							<th st-sort="state">State</th>
+							<th st-sort="phoneNumber" ng-if="authentication.user.roles.indexOf('pmanager')>-1">Phone</th>
+							<th st-sort="totalUnits">Units</th>
+							<th st-sort="updated">Last modified</th>
+							<th ng-if="authentication.user.roles.indexOf('admin')>-1">Action</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr ng-repeat="property in properties">
+							<td>
+								<a href="#!/properties_by_manager/{{property_manager._id}}/properties/{{property._id}}/units" ng-if="authentication.user.roles.indexOf('admin')>-1">{{property.propertyName}}</a>
+								<a href="#!/properties/{{property._id}}/units" ng-if="authentication.user.roles.indexOf('pmanager')>-1">{{property.propertyName}}</a>
+							</td>
+							<td ng-if="authentication.user.roles.indexOf('admin')>-1">{{property.propertyManager.displayName}}</td>
+							<td>{{property.state}}</td>
+							<td>{{property.phoneNumber}}</td>
+							<td ng-if="authentication.user.roles.indexOf('pmanager')>-1">{{property.phoneNumber}}</td>
+							<td>{{property.updated | date: 'MMM d, yyyy'}}</td>
+							<td ng-if="authentication.user.roles.indexOf('admin')>-1">
+								<a href="" ng-click="removeProperty(property)"><span class="glyphicon glyphicon-trash"></span></a> |
+								<a href="" ng-click="openPropertyModal(property)"><span class="glyphicon glyphicon-pencil"></span></a>
+							</td>
+						</tr>
+						</tbody>
+						<tfoot>
+						<tr>
+							<td class="text-center" colspan="7">
+								<span class="pull-left" style="margin: 20px 0;">Total: {{totalItems}}</span>
+								<nav class="pull-right" ng-if="numberOfPages >= 2">
+									<ul class="pagination">
+										</li><li><a ng-click="selectPage(currentPage - 1)">&lt;</a>
+										</li><li><a>{{currentPage}} of {{numberOfPages}}</a>
+										</li><li><a ng-click="selectPage(currentPage + 1)">&gt;</a>
+									</ul>
+								</nav>
+							</td>
+						</tr>
+						</tfoot>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>

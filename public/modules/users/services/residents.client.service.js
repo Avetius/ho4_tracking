@@ -1,15 +1,14 @@
 'use strict';
 
-angular.module('users').factory('PropertyManagers', ['$q', '$filter', '$timeout', '$http',
+angular.module('users').factory('Residents', ['$q', '$filter', '$timeout', '$http',
 	function ($q, $filter, $timeout, $http) {
 		return {
 			//Get orders by page and search values
 			getPage: function (start, number) {
 				var deferred = $q.defer();
-				$http.get('/property_managers?start=' + start + '&num=' + number).success(function (data) {
+				$http.get('/residents?start=' + start + '&num=' + number).success(function (data) {
 					deferred.resolve({
-						data: data.property_managers,
-						properties: data.properties,
+						data: data.residents,
 						numberOfPages: Math.ceil(data.count / number),
 						count: data.count
 					});
@@ -18,9 +17,9 @@ angular.module('users').factory('PropertyManagers', ['$q', '$filter', '$timeout'
 				});
 				return deferred.promise;
 			},
-			getPropertyManager: function(propertyManagerId) {
+			getResident: function(residentId) {
 				var deferred = $q.defer();
-				$http.get('/property_managers/'+propertyManagerId).success(function (data) {
+				$http.get('/residents/'+residentId).success(function (data) {
 					deferred.resolve({
 						data: data
 					});
@@ -29,10 +28,10 @@ angular.module('users').factory('PropertyManagers', ['$q', '$filter', '$timeout'
 				});
 				return deferred.promise;
 			},
-			savePropertyManager: function (property_manager) {
+			saveResident: function (resident) {
 				var deferred = $q.defer();
-				var data = JSON.stringify(property_manager);
-				$http.put('/property_managers/'+property_manager._id, data).success(function (data) {
+				var data = JSON.stringify(resident);
+				$http.put('/residents/'+resident._id, data).success(function (data) {
 					deferred.resolve({
 						data: data
 					});
@@ -41,9 +40,9 @@ angular.module('users').factory('PropertyManagers', ['$q', '$filter', '$timeout'
 				});
 				return deferred.promise;
 			},
-			deletePropertyManager: function (property_manager) {
+			deleteResident: function (resident) {
 				var deferred = $q.defer();
-				$http.delete('/property_managers/'+property_manager._id).success(function (data) {
+				$http.delete('/residents/'+resident._id).success(function (data) {
 					deferred.resolve({
 						data: data
 					});
@@ -52,10 +51,21 @@ angular.module('users').factory('PropertyManagers', ['$q', '$filter', '$timeout'
 				});
 				return deferred.promise;
 			},
-			addPropertyManager: function (property_manager) {
+			addResident: function (resident) {
 				var deferred = $q.defer();
-				var data = JSON.stringify(property_manager);
-				$http.post('/property_managers', data).success(function (data) {
+				var data = JSON.stringify(resident);
+				$http.post('/residents', data).success(function (data) {
+					deferred.resolve({
+						data: data
+					});
+				}).error(function (msg, code) {
+					deferred.reject(msg);
+				});
+				return deferred.promise;
+			},
+			getUnits: function(key) {
+				var deferred = $q.defer();
+				$http.get('/units?key='+key).success(function (data) {
 					deferred.resolve({
 						data: data
 					});

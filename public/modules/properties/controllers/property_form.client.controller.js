@@ -21,9 +21,6 @@ angular.module('properties').controller('PropertyFormController', ['$scope', '$l
 			if(invalidItems == 0) {
 				if($scope.add_property) {
 					var property = new Properties($scope.property);
-					if($scope.authentication.user.roles.indexOf('admin')>-1) {
-						property.propertyManager = $scope.property_manager._id;
-					}
 					// Redirect after save
 					property.$save(function(response) {
 						$modalInstance.close(response);
@@ -39,6 +36,10 @@ angular.module('properties').controller('PropertyFormController', ['$scope', '$l
 					});
 				}
 			}
+		};
+
+		$scope.openPropertyManagerModalForProperty = function () {
+			$modalInstance.close({manager_modal: true});
 		};
 
 		$scope.cancel = function () {

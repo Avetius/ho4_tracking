@@ -1,7 +1,8 @@
 'use strict';
 
 // Insurances controller
-angular.module('insurances').controller('InsurancesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Insurances', '$modal', '$rootScope',
+angular.module('insurances').controller('InsurancesController', ['$scope', '$stateParams', '$location',
+	'Authentication', 'Insurances', '$modal', '$rootScope',
 	function($scope, $stateParams, $location, Authentication, Insurances, $modal, $rootScope) {
 		$scope.authentication = Authentication;
 

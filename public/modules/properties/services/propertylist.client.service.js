@@ -5,18 +5,19 @@ angular.module('properties').factory('PropertySmartList', ['$q', '$filter', '$ti
 	function ($q, $filter, $timeout, $http) {
 		return {
 			//Get orders by page and search values
-			getPage: function (start, number, propertyManagerId) {
+			getPage: function (start, number, propertyManagerId, search, sort) {
 				var deferred = $q.defer();
-				var url = '/properties?start=' + start + '&num=' + number;
+				var url = '/properties?start=' + start + '&num=' + number + '&search=' + search + '&sort=' + JSON.stringify(sort);
 				if(propertyManagerId) {
-					url = '/properties?start=' + start + '&num=' + number + '&propertyManagerId=' + propertyManagerId;
+					url = '/properties?start=' + start + '&num=' + number + '&propertyManagerId=' + propertyManagerId + '&search=' + search + '&sort=' + JSON.stringify(sort);
 				}
 				$http.get(url).success(function (data) {
 					deferred.resolve({
 						data: data.properties,
 						property_manager: data.property_manager,
 						numberOfPages: Math.ceil(data.count / number),
-						count: data.count
+						count: data.count,
+						managers: data.managers
 					});
 				}).error(function (msg, code) {
 					deferred.reject(msg);

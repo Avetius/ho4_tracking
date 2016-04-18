@@ -15,7 +15,8 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 				numberOfPages: $scope.numberOfPages,
 				start: 0
 			},
-			search: {}
+			search: null,
+			sort: null
 		};
 
 		$scope.selectPage = function (page) {
@@ -32,16 +33,21 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 		};
 
 		$scope.findProperties = function(tableState) {
-
+			$scope.tableState.sort = tableState.sort;
 			var pagination = tableState.pagination;
 			var propertyManagerId = $stateParams.propertyManagerId || null;
 			var start = pagination.start || 0;
 			var number = pagination.number || 10;
-			PropertySmartList.getPage(start, number, propertyManagerId).then(function (result) {
+			var search = tableState.search;
+			if(typeof search === 'object') search = '';
+			var sort = tableState.sort || '';
+			if(!sort.predicate) sort = '';
+			PropertySmartList.getPage(start, number, propertyManagerId, search, sort).then(function (result) {
 				$scope.properties = result.data;
 				$scope.numberOfPages = result.numberOfPages;
 				$scope.totalItems = result.count;
 				$scope.property_manager = result.property_manager;
+				$scope.managers = result.managers;
 			});
 		};
 
@@ -60,9 +66,34 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 					scope.property = property || {};
 					scope.property_manager = $scope.property_manager;
 					scope.add_property= !property;
+					scope.managers = $scope.managers;
 					return scope;
 				}(),
 				controller: 'PropertyFormController'
+			});
+
+			modalInstance.result.then(function (selectedItem) {
+				if(selectedItem.manager_modal) {
+					$scope.openPropertyManagerModal();
+				} else {
+					$scope.findProperties($scope.tableState);
+				}
+			}, function () {
+				console.log('Modal dismissed at: ' + new Date());
+			});
+		};
+
+		$scope.openPropertyManagerModal = function() {
+			var modalInstance = $modal.open({
+				templateUrl: 'modules/users/views/property_managers/property-manager-form.modal.html',
+				scope: function () {
+					var scope = $rootScope.$new();
+					scope.propertyManager = {};
+					scope.add_property_manager= true;
+					scope.properties = [];
+					return scope;
+				}(),
+				controller: 'PropertyManagerFormController'
 			});
 
 			modalInstance.result.then(function (selectedItem) {
@@ -71,5 +102,12 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 				console.log('Modal dismissed at: ' + new Date());
 			});
 		};
+
+		$scope.searchWithText = function(e) {
+			if (e.keyCode == 13) {
+				$scope.tableState.search = $scope.search;
+				$scope.findProperties($scope.tableState);
+			}
+		}
 	}
 ]);
