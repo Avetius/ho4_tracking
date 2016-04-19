@@ -5,23 +5,44 @@
 	<p class="col-md-12 text-center" style="font-size: 1em; color: #7a7a7a;">Register for an account below</p>
 
 	<div class="col-md-offset-4 col-md-4 signup-wizard-area">
-		<div id="status-buttons" class="text-center">
-			<a ui-sref-active="active" ui-sref=".user_info">
-				1. Basic info
-				<span class="glyphicon glyphicon-record" aria-hidden="true" ng-if="!finishUserInfoStep"></span>
-				<span class="glyphicon glyphicon-ok-sign complete-icon" aria-hidden="true" ng-if="finishUserInfoStep"></span>
-			</a>
-			<a ui-sref-active="active" ui-sref=".account_info">
-				2. Account info
-				<span class="glyphicon glyphicon-record" aria-hidden="true" ng-if="!finishAccountInfoStep"></span>
-				<span class="glyphicon glyphicon-ok-sign complete-icon" aria-hidden="true" ng-if="finishAccountInfoStep"></span>
-			</a>
-			<a ui-sref-active="active" ui-sref=".policy_info">3. Policy info<span class="glyphicon glyphicon-record" aria-hidden="true"></span></a>
-		</div>
-
 		<form id="signup-form" name="signupForm" ng-submit="signup()">
-			<!-- our nested state views will be injected here -->
-			<div id="form-views" ui-view></div>
+			<div class="form-group no-margin">
+				<input type="text" id="firstName" name="firstName" class="form-control" data-ng-model="credentials.firstName" placeholder="First Name">
+				<span class="text-danger text-left" ng-if="errorFirstName">Please enter your first name.</span>
+			</div>
+			<div class="form-group no-margin">
+				<input type="text" id="lastName" name="lastName" class="form-control" data-ng-model="credentials.lastName" placeholder="Last Name">
+				<span class="text-danger text-left" ng-if="errorLastName">Please enter your last name.</span>
+			</div>
+			<div class="form-group no-margin">
+				<input type="email" id="email" name="email" class="form-control" data-ng-model="credentials.email" placeholder="Email">
+				<span class="text-danger text-left" ng-if="errorEmail">Please enter a valid email address.</span>
+			</div>
+			<div class="form-group no-margin">
+				<input type="email" id="confirm_email" name="confirm_email" class="form-control" data-ng-model="credentials.confirm_email" placeholder="Confirm Email">
+				<span class="text-danger text-left" ng-if="errorConfirmEmail">Please enter a valid email address.</span>
+			</div>
+			<div class="form-group inner-addon right-addon no-margin">
+				<i class="glyphicon glyphicon-lock gray-color"></i>
+				<input type="password" id="password" name="password" class="form-control" data-ng-model="credentials.password" placeholder="Password">
+				<span class="text-danger text-left" ng-if="errorPassword">Please enter password.</span>
+			</div>
+			<div class="form-group no-margin">
+				<input type="password" id="confirm_password" name="confirm_password" class="form-control" data-ng-model="credentials.confirm_password" placeholder="Confirm Password">
+				<span class="text-danger text-left" ng-if="errorConfirmPassword">Please enter confirm password.</span>
+			</div>
+			<div class="form-group inner-addon right-addon no-margin">
+				<i class="glyphicon glyphicon-question-sign gray-color"></i>
+				<input type="text" required id="property_code" name="property_code" class="form-control" data-ng-model="credentials.propertyID" placeholder="Property Code">
+				<span class="text-danger text-left" ng-if="errorPropertyCode">Please enter property code.</span>
+			</div>
+			<div class="form-group no-margin">
+				<input type="text" id="unit_num" name="unit_num" class="form-control" data-ng-model="credentials.appartmentNumber" placeholder="Apartment/Unit Number">
+				<span class="text-danger text-left" ng-if="errorUnitNum">Please enter unit number.</span>
+			</div>
+			<div class="text-center form-group">
+				<button type="submit" class="btn btn-large btn-success btn-block" style="padding: 15px;">Sign up</button>
+			</div>
 			<div data-ng-show="error" class="text-center text-danger">
 				<strong data-ng-bind="error"></strong>
 			</div>

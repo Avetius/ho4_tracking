@@ -67,6 +67,9 @@ var PropertySchema = new Schema({
 	city: {
 		type: String
 	},
+	country: {
+		type: String
+	},
 	streetAddress: {
 		type: String
 	},

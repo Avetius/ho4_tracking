@@ -13,7 +13,7 @@ var mongoose = require('mongoose'),
  * Create a property
  */
 exports.create = function(req, res) {
-	req.body.propertyManager = req.body.propertyManager._id;
+	if(req.body.propertyManager) req.body.propertyManager = req.body.propertyManager._id;
 	var property = new Property(req.body);
 	property.updated = Date.now();
 	property.save(function(err) {
@@ -39,7 +39,7 @@ exports.read = function(req, res) {
  */
 exports.update = function(req, res) {
 	var property = req.property;
-	req.body.propertyManager = req.body.propertyManager._id;
+	if(req.body.propertyManager) req.body.propertyManager = req.body.propertyManager._id;
 	property = _.extend(property, req.body);
 	property.updated = Date.now();
 

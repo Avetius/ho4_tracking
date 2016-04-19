@@ -24,6 +24,7 @@
 					{{assigned_property.propertyName}}
 				</li>
 			</ul>
+			<label>Assign Additional Properties</label>
 			<select class="form-control" ng-options="property as property.propertyName for property in properties track by property._id" ng-model="new_property" ng-change="assignNewProperty(new_property)">
 
 			</select>

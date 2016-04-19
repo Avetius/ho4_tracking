@@ -21,7 +21,7 @@
 					</thead>
 					<tbody>
 					<tr ng-repeat="resident in residents">
-						<td>{{resident.displayName}}</td>
+						<td><a href="#!/residents/{{resident._id}}/insurances">{{resident.displayName}}</a></td>
 						<td>{{resident.policy_count}}</td>
 						<td>{{resident.email}}</td>
 						<td>

@@ -78,6 +78,20 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 			});
 		};
 
+		$scope.findResidentInsurances = function(tableState) {
+			$scope.tableState.sort = tableState.sort;
+			var pagination = tableState.pagination;
+			var start = pagination.start || 0;
+			var number = pagination.number || 10;
+
+			ManagerInsurance.getResidentInsurances(start, number, $scope.residentId).then(function(result) {
+				$scope.numberOfPages = result.numberOfPages;
+				$scope.totalItems = result.count;
+				$scope.insurances = result.data;
+				$scope.resident = result.resident;
+			});
+		};
+
 		$scope.displayFullViewImage = function() {
 			var images = [{
 				url: $scope.insurance.insuranceFilePath

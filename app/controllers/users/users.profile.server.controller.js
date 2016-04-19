@@ -161,6 +161,9 @@ exports.getPolicies = function(req, res) {
 
 exports.createPolicy = function(req, res) {
 	var policy = new Policy(req.body);
+	if(typeof req.body.unitNumber === 'object') {
+		policy.unitNumber = req.body.unitNumber.unitNumber;
+	}
 	policy.user = req.user;
 	policy.updated = Date.now();
 	policy.save(function(err) {
@@ -204,6 +207,9 @@ exports.updatePolicy = function(req, res) {
 		}
 
 		policy = _.extend(policy, req.body);
+		if(typeof req.body.unitNumber === 'object') {
+			policy.unitNumber = req.body.unitNumber.unitNumber;
+		}
 		policy.updated = Date.now();
 		policy.save(function(err) {
 			if (err) {

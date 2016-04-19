@@ -20,6 +20,9 @@ module.exports = function(app) {
 		.put(users.requiresLogin, users.isPropertyManager, insurances.updateResidentInsurance)
 		.delete(users.requiresLogin, users.isPropertyManager, insurances.removeInsurance);
 
+	app.route('/resident_insurance_list/:residentId')
+		.get(users.requiresLogin, users.isAdminUser, insurances.residentInsuranceList);
+
 	app.route('/recent_insurances').get(users.requiresLogin, users.isAdminUser, insurances.recentInsurances);
 	app.route('/recent_insurances/:insuranceId')
 		.get(users.requiresLogin, users.isAdminUser, insurances.recentInsuranceDetail);

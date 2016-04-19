@@ -1,8 +1,9 @@
 'use strict';
 
 // Insurances controller
-angular.module('insurances').controller('ManagerInsuranceFormController', ['$scope', '$location', 'Authentication', 'Upload', 'ManagerInsurance', '$modalInstance',
-	function($scope, $location, Authentication, Upload, ManagerInsurance, $modalInstance) {
+angular.module('insurances').controller('ManagerInsuranceFormController', ['$scope', '$location', 'Authentication',
+	'Upload', 'ManagerInsurance', '$modalInstance', 'Residents',
+	function($scope, $location, Authentication, Upload, ManagerInsurance, $modalInstance, Residents) {
 		$scope.authentication = Authentication;
 
 		var now = new Date();
@@ -133,6 +134,12 @@ angular.module('insurances').controller('ManagerInsuranceFormController', ['$sco
 
 		$scope.cancel = function () {
 			$modalInstance.dismiss('cancel');
-		}
+		};
+
+		$scope.getUnits = function(val) {
+			return Residents.getUnits(val).then(function(response){
+				return response.data;
+			});
+		};
 	}
 ]);

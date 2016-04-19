@@ -144,53 +144,49 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 
 		$scope.signup = function() {
 			var invalidItems = 0;
-			$scope.errorInsuranceName = false;
-			$scope.errorInsurerName = false;
-			$scope.errorUnitNumber = false;
-			$scope.errorPolicyHolderName = false;
-			$scope.errorPolicyName = false;
-			$scope.errorPolicyNumber = false;
-			$scope.errorPolicyStartDate = false;
-			$scope.errorPolicyEndDate = false;
-			$scope.errorInsuranceFile = false;
-			/*if(!$scope.credentials.insuranceName || $scope.credentials.insuranceName == "") {
-				$scope.errorInsuranceName = true;
+			$scope.errorFirstName = false;
+			$scope.errorLastName = false;
+			$scope.errorEmail = false;
+			$scope.errorConfirmEmail = false;
+			$scope.errorPassword = false;
+			$scope.errorConfirmPassword = false;
+			$scope.errorPropertyCode = false;
+			$scope.errorUnitNum = false;
+			if(!$scope.credentials.firstName || $scope.credentials.firstName == "") {
+				$scope.errorFirstName = true;
 				invalidItems++;
 			}
-			if(!$scope.credentials.insurerName || $scope.credentials.insurerName == "") {
-				$scope.errorInsurerName = true;
+			if(!$scope.credentials.lastName || $scope.credentials.lastName == "") {
+				$scope.errorLastName = true;
 				invalidItems++;
 			}
-			if(!$scope.credentials.unitNumber || $scope.credentials.unitNumber == "") {
-				$scope.errorUnitNumber = true;
+			if(!$scope.credentials.email || $scope.credentials.email == "" || !validateEmail($scope.credentials.email)) {
+				$scope.errorEmail = true;
 				invalidItems++;
 			}
-			if(!$scope.credentials.policyHolderName || $scope.credentials.policyHolderName == "") {
-				$scope.errorPolicyHolderName = true;
+			if(!$scope.credentials.confirm_email || $scope.credentials.confirm_email == "" ||
+				!validateEmail($scope.credentials.confirm_email) || $scope.credentials.email != $scope.credentials.confirm_email) {
+				$scope.errorConfirmEmail = true;
 				invalidItems++;
 			}
-			if(!$scope.credentials.policyName || $scope.credentials.policyName == "") {
-				$scope.errorPolicyName = true;
+			if(!$scope.credentials.password || $scope.credentials.password == "") {
+				$scope.errorPassword = true;
 				invalidItems++;
 			}
-			if(!$scope.credentials.policyNumber || $scope.credentials.policyNumber == "") {
-				$scope.errorPolicyNumber = true;
+			if(!$scope.credentials.confirm_password || $scope.credentials.confirm_password == "" || $scope.credentials.password != $scope.credentials.confirm_password) {
+				$scope.errorConfirmPassword = true;
 				invalidItems++;
 			}
-			if(!$scope.credentials.policyStartDate || $scope.credentials.policyStartDate == "") {
-				$scope.errorPolicyStartDate = true;
+			if(!$scope.credentials.propertyID || $scope.credentials.propertyID == "") {
+				$scope.errorPropertyCode = true;
 				invalidItems++;
 			}
-			if(!$scope.credentials.policyEndDate || $scope.credentials.policyEndDate == "") {
-				$scope.errorPolicyEndDate = true;
+			if(!$scope.credentials.appartmentNumber || $scope.credentials.appartmentNumber == "") {
+				$scope.errorUnitNum = true;
 				invalidItems++;
 			}
-			if(!$scope.credentials.insuranceFilePath || $scope.credentials.insuranceFilePath == "") {
-				$scope.errorInsuranceFile = true;
-				invalidItems++;
-			}*/
 
-			if(invalidItems == 0 && $scope.finishUserInfoStep && $scope.finishAccountInfoStep) {
+			if(invalidItems == 0) {
 				$http.post('/auth/signup', $scope.credentials).success(function(response) {
 					// If successful we assign the response to the global user model
 					$scope.authentication.user = response;

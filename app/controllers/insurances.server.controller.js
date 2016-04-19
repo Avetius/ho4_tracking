@@ -66,6 +66,22 @@ exports.residentInsurances = function(req, res) {
 	});
 };
 
+exports.residentInsuranceList = function(req, res) {
+	Policy.count({user: req.params.residentId}, function (err, count) {
+		Profile.findOne({user: req.params.residentId}).populate('user').exec(function(err, profile) {
+			Policy.find({user: req.params.residentId}).sort('-created').populate('user', 'displayName').exec(function (err, insurances) {
+				if (err) {
+					return res.status(400).send({
+						message: errorHandler.getErrorMessage(err)
+					});
+				} else {
+					res.json({count: count, insurances: insurances, resident: profile});
+				}
+			});
+		});
+	});
+};
+
 exports.residentInsurance = function(req, res) {
 	if(req.query.propertyManagerId) {
 		User.findById(req.query.propertyManagerId).exec(function (err, property_manager) {
@@ -78,6 +94,9 @@ exports.residentInsurance = function(req, res) {
 
 exports.createResidentInsurances = function(req, res) {
 	var policy = new Policy(req.body);
+	if(typeof req.body.unitNumber === 'object') {
+		policy.unitNumber = req.body.unitNumber.unitNumber;
+	}
 	policy.user = req.params.residentId;
 	policy.updated = Date.now();
 	policy.save(function(err) {
@@ -105,6 +124,9 @@ exports.updateResidentInsurance = function(req, res) {
 		}
 
 		policy = _.extend(policy, req.body);
+		if(typeof req.body.unitNumber === 'object') {
+			policy.unitNumber = req.body.unitNumber.unitNumber;
+		}
 		policy.updated = Date.now();
 		policy.save(function(err) {
 			if (err) {
@@ -265,7 +287,12 @@ exports.recentInsurances = function(req, res) {
 };
 
 exports.recentInsuranceDetail = function(req, res) {
-	res.json({insurance: req.insurance});
+	var insurance = req.insurance;
+	Note.find({policy: insurance._id}).exec(function(err, notes) {
+		insurance = insurance.toObject()
+		insurance.notes = notes;
+		res.json({insurance: insurance});
+	});
 };
 
 exports.updateStatusInsurance = function(req, res) {

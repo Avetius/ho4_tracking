@@ -62,6 +62,21 @@ angular.module('insurances').factory('ManagerInsurance', ['$q', '$filter', '$tim
 				});
 				return deferred.promise;
 			},
+			getResidentInsurances: function(start, number, residentId) {
+				var deferred = $q.defer();
+				var url = '/resident_insurance_list/'+residentId+'?start=' + start + '&num=' + number;
+				$http.get(url).success(function (data) {
+					deferred.resolve({
+						data: data.insurances,
+						numberOfPages: Math.ceil(data.count / number),
+						count: data.count,
+						resident: data.resident
+					});
+				}).error(function (msg, code) {
+					deferred.reject(msg);
+				});
+				return deferred.promise;
+			},
 			saveInsurance: function (propertyId, unitId, residentId, insurance) {
 				var deferred = $q.defer();
 				delete insurance.user;
