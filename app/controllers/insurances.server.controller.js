@@ -69,14 +69,16 @@ exports.residentInsurances = function(req, res) {
 exports.residentInsuranceList = function(req, res) {
 	Policy.count({user: req.params.residentId}, function (err, count) {
 		Profile.findOne({user: req.params.residentId}).populate('user').exec(function(err, profile) {
-			Policy.find({user: req.params.residentId}).sort('-created').populate('user', 'displayName').exec(function (err, insurances) {
-				if (err) {
-					return res.status(400).send({
-						message: errorHandler.getErrorMessage(err)
-					});
-				} else {
-					res.json({count: count, insurances: insurances, resident: profile});
-				}
+			Unit.findOne({resident: req.params.residentId}).populate('property').exec(function(err, unit) {
+				Policy.find({user: req.params.residentId}).sort('-created').populate('user', 'displayName').exec(function (err, insurances) {
+					if (err) {
+						return res.status(400).send({
+							message: errorHandler.getErrorMessage(err)
+						});
+					} else {
+						res.json({count: count, insurances: insurances, resident: profile, unit: unit});
+					}
+				});
 			});
 		});
 	});

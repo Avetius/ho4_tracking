@@ -97,7 +97,7 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 			});
 
 			modalInstance.result.then(function (selectedItem) {
-				$scope.findProperties($scope.tableState);
+				$scope.openPropertyModal();
 			}, function () {
 				console.log('Modal dismissed at: ' + new Date());
 			});

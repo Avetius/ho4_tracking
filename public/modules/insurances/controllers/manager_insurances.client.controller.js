@@ -89,6 +89,7 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 				$scope.totalItems = result.count;
 				$scope.insurances = result.data;
 				$scope.resident = result.resident;
+				$scope.unit = result.unit;
 			});
 		};
 
@@ -173,6 +174,27 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 			});
 		};
 
+		$scope.openResidentInsuranceModal = function() {
+			var modalInstance = $modal.open({
+				templateUrl: 'modules/insurances/views/insurance-form.modal.html',
+				size: 'lg',
+				scope: function () {
+					var scope = $rootScope.$new();
+					scope.insurance = {};
+					scope.add_insurance = true;
+					scope.residentId = $scope.residentId;
+					return scope;
+				}(),
+				controller: 'ManagerInsuranceFormController'
+			});
+
+			modalInstance.result.then(function (selectedItem) {
+				$scope.findResidentInsurances($scope.tableState);
+			}, function () {
+				console.log('Modal dismissed at: ' + new Date());
+			});
+		};
+
 		$scope.alerts = [];
 		$scope.updateInsuranceStatus = function(insurance) {
 			if(insurance.status === 'approved') {
@@ -218,8 +240,7 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 		};
 
 		$scope.viewDetailRecentInsurance = function(insurance, evt) {
-			if($scope.authentication.user.roles.indexOf('admin') > -1)
-				$location.path('recent_insurances/' + insurance._id);
+			$location.path('recent_insurances/' + insurance._id);
 		};
 
 		$scope.removeInsurance = function(insuranceId, index) {

@@ -7,7 +7,12 @@
 			<li class="active">{{resident.user.displayName}}</li>
 		</ol>
 		<div class="sub-header">
+			<p>Unit#: {{unit.unitNumber}}</p>
+			<p>Property Name: {{unit.property.propertyName}}</p>
 			<h3 class="pull-left">Resident HO4 Coverage</h3>
+			<div class="pull-right">
+				<button type="button" class="btn btn-large btn-success" style="padding: 15px;" ng-click="openResidentInsuranceModal()">Add Insurance Certificate</button>
+			</div>
 		</div>
 		<div class="clearfix"></div>
 

@@ -47,7 +47,8 @@ angular.module('units').controller('UnitFormController', ['$scope', '$location',
 			if(invalidItems == 0) {
 				if($scope.add_unit) {
 					// Redirect after save
-					$scope.unit.resident = $scope.unit.resident._id;
+					if($scope.unit.resident)
+						$scope.unit.resident = $scope.unit.resident._id;
 					Units.addUnit($scope.unit, $scope.propertyId).then(function(response) {
 						$modalInstance.close(response);
 					}, function(errorResponse) {
@@ -65,6 +66,10 @@ angular.module('units').controller('UnitFormController', ['$scope', '$location',
 
 		$scope.cancel = function () {
 			$modalInstance.dismiss('cancel');
-		}
+		};
+
+		$scope.openResidentModalForUnit = function() {
+			$modalInstance.close({resident_modal: true});
+		};
 	}
 ]);

@@ -21,7 +21,8 @@ module.exports = function(app) {
 		.delete(users.requiresLogin, users.isPropertyManager, insurances.removeInsurance);
 
 	app.route('/resident_insurance_list/:residentId')
-		.get(users.requiresLogin, users.isAdminUser, insurances.residentInsuranceList);
+		.get(users.requiresLogin, users.isAdminUser, insurances.residentInsuranceList)
+		.post(users.requiresLogin, users.isPropertyManager, insurances.createResidentInsurances);
 
 	app.route('/recent_insurances').get(users.requiresLogin, users.isAdminUser, insurances.recentInsurances);
 	app.route('/recent_insurances/:insuranceId')

@@ -89,7 +89,11 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 				});
 
 				modalInstance.result.then(function (selectedItem) {
-					$scope.findUnits($scope.tableState);
+					if(selectedItem.resident_modal) {
+						$scope.openResidentModal();
+					} else {
+						$scope.findUnits($scope.tableState);
+					}
 				}, function () {
 					console.log('Modal dismissed at: ' + new Date());
 				});
@@ -110,6 +114,25 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 
 			modalInstance.result.then(function (selectedItem) {
 				$scope.findUnits($scope.tableState);
+			}, function () {
+				console.log('Modal dismissed at: ' + new Date());
+			});
+		};
+
+		$scope.openResidentModal = function() {
+			var modalInstance = $modal.open({
+				templateUrl: 'modules/users/views/residents/resident-form.modal.html',
+				scope: function () {
+					var scope = $rootScope.$new();
+					scope.resident =  {};
+					scope.add_resident = true;
+					return scope;
+				}(),
+				controller: 'ResidentFormController'
+			});
+
+			modalInstance.result.then(function (selectedItem) {
+				$scope.openUnitModal();
 			}, function () {
 				console.log('Modal dismissed at: ' + new Date());
 			});

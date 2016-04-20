@@ -70,7 +70,8 @@ angular.module('insurances').factory('ManagerInsurance', ['$q', '$filter', '$tim
 						data: data.insurances,
 						numberOfPages: Math.ceil(data.count / number),
 						count: data.count,
-						resident: data.resident
+						resident: data.resident,
+						unit: data.unit
 					});
 				}).error(function (msg, code) {
 					deferred.reject(msg);
@@ -93,7 +94,7 @@ angular.module('insurances').factory('ManagerInsurance', ['$q', '$filter', '$tim
 			addInsurance: function (propertyId, unitId, residentId, insurance) {
 				var deferred = $q.defer();
 				var data = JSON.stringify(insurance);
-				$http.post('/resident_insurances/'+propertyId+'/'+unitId  +'/'+residentId + '/insurances', data).success(function (data) {
+				$http.post('/resident_insurance_list/'+residentId, data).success(function (data) {
 					deferred.resolve({
 						data: data
 					});

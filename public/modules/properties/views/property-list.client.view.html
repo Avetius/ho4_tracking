@@ -18,12 +18,12 @@
 					<table class="table table-hover" st-pipe="findProperties" st-table="properties" st-safe-src="properties">
 						<thead>
 						<tr>
-							<th st-sort="propertyName">Property Name</th>
+							<th style="cursor: pointer" st-sort="propertyName">Property Name</th>
 							<th ng-if="authentication.user.roles.indexOf('admin')>-1">Property Manager</th>
-							<th st-sort="state">State</th>
-							<th st-sort="phoneNumber" ng-if="authentication.user.roles.indexOf('pmanager')>-1">Phone</th>
-							<th st-sort="totalUnits">Units</th>
-							<th st-sort="updated">Last modified</th>
+							<th style="cursor: pointer" st-sort="state">State</th>
+							<th style="cursor: pointer" st-sort="phoneNumber" ng-if="authentication.user.roles.indexOf('pmanager')>-1">Phone</th>
+							<th>Units</th>
+							<th style="cursor: pointer" st-sort="updated">Last modified</th>
 							<th ng-if="authentication.user.roles.indexOf('admin')>-1">Action</th>
 						</tr>
 						</thead>

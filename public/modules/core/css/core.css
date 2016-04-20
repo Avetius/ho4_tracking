@@ -422,11 +422,24 @@ body.ng-cloak
 	padding: 20px;
 }
 
-.st-sort-ascent:before {
+table thead th {
+	position: relative;
+}
+
+table thead th.sorting:after,
+table thead th.st-sort-ascent:after,
+table thead th.st-sort-descent:after {
+	position: absolute;
+	top: 7px;
+	right: 8px;
+	display: block;
+}
+
+.st-sort-ascent:after {
 	content: '\25B2';
 }
 
-.st-sort-descent:before {
+.st-sort-descent:after {
 	content: '\25BC';
 }
 

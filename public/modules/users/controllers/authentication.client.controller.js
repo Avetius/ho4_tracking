@@ -147,9 +147,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 			$scope.errorFirstName = false;
 			$scope.errorLastName = false;
 			$scope.errorEmail = false;
-			$scope.errorConfirmEmail = false;
 			$scope.errorPassword = false;
-			$scope.errorConfirmPassword = false;
 			$scope.errorPropertyCode = false;
 			$scope.errorUnitNum = false;
 			if(!$scope.credentials.firstName || $scope.credentials.firstName == "") {
@@ -164,17 +162,8 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 				$scope.errorEmail = true;
 				invalidItems++;
 			}
-			if(!$scope.credentials.confirm_email || $scope.credentials.confirm_email == "" ||
-				!validateEmail($scope.credentials.confirm_email) || $scope.credentials.email != $scope.credentials.confirm_email) {
-				$scope.errorConfirmEmail = true;
-				invalidItems++;
-			}
 			if(!$scope.credentials.password || $scope.credentials.password == "") {
 				$scope.errorPassword = true;
-				invalidItems++;
-			}
-			if(!$scope.credentials.confirm_password || $scope.credentials.confirm_password == "" || $scope.credentials.password != $scope.credentials.confirm_password) {
-				$scope.errorConfirmPassword = true;
 				invalidItems++;
 			}
 			if(!$scope.credentials.propertyID || $scope.credentials.propertyID == "") {
