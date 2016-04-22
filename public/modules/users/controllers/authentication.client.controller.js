@@ -149,7 +149,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 			$scope.errorEmail = false;
 			$scope.errorPassword = false;
 			$scope.errorPropertyCode = false;
-			$scope.errorUnitNum = false;
+
 			if(!$scope.credentials.firstName || $scope.credentials.firstName == "") {
 				$scope.errorFirstName = true;
 				invalidItems++;
@@ -168,10 +168,6 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 			}
 			if(!$scope.credentials.propertyID || $scope.credentials.propertyID == "") {
 				$scope.errorPropertyCode = true;
-				invalidItems++;
-			}
-			if(!$scope.credentials.appartmentNumber || $scope.credentials.appartmentNumber == "") {
-				$scope.errorUnitNum = true;
 				invalidItems++;
 			}
 

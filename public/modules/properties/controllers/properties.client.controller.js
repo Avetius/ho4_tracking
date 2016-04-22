@@ -1,8 +1,9 @@
 'use strict';
 
 // Properties controller
-angular.module('properties').controller('PropertiesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Properties', 'PropertySmartList', '$modal', '$rootScope',
-	function($scope, $stateParams, $location, Authentication, Properties, PropertySmartList, $modal, $rootScope) {
+angular.module('properties').controller('PropertiesController', ['$scope', '$stateParams', '$location', 'Authentication',
+	'Properties', 'PropertySmartList', '$modal', '$rootScope', 'prompt',
+	function($scope, $stateParams, $location, Authentication, Properties, PropertySmartList, $modal, $rootScope, prompt) {
 		$scope.authentication = Authentication;
 
 		$scope.numberOfPages = 1;
@@ -52,8 +53,13 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 		};
 
 		$scope.removeProperty = function(property) {
-			PropertySmartList.deleteProperty(property).then(function (result) {
-				$scope.findProperties($scope.tableState);
+			prompt({
+				title: 'Confirmation',
+				message: 'Are you sure, that you want to remove this property?'
+			}).then(function(){
+				PropertySmartList.deleteProperty(property).then(function (result) {
+					$scope.findProperties($scope.tableState);
+				});
 			});
 		};
 

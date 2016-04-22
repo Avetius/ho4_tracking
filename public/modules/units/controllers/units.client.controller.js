@@ -1,8 +1,9 @@
 'use strict';
 
 // Units controller
-angular.module('units').controller('UnitsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Units', '$modal', '$rootScope',
-	function($scope, $stateParams, $location, Authentication, Units, $modal, $rootScope) {
+angular.module('units').controller('UnitsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Units',
+	'$modal', '$rootScope', 'prompt',
+	function($scope, $stateParams, $location, Authentication, Units, $modal, $rootScope, prompt) {
 		$scope.authentication = Authentication;
 		$scope.propertyId = $stateParams.propertyId;
 		$scope.propertyManagerId = $stateParams.propertyManagerId;
@@ -48,8 +49,13 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 		};
 
 		$scope.removeUnit = function(unit) {
-			Units.deleteUnit(unit).then(function (result) {
-				$scope.findUnits($scope.tableState);
+			prompt({
+				title: 'Confirmation',
+				message: 'Are you sure, that you want to remove this unit?'
+			}).then(function() {
+				Units.deleteUnit(unit).then(function (result) {
+					$scope.findUnits($scope.tableState);
+				});
 			});
 		};
 

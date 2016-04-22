@@ -63,7 +63,8 @@ module.exports = {
 				'public/lib/angular-smart-table/dist/smart-table.js',
 				'public/lib/angular-touch/angular-touch.js',
 				'public/lib/angular-loading-bar/build/loading-bar.js',
-				'public/lib/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.js'
+				'public/lib/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.js',
+				'public/lib/angular-prompt/dist/angular-prompt.js'
 			]
 		},
 		css: [

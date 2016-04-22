@@ -1,8 +1,9 @@
 'use strict';
 
 // Property manager controller
-angular.module('users').controller('ResidentController', ['$scope', '$stateParams', '$location', 'Authentication', 'Residents', '$modal', '$rootScope',
-	function($scope, $stateParams, $location, Authentication, Residents, $modal, $rootScope) {
+angular.module('users').controller('ResidentController', ['$scope', '$stateParams', '$location', 'Authentication',
+	'Residents', '$modal', '$rootScope', 'prompt',
+	function($scope, $stateParams, $location, Authentication, Residents, $modal, $rootScope, prompt) {
 		$scope.authentication = Authentication;
 
 		$scope.numberOfPages = 1;
@@ -45,8 +46,13 @@ angular.module('users').controller('ResidentController', ['$scope', '$stateParam
 		};
 
 		$scope.removeResident = function(resident) {
-			Residents.deleteResident(resident).then(function (result) {
-				$scope.findResidents($scope.tableState);
+			prompt({
+				title: 'Confirmation',
+				message: 'Are you sure, that you want to remove this resident?'
+			}).then(function() {
+				Residents.deleteResident(resident).then(function (result) {
+					$scope.findResidents($scope.tableState);
+				});
 			});
 		};
 

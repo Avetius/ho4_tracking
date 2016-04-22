@@ -30,7 +30,7 @@
 						<tbody>
 						<tr ng-repeat="property in properties">
 							<td>
-								<a href="#!/properties_by_manager/{{property_manager._id}}/properties/{{property._id}}/units" ng-if="authentication.user.roles.indexOf('admin')>-1">{{property.propertyName}}</a>
+								<a href="#!/properties_by_manager/{{property.propertyManager._id}}/properties/{{property._id}}/units" ng-if="authentication.user.roles.indexOf('admin')>-1">{{property.propertyName}}</a>
 								<a href="#!/properties/{{property._id}}/units" ng-if="authentication.user.roles.indexOf('pmanager')>-1">{{property.propertyName}}</a>
 							</td>
 							<td ng-if="authentication.user.roles.indexOf('admin')>-1">{{property.propertyManager.displayName}}</td>

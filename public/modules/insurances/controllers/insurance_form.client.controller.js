@@ -54,82 +54,31 @@ angular.module('insurances').controller('InsuranceFormController', ['$scope', '$
 		};
 
 		$scope.saveInsurance = function () {
-			var invalidItems = 0;
-			$scope.errorInsuranceName = false;
-			$scope.errorInsurerName = false;
-			$scope.errorUnitNumber = false;
-			$scope.errorPolicyHolderName = false;
-			$scope.errorPolicyName = false;
-			$scope.errorPolicyNumber = false;
-			$scope.errorPolicyStartDate = false;
-			$scope.errorPolicyEndDate = false;
-			$scope.errorInsuranceFile = false;
-			if(!$scope.insurance.insuranceName || $scope.insurance.insuranceName == "") {
-				$scope.errorInsuranceName = true;
-				invalidItems++;
-			}
-			if(!$scope.insurance.insurerName || $scope.insurance.insurerName == "") {
-				$scope.errorInsurerName = true;
-				invalidItems++;
-			}
-			if(!$scope.insurance.unitNumber || $scope.insurance.unitNumber == "") {
-				$scope.errorUnitNumber = true;
-				invalidItems++;
-			}
-			if(!$scope.insurance.policyHolderName || $scope.insurance.policyHolderName == "") {
-				$scope.errorPolicyHolderName = true;
-				invalidItems++;
-			}
-			if(!$scope.insurance.policyName || $scope.insurance.policyName == "") {
-				$scope.errorPolicyName = true;
-				invalidItems++;
-			}
-			if(!$scope.insurance.policyNumber || $scope.insurance.policyNumber == "") {
-				$scope.errorPolicyNumber = true;
-				invalidItems++;
-			}
-			if(!$scope.insurance.policyStartDate || $scope.insurance.policyStartDate == "") {
-				$scope.errorPolicyStartDate = true;
-				invalidItems++;
-			}
-			if(!$scope.insurance.policyEndDate || $scope.insurance.policyEndDate == "") {
-				$scope.errorPolicyEndDate = true;
-				invalidItems++;
-			}
-			if(!$scope.insurance.insuranceFilePath || $scope.insurance.insuranceFilePath == "") {
-				$scope.errorInsuranceFile = true;
-				invalidItems++;
-			}
+			if($scope.add_insurance) {
+				var insurance = new Insurances({
+					insuranceName: $scope.insurance.insuranceName,
+					unitNumber: $scope.insurance.unitNumber,
+					policyHolderName: $scope.insurance.policyHolderName,
+					policyNumber: $scope.insurance.policyNumber,
+					policyStartDate: $scope.insurance.policyStartDate,
+					policyEndDate: $scope.insurance.policyEndDate,
+					insuranceFilePath: $scope.insurance.insuranceFilePath
+				});
 
-			if(invalidItems == 0) {
-				if($scope.add_insurance) {
-					var insurance = new Insurances({
-						insuranceName: $scope.insurance.insuranceName,
-						insurerName: $scope.insurance.insurerName,
-						unitNumber: $scope.insurance.unitNumber,
-						policyHolderName: $scope.insurance.policyHolderName,
-						policyName: $scope.insurance.policyName,
-						policyNumber: $scope.insurance.policyNumber,
-						policyStartDate: $scope.insurance.policyStartDate,
-						policyEndDate: $scope.insurance.policyEndDate,
-						insuranceFilePath: $scope.insurance.insuranceFilePath
-					});
+				// Redirect after save
+				insurance.$save(function(response) {
+					$modalInstance.close(response);
+				}, function(errorResponse) {
+					$scope.error = errorResponse.data.message;
+				});
+			} else {
+				var insurance = $scope.insurance;
 
-					// Redirect after save
-					insurance.$save(function(response) {
-						$modalInstance.close(response);
-					}, function(errorResponse) {
-						$scope.error = errorResponse.data.message;
-					});
-				} else {
-					var insurance = $scope.insurance;
-
-					insurance.$update(function() {
-						$modalInstance.close({insurance: $scope.insurance});
-					}, function(errorResponse) {
-						$scope.error = errorResponse.data.message;
-					});
-				}
+				insurance.$update(function() {
+					$modalInstance.close({insurance: $scope.insurance});
+				}, function(errorResponse) {
+					$scope.error = errorResponse.data.message;
+				});
 			}
 		};
 

@@ -165,6 +165,8 @@ exports.createPolicy = function(req, res) {
 		policy.unitNumber = req.body.unitNumber.unitNumber;
 	}
 	policy.user = req.user;
+	if(policy.insuranceFilePath && policy.insuranceFilePath !== '') policy.status = 'pending';
+	else policy.status = 'incomplete';
 	policy.updated = Date.now();
 	policy.save(function(err) {
 		if (err) {
@@ -210,6 +212,8 @@ exports.updatePolicy = function(req, res) {
 		if(typeof req.body.unitNumber === 'object') {
 			policy.unitNumber = req.body.unitNumber.unitNumber;
 		}
+		if(policy.insuranceFilePath && policy.insuranceFilePath !== '') policy.status = 'pending';
+		else policy.status = 'incomplete';
 		policy.updated = Date.now();
 		policy.save(function(err) {
 			if (err) {

@@ -18,7 +18,7 @@ exports.read = function(req, res) {
 
 exports.createNote = function(req, res) {
 	var note = new Note(req.body);
-	note.user = req.user;
+	note.editor = req.user;
 	note.save(function(err) {
 		if (err) {
 			return res.status(400).send({

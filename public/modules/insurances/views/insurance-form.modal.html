@@ -5,12 +5,8 @@
 <div class="modal-body row">
 	<div class="col-md-6">
 		<div class="form-group no-margin">
-			<input type="text" id="insuranceName" name="insuranceName" class="form-control" data-ng-model="insurance.insuranceName" placeholder="Name of Insurance">
-			<span class="text-danger text-left" ng-if="errorInsuranceName">Please enter insurance name.</span>
-		</div>
-		<div class="form-group no-margin">
-			<input type="text" id="insurerName" name="insurerName" class="form-control" data-ng-model="insurance.insurerName" placeholder="Insurer's Name">
-			<span class="text-danger text-left" ng-if="errorInsurerName">Please enter insurer name.</span>
+			<input type="text" id="insuranceName" name="insuranceName" class="form-control" data-ng-model="insurance.insuranceName" placeholder="Insurance Company">
+			<span class="text-danger text-left" ng-if="errorInsuranceName">Please enter insurance company.</span>
 		</div>
 		<div class="form-group no-margin" ng-if="authentication.user.roles.indexOf('admin')>-1 || authentication.user.roles.indexOf('pmanager')>-1">
 			<input type="text" ng-model="insurance.unitNumber" placeholder="Unit #" typeahead="unit as unit.unitNumber for unit in getUnits($viewValue)" typeahead-loading="loadingUnits" class="form-control">
@@ -24,10 +20,6 @@
 		<div class="form-group no-margin">
 			<input type="text" id="policyHolderName" name="policyHolderName" class="form-control" data-ng-model="insurance.policyHolderName" placeholder="Policy's Holder Name">
 			<span class="text-danger text-left" ng-if="errorPolicyHolderName">Please enter policy's holder name.</span>
-		</div>
-		<div class="form-group no-margin">
-			<input type="text" id="policyName" name="policyName" class="form-control" data-ng-model="insurance.policyName" placeholder="Policy Name">
-			<span class="text-danger text-left" ng-if="errorPolicyName">Please enter policy name.</span>
 		</div>
 		<div class="form-group no-margin">
 			<input type="text" id="policyNumber" name="policyNumber" class="form-control" data-ng-model="insurance.policyNumber" placeholder="Policy Number">

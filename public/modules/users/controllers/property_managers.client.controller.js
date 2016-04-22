@@ -1,8 +1,9 @@
 'use strict';
 
 // Property manager controller
-angular.module('users').controller('PropertyManagerController', ['$scope', '$stateParams', '$location', 'Authentication', 'PropertyManagers', '$modal', '$rootScope',
-	function($scope, $stateParams, $location, Authentication, PropertyManagers, $modal, $rootScope) {
+angular.module('users').controller('PropertyManagerController', ['$scope', '$stateParams', '$location', 'Authentication',
+	'PropertyManagers', '$modal', '$rootScope', 'prompt',
+	function($scope, $stateParams, $location, Authentication, PropertyManagers, $modal, $rootScope, prompt) {
 		$scope.authentication = Authentication;
 
 		$scope.numberOfPages = 1;
@@ -46,8 +47,13 @@ angular.module('users').controller('PropertyManagerController', ['$scope', '$sta
 		};
 
 		$scope.removePropertyManager = function(property_manager) {
-			PropertyManagers.deletePropertyManager(property_manager).then(function (result) {
-				$scope.findPropertyManagers($scope.tableState);
+			prompt({
+				title: 'Confirmation',
+				message: 'Are you sure, that you want to remove this property manager?'
+			}).then(function() {
+				PropertyManagers.deletePropertyManager(property_manager).then(function (result) {
+					$scope.findPropertyManagers($scope.tableState);
+				});
 			});
 		};
 

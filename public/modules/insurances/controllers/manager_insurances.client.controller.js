@@ -2,8 +2,8 @@
 
 // Insurances controller
 angular.module('insurances').controller('ManagerInsurancesController', ['$scope', '$stateParams', '$location', 'Authentication',
-	'ManagerInsurance', '$modal', '$rootScope', '$timeout', 'Lightbox',
-	function($scope, $stateParams, $location, Authentication, ManagerInsurance, $modal, $rootScope, $timeout, Lightbox) {
+	'ManagerInsurance', '$modal', '$rootScope', '$timeout', 'Lightbox', 'prompt',
+	function($scope, $stateParams, $location, Authentication, ManagerInsurance, $modal, $rootScope, $timeout, Lightbox, prompt) {
 		$scope.authentication = Authentication;
 		$scope.propertyId = $stateParams.propertyId;
 		$scope.unitId = $stateParams.unitId;
@@ -197,7 +197,17 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 
 		$scope.alerts = [];
 		$scope.updateInsuranceStatus = function(insurance) {
-			if(insurance.status === 'approved') {
+			var modalInstance = $modal.open({
+				templateUrl: 'modules/insurances/views/note-form.modal.html',
+				scope: function () {
+					var scope = $rootScope.$new();
+					scope.insurance = insurance;
+					return scope;
+				}(),
+				controller: 'NoteFormController'
+			});
+
+			modalInstance.result.then(function (selectedItem) {
 				ManagerInsurance.updateStatusInsurance(insurance).then(function(response) {
 					if(response.data.success) {
 						var alert = {
@@ -207,36 +217,12 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 						$timeout(function(){
 							$scope.alerts.splice($scope.alerts.indexOf(alert), 1);
 						}, 2500);
+						$scope.findRecentInsurances($scope.tableState);
 					}
 				});
-			} else {
-				var modalInstance = $modal.open({
-					templateUrl: 'modules/insurances/views/note-form.modal.html',
-					scope: function () {
-						var scope = $rootScope.$new();
-						scope.insurance = insurance;
-						return scope;
-					}(),
-					controller: 'NoteFormController'
-				});
-
-				modalInstance.result.then(function (selectedItem) {
-					ManagerInsurance.updateStatusInsurance(insurance).then(function(response) {
-						if(response.data.success) {
-							var alert = {
-								msg: 'Status updated successfully.'
-							};
-							$scope.alerts.push(alert);
-							$timeout(function(){
-								$scope.alerts.splice($scope.alerts.indexOf(alert), 1);
-							}, 2500);
-							$scope.findRecentInsurances($scope.tableState);
-						}
-					});
-				}, function () {
-					console.log('Modal dismissed at: ' + new Date());
-				});
-			}
+			}, function () {
+				console.log('Modal dismissed at: ' + new Date());
+			});
 		};
 
 		$scope.viewDetailRecentInsurance = function(insurance, evt) {
@@ -244,15 +230,20 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 		};
 
 		$scope.removeInsurance = function(insuranceId, index) {
-			ManagerInsurance.removeInsurance(insuranceId).then(function(response) {
-				$scope.insurances.splice(index, 1);
-				var alert = {
-					msg: 'Insurance has been removed successfully.'
-				};
-				$scope.alerts.push(alert);
-				$timeout(function(){
-					$scope.alerts.splice($scope.alerts.indexOf(alert), 1);
-				}, 2500);
+			prompt({
+				title: 'Confirmation',
+				message: 'Are you sure, that you want to remove this insurance?'
+			}).then(function() {
+				ManagerInsurance.removeInsurance(insuranceId).then(function (response) {
+					$scope.insurances.splice(index, 1);
+					var alert = {
+						msg: 'Insurance has been removed successfully.'
+					};
+					$scope.alerts.push(alert);
+					$timeout(function () {
+						$scope.alerts.splice($scope.alerts.indexOf(alert), 1);
+					}, 2500);
+				});
 			});
 		};
 

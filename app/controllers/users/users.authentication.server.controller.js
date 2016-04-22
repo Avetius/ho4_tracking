@@ -28,8 +28,7 @@ exports.signup = function(req, res) {
 		lastName: residentObj.lastName,
 		email: residentObj.email,
 		password: residentObj.password,
-		propertyID: residentObj.propertyID,
-		appartmentNumber: residentObj.appartmentNumber
+		propertyID: residentObj.propertyID
 	});
 	var message = null;
 
