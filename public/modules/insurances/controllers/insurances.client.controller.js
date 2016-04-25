@@ -13,9 +13,14 @@ angular.module('insurances').controller('InsurancesController', ['$scope', '$sta
 			});
 
 		};
-
+		$scope.policies = [];
 		$scope.findPolicies = function() {
-			if($scope.authentication.user) $scope.policies = Insurances.query();
+			if($scope.authentication.user) {
+				Insurances.query({}, function(data) {
+					$scope.policies = data;
+					if(data.length == 0) $scope.openInsuranceModal();
+				});
+			}
 		};
 
 		$scope.openInsuranceModal = function(insurance) {

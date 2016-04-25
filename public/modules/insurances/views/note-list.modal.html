@@ -7,7 +7,7 @@
 		<table st-table="policies" class="table table-striped">
 			<thead>
 			<tr>
-				<th>Name of Insurance</th>
+				<th>Subject</th>
 				<th>Date</th>
 				<th>Created By</th>
 				<th>Content</th>
@@ -17,7 +17,7 @@
 			<tr ng-repeat="note in notes">
 				<td>{{note.subject}}</td>
 				<td>{{note.created | date: 'MMM d, yyyy'}}</td>
-				<td>{{note.user.displayName}}</td>
+				<td>{{note.editor.displayName}}</td>
 				<td>{{note.content}}</td>
 			</tr>
 			</tbody>

@@ -37,7 +37,7 @@
 						<tr ng-repeat="insurance in insurances">
 							<td ng-click="viewDetailRecentInsurance(insurance)">{{insurance.property.propertyName}}</td>
 							<td ng-click="viewDetailRecentInsurance(insurance)">{{insurance.unitNumber}}</td>
-							<td ng-click="viewDetailRecentInsurance(insurance)">{{insurance.user.displayName}}</td>
+							<td><a ng-click="openResidentEditor(insurance.user)">{{insurance.user.displayName}}</a></td>
 							<td ng-click="viewDetailRecentInsurance(insurance)">{{insurance.insuranceName}}</td>
 							<td ng-click="viewDetailRecentInsurance(insurance)">{{insurance.policyEndDate | date: 'MMM d, yyyy'}}</td>
 							<td>

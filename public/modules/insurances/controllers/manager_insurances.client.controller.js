@@ -257,6 +257,7 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 		$scope.viewInsuranceNotes = function(notes) {
 			var modalInstance = $modal.open({
 				templateUrl: 'modules/insurances/views/note-list.modal.html',
+				size: 'lg',
 				scope: function () {
 					var scope = $rootScope.$new();
 					scope.notes = notes;
@@ -276,6 +277,25 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 			$scope.tableState.filter = insuranceFilter;
 			console.log($scope.tableState);
 			$scope.findRecentInsurances($scope.tableState);
-		}
+		};
+
+		$scope.openResidentEditor = function(resident) {
+			var modalInstance = $modal.open({
+				templateUrl: 'modules/users/views/residents/resident-form.modal.html',
+				scope: function () {
+					var scope = $rootScope.$new();
+					scope.resident = resident || {};
+					scope.add_resident = false;
+					return scope;
+				}(),
+				controller: 'ResidentFormController'
+			});
+
+			modalInstance.result.then(function (selectedItem) {
+				$scope.findRecentInsurances($scope.tableState);
+			}, function () {
+				console.log('Modal dismissed at: ' + new Date());
+			});
+		};
 	}
 ]);

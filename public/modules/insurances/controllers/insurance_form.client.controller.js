@@ -82,6 +82,48 @@ angular.module('insurances').controller('InsuranceFormController', ['$scope', '$
 			}
 		};
 
+		$scope.submitInsurance = function () {
+			var invalidItems = 0;
+			$scope.errorPolicyHolderName = false;
+			$scope.errorInsuranceFile = false;
+			if(!$scope.insurance.policyHolderName || $scope.insurance.policyHolderName === '') {
+				$scope.errorPolicyHolderName = true;
+				invalidItems++;
+			}
+			if(!$scope.insurance.insuranceFilePath || $scope.insurance.insuranceFilePath === '') {
+				$scope.errorInsuranceFile = true;
+				invalidItems++;
+			}
+			if(invalidItems === 0) {
+				if($scope.add_insurance) {
+					var insurance = new Insurances({
+						insuranceName: $scope.insurance.insuranceName,
+						unitNumber: $scope.insurance.unitNumber,
+						policyHolderName: $scope.insurance.policyHolderName,
+						policyNumber: $scope.insurance.policyNumber,
+						policyStartDate: $scope.insurance.policyStartDate,
+						policyEndDate: $scope.insurance.policyEndDate,
+						insuranceFilePath: $scope.insurance.insuranceFilePath
+					});
+
+					// Redirect after save
+					insurance.$save(function(response) {
+						$modalInstance.close(response);
+					}, function(errorResponse) {
+						$scope.error = errorResponse.data.message;
+					});
+				} else {
+					var insurance = $scope.insurance;
+
+					insurance.$update(function() {
+						$modalInstance.close({insurance: $scope.insurance});
+					}, function(errorResponse) {
+						$scope.error = errorResponse.data.message;
+					});
+				}
+			}
+		};
+
 		$scope.cancel = function () {
 			$modalInstance.dismiss('cancel');
 		};

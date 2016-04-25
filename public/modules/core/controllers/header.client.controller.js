@@ -7,7 +7,14 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 		$scope.mainpage_header = false;
 		$scope.signup_header = false;
 		$scope.signin_header = false;
-
+		$scope.logo_link = '/#!/';
+		if($scope.authentication.user) {
+			if($scope.authentication.user.roles.indexOf('admin')> -1 || $scope.authentication.user.roles.indexOf('pmanager')> -1) {
+				$scope.logo_link = '/#!/resident_insurances';
+			} else if($scope.authentication.user.roles.indexOf('user')> -1) {
+				$scope.logo_link = '/#!/insurances';
+			}
+		}
 		if($location.path().indexOf('/signup') > -1) $scope.signup_header = true;
 		if($location.path().indexOf('/signin') > -1) $scope.signin_header = true;
 

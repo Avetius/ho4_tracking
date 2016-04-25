@@ -35,7 +35,7 @@ exports.read = function(req, res) {
 exports.residentInsurances = function(req, res) {
 	Policy.count({user: req.params.residentId}, function (err, count) {
 		Profile.findOne({user: req.params.residentId}).populate('user').exec(function(err, profile) {
-			Policy.find({user: req.params.residentId}).sort('-created').populate('user', 'displayName').exec(function (err, insurances) {
+			Policy.find({user: req.params.residentId}).sort('-created').populate('user').exec(function (err, insurances) {
 				if (err) {
 					return res.status(400).send({
 						message: errorHandler.getErrorMessage(err)
@@ -44,7 +44,7 @@ exports.residentInsurances = function(req, res) {
 					var notesCallbacks = [];
 					_.each(insurances, function(insurance) {
 						notesCallbacks.push(function(cb) {
-							Note.find({policy: insurance._id}).exec(function(err, notes) {
+							Note.find({policy: insurance._id}).populate('editor').exec(function(err, notes) {
 								var temp_insurance = insurance.toObject();
 								temp_insurance.notes = notes;
 								cb(err, temp_insurance);
@@ -70,7 +70,7 @@ exports.residentInsuranceList = function(req, res) {
 	Policy.count({user: req.params.residentId}, function (err, count) {
 		Profile.findOne({user: req.params.residentId}).populate('user').exec(function(err, profile) {
 			Unit.findOne({resident: req.params.residentId}).populate('property').exec(function(err, unit) {
-				Policy.find({user: req.params.residentId}).sort('-created').populate('user', 'displayName').exec(function (err, insurances) {
+				Policy.find({user: req.params.residentId}).sort('-created').populate('user').exec(function (err, insurances) {
 					if (err) {
 						return res.status(400).send({
 							message: errorHandler.getErrorMessage(err)
@@ -196,7 +196,7 @@ exports.recentInsurances = function(req, res) {
 							if(filterVal === 'pending') policy_query = {$and: [{status: 'pending'}, {user: unit.resident}]};
 							if(filterVal === 'expired') policy_query = {$and: [{status: 'expired'}, {user: unit.resident}]};
 						}
-						Policy.find(policy_query).populate('user', 'displayName').exec(function(err, policies) {
+						Policy.find(policy_query).populate('user').exec(function(err, policies) {
 							unit.policies = policies;
 							cb(err, unit);
 						});
@@ -301,7 +301,7 @@ exports.insuranceByID = function(req, res, next, id) {
 		});
 	}
 
-	Policy.findById(id).populate('user', 'displayName').exec(function(err, insurance) {
+	Policy.findById(id).populate('user').exec(function(err, insurance) {
 		if (err) return next(err);
 		if (!insurance) {
 			return res.status(404).send({

@@ -406,6 +406,7 @@ exports.getAllResidentList =  function(req, res) {
 
 exports.addResident = function(req, res) {
 	var password = randomstring.generate(8);
+	var inviteResident = resident.invite;
 	var resident = new User(req.body);
 	if(typeof req.body.appartmentNumber === 'object') {
 		resident.appartmentNumber = req.body.appartmentNumber.unitNumber;
@@ -445,43 +446,49 @@ exports.addResident = function(req, res) {
 									message: errorHandler.getErrorMessage(err)
 								});
 							}
-							res.render('templates/send-invitation', {
-								name: resident.displayName,
-								password: password,
-								url: 'http://' + req.headers.host + '/#!/signin'
-							}, function (err, emailHTML) {
-								sendgrid.send({
-								  to: user.email,
-								  from: 'enterscompliance@veracityins.com',
-								  subject: user.displayName + ' Invitation from HO4 ',
-								  html: emailHTML
-								}, function (err, json) {
-								  console.log(json);
+							if(inviteResident) {
+								res.render('templates/send-invitation', {
+									name: resident.displayName,
+									password: password,
+									url: 'http://' + req.headers.host + '/#!/signin'
+								}, function (err, emailHTML) {
+									sendgrid.send({
+										to: user.email,
+									 	from: 'enterscompliance@veracityins.com',
+									 	subject: user.displayName + ' Invitation from HO4 ',
+									 	html: emailHTML
+									}, function (err, json) {
+									 	console.log(json);
+									});
+									console.log(password);
+									res.json(resident);
 								});
-								console.log(password);
-
+							} else {
 								res.json(resident);
-							});
+							}
 						});
 					});
 				} else {
-					res.render('templates/send-invitation', {
-						name: resident.displayName,
-						password: password,
-						url: 'http://' + req.headers.host + '/#!/signin'
-					}, function (err, emailHTML) {
-						sendgrid.send({
-						  to: user.email,
-						  from: 'enterscompliance@veracityins.com',
-						  subject: user.displayName + ' Invitation from HO4 ',
-						  html: emailHTML
-						}, function (err, json) {
-						  console.log(json);
+					if(inviteResident) {
+						res.render('templates/send-invitation', {
+							name: resident.displayName,
+							password: password,
+							url: 'http://' + req.headers.host + '/#!/signin'
+						}, function (err, emailHTML) {
+							sendgrid.send({
+							 	to: user.email,
+							 	from: 'enterscompliance@veracityins.com',
+							 	subject: user.displayName + ' Invitation from HO4 ',
+							 	html: emailHTML
+							}, function (err, json) {
+							 	console.log(json);
+							});
+							console.log(password);
+							res.json(resident);
 						});
-						console.log(password);
-
+					} else {
 						res.json(resident);
-					});
+					}
 				}
 			});
 		}
