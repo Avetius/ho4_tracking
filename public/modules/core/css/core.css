@@ -693,3 +693,11 @@ table thead th.st-sort-descent:after {
 		width: 100%;
 	}
 }
+
+
+.lightbox-nav .btn {
+	display: none;
+}
+.lightbox-image-caption img{
+	margin-top:15px;
+}
