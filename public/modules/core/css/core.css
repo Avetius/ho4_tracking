@@ -443,6 +443,15 @@ table thead th.st-sort-descent:after {
 	content: '\25BC';
 }
 
+.lightbox-nav {
+	padding: 15px;
+	margin: 0
+}
+
+.lightbox-nav .btn-group{
+	display: none;
+}
+
 @media (min-width: 320px) {
 	.navbar-brand img{
 		margin-left: 15px;

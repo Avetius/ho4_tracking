@@ -33,10 +33,10 @@
 						</thead>
 						<tbody>
 						<tr ng-repeat="insurance in insurances">
-							<td>{{insurance.unitNumber}}</td>
-							<td>{{insurance.user.displayName}}</td>
-							<td>{{insurance.insuranceName}}</td>
-							<td>{{insurance.policyEndDate | date: 'MMM d, yyyy'}}</td>
+							<td ng-click="viewDetailResidentInsurance(insurance)">{{insurance.unitNumber}}</td>
+							<td ng-click="viewDetailResidentInsurance(insurance)">{{insurance.user.displayName}}</td>
+							<td ng-click="viewDetailResidentInsurance(insurance)">{{insurance.insuranceName}}</td>
+							<td ng-click="viewDetailResidentInsurance(insurance)">{{insurance.policyEndDate | date: 'MMM d, yyyy'}}</td>
 							<td>
 								<select class="form-control" ng-model="insurance.status" ng-change="updateInsuranceStatus(insurance)">
 									<option value="approved">Approved</option>

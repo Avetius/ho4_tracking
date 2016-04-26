@@ -62,7 +62,7 @@ exports.signup = function(req, res) {
 							res.status(400).send(err);
 						} else {
 							res.render('templates/email-verify', {
-								name: user.displayName,
+								name: user.firstName,
 								url: 'http://' + req.headers.host + '/user/verify?token=' + user.verifyToken
 							}, function(err, emailHTML) {
 								sendgrid.send({
@@ -75,32 +75,6 @@ exports.signup = function(req, res) {
 								});
 								res.json(user);
 							});
-							/*var emailHTML = '<table width="100%" align="center" cellspacing="0" cellpadding="0" border="0" style="width: 100%; max-width: 600px;">';
-							 emailHTML += '<tbody><tr>';
-							 emailHTML += '<td width="100%" align="left" bgcolor="#FFFFFF" style="padding:0px 0px 0px 0px; color:#000000; text-align:left">';
-							 emailHTML += '<table width="100%" align="center" cellspacing="0" cellpadding="0" border="0" style="display:none!important; visibility:hidden; color:transparent; height:0; width:0" class="x_module x_preheader x_preheader-hide">';
-							 emailHTML += '<tbody><tr><td><p></p></td></tr></tbody></table>';
-							 emailHTML += '<table width="100%" cellspacing="0" cellpadding="0" border="0" style="table-layout:fixed" class="x_module">';
-							 emailHTML += '<tbody><tr><td bgcolor="#ffffff" style="padding:0px 0px 0px 0px">';
-							 emailHTML += '<div><span class="x_sg-image"><img width="250" height="71" style="width:250px; height:71px" src="https://marketing-image-production.s3.amazonaws.com/uploads/05ecfeceadcbb1b43ca02460647f0bc083e6d47e0dafd49445e50f1d6cf75625641df17d5e3ec20193c2f6af04b64bc580b42ab4ac8c04137912f0dd450ce51e.png"></span></div>';
-							 emailHTML += '<div></div><div>&nbsp;</div>';
-							 emailHTML += '<div>Hi <span style="color:rgb(34,34,34); font-family:Menlo,Monaco,'Andale Mono','lucida console','Courier New',monospace; font-size:13px; line-height:19.5px; white-space:pre; background-color:rgb(251,251,252)">'+ user.displayName +'</span>,</div>';
-							 emailHTML += '<div><br>Thanks for creating an account with RLL.</div>';
-							 emailHTML += '<div><br><div>Click below to confirm your email address:</div></div>';
-							 var verifyURL = 'http://127.0.0.1:3000/user/verify?token=' + user.verifyToken;
-							 emailHTML += '<a href="'+verifyURL+'">'+verifyURL+'</a>';
-							 emailHTML += '<div><br>If you have problems, please paste the above URL into your web browser.<br>&nbsp;</div>';
-							 emailHTML += '<div><br>Thanks,<br>RLL Support</div><div>&nbsp;</div>';
-							 emailHTML += '</td></tr></tbody></table></td></tr></tbody></table>';
-							 sendgrid.send({
-							 to: user.email,
-							 from: 'enterscompliance@veracityins.com',
-							 subject: user.displayName + ' Please verify your email address ',
-							 html: emailHTML
-							 }, function (err, json) {
-							 console.log(json);
-							 });*/
-
 						}
 					});
 				}

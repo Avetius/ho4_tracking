@@ -4,6 +4,22 @@
 </div>
 <div class="modal-body row">
 	<div class="col-md-6">
+		<img ngf-src="insurance.insuranceFilePath" style="width: 100%; margin-bottom: 20px;" ng-if="insurance.insuranceFilePath.indexOf('pdf')<0">
+		<iframe ngf-src="insurance.insuranceFilePath" frameBorder="0" width="100%" height="100%" ng-if="insurance.insuranceFilePath.indexOf('pdf')>-1" style="min-height: 500px;"></iframe>
+		<div class="form-group" ng-style="(!insurance.insuranceFilePath||insurance.insuranceFilePath==='') && {'margin-top':'225px'}">
+			<div ngf-drop ngf-select="uploadFiles($files)" class="drop-box"
+				 ngf-drag-over-class="'dragover'" ngf-multiple="false"
+				 ngf-pattern="'image/*,application/pdf'" ng-model="file" style="cursor: pointer;">Upload Insurance Certificate</div>
+			<div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+			<h3>{{file.name}} {{f.$error}} {{f.$errorParam}}</h3>
+			<div class="status">{{file.status}}</div>
+			<div class="progress-bar">
+				<div class="progress" style="width: {{file.progress}}%" ng-init="progress=0"></div>
+			</div>
+			<span class="text-danger text-left" ng-if="errorInsuranceFile">Please upload insurance file.</span>
+		</div>
+	</div>
+	<div class="col-md-6" style="min-height: 500px; overflow: auto; border-left: 2px solid #ccc;">
 		<div class="form-group no-margin">
 			<input type="text" id="insuranceName" name="insuranceName" class="form-control" data-ng-model="insurance.insuranceName" placeholder="Insurance Company">
 			<span class="text-danger text-left" ng-if="errorInsuranceName">Please enter insurance company.</span>
@@ -39,22 +55,6 @@
 				<span class="text-danger text-left" ng-if="errorPolicyEndDate">Please enter end date.</span>
 			</div>
 		</div>
-		<div class="form-group">
-			<div ngf-drop ngf-select="uploadFiles($files)" class="drop-box"
-				 ngf-drag-over-class="'dragover'" ngf-multiple="false"
-				 ngf-pattern="'image/*,application/pdf'" ng-model="file" style="cursor: pointer;">Upload Insurance Certificate</div>
-			<div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
-			<h3>{{file.name}} {{f.$error}} {{f.$errorParam}}</h3>
-			<div class="status">{{file.status}}</div>
-			<div class="progress-bar">
-				<div class="progress" style="width: {{file.progress}}%" ng-init="progress=0"></div>
-			</div>
-			<span class="text-danger text-left" ng-if="errorInsuranceFile">Please upload insurance file.</span>
-		</div>
-	</div>
-	<div class="col-md-6" style="min-height: 500px; overflow: auto; border-left: 2px solid #ccc;">
-		<img ngf-src="insurance.insuranceFilePath" style="width: 100%;" ng-if="insurance.insuranceFilePath.indexOf('pdf')<0">
-		<iframe ngf-src="insurance.insuranceFilePath" frameBorder="0" width="100%" height="100%" ng-if="insurance.insuranceFilePath.indexOf('pdf')>-1" style="min-height: 500px;"></iframe>
 	</div>
 </div>
 <div class="modal-footer">

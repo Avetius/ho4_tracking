@@ -76,7 +76,20 @@ exports.residentInsuranceList = function(req, res) {
 							message: errorHandler.getErrorMessage(err)
 						});
 					} else {
-						res.json({count: count, insurances: insurances, resident: profile, unit: unit});
+						var notesCallbacks = [];
+						_.each(insurances, function(insurance) {
+							notesCallbacks.push(function(cb) {
+								Note.find({policy: insurance._id}).populate('editor').exec(function(err, notes) {
+									var temp_insurance = insurance.toObject();
+									temp_insurance.notes = notes;
+									cb(err, temp_insurance);
+								});
+							});
+						});
+						async.parallel(notesCallbacks, function(err, results) {
+							res.json({count: count, insurances: results, resident: profile, unit: unit});
+						});
+
 					}
 				});
 			});

@@ -180,7 +180,7 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 				size: 'lg',
 				scope: function () {
 					var scope = $rootScope.$new();
-					scope.insurance = {};
+					scope.insurance = {unitNumber: $scope.unit.unitNumber};
 					scope.add_insurance = true;
 					scope.residentId = $scope.residentId;
 					return scope;
@@ -217,7 +217,11 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 						$timeout(function(){
 							$scope.alerts.splice($scope.alerts.indexOf(alert), 1);
 						}, 2500);
-						$scope.findRecentInsurances($scope.tableState);
+						if($scope.insuranceId) {
+							$scope.findOneRecentInsurance();
+						} else {
+							$scope.findRecentInsurances($scope.tableState);
+						}
 					}
 				});
 			}, function () {
@@ -227,6 +231,10 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 
 		$scope.viewDetailRecentInsurance = function(insurance, evt) {
 			$location.path('recent_insurances/' + insurance._id);
+		};
+
+		$scope.viewDetailResidentInsurance = function(insurance, evt) {
+			$location.path('residents/'+$scope.residentId+'/insurances/' + insurance._id);
 		};
 
 		$scope.removeInsurance = function(insuranceId, index) {

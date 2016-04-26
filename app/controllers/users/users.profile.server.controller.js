@@ -16,12 +16,14 @@ var _ = require('lodash'),
 	Profile = mongoose.model('Profile'),
 	Property = mongoose.model('Property'),
 	Unit = mongoose.model('Unit'),
-	Policy = mongoose.model('Policy');
+	Policy = mongoose.model('Policy'),
+	config = require('../../../config/config'),
+	sendgrid  = require('sendgrid')(config.sendgrid_api);
 
 /**
  * Update user details
  */
-exports.update = function(req, res) {
+exports.update = function (req, res) {
 	// Init Variables
 	var user = req.user;
 	var message = null;
@@ -35,13 +37,13 @@ exports.update = function(req, res) {
 		user.updated = Date.now();
 		user.displayName = user.firstName + ' ' + user.lastName;
 
-		user.save(function(err) {
+		user.save(function (err) {
 			if (err) {
 				return res.status(400).send({
 					message: errorHandler.getErrorMessage(err)
 				});
 			} else {
-				req.login(user, function(err) {
+				req.login(user, function (err) {
 					if (err) {
 						res.status(400).send(err);
 					} else {
@@ -60,12 +62,12 @@ exports.update = function(req, res) {
 /**
  * Send User
  */
-exports.me = function(req, res) {
+exports.me = function (req, res) {
 	res.json(req.user || null);
 };
 
-exports.getProfileByUserId = function(req, res) {
-	Profile.findOne({user: req.params.userId}).populate('user').exec(function(err, profile) {
+exports.getProfileByUserId = function (req, res) {
+	Profile.findOne({user: req.params.userId}).populate('user').exec(function (err, profile) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -76,27 +78,27 @@ exports.getProfileByUserId = function(req, res) {
 	});
 };
 
-exports.updateProfile = function(req, res) {
+exports.updateProfile = function (req, res) {
 	var user = req.user;
-		Profile.findOne({user: req.params.userId}).populate('user').exec(function(err, profile) {
+	Profile.findOne({user: req.params.userId}).populate('user').exec(function (err, profile) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
 			profile = _.extend(profile, req.body);
-			user.firstName  = profile.user.firstName;
-			user.lastName  = profile.user.lastName;
-			user.email  = profile.user.email;
+			user.firstName = profile.user.firstName;
+			user.lastName = profile.user.lastName;
+			user.email = profile.user.email;
 			user.updated = Date.now();
 			user.displayName = user.firstName + ' ' + user.lastName;
-			profile.save(function(err) {
+			profile.save(function (err) {
 				if (err) {
 					return res.status(400).send({
 						message: errorHandler.getErrorMessage(err)
 					});
 				} else {
-					user.save(function(err) {
+					user.save(function (err) {
 						if (err) {
 							return res.status(400).send({
 								message: errorHandler.getErrorMessage(err)
@@ -112,27 +114,31 @@ exports.updateProfile = function(req, res) {
 	});
 };
 
-exports.uploadInsurance = function(req, res) {
+exports.uploadInsurance = function (req, res) {
 	var files = req.files;
 	if (files.file) {
-		if (!fs.existsSync(path.resolve('public/insurance'))){
+		if (!fs.existsSync(path.resolve('public/insurance'))) {
 			fs.mkdirSync(path.resolve('public/insurance'), '0777');
 		}
 		var fileName = files.file.name;
 		var i = fileName.lastIndexOf('.');
 		var fileExt = (i < 0) ? '' : fileName.substr(i);
 		var newFileName = crypto.randomBytes(32).toString('base64');
-		newFileName=newFileName.replace(/[=&\/\\#,+()$~%.'":*?<>{}]/g, '').replace(/\s/g, '');
-		fs.rename(files.file.path, path.resolve('public/insurance/' + newFileName+fileExt), function () {
-			res.jsonp({file: '/insurance/'+newFileName+fileExt, path: '/insurance/'+newFileName+fileExt, is_pdf: fileExt.indexOf('pdf') > -1});
+		newFileName = newFileName.replace(/[=&\/\\#,+()$~%.'":*?<>{}]/g, '').replace(/\s/g, '');
+		fs.rename(files.file.path, path.resolve('public/insurance/' + newFileName + fileExt), function () {
+			res.jsonp({
+				file: '/insurance/' + newFileName + fileExt,
+				path: '/insurance/' + newFileName + fileExt,
+				is_pdf: fileExt.indexOf('pdf') > -1
+			});
 		});
 	} else {
 		res.status(400).send({error: 'File upload error'});
 	}
 };
 
-exports.getPoliciesByUserId = function(req, res) {
-	Policy.find({user: req.params.userId}).populate('user').exec(function(err, policies) {
+exports.getPoliciesByUserId = function (req, res) {
+	Policy.find({user: req.params.userId}).populate('user').exec(function (err, policies) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -143,12 +149,12 @@ exports.getPoliciesByUserId = function(req, res) {
 	});
 };
 
-exports.getPolicies = function(req, res) {
+exports.getPolicies = function (req, res) {
 	var query = {user: req.user._id};
-	if(req.user.roles.indexOf('admin') > -1) {
+	if (req.user.roles.indexOf('admin') > -1) {
 		query = {};
 	}
-	Policy.find(query).populate('user').sort('-updated').exec(function(err, policies) {
+	Policy.find(query).populate('user').sort('-updated').exec(function (err, policies) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -159,16 +165,16 @@ exports.getPolicies = function(req, res) {
 	});
 };
 
-exports.createPolicy = function(req, res) {
+exports.createPolicy = function (req, res) {
 	var policy = new Policy(req.body);
-	if(typeof req.body.unitNumber === 'object') {
+	if (typeof req.body.unitNumber === 'object') {
 		policy.unitNumber = req.body.unitNumber.unitNumber;
 	}
 	policy.user = req.user;
-	if(policy.insuranceFilePath && policy.insuranceFilePath !== '') policy.status = 'pending';
+	if (policy.insuranceFilePath && policy.insuranceFilePath !== '') policy.status = 'pending';
 	else policy.status = 'incomplete';
 	policy.updated = Date.now();
-	policy.save(function(err) {
+	policy.save(function (err) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -179,8 +185,8 @@ exports.createPolicy = function(req, res) {
 	});
 };
 
-exports.getPolicy = function(req, res) {
-	Policy.findOne({_id: req.params.policyId}).exec(function(err, policy) {
+exports.getPolicy = function (req, res) {
+	Policy.findOne({_id: req.params.policyId}).exec(function (err, policy) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -195,8 +201,8 @@ exports.getPolicy = function(req, res) {
 	});
 };
 
-exports.updatePolicy = function(req, res) {
-	Policy.findOne({_id: req.params.policyId}).populate('user').exec(function(err, policy) {
+exports.updatePolicy = function (req, res) {
+	Policy.findOne({_id: req.params.policyId}).populate('user').exec(function (err, policy) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -209,13 +215,13 @@ exports.updatePolicy = function(req, res) {
 		}
 
 		policy = _.extend(policy, req.body);
-		if(typeof req.body.unitNumber === 'object') {
+		if (typeof req.body.unitNumber === 'object') {
 			policy.unitNumber = req.body.unitNumber.unitNumber;
 		}
-		if(policy.insuranceFilePath && policy.insuranceFilePath !== '') policy.status = 'pending';
+		if (policy.insuranceFilePath && policy.insuranceFilePath !== '') policy.status = 'pending';
 		else policy.status = 'incomplete';
 		policy.updated = Date.now();
-		policy.save(function(err) {
+		policy.save(function (err) {
 			if (err) {
 				return res.status(400).send({
 					message: errorHandler.getErrorMessage(err)
@@ -227,8 +233,8 @@ exports.updatePolicy = function(req, res) {
 	});
 };
 
-exports.getAllResidentsList = function(req, res) {
-	User.find({roles: 'user'}).exec(function(err, users) {
+exports.getAllResidentsList = function (req, res) {
+	User.find({roles: 'user'}).exec(function (err, users) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -238,7 +244,7 @@ exports.getAllResidentsList = function(req, res) {
 	});
 };
 
-exports.getAllPropertyManagerList =  function(req, res) {
+exports.getAllPropertyManagerList = function (req, res) {
 	var start = req.query.start;
 	var num = req.query.num;
 	var query = {roles: 'pmanager'};
@@ -249,15 +255,15 @@ exports.getAllPropertyManagerList =  function(req, res) {
 					message: errorHandler.getErrorMessage(err)
 				});
 			}
-			Property.find({}).exec(function(err, properties) {
+			Property.find({}).exec(function (err, properties) {
 				if (err) {
 					return res.status(400).send({
 						message: errorHandler.getErrorMessage(err)
 					});
 				}
 				var user_property_callbacks = [];
-				_.each(users, function(user) {
-					user_property_callbacks.push(function(cb) {
+				_.each(users, function (user) {
+					user_property_callbacks.push(function (cb) {
 						Property.find({propertyManager: user._id}, function (err, assigned_properties) {
 							var tmp_user = user.toObject();
 							tmp_user.assigned_properties = assigned_properties;
@@ -265,7 +271,7 @@ exports.getAllPropertyManagerList =  function(req, res) {
 						});
 					});
 				});
-				async.parallel(user_property_callbacks, function(err, results) {
+				async.parallel(user_property_callbacks, function (err, results) {
 					res.json({count: count, property_managers: results, properties: properties});
 				});
 			});
@@ -273,7 +279,7 @@ exports.getAllPropertyManagerList =  function(req, res) {
 	});
 };
 
-exports.addPropertyManaget = function(req, res) {
+exports.addPropertyManaget = function (req, res) {
 	var password = randomstring.generate(8);
 	var propertyManager = new User(req.body);
 	propertyManager.displayName = propertyManager.firstName + ' ' + propertyManager.lastName;
@@ -282,7 +288,7 @@ exports.addPropertyManaget = function(req, res) {
 	propertyManager.provider = 'local';
 	propertyManager.password = password;
 	propertyManager.updated = Date.now();
-	propertyManager.save(function(err) {
+	propertyManager.save(function (err) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -291,30 +297,31 @@ exports.addPropertyManaget = function(req, res) {
 			var profile = new Profile({
 				user: propertyManager._id
 			});
-			profile.save(function(err) {
+			profile.save(function (err) {
 				if (err) {
 					return res.status(400).send({
 						message: errorHandler.getErrorMessage(err)
 					});
 				}
 				var assigned_property_ids = [];
-				_.each(req.body.assigned_properties, function(property) {
+				_.each(req.body.assigned_properties, function (property) {
 					assigned_property_ids.push(property._id);
 				});
-				Property.update({_id: {$in: assigned_property_ids}}, {propertyManager: propertyManager._id}, {multi: true}, function(err, result) {
+				Property.update({_id: {$in: assigned_property_ids}}, {propertyManager: propertyManager._id}, {multi: true}, function (err, result) {
 					res.render('templates/send-invitation', {
 						name: propertyManager.displayName,
+						email: propertyManager.email,
 						password: password,
 						url: 'http://' + req.headers.host + '/#!/signin'
-					}, function(err, emailHTML) {
+					}, function (err, emailHTML) {
 						sendgrid.send({
-						 to: user.email,
-						 from: 'enterscompliance@veracityins.com',
-						 subject: user.displayName + ' Invitation for Property Manager of HO4 ',
-						 html: emailHTML
-						 }, function (err, json) {
-						 console.log(json);
-						 });
+							to: propertyManager.email,
+							from: 'enterscompliance@veracityins.com',
+							subject: propertyManager.displayName + ' Invitation for Property Manager of HO4 ',
+							html: emailHTML
+						}, function (err, json) {
+							console.log(json);
+						});
 						console.log(password);
 
 						res.json(propertyManager);
@@ -325,8 +332,8 @@ exports.addPropertyManaget = function(req, res) {
 	});
 };
 
-exports.getPropertyManager = function(req, res) {
-	User.findById(req.params.propertyManagerId).exec(function(err, user) {
+exports.getPropertyManager = function (req, res) {
+	User.findById(req.params.propertyManagerId).exec(function (err, user) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -336,15 +343,20 @@ exports.getPropertyManager = function(req, res) {
 	});
 };
 
-exports.updatePropertyManager = function(req, res) {
-	var updateObj = {firstName: req.body.firstName, lastName: req.body.lastName, email: req.body.email, displayName: req.body.firstName + ' ' + req.body.lastName};
-	User.update({_id: req.params.propertyManagerId}, updateObj, function(err, user) {
+exports.updatePropertyManager = function (req, res) {
+	var updateObj = {
+		firstName: req.body.firstName,
+		lastName: req.body.lastName,
+		email: req.body.email,
+		displayName: req.body.firstName + ' ' + req.body.lastName
+	};
+	User.update({_id: req.params.propertyManagerId}, updateObj, function (err, user) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		}
-		Property.update({propertyManager: req.params.propertyManagerId}, {propertyManager: null}, {multi: true}, function(err, result) {
+		Property.update({propertyManager: req.params.propertyManagerId}, {propertyManager: null}, {multi: true}, function (err, result) {
 			var assigned_property_ids = [];
 			_.each(req.body.assigned_properties, function (property) {
 				assigned_property_ids.push(property._id);
@@ -357,14 +369,14 @@ exports.updatePropertyManager = function(req, res) {
 	})
 };
 
-exports.deletePropertyManager = function(req, res) {
-	User.findById(req.params.propertyManagerId).exec(function(err, user) {
+exports.deletePropertyManager = function (req, res) {
+	User.findById(req.params.propertyManagerId).exec(function (err, user) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		}
-		user.remove(function(err) {
+		user.remove(function (err) {
 			if (err) {
 				return res.status(400).send({
 					message: errorHandler.getErrorMessage(err)
@@ -376,7 +388,7 @@ exports.deletePropertyManager = function(req, res) {
 	});
 };
 
-exports.getAllResidentList =  function(req, res) {
+exports.getAllResidentList = function (req, res) {
 	var start = req.query.start;
 	var num = req.query.num;
 	var query = {roles: 'user'};
@@ -388,8 +400,8 @@ exports.getAllResidentList =  function(req, res) {
 				});
 			}
 			var user_policy_callbacks = [];
-			_.each(users, function(user) {
-				user_policy_callbacks.push(function(cb) {
+			_.each(users, function (user) {
+				user_policy_callbacks.push(function (cb) {
 					Policy.count({user: user._id}, function (err, policy_count) {
 						var tmp_user = user.toObject();
 						tmp_user.policy_count = policy_count;
@@ -397,18 +409,18 @@ exports.getAllResidentList =  function(req, res) {
 					});
 				});
 			});
-			async.parallel(user_policy_callbacks, function(err, results) {
+			async.parallel(user_policy_callbacks, function (err, results) {
 				res.json({count: count, residents: results});
 			});
 		});
 	});
 };
 
-exports.addResident = function(req, res) {
+exports.addResident = function (req, res) {
 	var password = randomstring.generate(8);
 	var inviteResident = resident.invite;
 	var resident = new User(req.body);
-	if(typeof req.body.appartmentNumber === 'object') {
+	if (typeof req.body.appartmentNumber === 'object') {
 		resident.appartmentNumber = req.body.appartmentNumber.unitNumber;
 	}
 	resident.displayName = resident.firstName + ' ' + resident.lastName;
@@ -417,7 +429,7 @@ exports.addResident = function(req, res) {
 	resident.provider = 'local';
 	resident.password = password;
 	resident.updated = Date.now();
-	resident.save(function(err) {
+	resident.save(function (err) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -426,13 +438,13 @@ exports.addResident = function(req, res) {
 			var profile = new Profile({
 				user: resident._id
 			});
-			profile.save(function(err) {
+			profile.save(function (err) {
 				if (err) {
 					return res.status(400).send({
 						message: errorHandler.getErrorMessage(err)
 					});
 				}
-				if(typeof req.body.appartmentNumber === 'object') {
+				if (typeof req.body.appartmentNumber === 'object') {
 					Unit.findById(req.body.appartmentNumber._id).exec(function (err, unit) {
 						if (err) {
 							return res.status(400).send({
@@ -446,19 +458,20 @@ exports.addResident = function(req, res) {
 									message: errorHandler.getErrorMessage(err)
 								});
 							}
-							if(inviteResident) {
+							if (inviteResident) {
 								res.render('templates/send-invitation', {
 									name: resident.displayName,
+									email: resident.email,
 									password: password,
 									url: 'http://' + req.headers.host + '/#!/signin'
 								}, function (err, emailHTML) {
 									sendgrid.send({
-										to: user.email,
-									 	from: 'enterscompliance@veracityins.com',
-									 	subject: user.displayName + ' Invitation from HO4 ',
-									 	html: emailHTML
+										to: resident.email,
+										from: 'enterscompliance@veracityins.com',
+										subject: resident.displayName + ' Invitation from HO4 ',
+										html: emailHTML
 									}, function (err, json) {
-									 	console.log(json);
+										console.log(json);
 									});
 									console.log(password);
 									res.json(resident);
@@ -469,21 +482,23 @@ exports.addResident = function(req, res) {
 						});
 					});
 				} else {
-					if(inviteResident) {
+					if (inviteResident) {
 						res.render('templates/send-invitation', {
 							name: resident.displayName,
+							email: resident.email,
 							password: password,
 							url: 'http://' + req.headers.host + '/#!/signin'
 						}, function (err, emailHTML) {
 							sendgrid.send({
-							 	to: user.email,
-							 	from: 'enterscompliance@veracityins.com',
-							 	subject: user.displayName + ' Invitation from HO4 ',
-							 	html: emailHTML
+								to: resident.email,
+								from: 'enterscompliance@veracityins.com',
+								subject: resident.displayName + ' Invitation from HO4 ',
+								html: emailHTML
 							}, function (err, json) {
-							 	console.log(json);
+								console.log(json);
 							});
 							console.log(password);
+
 							res.json(resident);
 						});
 					} else {
@@ -495,8 +510,8 @@ exports.addResident = function(req, res) {
 	});
 };
 
-exports.getResident = function(req, res) {
-	User.findById(req.params.residentId).exec(function(err, user) {
+exports.getResident = function (req, res) {
+	User.findById(req.params.residentId).exec(function (err, user) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -506,7 +521,7 @@ exports.getResident = function(req, res) {
 	});
 };
 
-exports.updateResident = function(req, res) {
+exports.updateResident = function (req, res) {
 	var updateObj = {
 		firstName: req.body.firstName,
 		lastName: req.body.lastName,
@@ -514,18 +529,18 @@ exports.updateResident = function(req, res) {
 		displayName: req.body.firstName + ' ' + req.body.lastName
 	};
 
-	if(typeof req.body.appartmentNumber === 'object') {
+	if (typeof req.body.appartmentNumber === 'object') {
 		updateObj.appartmentNumber = req.body.appartmentNumber.unitNumber;
 	} else {
 		updateObj.appartmentNumber = req.body.appartmentNumber;
 	}
-	User.update({_id: req.params.residentId}, updateObj, function(err, user) {
+	User.update({_id: req.params.residentId}, updateObj, function (err, user) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		}
-		if(typeof req.body.appartmentNumber === 'object') {
+		if (typeof req.body.appartmentNumber === 'object') {
 			Unit.findById(req.body.appartmentNumber._id).exec(function (err, unit) {
 				if (err) {
 					return res.status(400).send({
@@ -548,14 +563,14 @@ exports.updateResident = function(req, res) {
 	})
 };
 
-exports.deleteResident = function(req, res) {
-	User.findById(req.params.residentId).exec(function(err, user) {
+exports.deleteResident = function (req, res) {
+	User.findById(req.params.residentId).exec(function (err, user) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		}
-		user.remove(function(err) {
+		user.remove(function (err) {
 			if (err) {
 				return res.status(400).send({
 					message: errorHandler.getErrorMessage(err)
