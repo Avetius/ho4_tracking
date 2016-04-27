@@ -91,7 +91,7 @@ module.exports = function(app) {
 		.put(users.requiresLogin, users.isAdminUser, users.updateResident)
 		.delete(users.requiresLogin, users.isAdminUser, users.deleteResident);
 
-
+	app.route('/transfer_residents_rll').post(users.requiresLogin, users.isAdminUser, users.transferResidentsRLLCoverage);
 	// Finish by binding the user middleware
 	app.param('userId', users.userByID);
 };

@@ -101,6 +101,10 @@ var UserSchema = new Schema({
 	},
 	resetPasswordExpires: {
 		type: Date
+	},
+	rllCoverage: {
+		type: Boolean,
+		default: false
 	}
 });
 

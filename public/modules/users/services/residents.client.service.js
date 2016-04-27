@@ -6,7 +6,20 @@ angular.module('users').factory('Residents', ['$q', '$filter', '$timeout', '$htt
 			//Get orders by page and search values
 			getPage: function (start, number) {
 				var deferred = $q.defer();
-				$http.get('/residents?start=' + start + '&num=' + number).success(function (data) {
+				$http.get('/residents?transfer=false&start=' + start + '&num=' + number).success(function (data) {
+					deferred.resolve({
+						data: data.residents,
+						numberOfPages: Math.ceil(data.count / number),
+						count: data.count
+					});
+				}).error(function (msg, code) {
+					deferred.reject(msg);
+				});
+				return deferred.promise;
+			},
+			getTransferPage: function (start, number) {
+				var deferred = $q.defer();
+				$http.get('/residents?transfer=true&start=' + start + '&num=' + number).success(function (data) {
 					deferred.resolve({
 						data: data.residents,
 						numberOfPages: Math.ceil(data.count / number),
@@ -66,6 +79,18 @@ angular.module('users').factory('Residents', ['$q', '$filter', '$timeout', '$htt
 			getUnits: function(key) {
 				var deferred = $q.defer();
 				$http.get('/units?key='+key).success(function (data) {
+					deferred.resolve({
+						data: data
+					});
+				}).error(function (msg, code) {
+					deferred.reject(msg);
+				});
+				return deferred.promise;
+			},
+			transferToRLLCoverage: function(residentIds) {
+				var deferred = $q.defer();
+				var data = JSON.stringify({residentIds: residentIds});
+				$http.post('/transfer_residents_rll', data).success(function (data) {
 					deferred.resolve({
 						data: data
 					});

@@ -391,7 +391,10 @@ exports.deletePropertyManager = function (req, res) {
 exports.getAllResidentList = function (req, res) {
 	var start = req.query.start;
 	var num = req.query.num;
+	var transfer = req.query.transfer;
 	var query = {roles: 'user'};
+	if(transfer==='true') query = {roles: 'user', rllCoverage: true};
+	else if(transfer==='false') query = {roles: 'user', rllCoverage: {$ne: true}};
 	User.count(query, function (err, count) {
 		User.find(query).limit(num).skip(start).exec(function (err, users) {
 			if (err) {
@@ -580,4 +583,16 @@ exports.deleteResident = function (req, res) {
 			}
 		});
 	});
+};
+
+exports.transferResidentsRLLCoverage = function(req, res) {
+	var residentIds = req.body.residentIds;
+	User.update({_id: {$in:residentIds}}, {rllCoverage: true}, {multi: true}, function (err, user) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		}
+		res.json({success: true});
+	})
 };

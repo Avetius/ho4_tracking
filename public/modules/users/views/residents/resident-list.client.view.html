@@ -4,7 +4,7 @@
 		<div class="sub-header">
 			<div  class="pull-left">
 				<h3>Residents</h3>
-				<button type="button" class="btn btn-default">Transfer to RLL Coverage</button>
+				<button type="button" class="btn btn-default" ng-click="transferToRllCoverage()">Transfer to RLL Coverage</button>
 			</div>
 			<div class="pull-right">
 				<button type="button" class="btn btn-large btn-success btn-block" style="padding: 15px;" ng-click="openResidentModal()">Add resident</button>
@@ -12,45 +12,88 @@
 		</div>
 		<div class="clearfix"></div>
 		<div class="maincontent-area">
-			<div class="table-responsive">
-				<table class="table table-hover" st-pipe="findResidents" st-table="residents" st-safe-src="residents">
-					<thead>
-					<tr>
-						<th></th>
-						<th>Resident</th>
-						<th>Policies</th>
-						<th>Email</th>
-						<th>Action</th>
-					</tr>
-					</thead>
-					<tbody>
-					<tr ng-repeat="resident in residents">
-						<td><input type="checkbox"></td>
-						<td><a href="#!/residents/{{resident._id}}/insurances">{{resident.displayName}}</a></td>
-						<td>{{resident.policy_count}}</td>
-						<td>{{resident.email}}</td>
-						<td>
-							<a href="" ng-click="removeResident(resident)"><span class="glyphicon glyphicon-trash"></span></a> |
-							<a href="" ng-click="openResidentModal(resident)"><span class="glyphicon glyphicon-pencil"></span></a>
-						</td>
-					</tr>
-					</tbody>
-					<tfoot>
-					<tr>
-						<td class="text-center" colspan="5">
-							<span class="pull-left" style="margin: 20px 0;">Total: {{totalItems}}</span>
-							<nav class="pull-right" ng-if="numberOfPages >= 2">
-								<ul class="pagination">
-									</li><li><a ng-click="selectPage(currentPage - 1)">&lt;</a></li>
-									<li><a>{{currentPage}} of {{numberOfPages}}</a></li>
-									<li><a ng-click="selectPage(currentPage + 1)">&gt;</a></li>
-								</ul>
-							</nav>
-						</td>
-					</tr>
-					</tfoot>
-				</table>
-			</div>
+			<tabset>
+				<tab heading="Residents" select="selectTab('resident')">
+					<div class="table-responsive">
+						<table class="table table-hover" st-pipe="findResidents" st-table="residents" st-safe-src="residents">
+							<thead>
+							<tr>
+								<th></th>
+								<th>Resident</th>
+								<th>Policies</th>
+								<th>Email</th>
+								<th>Action</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr ng-repeat="resident in residents">
+								<td><input type="checkbox" ng-model="resident.transferRLL"></td>
+								<td><a href="#!/residents/{{resident._id}}/insurances">{{resident.displayName}}</a></td>
+								<td>{{resident.policy_count}}</td>
+								<td>{{resident.email}}</td>
+								<td>
+									<a href="" ng-click="removeResident(resident)"><span class="glyphicon glyphicon-trash"></span></a> |
+									<a href="" ng-click="openResidentModal(resident)"><span class="glyphicon glyphicon-pencil"></span></a>
+								</td>
+							</tr>
+							</tbody>
+							<tfoot>
+							<tr>
+								<td class="text-center" colspan="5">
+									<span class="pull-left" style="margin: 20px 0;">Total: {{totalItems}}</span>
+									<nav class="pull-right" ng-if="numberOfPages >= 2">
+										<ul class="pagination">
+											</li><li><a ng-click="selectPage(currentPage - 1)">&lt;</a></li>
+											<li><a>{{currentPage}} of {{numberOfPages}}</a></li>
+											<li><a ng-click="selectPage(currentPage + 1)">&gt;</a></li>
+										</ul>
+									</nav>
+								</td>
+							</tr>
+							</tfoot>
+						</table>
+					</div>
+				</tab>
+				<tab heading="Transfer to RLL Coverage" select="selectTab('transfer')">
+					<div class="table-responsive">
+						<table class="table table-hover" st-pipe="findRLLResidents" st-table="rllResidents" st-safe-src="rllResidents">
+							<thead>
+							<tr>
+								<th>Resident</th>
+								<th>Policies</th>
+								<th>Email</th>
+								<th>Action</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr ng-repeat="resident in rllResidents">
+								<td><a href="#!/residents/{{resident._id}}/insurances">{{resident.displayName}}</a></td>
+								<td>{{resident.policy_count}}</td>
+								<td>{{resident.email}}</td>
+								<td>
+									<a href="" ng-click="removeResident(resident)"><span class="glyphicon glyphicon-trash"></span></a> |
+									<a href="" ng-click="openResidentModal(resident)"><span class="glyphicon glyphicon-pencil"></span></a>
+								</td>
+							</tr>
+							</tbody>
+							<tfoot>
+							<tr>
+								<td class="text-center" colspan="4">
+									<span class="pull-left" style="margin: 20px 0;">Total: {{rllTotalItems}}</span>
+									<nav class="pull-right" ng-if="rllNumberOfPages >= 2">
+										<ul class="pagination">
+											</li><li><a ng-click="selectRllPage(currentRllPage - 1)">&lt;</a></li>
+											<li><a>{{currentRllPage}} of {{rllNumberOfPages}}</a></li>
+											<li><a ng-click="selectRllPage(currentRllPage + 1)">&gt;</a></li>
+										</ul>
+									</nav>
+								</td>
+							</tr>
+							</tfoot>
+						</table>
+					</div>
+				</tab>
+			</tabset>
 		</div>
 	</div>
 </section>
