@@ -24,12 +24,12 @@
 		<div class="row">
 			<div class="form-group  col-md-6 datepicker-popup">
 				<input type="text" class="form-control" datepicker-popup ng-model="unit.moveInDate" placeholder="Move in Date"
-					   is-open="fromElements.opened" close-text="Close" show-button-bar="false"
+					   is-open="fromElements.opened" max-date="unit.moveOutDate" close-text="Close" show-button-bar="false"
 					   datepicker-options="datePickerOptions" ng-focus="from_open($event)"/>
 			</div>
 			<div class="form-group col-md-6 datepicker-popup">
 				<input type="text" class="form-control" datepicker-popup ng-model="unit.moveOutDate" placeholder="Move out Date"
-					   is-open="toElements.opened" close-text="Close" show-button-bar="false"
+					   is-open="toElements.opened" min-date="unit.moveInDate" close-text="Close" show-button-bar="false"
 					   datepicker-options="datePickerOptions" ng-focus="to_open($event)"/>
 			</div>
 		</div>

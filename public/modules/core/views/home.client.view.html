@@ -2,87 +2,42 @@
 	<div ng-if="!authentication.user">
 		<div class="gray-header-area"></div>
 		<div class="slide-area">
-			<carousel interval="myInterval" no-transition="false">
-				<slide ng-repeat="slide in slides" active="slide.active">
-					<img ng-src="{{slide.image}}" style="margin:auto;">
-				</slide>
-			</carousel>
 
 			<div class="signup-btn-area">
-				<p class="white-color">Are you a resident?</p>
-				<p class="light-green-color">Provide Your Renters Insurance Information</p>
-				<a href="#!/signup" class="btn btn-success green-btn-color btn-lg getstarted-btn">SUBMIT POLICY INFORMATION</a>
+				<p class="white-color resident_txt">Are you a resident?</p>
+				<p class="white-color" style="font-size: 20px;">Provide Your Rental Insurance Information</p>
+				<a href="#!/signup" class="btn btn-default getstarted-btn" style="border-radius: 0">SUBMIT POLICY INFORMATION</a>
 				<br>
-				<a href="#!/signin" class="btn btn-warning btn-lg">REVIEW SUBMISSION</a>
+				<a href="#!/signin" class="btn btn-success btn-lg" style="border-radius: 0">REVIEW SUBMISSION</a>
 			</div>
-			<div class="shadow-area"></div>
 		</div>
 		<div class="sub-container">
-			<div class="text-center">
-				<div class="row thumbnail-group">
-					<div class="col-sm-12 col-md-6">
-						<div class="thumbnail">
-							<img src="modules/core/img/thumb1.png">
-							<div class="caption text-left">
-								<h3 class="green-color thumbnail-title">For Property Managers</h3>
-								<p class="thumbnail-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla semper condimentum mi, in imperdiet urna hendrerit in. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer eget quam vitae ante tempor sagittis ut nec justo. Ut et felis ac tortor commodo rutrum ac vel enim. Sed sodales fringilla metus, quis porttitor dolor iaculis eget. Vestibulum gravida, magna eu volutpat vehicula, arcu sem vulputate lectus, sit amet commodo nulla mauris ut sem. Suspendisse a nulla at nisl luctus ultrices id vitae sapien.</p>
-								<p class="text-right"><a href="#!/signup/signup_user_info" class="btn btn-success green-btn-color thumbnail-btn" role="button">Get Started</a></p>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-12 col-md-6">
-						<div class="thumbnail">
-							<img src="modules/core/img/thumb2.png">
-							<div class="caption text-left">
-								<h3 class="green-color thumbnail-title">For Property Managers</h3>
-								<p class="thumbnail-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla semper condimentum mi, in imperdiet urna hendrerit in. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer eget quam vitae ante tempor sagittis ut nec justo. Ut et felis ac tortor commodo rutrum ac vel enim. Sed sodales fringilla metus, quis porttitor dolor iaculis eget. Vestibulum gravida, magna eu volutpat vehicula, arcu sem vulputate lectus, sit amet commodo nulla mauris ut sem. Suspendisse a nulla at nisl luctus ultrices id vitae sapien.</p>
-								<p class="text-right"><a href="#!/signup/signup_user_info" class="btn btn-success green-btn-color thumbnail-btn" role="button">Get Started</a></p>
-							</div>
-						</div>
-					</div>
+			<div class="media" style="padding: 35px 0;">
+				<div class="col-sm-5 col-md-5 thumbnail">
+					<img src="modules/core/img/resident-bg.png">
+				</div>
+				<div  class="col-sm-6 col-md-6 col-md-offset-1 col-sm-offset-1">
+					<h4 style="color: #ABABAB;">INFORMATION</h4>
+					<h3 class="media-heading">FOR RESIDENTS</h3>
+					<p class="thumbnail-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla semper condimentum mi, in imperdiet urna hendrerit in. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer eget quam vitae ante tempor sagittis ut nec justo. Ut et felis ac tortor commodo rutrum ac vel enim. Sed sodales fringilla metus, quis porttitor dolor iaculis eget. Vestibulum gravida, magna eu volutpat vehicula, arcu sem vulputate lectus, sit amet commodo nulla mauris ut sem. Suspendisse a nulla at nisl luctus ultrices id vitae sapien.</p>
+					<p><a href="#" class="btn btn-success green-btn-color thumbnail-btn" role="button" style="border-radius: 0">READ MORE</a></p>
+				</div>
+			</div>
+			<div class="media" style="padding: 35px 0;">
+				<div class="col-sm-5 col-md-5 thumbnail">
+					<img src="modules/core/img/pmanager-bg.png">
+				</div>
+				<div class="col-sm-5 col-md-6 col-md-offset-1 col-sm-offset-1">
+					<h4 style="color: #ABABAB;">INFORMATION</h4>
+					<h3 class="media-heading">FOR PROPERTY MANAGERS</h3>
+					<p class="thumbnail-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla semper condimentum mi, in imperdiet urna hendrerit in. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer eget quam vitae ante tempor sagittis ut nec justo. Ut et felis ac tortor commodo rutrum ac vel enim. Sed sodales fringilla metus, quis porttitor dolor iaculis eget. Vestibulum gravida, magna eu volutpat vehicula, arcu sem vulputate lectus, sit amet commodo nulla mauris ut sem. Suspendisse a nulla at nisl luctus ultrices id vitae sapien.</p>
+					<p><a href="#" class="btn btn-success green-btn-color thumbnail-btn" role="button" style="border-radius: 0">READ MORE</a></p>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div ng-if="authentication.user" class="sub-container" style="margin-top: 125px;">
-		<!--<div class="sub-header">
-			<h3 class="pull-left">Policy history</h3>
-			<div class="pull-right">
-				<button type="button" class="btn btn-large btn-success btn-block" style="padding: 15px;" ng-click="openInsuranceModal()">Add new insurance</button>
-			</div>
-		</div>
-		<div class="clearfix"></div>
-		<div class="">
-			<div ng-if="policies.$resolved && !policies.length" class="text-center" style="color: #7a7a7a; padding-top: 20%">
-				<span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 50px;"></span>
-				<p>You don't have uploaded insurances.</p>
-				<p>Add your first insurance.</p>
-			</div>
-			<div class="policy-list" ng-if="policies.$resolved && policies.length>0">
-				<div class="table-responsive">
-					<table class="table table-hover">
-						<thead>
-						<tr>
-							<th>Name of Insurance</th>
-							<th>Status</th>
-							<th>Expiration Date</th>
-							<th>Actions</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr ng-repeat="policy in policies">
-							<td>{{policy.insuranceName}}</td>
-							<td>{{policy.status}}</td>
-							<td>{{policy.policyEndDate | date: 'MMM d, yyyy'}}</td>
-							<td>
-								<a href="#!/insurances/{{policy._id}}">Details</a>
-							</td>
-						</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>-->
+
 	</div>
 </section>
 

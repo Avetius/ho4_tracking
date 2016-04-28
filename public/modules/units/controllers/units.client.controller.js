@@ -68,7 +68,8 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 					scope.property = $scope.property;
 
 					return scope;
-				}()
+				}(),
+				controller: 'UnitFormController'
 			});
 
 			modalInstance.result.then(function (selectedItem) {

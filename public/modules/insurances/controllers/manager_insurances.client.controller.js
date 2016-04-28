@@ -13,7 +13,9 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 		$scope.numberOfPages = 1;
 		$scope.currentPage = 1;
 		$scope.itemsByPage = 10;
-		$scope.insuranceFilter = 'pending';
+		$scope.recent_insurance = {
+			filter: 'pending'
+		};
 		$scope.tableState = {
 			pagination: {
 				number: $scope.itemsByPage,
@@ -22,7 +24,7 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 			},
 			search: null,
 			sort: null,
-			filter:$scope.insuranceFilter
+			filter:$scope.recent_insurance.filter
 		};
 
 		$scope.selectPage = function (page) {
@@ -61,6 +63,7 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 		};
 
 		$scope.findRecentInsurances = function(tableState) {
+			tableState.filter = $scope.recent_insurance.filter;
 			$scope.tableState.sort = tableState.sort;
 			var pagination = tableState.pagination;
 			var start = pagination.start || 0;

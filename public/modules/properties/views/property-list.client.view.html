@@ -35,8 +35,8 @@
 							</td>
 							<td ng-if="authentication.user.roles.indexOf('admin')>-1">{{property.propertyManager.displayName}}</td>
 							<td>{{property.state}}</td>
-							<td>{{property.phoneNumber}}</td>
 							<td ng-if="authentication.user.roles.indexOf('pmanager')>-1">{{property.phoneNumber}}</td>
+							<td>{{property.totalUnits}}</td>
 							<td>{{property.updated | date: 'MMM d, yyyy'}}</td>
 							<td ng-if="authentication.user.roles.indexOf('admin')>-1">
 								<a href="" ng-click="removeProperty(property)"><span class="glyphicon glyphicon-trash"></span></a> |

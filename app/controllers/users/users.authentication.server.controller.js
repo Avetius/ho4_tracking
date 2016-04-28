@@ -41,8 +41,10 @@ exports.signup = function(req, res) {
 	// Then save the user
 	user.save(function(err) {
 		if (err) {
+			var message = errorHandler.getErrorMessage(err);
+			if(message.indexOf('already exists') > -1) message = 'Email already exists';
 			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
+				message: message
 			});
 		} else {
 			// Remove sensitive data before login

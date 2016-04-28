@@ -9,7 +9,7 @@ angular.module('users').controller('ResidentController', ['$scope', '$stateParam
 		$scope.numberOfPages = 1;
 		$scope.currentPage = 1;
 		$scope.currentRllPage = 1;
-		$scope.itemsByPage = 2;
+		$scope.itemsByPage = 10;
 
 		$scope.tableState = {
 			pagination: {
@@ -51,7 +51,7 @@ angular.module('users').controller('ResidentController', ['$scope', '$stateParam
 			var pagination = tableState.pagination;
 
 			var start = pagination.start || 0;
-			var number = pagination.number || 2;
+			var number = pagination.number || 10;
 			Residents.getPage(start, number).then(function (result) {
 				$scope.residents = result.data;
 				$scope.numberOfPages = result.numberOfPages;
@@ -64,7 +64,7 @@ angular.module('users').controller('ResidentController', ['$scope', '$stateParam
 			var pagination = tableState.pagination;
 
 			var start = pagination.start || 0;
-			var number = pagination.number || 2;
+			var number = pagination.number || 10;
 			Residents.getTransferPage(start, number).then(function (result) {
 				$scope.rllResidents = result.data;
 				$scope.rllNumberOfPages = result.numberOfPages;

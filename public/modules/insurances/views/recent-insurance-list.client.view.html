@@ -11,7 +11,7 @@
 			<input type="text" ng-model="search" class="form-control" ng-keypress="searchWithText($event)" placeholder="Search">
 		</div>
 		<div class="col-md-3 col-md-offset-6">
-			<select class="form-control" ng-model="insuranceFilter" ng-change="filterByInsuranceStatus(insuranceFilter)" ng-if="authentication.user.roles.indexOf('admin')>-1">
+			<select class="form-control" ng-model="recent_insurance.filter" ng-change="filterByInsuranceStatus(recent_insurance.filter)" ng-if="authentication.user.roles.indexOf('admin')>-1">
 				<option value="pending">Pending</option>
 				<option value="all">All</option>
 				<option value="expired">Expired</option>
@@ -26,7 +26,7 @@
 							<th style="cursor: pointer" st-sort-default="propertyName" st-sort="propertyName">Property</th>
 							<th style="cursor: pointer" st-sort="unitNumber">Unit #</th>
 							<th style="cursor: pointer" st-sort="residentName">Resident Name</th>
-							<th style="cursor: pointer" st-sort="insuranceName">Coverage Name</th>
+							<th style="cursor: pointer" st-sort="insuranceName">Insurance Company</th>
 							<th style="cursor: pointer" st-sort="policyEndDate">Expiration Date</th>
 							<th style="cursor: pointer" st-sort="status">Status</th>
 							<th>Certificate</th>

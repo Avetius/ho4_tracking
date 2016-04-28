@@ -96,7 +96,7 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 					var scope = $rootScope.$new();
 					scope.propertyManager = {};
 					scope.add_property_manager= true;
-					scope.properties = [];
+					scope.properties = $scope.properties;
 					return scope;
 				}(),
 				controller: 'PropertyManagerFormController'
@@ -105,6 +105,7 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 			modalInstance.result.then(function (selectedItem) {
 				$scope.openPropertyModal();
 			}, function () {
+				$scope.openPropertyModal();
 				console.log('Modal dismissed at: ' + new Date());
 			});
 		};

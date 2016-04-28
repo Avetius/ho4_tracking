@@ -1,28 +1,38 @@
 <div data-ng-controller="FooterController" ng-if="!authentication.user && !mainpage_header">
 	<div class="footer-info text-center">
-		<span class="glyphicon glyphicon-phone-alt"></span>
-		<span>For more information, Call us <b>866.395.1308</b></span>
+		<div class="gray-bg-area"></div>
+		<span style="font-size: 38px; word-wrap: break-word; display: block; max-width: 720px; margin: 0px auto;">FOR MORE INFORMATION, CALL US <b>866.395.1308</b></span>
 	</div>
-	<div class="bottom-shadow"></div>
 	<div class="sub-container">
-		<ul class="list-inline navbar-text">
-			<li>
-				<a href="#">Home</a>
-			</li>
-			<li>
-				<a href="#">Services</a>
-			</li>
-			<li>
-				<a href="#">Privacy Policy</a>
-			</li>
-			<li>
-				<a href="#">FAQs</a>
-			</li>
-			<li>
-				<a href="#">Contact us</a>
-			</li>
-		</ul>
-		<p class="navbar-text copyright-field">Copyright © 2016, Renters Legal Liability LLC</p>
+		<a href="/#!/" class="navbar-brand" style="padding: 15px 0;">
+			<img class="img-responsive text-center" src="modules/core/img/landing_footer_logo.png" />
+		</a>
+		<div class="navbar-collapse collapse navbar-right" style="margin-top: -10px;" collapse="!isFooterCollapsed" ng-class="{'footer-menus': isFooterCollapsed }">
+			<ul class="nav navbar-nav">
+				<li>
+					<a href="#">Home</a>
+				</li>
+				<li>
+					<a href="#">Services</a>
+				</li>
+				<li>
+					<a href="#">Privacy Policy</a>
+				</li>
+				<li>
+					<a href="#">FAQs</a>
+				</li>
+				<li>
+					<a href="#">Contact us</a>
+				</li>
+			</ul>
+			<br>
+			<p class="navbar-text pull-right">Copyright © 2016, Renters Legal Liability LLC</p>
+		</div>
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle btn btn-default"  data-ng-click="toggleCollapsibleFooterMenu()">
+				Menu
+			</button>
+		</div>
 	</div>
 </div>
 <div ng-if="mainpage_header || authentication.user">

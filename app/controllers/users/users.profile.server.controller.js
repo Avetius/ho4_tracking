@@ -100,8 +100,10 @@ exports.updateProfile = function (req, res) {
 				} else {
 					user.save(function (err) {
 						if (err) {
+							var message = errorHandler.getErrorMessage(err);
+							if(message.indexOf('already exists') > -1) message = 'Email already exists';
 							return res.status(400).send({
-								message: errorHandler.getErrorMessage(err)
+								message: message
 							});
 						} else {
 							res.json(profile);
@@ -264,11 +266,16 @@ exports.getAllPropertyManagerList = function (req, res) {
 				var user_property_callbacks = [];
 				_.each(users, function (user) {
 					user_property_callbacks.push(function (cb) {
-						Property.find({propertyManager: user._id}, function (err, assigned_properties) {
+						Profile.findOne({user: user._id}).exec(function(err, profile) {
 							var tmp_user = user.toObject();
-							tmp_user.assigned_properties = assigned_properties;
-							cb(err, tmp_user);
-						});
+							tmp_user.phoneNumber = profile?profile.phoneNumber:'';
+							Property.find({propertyManager: user._id}, function (err, assigned_properties) {
+
+								tmp_user.assigned_properties = assigned_properties;
+
+								cb(err, tmp_user);
+							});
+						})
 					});
 				});
 				async.parallel(user_property_callbacks, function (err, results) {
@@ -290,12 +297,15 @@ exports.addPropertyManaget = function (req, res) {
 	propertyManager.updated = Date.now();
 	propertyManager.save(function (err) {
 		if (err) {
+			var message = errorHandler.getErrorMessage(err);
+			if(message.indexOf('already exists') > -1) message = 'Email already exists';
 			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
+				message: message
 			});
 		} else {
 			var profile = new Profile({
-				user: propertyManager._id
+				user: propertyManager._id,
+				phoneNumber: req.body.phoneNumber
 			});
 			profile.save(function (err) {
 				if (err) {
@@ -339,7 +349,15 @@ exports.getPropertyManager = function (req, res) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		}
-		res.json(user);
+		Profile.findOne({user: user._id}).exec(function (err, profile) {
+			if (err) {
+				return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+			}
+			user.phoneNumber = profile.phoneNumber;
+			res.json(user);
+		});
 	});
 };
 
@@ -352,20 +370,28 @@ exports.updatePropertyManager = function (req, res) {
 	};
 	User.update({_id: req.params.propertyManagerId}, updateObj, function (err, user) {
 		if (err) {
+			var message = errorHandler.getErrorMessage(err);
+			if(message.indexOf('already exists') > -1) message = 'Email already exists';
 			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
+				message: message
 			});
 		}
-		Property.update({propertyManager: req.params.propertyManagerId}, {propertyManager: null}, {multi: true}, function (err, result) {
-			var assigned_property_ids = [];
-			_.each(req.body.assigned_properties, function (property) {
-				assigned_property_ids.push(property._id);
-			});
-			Property.update({_id: {$in: assigned_property_ids}}, {propertyManager: req.params.propertyManagerId}, {multi: true}, function (err, result) {
-				res.json(user);
+		Profile.update({user: req.params.propertyManagerId}, {phoneNumber: req.body.phoneNumber}, function (err, profile) {
+			if (err) {
+				return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+			}
+			Property.update({propertyManager: req.params.propertyManagerId}, {propertyManager: null}, {multi: true}, function (err, result) {
+				var assigned_property_ids = [];
+				_.each(req.body.assigned_properties, function (property) {
+					assigned_property_ids.push(property._id);
+				});
+				Property.update({_id: {$in: assigned_property_ids}}, {propertyManager: req.params.propertyManagerId}, {multi: true}, function (err, result) {
+					res.json(user);
+				});
 			});
 		});
-
 	})
 };
 
@@ -421,8 +447,8 @@ exports.getAllResidentList = function (req, res) {
 
 exports.addResident = function (req, res) {
 	var password = randomstring.generate(8);
-	var inviteResident = resident.invite;
 	var resident = new User(req.body);
+	var inviteResident = resident.invite;
 	if (typeof req.body.appartmentNumber === 'object') {
 		resident.appartmentNumber = req.body.appartmentNumber.unitNumber;
 	}
@@ -434,8 +460,10 @@ exports.addResident = function (req, res) {
 	resident.updated = Date.now();
 	resident.save(function (err) {
 		if (err) {
+			var message = errorHandler.getErrorMessage(err);
+			if(message.indexOf('already exists') > -1) message = 'Email already exists';
 			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
+				message: message
 			});
 		} else {
 			var profile = new Profile({
@@ -539,8 +567,10 @@ exports.updateResident = function (req, res) {
 	}
 	User.update({_id: req.params.residentId}, updateObj, function (err, user) {
 		if (err) {
+			var message = errorHandler.getErrorMessage(err);
+			if(message.indexOf('already exists') > -1) message = 'Email already exists';
 			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
+				message: message
 			});
 		}
 		if (typeof req.body.appartmentNumber === 'object') {
