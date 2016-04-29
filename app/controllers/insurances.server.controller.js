@@ -230,7 +230,7 @@ exports.recentInsurances = function(req, res) {
 					var notesCallbacks = [];
 					_.each(resultArray, function(insurance) {
 						notesCallbacks.push(function(cb) {
-							Note.find({policy: insurance._id}).exec(function(err, notes) {
+							Note.find({policy: insurance._id}).populate('editor').exec(function(err, notes) {
 								var temp = insurance;
 								temp.notes = notes;
 								cb(err, temp);
@@ -281,7 +281,7 @@ exports.recentInsurances = function(req, res) {
 
 exports.recentInsuranceDetail = function(req, res) {
 	var insurance = req.insurance;
-	Note.find({policy: insurance._id}).exec(function(err, notes) {
+	Note.find({policy: insurance._id}).populate('editor').exec(function(err, notes) {
 		insurance = insurance.toObject()
 		insurance.notes = notes;
 		res.json({insurance: insurance});
