@@ -183,7 +183,11 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 				size: 'lg',
 				scope: function () {
 					var scope = $rootScope.$new();
-					scope.insurance = {unitNumber: $scope.unit.unitNumber};
+					if($scope.unit)
+					{
+						scope.insurance = {unitNumber: $scope.unit.unitNumber};
+
+					}
 					scope.add_insurance = true;
 					scope.residentId = $scope.residentId;
 					return scope;
