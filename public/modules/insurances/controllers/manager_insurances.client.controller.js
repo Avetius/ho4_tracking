@@ -167,7 +167,8 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 					scope.resident = $scope.resident;
 
 					return scope;
-				}()
+				}(),
+				controller: 'ManagerInsuranceFormController'
 			});
 
 			modalInstance.result.then(function (selectedItem) {

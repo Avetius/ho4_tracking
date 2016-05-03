@@ -8,7 +8,7 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 
 		$scope.numberOfPages = 1;
 		$scope.currentPage = 1;
-		$scope.itemsByPage = 10;
+		$scope.itemsByPage = 20;
 
 		$scope.tableState = {
 			pagination: {
@@ -38,7 +38,7 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 			var pagination = tableState.pagination;
 			var propertyManagerId = $stateParams.propertyManagerId || null;
 			var start = pagination.start || 0;
-			var number = pagination.number || 10;
+			var number = pagination.number || 20;
 			var search = tableState.search;
 			if(typeof search === 'object') search = '';
 			var sort = tableState.sort || '';

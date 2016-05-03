@@ -1,7 +1,7 @@
 <div class="container" data-ng-controller="HeaderController">
 	<div class="sub-container">
 		<div class="navbar-header" ng-class="{'signup-navbar': signup_header || signin_header}">
-			<button class="navbar-toggle" type="button" data-ng-click="toggleCollapsibleMenu()" ng-hide="mainpage_header">
+			<button class="navbar-toggle" type="button" data-ng-click="toggleCollapsibleMenu()" ng-hide="mainpage_header && !authentication.user">
 				<span class="sr-only">Toggle navigation</span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
