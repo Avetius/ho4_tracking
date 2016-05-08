@@ -66,7 +66,7 @@ exports.read = function(req, res) {
  */
 exports.update = function(req, res) {
 	var unit = req.unit;
-
+	if(req.body.resident) req.body.resident = req.body.resident._id;
 	unit = _.extend(unit, req.body);
 	unit.updated = Date.now();
 	unit.save(function(err) {
@@ -128,9 +128,14 @@ exports.list = function(req, res) {
 exports.propertyUnitList = function(req, res) {
 	var start = req.query.start;
 	var num = req.query.num;
-
+	var sort = JSON.parse(req.query.sort) || {};
 	Unit.count({property: req.params.propertyId}, function (err, count) {
-		Unit.find({property: req.params.propertyId}).sort('-created').populate('resident', 'displayName').limit(num).skip(start).exec(function (err, units) {
+		var sortString = '-created';
+		if(sort.predicate) {
+			sortString = sort.predicate;
+			if(sort.reverse) sortString = '-' + sortString;
+		}
+		Unit.find({property: req.params.propertyId}).sort(sortString).populate('resident', 'displayName').limit(num).skip(start).exec(function (err, units) {
 			if (err) {
 				return res.status(400).send({
 					message: errorHandler.getErrorMessage(err)

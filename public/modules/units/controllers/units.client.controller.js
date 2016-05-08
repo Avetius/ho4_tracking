@@ -17,7 +17,8 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 				numberOfPages: $scope.numberOfPages,
 				start: 0
 			},
-			search: {}
+			search: null,
+			sort: null
 		};
 
 		$scope.selectPage = function (page) {
@@ -34,12 +35,14 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 		};
 
 		$scope.findUnits = function(tableState) {
-
+			$scope.tableState.sort = tableState.sort;
 			var pagination = tableState.pagination;
 
 			var start = pagination.start || 0;
 			var number = pagination.number || 10;
-			Units.getPage(start, number, $scope.propertyId, $scope.propertyManagerId).then(function (result) {
+			var sort = tableState.sort || '';
+			if(!sort.predicate) sort = '';
+			Units.getPage(start, number, $scope.propertyId, $scope.propertyManagerId, sort).then(function (result) {
 				$scope.units = result.data;
 				$scope.property = result.property;
 				$scope.property_manager = result.property_manager;
@@ -97,7 +100,7 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 
 				modalInstance.result.then(function (selectedItem) {
 					if(selectedItem.resident_modal) {
-						$scope.openResidentModal();
+						$scope.openResidentModal(selectedItem.unit);
 					} else {
 						$scope.findUnits($scope.tableState);
 					}
@@ -126,7 +129,7 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 			});
 		};
 
-		$scope.openResidentModal = function() {
+		$scope.openResidentModal = function(unit) {
 			var modalInstance = $modal.open({
 				templateUrl: 'modules/users/views/residents/resident-form.modal.html',
 				scope: function () {
@@ -139,8 +142,9 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 			});
 
 			modalInstance.result.then(function (selectedItem) {
-				$scope.openUnitModal();
+				$scope.openUnitModal(unit);
 			}, function () {
+				$scope.openUnitModal(unit);
 				console.log('Modal dismissed at: ' + new Date());
 			});
 		};
