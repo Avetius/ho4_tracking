@@ -92,7 +92,7 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 						scope.unit = unit || {};
 						scope.propertyId = $scope.propertyId;
 						scope.residents = residents.data;
-						scope.add_unit= !unit;
+						scope.add_unit= !unit || !unit._id;
 						return scope;
 					}(),
 					controller: 'UnitFormController'
@@ -142,6 +142,7 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 			});
 
 			modalInstance.result.then(function (selectedItem) {
+				unit.resident = selectedItem.data;
 				$scope.openUnitModal(unit);
 			}, function () {
 				$scope.openUnitModal(unit);

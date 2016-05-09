@@ -104,6 +104,7 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 
 			modalInstance.result.then(function (selectedItem) {
 				$scope.managers.push(selectedItem.data);
+				property.propertyManager = selectedItem.data;
 				$scope.openPropertyModal(property);
 			}, function () {
 				$scope.openPropertyModal(property);
