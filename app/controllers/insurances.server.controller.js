@@ -173,8 +173,8 @@ exports.removeInsurance = function(req, res) {
 };
 
 exports.recentInsurances = function(req, res) {
-	var start = req.query.start;
-	var num = req.query.num;
+	var start = parseInt(req.query.start);
+	var num = parseInt(req.query.num);
 	var search = req.query.search || '';
 	var sort = JSON.parse(req.query.sort) || {};
 	var filterVal = req.query.filter;
@@ -230,7 +230,7 @@ exports.recentInsurances = function(req, res) {
 					var notesCallbacks = [];
 					_.each(resultArray, function(insurance) {
 						notesCallbacks.push(function(cb) {
-							Note.find({policy: insurance._id}).exec(function(err, notes) {
+							Note.find({policy: insurance._id}).populate('editor').exec(function(err, notes) {
 								var temp = insurance;
 								temp.notes = notes;
 								cb(err, temp);
@@ -262,14 +262,14 @@ exports.recentInsurances = function(req, res) {
 								searchResultArray.sort(dynamicSort(sort.predicate));
 								if (sort.reverse) searchResultArray.sort(dynamicSort('-' + sort.predicate));
 							}
-							var returnResult = searchResultArray.slice(start, (start + num) - 1);
+							var returnResult = searchResultArray.slice(start, (start + num));
 							res.json({count: searchResultArray.length, insurances: returnResult});
 						} else {
 							if (sort.predicate) {
 								resultArray.sort(dynamicSort(sort.predicate));
 								if (sort.reverse) resultArray.sort(dynamicSort('-' + sort.predicate));
 							}
-							var returnResult = resultArray.slice(start, (start + num) - 1);
+							var returnResult = resultArray.slice(start, (start + num));
 							res.json({count: resultArray.length, insurances: returnResult});
 						}
 					});
@@ -281,7 +281,7 @@ exports.recentInsurances = function(req, res) {
 
 exports.recentInsuranceDetail = function(req, res) {
 	var insurance = req.insurance;
-	Note.find({policy: insurance._id}).exec(function(err, notes) {
+	Note.find({policy: insurance._id}).populate('editor').exec(function(err, notes) {
 		insurance = insurance.toObject()
 		insurance.notes = notes;
 		res.json({insurance: insurance});

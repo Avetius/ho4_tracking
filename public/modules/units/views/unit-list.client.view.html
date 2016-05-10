@@ -18,11 +18,11 @@
 				<table class="table table-hover" st-pipe="findUnits" st-table="units" st-safe-src="units">
 					<thead>
 					<tr>
-						<th>Unit #</th>
-						<th>Unit Address</th>
+						<th st-sort-default="unitNumber" st-sort="unitNumber">Unit #</th>
+						<th st-sort="buildingNumber">Unit Address</th>
 						<th>Resident Name</th>
-						<th>Move in</th>
-						<th>Move out</th>
+						<th st-sort="moveInDate">Move in</th>
+						<th st-sort="moveOutDate">Move out</th>
 						<th>Unit Status</th>
 						<th>Action</th>
 					</tr>
@@ -39,7 +39,7 @@
 						</td>
 						<td>{{unit.moveInDate | date: 'MMM d, yyyy'}}</td>
 						<td>{{unit.moveOutDate | date: 'MMM d, yyyy'}}</td>
-						<td></td>
+						<td>{{unit.resident?'occupied': 'vacant'}}</td>
 						<td>
 							<a href="" ng-click="removeUnit(unit)"><span class="glyphicon glyphicon-trash"></span></a> |
 							<a href="" ng-click="openUnitModal(unit)"><span class="glyphicon glyphicon-pencil"></span></a>

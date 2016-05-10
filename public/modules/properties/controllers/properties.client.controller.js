@@ -8,7 +8,7 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 
 		$scope.numberOfPages = 1;
 		$scope.currentPage = 1;
-		$scope.itemsByPage = 10;
+		$scope.itemsByPage = 20;
 
 		$scope.tableState = {
 			pagination: {
@@ -38,7 +38,7 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 			var pagination = tableState.pagination;
 			var propertyManagerId = $stateParams.propertyManagerId || null;
 			var start = pagination.start || 0;
-			var number = pagination.number || 10;
+			var number = pagination.number || 20;
 			var search = tableState.search;
 			if(typeof search === 'object') search = '';
 			var sort = tableState.sort || '';
@@ -71,7 +71,7 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 					var scope = $rootScope.$new();
 					scope.property = property || {};
 					scope.property_manager = $scope.property_manager;
-					scope.add_property= !property;
+					scope.add_property= !property||!property._id;
 					scope.managers = $scope.managers;
 					return scope;
 				}(),
@@ -80,7 +80,7 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 
 			modalInstance.result.then(function (selectedItem) {
 				if(selectedItem.manager_modal) {
-					$scope.openPropertyManagerModal();
+					$scope.openPropertyManagerModal(selectedItem.property);
 				} else {
 					$scope.findProperties($scope.tableState);
 				}
@@ -89,7 +89,7 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 			});
 		};
 
-		$scope.openPropertyManagerModal = function() {
+		$scope.openPropertyManagerModal = function(property) {
 			var modalInstance = $modal.open({
 				templateUrl: 'modules/users/views/property_managers/property-manager-form.modal.html',
 				scope: function () {
@@ -103,9 +103,11 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 			});
 
 			modalInstance.result.then(function (selectedItem) {
-				$scope.openPropertyModal();
+				$scope.managers.push(selectedItem.data);
+				property.propertyManager = selectedItem.data;
+				$scope.openPropertyModal(property);
 			}, function () {
-				$scope.openPropertyModal();
+				$scope.openPropertyModal(property);
 				console.log('Modal dismissed at: ' + new Date());
 			});
 		};

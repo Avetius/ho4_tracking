@@ -69,7 +69,7 @@ angular.module('units').controller('UnitFormController', ['$scope', '$location',
 		};
 
 		$scope.openResidentModalForUnit = function() {
-			$modalInstance.close({resident_modal: true});
+			$modalInstance.close({resident_modal: true, unit: $scope.unit});
 		};
 	}
 ]);

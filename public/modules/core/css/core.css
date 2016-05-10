@@ -837,3 +837,8 @@ table thead th.st-sort-descent:after {
 .footer-menus p {
 	display: none;
 }
+
+.row {
+	margin-left: 0;
+	margin-right: 0;
+}

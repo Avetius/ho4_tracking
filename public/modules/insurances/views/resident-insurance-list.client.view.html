@@ -38,7 +38,7 @@
 							<td ng-click="viewDetailResidentInsurance(insurance)">{{insurance.insuranceName}}</td>
 							<td ng-click="viewDetailResidentInsurance(insurance)">{{insurance.policyEndDate | date: 'MMM d, yyyy'}}</td>
 							<td>
-								<select class="form-control" ng-model="insurance.status" ng-change="updateInsuranceStatus(insurance)">
+								<select class="form-control" ng-model="insurance.status" ng-change="updateInsuranceStatus(insurance, 'residents')">
 									<option value="approved">Approved</option>
 									<option value="rejected">Rejected</option>
 									<option value="pending">Pending</option>

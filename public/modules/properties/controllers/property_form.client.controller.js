@@ -42,7 +42,7 @@ angular.module('properties').controller('PropertyFormController', ['$scope', '$l
 		};
 
 		$scope.openPropertyManagerModalForProperty = function () {
-			$modalInstance.close({manager_modal: true});
+			$modalInstance.close({manager_modal: true, property: $scope.property});
 		};
 
 		$scope.cancel = function () {

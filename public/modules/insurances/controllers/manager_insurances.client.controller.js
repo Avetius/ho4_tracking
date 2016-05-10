@@ -122,7 +122,7 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 				size: 'lg',
 				scope: function () {
 					var scope = $rootScope.$new();
-					scope.insurance = insurance || {};
+					scope.insurance = insurance || {unitNumber: $scope.unit?$scope.unit.unitNumber:''};
 					scope.add_insurance = !insurance;
 					scope.propertyId = $scope.propertyId;
 					scope.unitId = $scope.unitId;
@@ -167,7 +167,8 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 					scope.resident = $scope.resident;
 
 					return scope;
-				}()
+				}(),
+				controller: 'ManagerInsuranceFormController'
 			});
 
 			modalInstance.result.then(function (selectedItem) {
@@ -183,11 +184,7 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 				size: 'lg',
 				scope: function () {
 					var scope = $rootScope.$new();
-					if($scope.unit)
-					{
-						scope.insurance = {unitNumber: $scope.unit.unitNumber};
-
-					}
+					scope.insurance = {unitNumber: $scope.unit?$scope.unit.unitNumber:''};
 					scope.add_insurance = true;
 					scope.residentId = $scope.residentId;
 					return scope;
@@ -203,7 +200,7 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 		};
 
 		$scope.alerts = [];
-		$scope.updateInsuranceStatus = function(insurance) {
+		$scope.updateInsuranceStatus = function(insurance, findResident) {
 			var modalInstance = $modal.open({
 				templateUrl: 'modules/insurances/views/note-form.modal.html',
 				scope: function () {
@@ -227,7 +224,9 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 						if($scope.insuranceId) {
 							$scope.findOneRecentInsurance();
 						} else {
-							$scope.findRecentInsurances($scope.tableState);
+							if(findResident === 'residents') $scope.findResidentInsurances($scope.tableState);
+							else if(findResident === 'policies') $scope.findPolicies();
+							else $scope.findRecentInsurances($scope.tableState);
 						}
 					}
 				});
