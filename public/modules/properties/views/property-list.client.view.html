@@ -33,7 +33,10 @@
 								<a href="#!/properties_by_manager/{{property.propertyManager._id}}/properties/{{property._id}}/units" ng-if="authentication.user.roles.indexOf('admin')>-1">{{property.propertyName}}</a>
 								<a href="#!/properties/{{property._id}}/units" ng-if="authentication.user.roles.indexOf('pmanager')>-1">{{property.propertyName}}</a>
 							</td>
-							<td ng-if="authentication.user.roles.indexOf('admin')>-1">{{property.propertyManager.displayName}}</td>
+							<td ng-if="authentication.user.roles.indexOf('admin')>-1">
+								{{property.propertyManager.displayName}}
+								<button type="btn btn-default" ng-if="!property.propertyManager" ng-click="displayPropertyManagerModal(property)">Add Property Manager</button>
+							</td>
 							<td>{{property.state}}</td>
 							<td ng-if="authentication.user.roles.indexOf('pmanager')>-1">{{property.phoneNumber}}</td>
 							<td>{{property.totalUnits}}</td>

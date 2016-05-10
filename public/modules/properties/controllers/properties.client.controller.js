@@ -109,6 +109,24 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 				console.log('Modal dismissed at: ' + new Date());
 			});
 		};
+		$scope.displayPropertyManagerModal = function(assignedproperty) {
+			var modalInstance = $modal.open({
+				templateUrl: 'modules/users/views/property_managers/property-manager-form.modal.html',
+				scope: function () {
+					var scope = $rootScope.$new();
+					scope.propertyManager = {assigned_properties:{0:assignedproperty}};
+					scope.add_property_manager= true;
+					scope.properties = $scope.properties;
+					return scope;
+				}(),
+				controller: 'PropertyManagerFormController'
+			});
+			modalInstance.result.then(function (selectedItem) {
+				$scope.findProperties($scope.tableState);
+			}, function () {
+				console.log('Modal dismissed at: ' + new Date());
+			});
+		};
 
 		$scope.searchWithText = function(e) {
 			if (e.keyCode == 13) {
