@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('units').controller('UnitFormController', ['$scope', '$location', 'Authentication', 'Units', '$modalInstance',
-	function($scope, $location, Authentication, Units, $modalInstance) {
+angular.module('units').controller('UnitFormController', ['$scope', '$location', 'Authentication', 'Units', '$modalInstance','$rootScope',
+	function($scope, $location, Authentication, Units, $modalInstance,$rootScope) {
 		$scope.authentication = Authentication;
 		var now = new Date();
 		var fromDate = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -64,6 +64,16 @@ angular.module('units').controller('UnitFormController', ['$scope', '$location',
 			}
 		};
 
+		$scope.saveUnitResidenId = function () {
+			$scope.unit.resident = document.getElementById('resident_id').value;
+			Units.saveUnit($scope.unit).then(function() {
+				$modalInstance.close({unit: $scope.unit});
+			}, function(errorResponse) {
+				$scope.error = errorResponse.message;
+			});
+		};
+
+
 		$scope.cancel = function () {
 			$modalInstance.dismiss('cancel');
 		};
@@ -71,5 +81,9 @@ angular.module('units').controller('UnitFormController', ['$scope', '$location',
 		$scope.openResidentModalForUnit = function() {
 			$modalInstance.close({resident_modal: true, unit: $scope.unit});
 		};
+
+		$scope.savebuildingNumber = function() {
+			$rootScope.appartmentNumber = document.getElementById("buildingNumber").value;
+		}
 	}
 ]);

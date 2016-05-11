@@ -1,0 +1,25 @@
+<div class="modal-header">
+    <i ng-click="cancel()" class="glyphicon glyphicon-remove icon-arrow-right pull-right" style="cursor: pointer; font-size: 22px; font-weight: normal;"></i>
+    <h3 class="modal-title">Resident</h3>
+</div>
+<div class="modal-body row">
+    <div class="col-md-12">
+        <div class="form-group no-margin">
+            <label class="control-label">Choose Resident from the List</label>
+            <select id="resident_id" class="form-control" ng-options="resident as resident.displayName for resident in residents track by resident._id" ng-model="unit.residenst">
+
+            </select>
+        </div>
+        <p class="text-center">OR</p>
+        <div class="form-group no-margin">
+            <button type="button" class="btn btn-default btn-block" ng-click="openResidentModalForUnit()">Create New Resident</button>
+        </div>
+        <div data-ng-show="error" class="text-center text-danger">
+            <strong data-ng-bind="error"></strong>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-default btn-lg custom-gray-btn" type="button" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-success btn-lg" type="button" ng-click="saveUnitResidenId()">Save</button>
+</div>

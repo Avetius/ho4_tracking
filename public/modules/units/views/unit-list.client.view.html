@@ -35,7 +35,7 @@
 							<a href="#!/properties/{{property._id}}/units/{{unit._id}}/{{unit.resident._id}}/insurances" ng-if="unit.resident">
 								{{unit.resident.displayName}}
 							</a>
-							<button type="btn btn-default" ng-if="!unit.resident" ng-click="displayResidentModal(unit)">Add resident</button>
+							<button type="btn btn-default" ng-if="!unit.resident" ng-click="displayExtraResidentModal(unit)">Add resident</button>
 						</td>
 						<td>{{unit.moveInDate | date: 'MMM d, yyyy'}}</td>
 						<td>{{unit.moveOutDate | date: 'MMM d, yyyy'}}</td>

@@ -110,6 +110,49 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 			});
 		};
 
+		$scope.displayExtraResidentModal = function(unit) {
+			Units.getResidents().then(function(residents) {
+				var modalInstance = $modal.open({
+					templateUrl: 'modules/users/views/residents/extra-resident-form.modal.html',
+					scope: function () {
+						var scope = $rootScope.$new();
+						scope.unit = unit || {};
+						scope.propertyId = $scope.propertyId;
+						scope.residents = residents.data;
+						scope.add_unit= !unit || !unit._id;
+						return scope;
+					}(),
+					controller: 'UnitFormController'
+				});
+
+				modalInstance.result.then(function (selectedItem) {
+					if(selectedItem.resident_modal) {
+						$scope.displayResidentModal(selectedItem.unit);
+					} else {
+						$scope.findUnits($scope.tableState);
+					}
+				}, function () {
+					console.log('Modal dismissed at: ' + new Date());
+				});
+			});
+			/*var modalInstance = $modal.open({
+				templateUrl: 'modules/users/views/residents/extra-resident-form.modal.html',
+				scope: function () {
+					var scope = $rootScope.$new();
+					scope.resident = {appartmentNumber: unit};
+					scope.add_resident = true;
+					return scope;
+				}(),
+				controller: 'ResidentFormController'
+			});
+
+			modalInstance.result.then(function (selectedItem) {
+				$scope.findUnits($scope.tableState);
+			}, function () {
+				console.log('Modal dismissed at: ' + new Date());
+			});*/
+		};
+
 		$scope.displayResidentModal = function(unit) {
 			var modalInstance = $modal.open({
 				templateUrl: 'modules/users/views/residents/resident-form.modal.html',
@@ -134,7 +177,7 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 				templateUrl: 'modules/users/views/residents/resident-form.modal.html',
 				scope: function () {
 					var scope = $rootScope.$new();
-					scope.resident =  {};
+					scope.resident =  {appartmentNumber:$rootScope.appartmentNumber};
 					scope.add_resident = true;
 					return scope;
 				}(),
