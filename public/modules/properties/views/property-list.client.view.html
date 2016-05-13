@@ -23,6 +23,7 @@
 							<th style="cursor: pointer" st-sort="state">State</th>
 							<th style="cursor: pointer" st-sort="phoneNumber" ng-if="authentication.user.roles.indexOf('pmanager')>-1">Phone</th>
 							<th>Units</th>
+							<th>Code</th>
 							<th style="cursor: pointer" st-sort="updated">Last modified</th>
 							<th ng-if="authentication.user.roles.indexOf('admin')>-1">Action</th>
 						</tr>
@@ -40,6 +41,7 @@
 							<td>{{property.state}}</td>
 							<td ng-if="authentication.user.roles.indexOf('pmanager')>-1">{{property.phoneNumber}}</td>
 							<td>{{property.totalUnits}}</td>
+							<td>{{property.propertyCode}}</td>
 							<td>{{property.updated | date: 'MMM d, yyyy'}}</td>
 							<td ng-if="authentication.user.roles.indexOf('admin')>-1">
 								<a href="" ng-click="removeProperty(property)"><span class="glyphicon glyphicon-trash"></span></a> |

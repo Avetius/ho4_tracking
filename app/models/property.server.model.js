@@ -28,6 +28,10 @@ var PropertySchema = new Schema({
 		trim: true,
 		validate: [validateLocalStrategyProperty, 'Please fill in property name']
 	},
+	propertyCode: {
+		type: Number,
+		default: 0,
+	},
 	propertyId: {
 		type: String
 	},

@@ -2,6 +2,9 @@
 
 angular.module('properties').controller('PropertyFormController', ['$scope', '$location', 'Authentication', 'Properties', 'PropertySmartList', '$modalInstance',
 	function($scope, $location, Authentication, Properties, PropertySmartList, $modalInstance) {
+		var randomFixedInteger = function (length) {
+			return Math.floor(Math.pow(10, length-1) + Math.random() * (Math.pow(10, length) - Math.pow(10, length-1) - 1));
+		}
 		$scope.authentication = Authentication;
 
 		$scope.saveProperty = function () {
@@ -21,12 +24,14 @@ angular.module('properties').controller('PropertyFormController', ['$scope', '$l
 				$scope.errorEmail = true;
 				invalidItems++;
 			}
+			$scope.property.propertyCode = randomFixedInteger(5);
 			if(invalidItems == 0) {
 				if($scope.add_property) {
 					var property = new Properties($scope.property);
 					// Redirect after save
 					property.$save(function(response) {
 						$modalInstance.close(response);
+						alert('Property code for this property is '+$scope.property.propertyCode);
 					}, function(errorResponse) {
 						$scope.error = errorResponse.message;
 					});
@@ -53,5 +58,7 @@ angular.module('properties').controller('PropertyFormController', ['$scope', '$l
 			var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 			return re.test(email);
 		};
+
+
 	}
 ]);
