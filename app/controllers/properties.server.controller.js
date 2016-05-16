@@ -81,13 +81,16 @@ exports.list = function(req, res) {
 	var sort = JSON.parse(req.query.sort) || {};
 	var query = {};
 	if(search && search !== '') query = {propertyName: {'$regex': search, '$options': 'i'}};
-	if(req.user.roles.indexOf('pmanager')>-1) {
+	if(!req.query.propertyCode && req.user.roles && req.user.roles.indexOf('pmanager')>-1) {
 		query = {propertyManager: req.user.id};
 		if(search && search !== '') query = {$and: [{propertyManager: req.user.id}, {propertyName: {'$regex': search, '$options': 'i'}}]};
 	}
 
 	if(req.query.propertyManagerId) {
 		query = {propertyManager: req.query.propertyManagerId};
+	}
+	if(req.query.propertyCode) {
+		query = {propertyCode: req.query.propertyCode};
 	}
 
 	Property.count(query, function (err, count) {
@@ -134,6 +137,24 @@ exports.propertyByID = function(req, res, next, id) {
 				message: 'Property not found'
 			});
 		}
+		req.property = property;
+		next();
+	});
+};
+
+/**
+ * Property middleware
+ */
+exports.getByCode = function(req, res, next) {
+
+	console.log(req.query.code);
+	Property.find({propertyCode:req.query.code}).populate('propertyManager', 'displayName').exec(function(err, property) {
+		/*if (err) return next(err);
+		if (!property) {
+			return res.status(404).send({
+				message: 'Property not found'
+			});
+		}*/
 		req.property = property;
 		next();
 	});

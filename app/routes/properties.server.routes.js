@@ -11,7 +11,7 @@ module.exports = function(app) {
 	var properties = require('../../app/controllers/properties.server.controller');
 
 	app.route('/properties')
-		.get(users.requiresLogin, users.isPropertyManager, properties.list)
+		.get(properties.list)
 		.post(users.requiresLogin, users.isPropertyManager, properties.create);
 
 	app.route('/properties/:propertyId')

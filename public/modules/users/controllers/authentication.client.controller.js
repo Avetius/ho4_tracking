@@ -171,18 +171,38 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 				invalidItems++;
 			}
 
-			if(invalidItems == 0) {
-				$http.post('/auth/signup', $scope.credentials).success(function(response) {
-					// If successful we assign the response to the global user model
-					$scope.authentication.user = response;
+			var start =  0;
+			var number = 20;
+			var sort = '';
+			var  propertyCode = $scope.credentials.propertyID;
+			var url = '/properties?start=' + start + '&num=' + number + '&propertyCode='+ propertyCode +'&sort=' + JSON.stringify(sort);
 
-					// And redirect to the index page
-					$location.path('/insurances');
-				}).error(function(response) {
-					if(response.message === 'Username already exists') response.message = 'Email already exists';
-					$scope.error = response.message;
-				});
-			}
+
+			$http.get(url).success(function (data) {
+				if(data.count > 0)
+				{
+					$scope.credentials.propertyID = data.properties[0]._id;
+				}
+				else
+				{
+					$scope.credentials.propertyID = "";
+				}
+				if(invalidItems == 0) {
+					$http.post('/auth/signup', $scope.credentials).success(function(response) {
+						// If successful we assign the response to the global user model
+						$scope.authentication.user = response;
+
+						// And redirect to the index page
+						$location.path('/insurances');
+					}).error(function(response) {
+						if(response.message === 'Username already exists') response.message = 'Email already exists';
+						$scope.error = response.message;
+					});
+				}
+			}).error(function (msg, code) {
+				console.log(msg);
+			});
+
 		};
 
 		$scope.signin = function() {
