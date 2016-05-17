@@ -71,7 +71,8 @@ angular.module('insurances').factory('ManagerInsurance', ['$q', '$filter', '$tim
 						numberOfPages: Math.ceil(data.count / number),
 						count: data.count,
 						resident: data.resident,
-						unit: data.unit
+						unit: data.unit,
+						property: data.property
 					});
 				}).error(function (msg, code) {
 					deferred.reject(msg);

@@ -166,7 +166,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 				$scope.errorPassword = true;
 				invalidItems++;
 			}
-			if(!$scope.credentials.propertyID || $scope.credentials.propertyID == "") {
+			if(!$scope.credentials.property_code || $scope.credentials.property_code == "") {
 				$scope.errorPropertyCode = true;
 				invalidItems++;
 			}
@@ -174,7 +174,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 			var start =  0;
 			var number = 20;
 			var sort = '';
-			var  propertyCode = $scope.credentials.propertyID;
+			var  propertyCode = $scope.credentials.property_code;
 			var url = '/properties?start=' + start + '&num=' + number + '&propertyCode='+ propertyCode +'&sort=' + JSON.stringify(sort);
 
 
@@ -185,7 +185,8 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 				}
 				else
 				{
-					$scope.credentials.propertyID = "";
+					$scope.errorPropertyCode = true;
+					invalidItems++;
 				}
 				if(invalidItems == 0) {
 					$http.post('/auth/signup', $scope.credentials).success(function(response) {

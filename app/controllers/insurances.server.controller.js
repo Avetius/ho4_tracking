@@ -87,7 +87,10 @@ exports.residentInsuranceList = function(req, res) {
 							});
 						});
 						async.parallel(notesCallbacks, function(err, results) {
-							res.json({count: count, insurances: results, resident: profile, unit: unit});
+							Property.findById(profile.user.propertyID).exec(function(err, property){
+								res.json({count: count, insurances: results, resident: profile, unit: unit, property:property});
+							});
+
 						});
 
 					}

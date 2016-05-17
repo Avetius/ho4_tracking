@@ -14,6 +14,7 @@
 	  	"ng-file-upload": "~12.0.3",
 	  	"angular-smart-table": "~2.1.7",
 	  	"angular-bootstrap-lightbox": "~0.4.0",
-	  	"angular-prompt": "~1.1.1"
+	  	"angular-prompt": "~1.1.1",
+	  	"grunt": "~0.4.0"
 	}
 }

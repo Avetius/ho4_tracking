@@ -1,9 +1,9 @@
 'use strict';
 
 // Insurances controller
-angular.module('insurances').controller('InsurancesController', ['$scope', '$stateParams', '$location',
-	'Authentication', 'Insurances', '$modal', '$rootScope',
-	function($scope, $stateParams, $location, Authentication, Insurances, $modal, $rootScope) {
+angular.module('insurances').controller('InsurancesController', ['$scope', '$http', '$stateParams', '$location',
+	'Authentication', 'Insurances', 'Properties','$modal', '$rootScope',
+	function($scope, $http, $stateParams, $location, Authentication, Insurances, Properties, $modal, $rootScope) {
 		$scope.authentication = Authentication;
 
 		// Find existing Insurance
@@ -13,6 +13,13 @@ angular.module('insurances').controller('InsurancesController', ['$scope', '$sta
 			});
 
 		};
+
+		//Get Property info
+		$http.get('/properties/'+Authentication.user.propertyID).then(function(datax){
+			$scope.property = datax.data;
+		});
+
+
 		$scope.policies = [];
 		$scope.findPolicies = function() {
 			if($scope.authentication.user) {

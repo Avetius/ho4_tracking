@@ -92,6 +92,7 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 				$scope.totalItems = result.count;
 				$scope.insurances = result.data;
 				$scope.resident = result.resident;
+				$scope.property = result.property;
 				$scope.unit = result.unit;
 			});
 		};
