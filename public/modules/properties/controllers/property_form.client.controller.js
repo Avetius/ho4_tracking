@@ -10,14 +10,10 @@ angular.module('properties').controller('PropertyFormController', ['$scope', '$l
 		$scope.saveProperty = function () {
 			var invalidItems = 0;
 			$scope.errorPropertyName = false;
-			$scope.errorPropertyId = false;
+
 			$scope.errorEmail = false;
 			if(!$scope.property.propertyName || $scope.property.propertyName == "") {
 				$scope.errorPropertyName = true;
-				invalidItems++;
-			}
-			if(!$scope.property.propertyId || $scope.property.propertyId == "") {
-				$scope.errorPropertyId = true;
 				invalidItems++;
 			}
 			if(!$scope.property.email || $scope.property.email == "" || !validateEmail($scope.property.email)) {
