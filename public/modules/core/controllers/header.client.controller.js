@@ -15,6 +15,7 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 				$scope.logo_link = '/#!/insurances';
 			}
 		}
+
 		if($location.path().indexOf('/signup') > -1) $scope.signup_header = true;
 		if($location.path().indexOf('/signin') > -1) $scope.signin_header = true;
 
@@ -40,6 +41,13 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 		// Collapsing the menu after navigation
 		$scope.$on('$stateChangeSuccess', function() {
 			$scope.isCollapsed = false;
+			if($scope.authentication.user) {
+				if($scope.authentication.user.roles.indexOf('admin')> -1 || $scope.authentication.user.roles.indexOf('pmanager')> -1) {
+					$scope.logo_link = '/#!/resident_insurances';
+				} else if($scope.authentication.user.roles.indexOf('user')> -1) {
+					$scope.logo_link = '/#!/insurances';
+				}
+			}
 		});
 
 		$scope.signin = function() {
@@ -51,6 +59,7 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 				if($scope.authentication.user.roles.indexOf('pmanager')> -1) $location.path('/resident_insurances');
 				else if($scope.authentication.user.roles.indexOf('admin')> -1) $location.path('/resident_insurances');
 				else $location.path('/insurances');
+
 			}).error(function(response) {
 				$scope.error = response.message;
 			});
