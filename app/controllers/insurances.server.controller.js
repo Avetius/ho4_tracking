@@ -175,7 +175,7 @@ exports.removeInsurance = function(req, res) {
 	});
 };
 
-exports.recentInsurances = function(req, res) {
+/*exports.recentInsurances = function(req, res) {
 	var start = parseInt(req.query.start);
 	var num = parseInt(req.query.num);
 	var search = req.query.search || '';
@@ -279,6 +279,75 @@ exports.recentInsurances = function(req, res) {
 				});
 			});
 		}
+	});
+};*/
+
+exports.recentInsurances = function(req, res) {
+	var start = parseInt(req.query.start);
+	var num = parseInt(req.query.num);
+	var search = req.query.search || '';
+	var sort = JSON.parse(req.query.sort) || {};
+	var filterVal = req.query.filter;
+	var query = {};
+	if(filterVal === 'pending') query = {status: 'pending'};
+	if(filterVal === 'expired') query = {status: 'expired'};
+
+	Policy.find(query).populate('user').exec(function(err, policies) {
+		var resultArray = [];
+		_.each(policies, function (policy) {
+			var temp_insurance = policy.toObject();
+			temp_insurance.propertyName = policy.user.propertyID;
+			temp_insurance.unitNumber = policy.unitNumber;
+			temp_insurance.residentName = policy.user.displayName;
+			resultArray.push(temp_insurance);
+		});
+
+		var notesCallbacks = [];
+		_.each(resultArray, function(insurance) {
+			notesCallbacks.push(function(cb) {
+				Note.find({policy: insurance._id}).populate('editor').exec(function(err, notes) {
+					var temp = insurance;
+					temp.notes = notes;
+					cb(err, temp);
+				});
+			});
+		});
+		async.parallel(notesCallbacks, function(err, results) {
+			resultArray = results;
+			if (search !== '') {
+				var propertSearchResultArray = resultArray.filter(function (item) {
+					return item.propertyName.search(search) > -1;
+				});
+				var unitSearchResultArray = resultArray.filter(function (item) {
+					return item.unitNumber.search(search) > -1;
+				});
+				var residentSearchResultArray = resultArray.filter(function (item) {
+					return item.user.displayName.search(search) > -1;
+				});
+
+				var searchResultArray = propertSearchResultArray.concat(unitSearchResultArray);
+				searchResultArray = searchResultArray.concat(residentSearchResultArray);
+				for (var i = 0; i < searchResultArray.length; ++i) {
+					for (var j = i + 1; j < searchResultArray.length; ++j) {
+						if (searchResultArray[i] === searchResultArray[j])
+							searchResultArray.splice(j--, 1);
+					}
+				}
+				if (sort.predicate) {
+					searchResultArray.sort(dynamicSort(sort.predicate));
+					if (sort.reverse) searchResultArray.sort(dynamicSort('-' + sort.predicate));
+				}
+				var returnResult = searchResultArray.slice(start, (start + num));
+				res.json({count: searchResultArray.length, insurances: returnResult});
+			} else {
+				if (sort.predicate) {
+					resultArray.sort(dynamicSort(sort.predicate));
+					if (sort.reverse) resultArray.sort(dynamicSort('-' + sort.predicate));
+				}
+				var returnResult = resultArray.slice(start, (start + num));
+				res.json({count: resultArray.length, insurances: returnResult});
+			}
+		});
 	});
 };
 
