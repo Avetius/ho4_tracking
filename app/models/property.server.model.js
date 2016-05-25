@@ -30,7 +30,7 @@ var PropertySchema = new Schema({
 	},
 	propertyCode: {
 		type: String,
-		default: '',
+		default: ''
 	},
 	propertyId: {
 		type: String

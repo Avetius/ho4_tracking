@@ -12,6 +12,8 @@ var mongoose = require('mongoose'),
 	Unit = mongoose.model('Unit'),
 	Note = mongoose.model('Note'),
 	async = require('async'),
+	schedule = require('node-schedule'),
+	emailHandler = require('./email.server.controller.js'),
 	_ = require('lodash');
 
 var dynamicSort = function(property) {
@@ -374,6 +376,30 @@ exports.updateStatusInsurance = function(req, res) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
+			if(insurance.status == 'rejected') {
+				Note.find({policy: insurance._id}).sort('-created').exec(function(err, notes) {
+					var note = '';
+					if(notes.length>0) note = notes[0].content;
+					var params = [{
+						key: '-firstName-',
+						val: insurance.user.firstName
+					}, {
+						key: '-note-',
+						val: note
+					}];
+					emailHandler.send('bcbd9047-8a3b-4b9c-82f4-a71966c929b2', params, insurance.user.email, 'You Policy Certificate was rejected', 'HO4 Rejected Email', function (err, result) {
+						console.log(err);
+					});
+				});
+			} else if(insurance.status == 'approved') {
+				var params = [{
+					key: '-firstName-',
+					val: insurance.user.firstName
+				}];
+				emailHandler.send('e07ca774-385f-4962-b401-940fb1a09a6d', params, insurance.user.email, 'Your Certificate was received and will be checked', 'Account Set Up and Certificate Received Approval', function (err, result) {
+					console.log(err);
+				});
+			}
 			res.json({success: true});
 		}
 	});
@@ -401,3 +427,159 @@ exports.insuranceByID = function(req, res, next, id) {
 		next();
 	});
 };
+
+var _MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+// a and b are javascript Date objects
+var dateDiffInDays = function(a, b) {
+	// Discard the time and time-zone information.
+	var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+	var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+
+	return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+};
+
+var checkExpireInsurances = function() {
+	var today = new Date();
+	var yesterday = today.setDate(today.getDate() - 1);
+	Policy.find({policyEndDate: {$gt: yesterday}}).populate('user').exec(function(err, policies) {
+		_.each(policies, function(policy) {
+			var dateDiff = dateDiffInDays(today, new Date(policy.policyEndDate));
+			if(dateDiff == 0) {
+				Profile.findOne({user: policy.user._id}).exec(function(profile) {
+					Property.findOne({_id: policy.user.propertyID}).populate('propertyManager').exec(function(err, property) {
+						Unit.findOne({property: property._id, resident: policy.user._id}).exec(function(err, unit) {
+							var params = [{
+								key: '-Insured Name-',
+								val: policy.user.displayName
+							},{
+								key: '-Address-',
+								val: profile.address
+							},{
+								key: '-policy_number-',
+								val: policy.policyNumber
+							},{
+								key: '-expire_date-',
+								val: new Date(policy.policyEndDate).toDateString()
+							}, {
+								key: '-unitNumber-',
+								val: unit.unitNumber
+							}, {
+								key: '-propertyName-',
+								val: property.propertyName
+							}, {
+								key: '-link-',
+								val: 'http://' + req.headers.host + '/#!/properties_by_manager/'+property.propertyManager._id+'/properties/'+property._id+'/units/'+unit._id+'/'+policy.user._id+'/insurances/'+policy._id
+							}, {
+								key: '-firstName-',
+								val: property.propertyManager.firstName
+							}];
+							emailHandler.send('0c8352ee-49fc-40f8-afc3-3a66b3c6c596', params, policy.user.email, 'Time to enroll unit in RL', 'Insurance certificate was canceled', function (err, result) {
+								console.log(err);
+							});
+							params = [{
+								key: '-firstName-',
+								val: policy.user.firstName
+							}, {
+								key: '-Insured Name-',
+								val: policy.user.displayName
+							},{
+								key: '-Address-',
+								val: profile.address
+							},{
+								key: '-policy_number-',
+								val: policy.policyNumber
+							},{
+								key: '-expire_date-',
+								val: new Date(policy.policyEndDate).toDateString()
+							}, {
+								key: '-unitNumber-',
+								val: unit.unitNumber
+							}, {
+								key: '-propertyName-',
+								val: property.propertyName
+							}];
+							emailHandler.send('55243257-bfe2-4e7d-b542-a5fa191c21bb', params, policy.user.email, 'Resident\'s Coverage was canceled', 'Insurance certificate was canceled', function (err, result) {
+								console.log(err);
+							});
+						});
+					});
+				});
+			} else if(dateDiff == 5) {
+				var params = [{
+					key: '-firstName-',
+					val: policy.user.firstName
+				}, {
+					key: '***unit number and apartment community name***',
+					val: policy.unitNumber + ' and ' + policy.insuranceName
+				}, {
+					key: '***date of experation from certificate of insurance***',
+					val: new Date(policy.policyEndDate).toDateString()
+				}];
+				emailHandler.send('9a40f29f-70a6-4cf3-802b-fd96d95bd5af', params, policy.user.email, 'Your Policy Certificate expires in 5 days', 'Your Policy Certificate expires in 5 days', function (err, result) {
+					console.log(err);
+				});
+			} else if(dateDiff == 15) {
+				var params = [{
+					key: '-firstName-',
+					val: policy.user.firstName
+				}, {
+					key: '***unit number and apartment community name***',
+					val: policy.unitNumber + ' and ' + policy.insuranceName
+				}, {
+					key: '***date of experation from certificate of insurance***',
+					val: new Date(policy.policyEndDate).toDateString()
+				}];
+				emailHandler.send('1300288d-830e-4b04-8076-813033e8d672', params, policy.user.email, 'Your Policy Certificate expires in 15 days', 'Your Policy Certificate expires in 15 days', function (err, result) {
+					console.log(err);
+				});
+			} else if(dateDiff == 30) {
+				var params = [{
+					key: '-firstName-',
+					val: policy.user.firstName
+				}, {
+					key: '***unit number and apartment community name***',
+					val: policy.unitNumber + ' and ' + policy.insuranceName
+				}, {
+					key: '***date of experation from certificate of insurance***',
+					val: new Date(policy.policyEndDate).toDateString()
+				}];
+				emailHandler.send('f2b01e4a-493e-4841-9fb7-e5db6ef53510', params, policy.user.email, 'Your Policy Certificate expires in 30 days', 'Your Policy Certificate expires in 30 days', function (err, result) {
+					console.log(err);
+				});
+			} else if(dateDiff == 60) {
+				var params = [{
+					key: '-firstName-',
+					val: policy.user.firstName
+				}, {
+					key: '***unit number and apartment community name***',
+					val: policy.unitNumber + ' and ' + policy.insuranceName
+				}, {
+					key: '***date of experation from certificate of insurance***',
+					val: new Date(policy.policyEndDate).toDateString()
+				}];
+				emailHandler.send('56fd17e6-7d5c-4824-b1f8-384e9c0dc9ba', params, policy.user.email, 'Your Policy Certificate expires in 60 days', 'Your Policy Certificate expires in 60 days', function (err, result) {
+					console.log(err);
+				});
+			} else if(dateDiff == 90) {
+				var params = [{
+					key: '-firstName-',
+					val: policy.user.firstName
+				}, {
+					key: '***unit number and apartment community name***',
+					val: policy.unitNumber + ' and ' + policy.insuranceName
+				}, {
+					key: '***date of experation from certificate of insurance***',
+					val: new Date(policy.policyEndDate).toDateString()
+				}];
+				emailHandler.send('aa3755e6-aaea-437c-b7cf-229dc66d14d3', params, policy.user.email, 'Your Policy Certificate expires in 90 days', 'Your Policy Certificate expires in 90 days', function (err, result) {
+					console.log(err);
+				});
+			}
+		});
+	});
+};
+
+schedule.scheduleJob({hour: 0, minute: 1}, function () {
+	checkExpireInsurances();
+});

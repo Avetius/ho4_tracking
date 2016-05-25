@@ -12,6 +12,7 @@ var _ = require('lodash'),
 	crypto = require('crypto'),
 	User = mongoose.model('User'),
 	Profile = mongoose.model('Profile'),
+	emailHandler = require('../email.server.controller.js'),
 	Policy = mongoose.model('Policy');
 
 /**
@@ -63,7 +64,18 @@ exports.signup = function(req, res) {
 						if (err) {
 							res.status(400).send(err);
 						} else {
-							res.render('templates/email-verify', {
+							var params = [{
+								key: '-firstName-',
+								val: user.firstName
+							}, {
+								key: '-link-',
+								val: 'http://' + req.headers.host + '/user/verify?token=' + user.verifyToken
+							}];
+							emailHandler.send('2b643938-d613-4992-a352-1932838df596', params, user.email, 'Please verify your email address', 'Please verify your email address', function (err, result) {
+								console.log(err);
+							});
+							res.json(user);
+							/*res.render('templates/email-verify', {
 								name: user.firstName,
 								url: 'http://' + req.headers.host + '/user/verify?token=' + user.verifyToken
 							}, function(err, emailHTML) {
@@ -76,7 +88,7 @@ exports.signup = function(req, res) {
 									console.log(json);
 								});
 								res.json(user);
-							});
+							});*/
 						}
 					});
 				}
