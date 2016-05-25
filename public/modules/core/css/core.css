@@ -1,3 +1,8 @@
+@font-face {
+	font-family: "HelveticaNeue";
+	src: url("/modules/core/font/HelveticaNeueUltraLight.ttf") format("truetype");
+}
+
 body {
 	position: absolute;
 	left: 0;
@@ -44,7 +49,7 @@ body.ng-cloak
 	content: " ";
 	height: 170px;
 	position: absolute;
-	top: 0;
+	top: 43px;
 	width: 100%;
 	z-index: -1;
 }
@@ -107,7 +112,7 @@ body.ng-cloak
 }
 
 .login-navbar .login-form {
-	padding: 35px 0;
+	padding: 35px 0px 0px 0px;
 }
 
 .login-navbar .login-form .form-control{
@@ -115,13 +120,16 @@ body.ng-cloak
 }
 
 .green-btn-color {
-	background-color: #487e2c;
+	background-color: #6EC25E;
 	background-image: none;
 	box-shadow: none;
 }
 
 .login-navbar .login-form .login-btn {
 	padding: 4px 30px;
+	-webkit-border-radius:0px;
+	-moz-border-radius:0px;
+	border-radius:0px;
 }
 
 .login-navbar .login-form .form-control,
@@ -146,9 +154,10 @@ body.ng-cloak
 }
 
 .signup-btn-area .resident_txt {
-	font-size: 68px;
-	max-width: 300px;
+	font-size: 68px !important;
+	max-width: 300px !important;
 	word-wrap: break-word;
+	font-family: "HelveticaNeue";
 }
 
 .white-color {
@@ -699,10 +708,11 @@ table thead th.st-sort-descent:after {
 	.slide-area .signup-btn-area {
 		display: block;
 		font-size: 3.7em;
+		font-family: "Helvetica";
 		left: 0px;
 		position: absolute;
 		top: 250px;
-		background-color: rgba(0, 0, 0, 0.8);
+		background-color: rgba(0, 0, 0, 0.7);
 		padding: 30px 145px;
 		bottom: auto;
 		right: auto;
@@ -841,4 +851,32 @@ table thead th.st-sort-descent:after {
 .row {
 	margin-left: 0;
 	margin-right: 0;
+}
+.public_navigation
+{
+	position: absolute;
+	padding-top:8px;
+}
+.public_navigation a
+{
+	color:#FFFFFF;
+	text-decoration: none;
+}
+.public_navigation .item {
+	display:inline-block;
+	padding:0px 20px;
+}
+.rememberme{
+	margin-right: 106px;
+	margin-top: 5px;
+}
+.thumbnail-content{
+	color:gray;
+}
+.questionresident{
+	display: inline-block;
+}
+.questionresident .quest {
+	font-size: 176px;
+	font-family: "HelveticaNeue";
 }
