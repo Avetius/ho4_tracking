@@ -75,7 +75,7 @@ module.exports = function(app) {
 
 	app.route('/property_managers')
 		.get(users.requiresLogin, users.isAdminUser, users.getAllPropertyManagerList)
-		.post(users.requiresLogin, users.isAdminUser, users.addPropertyManaget);
+		.post(users.requiresLogin, users.isAdminUser, users.addPropertyManager);
 
 	app.route('/property_managers/:propertyManagerId')
 		.get(users.requiresLogin, users.isAdminUser, users.getPropertyManager)

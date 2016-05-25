@@ -18,6 +18,7 @@ var _ = require('lodash'),
 	Unit = mongoose.model('Unit'),
 	Policy = mongoose.model('Policy'),
 	config = require('../../../config/config'),
+	emailHandler = require('../email.server.controller.js'),
 	sendgrid  = require('sendgrid')(config.sendgrid_api);
 
 /**
@@ -87,6 +88,7 @@ exports.updateProfile = function (req, res) {
 			});
 		} else {
 			profile = _.extend(profile, req.body);
+			var email_changed = (user.email !== profile.user.email);
 			user.firstName = profile.user.firstName;
 			user.lastName = profile.user.lastName;
 			user.email = profile.user.email;
@@ -98,16 +100,34 @@ exports.updateProfile = function (req, res) {
 						message: errorHandler.getErrorMessage(err)
 					});
 				} else {
-					user.save(function (err) {
-						if (err) {
-							var message = errorHandler.getErrorMessage(err);
-							if(message.indexOf('already exists') > -1) message = 'Email already exists';
-							return res.status(400).send({
-								message: message
-							});
-						} else {
-							res.json(profile);
+					crypto.randomBytes(20, function(err, buffer) {
+						if (email_changed) {
+							user.resetPasswordToken = buffer.toString('hex');
+							user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
 						}
+						user.save(function (err) {
+							if (err) {
+								var message = errorHandler.getErrorMessage(err);
+								if (message.indexOf('already exists') > -1) message = 'Email already exists';
+								return res.status(400).send({
+									message: message
+								});
+							} else {
+								if (email_changed) {
+									var params = [{
+										key: '-email_address-',
+										val: user.email
+									}, {
+										key: '-reset_link-',
+										val: 'http://' + req.headers.host + '/auth/reset/' + user.resetPasswordToken
+									}];
+									emailHandler.send('db13173b-794e-4f71-98f6-8968fa50f365', params, user.email, 'Recovery Email Changed', 'Recovery Email Changed', function (err, result) {
+										console.log(err);
+									});
+								}
+								res.json(profile);
+							}
+						});
 					});
 				}
 			});
@@ -182,6 +202,18 @@ exports.createPolicy = function (req, res) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
+			if(policy.status == 'incomplete') {
+				var params = [{
+					key: '-firstName-',
+					val: req.user.firstName
+				}, {
+					key: '-note-',
+					val: 'Insurance File is missing.'
+				}];
+				emailHandler.send('d3a9e377-6f76-4a78-9db5-d97b2527fe6b', params, req.user.email, 'You didn\'t complete the set up of the account', 'You didn\'t complete the set up of the account', function (err, result) {
+					console.log(err);
+				});
+			}
 			res.json(policy);
 		}
 	});
@@ -215,7 +247,7 @@ exports.updatePolicy = function (req, res) {
 				message: 'Policy is invalid'
 			});
 		}
-
+		var policy_user = policy.user;
 		policy = _.extend(policy, req.body);
 		if (typeof req.body.unitNumber === 'object') {
 			policy.unitNumber = req.body.unitNumber.unitNumber;
@@ -229,6 +261,18 @@ exports.updatePolicy = function (req, res) {
 					message: errorHandler.getErrorMessage(err)
 				});
 			} else {
+				if(policy.status == 'incomplete') {
+					var params = [{
+						key: '-firstName-',
+						val: policy_user.firstName
+					}, {
+						key: '-note-',
+						val: 'Insurance File is missing.'
+					}];
+					emailHandler.send('d3a9e377-6f76-4a78-9db5-d97b2527fe6b', params, policy_user.email, 'You didn\'t complete the set up of the account', 'You didn\'t complete the set up of the account', function (err, result) {
+						console.log(err);
+					});
+				}
 				res.json(policy);
 			}
 		});
@@ -286,7 +330,7 @@ exports.getAllPropertyManagerList = function (req, res) {
 	});
 };
 
-exports.addPropertyManaget = function (req, res) {
+exports.addPropertyManager = function (req, res) {
 	var password = randomstring.generate(8);
 	var propertyManager = new User(req.body);
 	propertyManager.displayName = propertyManager.firstName + ' ' + propertyManager.lastName;
@@ -318,23 +362,51 @@ exports.addPropertyManaget = function (req, res) {
 					assigned_property_ids.push(property._id);
 				});
 				Property.update({_id: {$in: assigned_property_ids}}, {propertyManager: propertyManager._id}, {multi: true}, function (err, result) {
-					res.render('templates/send-invitation', {
-						name: propertyManager.displayName,
-						email: propertyManager.email,
-						password: password,
-						url: 'http://' + req.headers.host + '/#!/signin'
-					}, function (err, emailHTML) {
-						sendgrid.send({
-							to: propertyManager.email,
-							from: 'enterscompliance@veracityins.com',
-							subject: propertyManager.displayName + ' Invitation for Property Manager of HO4 ',
-							html: emailHTML
-						}, function (err, json) {
-							console.log(json);
+					var property_names = '';
+					Property.find({_id: {$in: assigned_property_ids}}).exec(function(err, properties) {
+						_.each(properties, function(property_item, i) {
+							property_names += property_item.propertyName;
+							if(i < properties.length-1) property_names += ', ';
 						});
-						console.log(password);
 
+						var params = [{
+							key: '-firstName-',
+							val: propertyManager.firstName
+						}, {
+							key: '-property_name-',
+							val: property_names
+						}, {
+							key: '-property_manager_email-',
+							val: propertyManager.email
+						}, {
+							key: '-password-',
+							val: password
+						}, {
+							key: '-link-',
+							val: 'http://' + req.headers.host + '/#!/signin'
+						}];
+						emailHandler.send('db25d056-0667-49a8-aec7-af46680e6132', params, propertyManager.email, 'You\'ve been assigned to a property', 'You\'ve been assigned to a property', function (err, result) {
+							console.log(err);
+						});
 						res.json(propertyManager);
+						/*res.render('templates/send-invitation', {
+						 name: propertyManager.displayName,
+						 email: propertyManager.email,
+						 password: password,
+						 url: 'http://' + req.headers.host + '/#!/signin'
+						 }, function (err, emailHTML) {
+						 sendgrid.send({
+						 to: propertyManager.email,
+						 from: 'enterscompliance@veracityins.com',
+						 subject: propertyManager.displayName + ' Invitation for Property Manager of HO4 ',
+						 html: emailHTML
+						 }, function (err, json) {
+						 console.log(json);
+						 });
+						 console.log(password);
+
+						 res.json(propertyManager);
+						 });*/
 					});
 				});
 			});
@@ -490,7 +562,24 @@ exports.addResident = function (req, res) {
 								});
 							}
 							if (inviteResident) {
-								res.render('templates/send-invitation', {
+								var params = [{
+									key: '-firstName-',
+									val: resident.firstName
+								},{
+									key: '-property_manager_email-',
+									val: resident.email
+								}, {
+									key: '-password-',
+									val: password
+								}, {
+									key: '-link-',
+									val: 'http://' + req.headers.host + '/#!/signin'
+								}];
+								emailHandler.send('18ee0a51-e673-4538-a9f6-fd449e8822cb', params, propertyManager.email, 'Please upload your Insurance Certificate', 'Please upload your Insurance Certificate', function (err, result) {
+									console.log(err);
+								});
+								res.json(resident);
+								/*res.render('templates/send-invitation', {
 									name: resident.displayName,
 									email: resident.email,
 									password: password,
@@ -506,7 +595,7 @@ exports.addResident = function (req, res) {
 									});
 									console.log(password);
 									res.json(resident);
-								});
+								});*/
 							} else {
 								res.json(resident);
 							}
@@ -514,24 +603,23 @@ exports.addResident = function (req, res) {
 					});
 				} else {
 					if (inviteResident) {
-						res.render('templates/send-invitation', {
-							name: resident.displayName,
-							email: resident.email,
-							password: password,
-							url: 'http://' + req.headers.host + '/#!/signin'
-						}, function (err, emailHTML) {
-							sendgrid.send({
-								to: resident.email,
-								from: 'enterscompliance@veracityins.com',
-								subject: resident.displayName + ' Invitation from HO4 ',
-								html: emailHTML
-							}, function (err, json) {
-								console.log(json);
-							});
-							console.log(password);
-
-							res.json(resident);
+						var params = [{
+							key: '-firstName-',
+							val: resident.firstName
+						},{
+							key: '-property_manager_email-',
+							val: resident.email
+						}, {
+							key: '-password-',
+							val: password
+						}, {
+							key: '-link-',
+							val: 'http://' + req.headers.host + '/#!/signin'
+						}];
+						emailHandler.send('18ee0a51-e673-4538-a9f6-fd449e8822cb', params, propertyManager.email, 'Please upload your Insurance Certificate', 'Please upload your Insurance Certificate', function (err, result) {
+							console.log(err);
 						});
+						res.json(resident);
 					} else {
 						res.json(resident);
 					}
