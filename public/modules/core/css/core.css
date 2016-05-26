@@ -955,11 +955,11 @@ table thead th.st-sort-descent:after {
 	background: #525252;
 }
 .footer-info-text{
-	font-size: 40px;
+	font-size: 24px;
 
 }
 .footer-info-contact{
-	font-size: 45px;
+	font-size: 20px;
 	font-weight: bold;
 
 }
@@ -1072,7 +1072,7 @@ table thead th.st-sort-descent:after {
 	.footer-wrap:before{
 		position:absolute;
 		right:0;
-		top:-160px;
+		top:-102px;
 		content:" ";
 		z-index:999;
 		width: 0;
@@ -1084,7 +1084,7 @@ table thead th.st-sort-descent:after {
 	.footer-wrap:after{
 		position:absolute;
 		left:0;
-		top:-90px;
+		top:-66px;
 		content:" ";
 		width: 0;
 		height: 0;

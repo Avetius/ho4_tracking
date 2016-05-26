@@ -47,7 +47,7 @@
 				</li>
 			</ul>
 			<!--data-ng-hide="authentication.user || mainpage_header || signup_header || signin_header"-->
-			<ul class="nav navbar-nav navbar-right login-navbar" >
+			<ul class="nav navbar-nav navbar-right login-navbar" data-ng-hide="authentication.user || mainpage_header || signup_header || signin_header">
 				<li>
 					Call <span style="color: #6ec25e; font-weight: bold;">866.395.1308</span> if you have any questions
 				</li>
@@ -95,7 +95,7 @@
 				</li>
 			</ul>
 		</nav>
-		<div class="row col-md-6 public_navigation">
+		<div class="row col-md-6 public_navigation" data-ng-if="!menu.shouldRender(authentication.user);">
 			<div class="item">
 				<a ng-href="/#!/">Home</a>
 			</div>
@@ -111,6 +111,13 @@
 			<div class="item">
 				<a href="/#!/contact-us">Contact us</a>
 			</div>
+		</div>
+		<div data-ng-if="menu.shouldRender(authentication.user);">
+			<style>
+				.navbar .sub-container .container::after{
+					top: -48px !important;
+				}
+			</style>
 		</div>
 	</div>
 </div>
