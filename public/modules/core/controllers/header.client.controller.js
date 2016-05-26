@@ -21,7 +21,7 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 
 		$rootScope.$on('$stateChangeStart',	function(event, toState, toParams, fromState, fromParams){
 			if (toState.name !== 'home') $scope.mainpage_header = true;
-			else $scope.mainpage_header = false;
+			else $scope.mainpage_header = true;
 
 			if(toState.name.indexOf('signup') > -1) $scope.signup_header = true;
 			else $scope.signup_header = false;

@@ -1,5 +1,6 @@
-<div class="container" data-ng-controller="HeaderController">
-	<div class="sub-container">
+<div class="sub-container frontend-header">
+	<div class="container" data-ng-controller="HeaderController">
+
 		<div class="navbar-header" ng-class="{'signup-navbar': signup_header || signin_header}">
 			<button class="navbar-toggle" type="button" data-ng-click="toggleCollapsibleMenu()" ng-hide="mainpage_header && !authentication.user">
 				<span class="sr-only">Toggle navigation</span>
@@ -45,7 +46,8 @@
 					</a>
 				</li>
 			</ul>
-			<ul class="nav navbar-nav navbar-right login-navbar" data-ng-hide="authentication.user || mainpage_header || signup_header || signin_header">
+			<!--data-ng-hide="authentication.user || mainpage_header || signup_header || signin_header"-->
+			<ul class="nav navbar-nav navbar-right login-navbar" >
 				<li>
 					Call <span style="color: #6ec25e; font-weight: bold;">866.395.1308</span> if you have any questions
 				</li>
@@ -95,19 +97,19 @@
 		</nav>
 		<div class="row col-md-6 public_navigation">
 			<div class="item">
-				<a href="#">Home</a>
+				<a ng-href="/#!/">Home</a>
 			</div>
 			<div class="item">
-				<a href="#">Services</a>
+				<a ng-href="/#!/services"  class="ng-scope">Services</a>
 			</div>
 			<div class="item">
-				<a href="#">Privacy Policy</a>
+				<a ng-href="/#!/privacy-policy">Privacy Policy</a>
 			</div>
 			<div class="item">
-				<a href="#">FAQs</a>
+				<a ng-href="/#!/faqs">FAQs</a>
 			</div>
 			<div class="item">
-				<a href="#">Contact us</a>
+				<a href="/#!/contact-us">Contact us</a>
 			</div>
 		</div>
 	</div>
