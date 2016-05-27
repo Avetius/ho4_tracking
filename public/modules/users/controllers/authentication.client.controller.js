@@ -1,11 +1,13 @@
 'use strict';
 
-angular.module('users').controller('AuthenticationController', ['$scope', '$http', '$location', 'Authentication', '$state', 'Upload',
-	function($scope, $http, $location, Authentication, $state, Upload) {
+angular.module('users').controller('AuthenticationController', ['$scope', '$http', '$location', 'Authentication', '$state', 'Upload','$rootScope',
+	function($scope, $http, $location, Authentication, $state, Upload, $rootScope) {
 		$scope.authentication = Authentication;
 
 		// If user is signed in then redirect back home
 		if ($scope.authentication.user) $location.path('/');
+
+		$rootScope.hide_navigation = true;
 
 		$scope.credentials = {};
 
@@ -131,7 +133,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 					$scope.errorCountry = true;
 					invalidItems++;
 				}*/
-			}
+		}
 			if(invalidItems == 0) {
 				if(path === 'account_info') $scope.finishUserInfoStep = true;
 				if(path === 'policy_info') $scope.finishAccountInfoStep = true;
