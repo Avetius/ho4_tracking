@@ -10,12 +10,17 @@
 			<div class="col-md-6">
 				<h2 class="gray-color">
 					Insurance details
+					<button class="btn" style="background-color: #D2D3D5; color: #fff;" ng-click="viewInsuranceNotes(insurance.notes)">
+						<span class="glyphicon glyphicon-list-alt"></span>
+					</button>
 				</h2>
+
 			</div>
 			<div class="col-md-6 text-right">
 				<div style="display: inline; padding-top: 32px; padding-right: 10px; vertical-align: bottom;">
 					<span style="font-size: 20px;" class="gray-color">unit# </span><span style="font-size:30px;font-weight: bold;">{{unit.unitNumber}}</span>
 				</div>
+				<button type="button" class="btn btn-lg" style="padding: 10px 20px; background-color: #B5B5B5; color: #fff; border-radius: 0;" ng-click="enrollToRll(insurance)">Enroll to RLL</button>
 				<button type="button" class="btn btn-lg btn-success" style="padding: 10px 20px;" ng-click="openInsuranceModal(insurance)">Edit</button>
 			</div>
 		</div>
@@ -26,7 +31,7 @@
 					<img ngf-src="insurance.insuranceFilePath" style="width: 100%;" class="img-thumbnail">
 				</a>
 				<div class="mark-area">
-					<img src="modules/core/img/{{insurance.status}}.png">
+					<img src="modules/core/img/{{insurance_status}}.png">
 				</div>
 				<iframe ngf-src="insurance.insuranceFilePath" frameBorder="0" width="100%" height="100%" ng-if="insurance.insuranceFilePath.indexOf('pdf')>-1" style="min-height: 500px;"></iframe>
 			</div>
@@ -48,7 +53,7 @@
 					<h3 class="bold">{{insurance.policyStartDate | date: 'MMM d, yyyy'}} - {{insurance.policyEndDate | date: 'MMM d, yyyy'}}</h3>
 				</div>
 				<div class="row" style="padding: 30px; background-color: #F1F1F3;">
-					<div class="col-md-10">
+					<div>
 						<div style="padding: 5px;">
 							<p style="color: #7a7a7a;">Date (adding)</p>
 							<p>{{insurance.created | date: 'MMM d, yyyy'}}</p>
@@ -58,21 +63,17 @@
 							<p>{{insurance.user.displayName}}</p>
 						</div>
 						<div style="padding: 5px;">
-							<p style="color: #7a7a7a;">Resident Email</p>
+							<p class="pull-left" style="color: #7a7a7a;">Resident Email</p>
+							<button class="btn btn-success pull-right" style="margin-top: 3px;">
+								<span class="glyphicon glyphicon-envelope"></span>
+							</button>
+							<div class="clearfix"></div>
 							<p>{{insurance.user.email}}</p>
 						</div>
 						<div style="padding: 5px;">
 							<p style="color: #7a7a7a;">Propety Name/Property Code</p>
 							<p>{{property.propertyName}} / {{property.propertyCode}}</p>
 						</div>
-					</div>
-					<div class="col-md-2" style="padding-top: 100px;">
-						<button class="btn btn-success" ng-click="viewInsuranceNotes(insurance.notes)">
-							<span class="glyphicon glyphicon-list-alt"></span>
-						</button>
-						<button class="btn btn-success" style="margin-top: 3px;">
-							<span class="glyphicon glyphicon-envelope"></span>
-						</button>
 					</div>
 				</div>
 

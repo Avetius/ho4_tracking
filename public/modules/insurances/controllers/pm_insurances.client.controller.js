@@ -2,8 +2,8 @@
 
 // Insurances controller
 angular.module('insurances').controller('PMInsurancesController', ['$scope', '$http', '$stateParams', '$location',
-	'Authentication', 'ManagerInsurance','$modal', '$rootScope',
-	function($scope, $http, $stateParams, $location, Authentication, ManagerInsurance, $modal, $rootScope) {
+	'Authentication', 'ManagerInsurance','$modal', '$rootScope', '$timeout',
+	function($scope, $http, $stateParams, $location, Authentication, ManagerInsurance, $modal, $rootScope, $timeout) {
 		$scope.authentication = Authentication;
 		$scope.propertyId = $stateParams.propertyId;
 		$scope.insuranceId = $stateParams.insuranceId;
@@ -116,6 +116,25 @@ angular.module('insurances').controller('PMInsurancesController', ['$scope', '$h
 				$scope.insurance = result.insurance;
 				$scope.property = result.property;
 				$scope.unit = result.unit;
+				$scope.insurance_status = $scope.insurance.status.split(' ')[0];
+			});
+		};
+
+		$scope.alerts = [];
+
+		$scope.enrollToRll = function(insurance) {
+			$scope.insurance.status = 'enrolled to RLL';
+			$scope.insurance_status = $scope.insurance.status.split(' ')[0];
+			ManagerInsurance.updateStatusInsurance($scope.insurance).then(function(response) {
+				if(response.data.success) {
+					var alert = {
+						msg: 'Status updated successfully.'
+					};
+					$scope.alerts.push(alert);
+					$timeout(function(){
+						$scope.alerts.splice($scope.alerts.indexOf(alert), 1);
+					}, 2500);
+				}
 			});
 		};
 

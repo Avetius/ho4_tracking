@@ -32,7 +32,7 @@ module.exports = function(app) {
 	app.route('/property_insurances/:propertyId/:unitId/insurances/:insuranceId').get(users.requiresLogin, users.isPropertyManager, insurances.propertyInsuranceDetail);
 
 	app.route('/insurance_status/:insuranceId')
-		.post(users.requiresLogin, users.isAdminUser, insurances.updateStatusInsurance);
+		.post(users.requiresLogin, users.isAdminUser, users.isPropertyManager, insurances.updateStatusInsurance);
 
 	// Finish by binding the user middleware
 	app.param('insuranceId', insurances.insuranceByID);
