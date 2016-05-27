@@ -11,6 +11,7 @@ var _ = require('lodash'),
 	sendgrid  = require('sendgrid')(config.sendgrid_api),
 	crypto = require('crypto'),
 	User = mongoose.model('User'),
+	Property = mongoose.model('Property'),
 	Profile = mongoose.model('Profile'),
 	emailHandler = require('../email.server.controller.js'),
 	Policy = mongoose.model('Policy');
@@ -114,7 +115,21 @@ exports.signin = function(req, res, next) {
 				if (err) {
 					res.status(400).send(err);
 				} else {
-					res.json(user);
+					if(user.roles.indexOf('user') < 0) {
+						Property.findOne({}).sort('propertyName').exec(function (err, property) {
+							if (err) {
+								return res.status(400).send({
+									message: errorHandler.getErrorMessage(err)
+								});
+							} else {
+								var temp_user = user.toObject();
+								temp_user.property = property;
+								res.json(temp_user);
+							}
+						});
+					} else {
+						res.json(user);
+					}
 				}
 			});
 		}

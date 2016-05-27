@@ -1,0 +1,23 @@
+
+<div class="modal-body row">
+	<i ng-click="cancel()" class="glyphicon glyphicon-remove icon-arrow-right pull-right" style="cursor: pointer; font-size: 22px; font-weight: normal; z-index: 2;"></i>
+	<div style="padding-left: 20px; padding-right: 20px;">
+		<div class="col-md-7">
+			<h2>Certificate</h2>
+		</div>
+		<div class="col-md-5 text-right" style="margin-top: 5px;">
+			<span>unit# </span><span style="font-size:18px;font-weight: bold;">{{unitNumber}}</span>
+		</div>
+		<div class="clearfix"></div>
+		<div class="lightbox-image-container">
+			<img src="{{image}}" style="width: 100%;" ng-if="image">
+			<div ng-if="!image" style="text-align: center; height: 200px; background-color: #ccc; padding: 42px;">
+				<div style="width: 115px; margin: 0 auto; cursor: pointer;">
+					<span class="glyphicon glyphicon-camera" style="border-radius: 50%; background: #64AD54; padding: 15px; font-size: 35px; color: #fff;"></span>
+					<p style="color: #64AD54;">Upload Insurance Certificate</p>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

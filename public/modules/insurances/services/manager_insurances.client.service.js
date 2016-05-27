@@ -21,6 +21,34 @@ angular.module('insurances').factory('ManagerInsurance', ['$q', '$filter', '$tim
 				});
 				return deferred.promise;
 			},
+			getPMInsurancesPage: function(start, number, propertyId, search, sort) {
+				var deferred = $q.defer();
+				$http.get('/property_insurances/'+propertyId+'?start=' + start + '&num=' + number + '&search=' + search + '&sort=' + JSON.stringify(sort)).success(function (data) {
+					deferred.resolve({
+						data: data.insurances,
+						property: data.property,
+						numberOfPages: Math.ceil(data.count / number),
+						count: data.count
+					});
+				}).error(function (msg, code) {
+					deferred.reject(msg);
+				});
+				return deferred.promise;
+			},
+			getPmInsurance: function(propertyId, unitId, insuranceId) {
+				var deferred = $q.defer();
+				var url = '/property_insurances/'+propertyId+'/'+unitId+'/insurances/'+insuranceId;
+				$http.get(url).success(function (data) {
+					deferred.resolve({
+						property: data.property,
+						insurance: data.insurance,
+						unit: data.unit
+					});
+				}).error(function (msg, code) {
+					deferred.reject(msg);
+				});
+				return deferred.promise;
+			},
 			getInsurance: function(propertyId, unitId, residentId, insuranceId, propertyManagerId) {
 				var deferred = $q.defer();
 				var url = '/resident_insurances/'+propertyId+'/'+unitId  +'/'+residentId + '/insurances/'+insuranceId;

@@ -9,7 +9,9 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 		$scope.propertyManagerId = $stateParams.propertyManagerId;
 		$scope.numberOfPages = 1;
 		$scope.currentPage = 1;
+		$scope.pages = [];
 		$scope.itemsByPage = 10;
+		$scope.stDisplayedPages = 3;
 
 		$scope.tableState = {
 			pagination: {
@@ -136,21 +138,21 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 				});
 			});
 			/*var modalInstance = $modal.open({
-				templateUrl: 'modules/users/views/residents/extra-resident-form.modal.html',
-				scope: function () {
-					var scope = $rootScope.$new();
-					scope.resident = {appartmentNumber: unit};
-					scope.add_resident = true;
-					return scope;
-				}(),
-				controller: 'ResidentFormController'
-			});
+			 templateUrl: 'modules/users/views/residents/extra-resident-form.modal.html',
+			 scope: function () {
+			 var scope = $rootScope.$new();
+			 scope.resident = {appartmentNumber: unit};
+			 scope.add_resident = true;
+			 return scope;
+			 }(),
+			 controller: 'ResidentFormController'
+			 });
 
-			modalInstance.result.then(function (selectedItem) {
-				$scope.findUnits($scope.tableState);
-			}, function () {
-				console.log('Modal dismissed at: ' + new Date());
-			});*/
+			 modalInstance.result.then(function (selectedItem) {
+			 $scope.findUnits($scope.tableState);
+			 }, function () {
+			 console.log('Modal dismissed at: ' + new Date());
+			 });*/
 		};
 
 		$scope.displayResidentModal = function(unit) {
@@ -192,5 +194,7 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 				console.log('Modal dismissed at: ' + new Date());
 			});
 		};
+
+
 	}
 ]);

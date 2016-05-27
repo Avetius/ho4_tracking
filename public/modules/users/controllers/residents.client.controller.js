@@ -115,6 +115,7 @@ angular.module('users').controller('ResidentController', ['$scope', '$stateParam
 			});
 			Residents.transferToRLLCoverage(residentIds).then(function(result) {
 				$scope.findResidents($scope.tableState);
+				$scope.findRLLResidents($scope.tableState);
 			});
 		};
 

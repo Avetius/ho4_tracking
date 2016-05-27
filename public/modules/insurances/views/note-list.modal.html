@@ -4,20 +4,18 @@
 </div>
 <div class="modal-body row">
 	<div class="table-responsive">
-		<table st-table="policies" class="table table-striped">
-			<thead>
+		<table st-table="policies" class="table">
+			<thead class="gray-bg">
 			<tr>
 				<th>Subject</th>
 				<th>Date</th>
-				<th>Created By</th>
-				<th>Content</th>
+				<th>Comment</th>
 			</tr>
 			</thead>
 			<tbody>
 			<tr ng-repeat="note in notes">
 				<td>{{note.subject}}</td>
 				<td>{{note.created | date: 'MMM d, yyyy'}}</td>
-				<td>{{note.editor.displayName}}</td>
 				<td>{{note.content}}</td>
 			</tr>
 			</tbody>

@@ -24,6 +24,15 @@ angular.module('properties').factory('PropertySmartList', ['$q', '$filter', '$ti
 				});
 				return deferred.promise;
 			},
+			getProperties: function() {
+				var deferred = $q.defer();
+				$http.get('/properties_for_property_manager').success(function (data) {
+					deferred.resolve(data);
+				}).error(function (msg, code) {
+					deferred.reject(msg);
+				});
+				return deferred.promise;
+			},
 			saveProperty: function (property) {
 				var deferred = $q.defer();
 				var data = JSON.stringify(property);

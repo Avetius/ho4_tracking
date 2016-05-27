@@ -28,6 +28,9 @@ module.exports = function(app) {
 	app.route('/recent_insurances/:insuranceId')
 		.get(users.requiresLogin, users.isAdminUser, insurances.recentInsuranceDetail);
 
+	app.route('/property_insurances/:propertyId').get(users.requiresLogin, users.isPropertyManager, insurances.propertyInsurances);
+	app.route('/property_insurances/:propertyId/:unitId/insurances/:insuranceId').get(users.requiresLogin, users.isPropertyManager, insurances.propertyInsuranceDetail);
+
 	app.route('/insurance_status/:insuranceId')
 		.post(users.requiresLogin, users.isAdminUser, insurances.updateStatusInsurance);
 

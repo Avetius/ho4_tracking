@@ -1,0 +1,73 @@
+<div class="gray-header-area"></div>
+<section data-ng-controller="PMInsurancesController">
+	<div style="margin-top: 20px;">
+		<div class="sub-header">
+			<h2 class="pull-left">{{property.propertyName}}</h2>
+			<div class="pull-right">
+				<div class="input-group" style="margin-top: 20px;">
+					<input type="text" ng-model="search" class="form-control search" ng-keypress="searchWithText($event)" placeholder="Search">
+				    <span class="input-group-btn">
+						<button class="btn btn-success" ng-click="searchInsurance()"><i class="glyphicon glyphicon-search"></i></button>
+				    </span>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="maincontent-area" style="padding: 0;">
+			<div class="table-responsive">
+				<table class="table table-hover" st-pipe="findPMPropertyInsurances" st-table="insurances" st-safe-src="insurances">
+					<thead class="gray-bg">
+					<tr>
+						<th style="cursor: pointer" st-sort="unitNumber" class="sortable">Unit #</th>
+						<th style="cursor: pointer" st-sort="residentName" class="sortable">Resident Name</th>
+						<th style="cursor: pointer" st-sort="insuranceName" class="sortable">Insurance Company</th>
+						<th style="cursor: pointer" st-sort="policyEndDate" class="sortable">Expiration Date</th>
+						<th style="cursor: pointer" st-sort="status" class="sortable">Status</th>
+						<th class="text-center sortable" style="cursor: pointer" st-sort="created">Date(adding)</th>
+						<th class="text-center">Certificate, Notes</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr ng-repeat="insurance in insurances">
+						<td class="td-hover middle-align" ng-click="viewDetailInsurance(insurance)">{{insurance.unitNumber}}</td>
+						<td class="td-hover middle-align" ng-click="viewDetailInsurance(insurance)">{{insurance.user.displayName}}</td>
+						<td class="td-hover middle-align" ng-click="viewDetailInsurance(insurance)">{{insurance.insuranceName}}</td>
+						<td class="td-hover middle-align" ng-click="viewDetailInsurance(insurance)">{{insurance.policyEndDate | date: 'MMM d, yyyy'}}</td>
+						<td class="td-hover text-center middle-align">
+							<span ng-if="authentication.user.roles.indexOf('admin')<0" class="insurance-status {{insurance.status}}">{{insurance.status}}</span>
+							<select class="form-control" ng-model="insurance.status" ng-change="updateInsuranceStatus(insurance)" ng-if="authentication.user.roles.indexOf('admin')>-1">
+								<option value="approved">Approved</option>
+								<option value="rejected">Rejected</option>
+								<option value="pending">Pending</option>
+								<option value="expired">Expired</option>
+								<option value="incomplete">Incomplete</option>
+							</select>
+						</td>
+						<td class="td-hover middle-align" ng-click="viewDetailRecentInsurance(insurance)">{{insurance.created | date: 'MMM d, yyyy'}}</td>
+						<td class="text-center middle-align">
+							<div class="certificate-btn" style="cursor: pointer;" ng-click="viewInsuranceCertificate(insurance)">
+								<span class="glyphicon glyphicon-duplicate"></span>
+							</div>
+							<div class="note-btn" style="cursor: pointer;" ng-click="viewInsuranceNotes(insurance.notes)">
+								<span class="glyphicon glyphicon-list-alt"></span>
+							</div>
+						</td>
+					</tr>
+					</tbody>
+					<tfoot>
+					<tr>
+						<td colspan="7" class="text-center new-pagination">
+							<p style="color: #666; font-size: 12px; text-align: left;">Total: {{totalItems}}</div>
+							<nav ng-if="numberOfPages && pages.length >= 2">
+								<ul class="pagination">
+									<li ng-repeat="page in pages" class="page-item" ng-class="{active: page==currentPage}"><a href="javascript: void(0);" ng-click="selectPage(page)">{{page}}</a></li>
+								</ul>
+							</nav>
+						</td>
+					</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+	</div>
+</section>
