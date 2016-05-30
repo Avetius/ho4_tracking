@@ -23,7 +23,8 @@ module.exports = {
 				'public/lib/bootstrap/dist/css/bootstrap.min.css',
 				'public/lib/bootstrap/dist/css/bootstrap-theme.min.css',
 				'public/lib/angular-loading-bar/build/loading-bar.min.css',
-				'public/lib/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.min.css'
+				'public/lib/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.min.css',
+				'public/lib/font-awesome/css/font-awesome.min.css'
 			],
 			js: [
 				'public/lib/angular/angular.min.js',

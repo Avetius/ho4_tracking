@@ -40,18 +40,18 @@
 								Residents
 							</a>
 						</li>
-						<li ng-if="authentication.user.roles.indexOf('user')>-1" ng-switch="item" ui-route="/insurances" class="item" ng-class="{active: ($uiRoute)}">
+						<li ng-if="authentication.user.roles.indexOf('user')>-1" ng-switch="item" ui-route="/insurances" class="item" ng-class="{active: current_route.includes('insurances')}">
 							<a href="/#!/insurances" ng-switch-default>
 								Coverage History
 							</a>
 						</li>
-						<li ng-if="authentication.user.roles.indexOf('pmanager')>-1 || authentication.user.roles.indexOf('admin')>-1" ng-switch="item" ui-route="/properties" class="dropdown" dropdown ng-class="{active: ($uiRoute)}">
+						<li ng-if="authentication.user.roles.indexOf('pmanager')>-1 || authentication.user.roles.indexOf('admin')>-1"
+							ng-switch="item" ui-route="/property_insurances/{{current_property._id}}/insurances" class="dropdown" dropdown ng-class="{active: current_route.includes('property_insurances')}">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle style="padding-right: 50px; position: relative;">
 								{{current_property.propertyName}}
-								<div style="border-left: 1px solid; bottom: 0; padding: 10px; position: absolute; right: 0; top: 0;">
+								<div style="border-left: 1px solid #fff; bottom: 0; padding: 10px; position: absolute; right: 0; top: 0;">
 									<span class="glyphicon glyphicon-menu-down"></span>
 								</div>
-								<!--<b class="caret"></b>-->
 							</a>
 							<ul class="dropdown-menu">
 								<li ng-repeat="property in properties">
@@ -63,7 +63,7 @@
 						</li>
 						<li ng-switch="item" ui-route="/settings/profile" class="item" ng-class="{active: ($uiRoute)}">
 							<a href="/#!/settings/profile" ng-switch-default>
-								{{authentication.user.displayName}}
+								<i class="fa fa-gear" style="margin-right: 10px;"></i>{{authentication.user.displayName}}
 							</a>
 						</li>
 						<li ng-switch="item" class="item">

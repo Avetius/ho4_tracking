@@ -363,70 +363,75 @@ exports.propertyInsurances = function(req, res) {
 	var search = req.query.search || '';
 	var sort = JSON.parse(req.query.sort) || {};
 	var filterVal = req.query.filter;
+	Property.findById(req.params.propertyId).exec(function(err, property) {
+		Unit.find({property: req.params.propertyId}).populate('property').exec(function (err, units) {
+			var insuranceListCallback = [];
+			_.each(units, function (unit) {
+				insuranceListCallback.push(function (cb) {
+					var policy_query = {user: unit.resident};
+					Policy.find(policy_query).populate('user').exec(function (err, policies) {
+						unit.policies = policies;
+						cb(err, unit);
+					});
+				});
+			});
+			async.parallel(insuranceListCallback, function (err, results) {
+				var resultArray = [];
+				_.each(results, function (item) {
+					_.each(item.policies, function (policy) {
+						var temp_insurance = policy.toObject();
+						temp_insurance.unitNumber = item.unitNumber;
+						temp_insurance.unitId = item._id;
+						temp_insurance.residentName = policy.user.displayName;
+						resultArray.push(temp_insurance);
+					});
+				});
+				var notesCallbacks = [];
+				_.each(resultArray, function (insurance) {
+					notesCallbacks.push(function (cb) {
+						Note.find({policy: insurance._id}).populate('editor').exec(function (err, notes) {
+							var temp = insurance;
+							temp.notes = notes;
+							cb(err, temp);
+						});
+					});
+				});
+				async.parallel(notesCallbacks, function (err, results) {
+					resultArray = results;
+					if (search !== '') {
+						var unitSearchResultArray = resultArray.filter(function (item) {
+							return item.unitNumber.search(search) > -1;
+						});
+						var residentSearchResultArray = resultArray.filter(function (item) {
+							return item.user.displayName.search(search) > -1;
+						});
 
-	Unit.find({property: req.params.propertyId}).populate('property').exec(function(err, units) {
-		var insuranceListCallback = [];
-		_.each(units, function(unit) {
-			insuranceListCallback.push(function(cb) {
-				var policy_query = {user: unit.resident};
-				Policy.find(policy_query).populate('user').exec(function(err, policies) {
-					unit.policies = policies;
-					cb(err, unit);
-				});
-			});
-		});
-		async.parallel(insuranceListCallback, function(err, results) {
-			var resultArray = [];
-			_.each(results, function (item) {
-				_.each(item.policies, function (policy) {
-					var temp_insurance = policy.toObject();
-					temp_insurance.unitNumber = item.unitNumber;
-					temp_insurance.unitId = item._id;
-					temp_insurance.residentName = policy.user.displayName;
-					resultArray.push(temp_insurance);
-				});
-			});
-			var notesCallbacks = [];
-			_.each(resultArray, function(insurance) {
-				notesCallbacks.push(function(cb) {
-					Note.find({policy: insurance._id}).populate('editor').exec(function(err, notes) {
-						var temp = insurance;
-						temp.notes = notes;
-						cb(err, temp);
-					});
-				});
-			});
-			async.parallel(notesCallbacks, function(err, results) {
-				resultArray = results;
-				if (search !== '') {
-					var unitSearchResultArray = resultArray.filter(function (item) {
-						return item.unitNumber.search(search) > -1;
-					});
-					var residentSearchResultArray = resultArray.filter(function (item) {
-						return item.user.displayName.search(search) > -1;
-					});
-
-					var searchResultArray = unitSearchResultArray.concat(residentSearchResultArray);
-					for (var i = 0; i < searchResultArray.length; ++i) {
-						for (var j = i + 1; j < searchResultArray.length; ++j) {
-							if (searchResultArray[i] === searchResultArray[j])
-								searchResultArray.splice(j--, 1);
+						var searchResultArray = unitSearchResultArray.concat(residentSearchResultArray);
+						for (var i = 0; i < searchResultArray.length; ++i) {
+							for (var j = i + 1; j < searchResultArray.length; ++j) {
+								if (searchResultArray[i] === searchResultArray[j])
+									searchResultArray.splice(j--, 1);
+							}
 						}
+						if (sort.predicate) {
+							searchResultArray.sort(dynamicSort(sort.predicate));
+							if (sort.reverse) searchResultArray.sort(dynamicSort('-' + sort.predicate));
+						}
+						var returnResult = searchResultArray.slice(start, (start + num));
+						res.json({count: searchResultArray.length, property: property, insurances: returnResult});
+					} else {
+						if (sort.predicate) {
+							resultArray.sort(dynamicSort(sort.predicate));
+							if (sort.reverse) resultArray.sort(dynamicSort('-' + sort.predicate));
+						}
+						var returnResult = resultArray.slice(start, (start + num));
+						res.json({
+							count: resultArray.length,
+							property: property,
+							insurances: returnResult
+						});
 					}
-					if (sort.predicate) {
-						searchResultArray.sort(dynamicSort(sort.predicate));
-						if (sort.reverse) searchResultArray.sort(dynamicSort('-' + sort.predicate));
-					}
-					var returnResult = searchResultArray.slice(start, (start + num));
-					res.json({count: searchResultArray.length, insurances: returnResult});
-				} else {
-					if (sort.predicate) {
-						resultArray.sort(dynamicSort(sort.predicate));
-						if (sort.reverse) resultArray.sort(dynamicSort('-' + sort.predicate));
-					}
-					var returnResult = resultArray.slice(start, (start + num));
-					res.json({count: resultArray.length, property: units[0]?units[0].property:null, insurances: returnResult});
-				}
+				});
 			});
 		});
 	});
@@ -443,7 +448,7 @@ exports.recentInsuranceDetail = function(req, res) {
 
 exports.propertyInsuranceDetail = function(req, res) {
 	var insurance = req.insurance;
-	Property.findOne({_id: req.params.propertyId}).exec(function(err, property) {
+	Property.findById(req.params.propertyId).exec(function(err, property) {
 		Unit.findOne({_id: req.params.unitId}).exec(function(err, unit) {
 			Note.find({policy: insurance._id}).populate('editor').exec(function (err, notes) {
 				insurance = insurance.toObject()

@@ -52,6 +52,7 @@ angular.module('insurances').controller('PMInsurancesController', ['$scope', '$h
 				$scope.numberOfPages = result.numberOfPages;
 				$scope.property = result.property;
 				$scope.totalItems = result.count;
+				$rootScope.current_property = $scope.property;
 				redrawPagination(start, number)
 			});
 		};

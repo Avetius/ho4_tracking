@@ -47,7 +47,8 @@ module.exports = {
 				'public/lib/bootstrap/dist/css/bootstrap-theme.css',
 				'public/lib/angular-material/angular-material.css',
 				'public/lib/angular-loading-bar/build/loading-bar.css',
-				'public/lib/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.css'
+				'public/lib/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.css',
+				'public/lib/font-awesome/css/font-awesome.min.css'
 			],
 			js: [
 				'public/lib/angular/angular.js',

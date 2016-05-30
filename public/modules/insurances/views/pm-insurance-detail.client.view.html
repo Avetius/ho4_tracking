@@ -8,9 +8,9 @@
 		</ol>
 		<div class="sub-header">
 			<div class="col-md-6">
-				<h2 class="gray-color">
+				<h2 class="gray-color HelveticaNeue" style="font-size: 50px; margin-bottom: 20px;">
 					Insurance details
-					<button class="btn" style="background-color: #D2D3D5; color: #fff;" ng-click="viewInsuranceNotes(insurance.notes)">
+					<button class="btn btn-note" style="font-size: 21px;" ng-click="viewInsuranceNotes(insurance.notes)">
 						<span class="glyphicon glyphicon-list-alt"></span>
 					</button>
 				</h2>
@@ -20,8 +20,8 @@
 				<div style="display: inline; padding-top: 32px; padding-right: 10px; vertical-align: bottom;">
 					<span style="font-size: 20px;" class="gray-color">unit# </span><span style="font-size:30px;font-weight: bold;">{{unit.unitNumber}}</span>
 				</div>
-				<button type="button" class="btn btn-lg" style="padding: 10px 20px; background-color: #B5B5B5; color: #fff; border-radius: 0;" ng-click="enrollToRll(insurance)">Enroll to RLL</button>
-				<button type="button" class="btn btn-lg btn-success" style="padding: 10px 20px;" ng-click="openInsuranceModal(insurance)">Edit</button>
+				<button type="button" class="btn btn-lg btn-enroll" style="padding: 10px 20px; margin-top: 20px;" ng-click="enrollToRll(insurance)">Enroll to RLL</button>
+				<button type="button" class="btn btn-lg btn-success" style="padding: 10px 20px; margin-top: 20px;" ng-click="openInsuranceModal(insurance)">Edit</button>
 			</div>
 		</div>
 		<div class="clearfix"></div>

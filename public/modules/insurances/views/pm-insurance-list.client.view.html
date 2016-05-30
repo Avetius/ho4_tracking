@@ -2,12 +2,14 @@
 <section data-ng-controller="PMInsurancesController">
 	<div style="margin-top: 20px;">
 		<div class="sub-header">
-			<h2 class="pull-left">{{property.propertyName}}</h2>
-			<div class="pull-right">
+			<div class="pull-left">
+				<h2 style="font-size: 50px;" class="HelveticaNeue">{{property.propertyName}}</h2>
+			</div>
+			<div class="pull-right" style="width: 300px;">
 				<div class="input-group" style="margin-top: 20px;">
-					<input type="text" ng-model="search" class="form-control search" ng-keypress="searchWithText($event)" placeholder="Search">
+					<input type="text" ng-model="search" class="form-control search" ng-keypress="searchWithText($event)" placeholder="Search" style="height: 45px;">
 				    <span class="input-group-btn">
-						<button class="btn btn-success" ng-click="searchInsurance()"><i class="glyphicon glyphicon-search"></i></button>
+						<button class="btn btn-success" ng-click="searchInsurance()" style="font-size: 21px;"><i class="glyphicon glyphicon-search"></i></button>
 				    </span>
 				</div>
 			</div>
@@ -23,7 +25,7 @@
 						<th style="cursor: pointer" st-sort="insuranceName" class="sortable">Insurance Company</th>
 						<th style="cursor: pointer" st-sort="policyEndDate" class="sortable">Expiration Date</th>
 						<th style="cursor: pointer" st-sort="status" class="sortable">Status</th>
-						<th class="text-center sortable" style="cursor: pointer" st-sort="created">Date(adding)</th>
+						<th class="sortable" style="cursor: pointer" st-sort="created">Date(adding)</th>
 						<th class="text-center">Certificate, Notes</th>
 					</tr>
 					</thead>

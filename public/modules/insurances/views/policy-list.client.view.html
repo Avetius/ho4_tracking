@@ -1,14 +1,12 @@
 <div class="gray-header-area"></div>
 <section data-ng-controller="InsurancesController" data-ng-init="findPolicies()">
-	<div class="sub-container" style="margin-top: 20px;">
+	<div style="margin-top: 20px;">
 		<div class="sub-header">
 			<div class="pull-left">
-				<h4><strong>Property Code:</strong> {{ property.propertyCode }}</h4>
-				<h4><strong>Property Name:</strong> {{ property.propertyName }}</h4>
-				<h3>Coverage History</h3>
+				<h2 style="font-size: 50px;" class="HelveticaNeue">Coverage History</h2>
 			</div>
 			<div class="pull-right">
-				<button type="button" class="btn btn-large btn-success btn-block" style="padding: 15px;" ng-click="openInsuranceModal()">Add Insurance Certificate</button>
+				<button type="button" class="btn btn-large btn-success btn-block" style="padding: 15px; margin-top: 20px;" ng-click="openInsuranceModal()">Add Insurance Certificate</button>
 			</div>
 		</div>
 		<div class="clearfix"></div>
@@ -20,22 +18,24 @@
 			</div>
 			<div class="policy-list" ng-if="policies.$resolved && policies.length>0">
 				<div class="table-responsive">
-					<table st-table="policies" class="table table-striped">
-						<thead>
+					<table st-table="policies" class="table table-hover">
+						<thead class="gray-bg">
 						<tr>
-							<th>Insurance Company</th>
-							<th>Status</th>
-							<th>Expiration Date</th>
-							<th>Actions</th>
+							<th style="cursor: pointer" st-sort="insuranceName" class="sortable">Insurance Company</th>
+							<th style="cursor: pointer" st-sort="policyEndDate" class="sortable">Expiration Date</th>
+							<th style="cursor: pointer" st-sort="status" class="sortable">Status</th>
+							<th style="cursor: pointer" st-sort="created" class="sortable">Date(adding)</th>
+							<th>Edit</th>
 						</tr>
 						</thead>
 						<tbody>
 						<tr ng-repeat="policy in policies">
-							<td>{{policy.insuranceName}}</td>
-							<td>{{policy.status}}</td>
-							<td>{{policy.policyEndDate | date: 'MMM d, yyyy'}}</td>
+							<td class="middle-align"><a href="" class="green-color-link">{{policy.insuranceName}}</a></td>
+							<td class="middle-align">{{policy.policyStartDate | date: 'MMM d, yyyy'}} - {{policy.policyEndDate | date: 'MMM d, yyyy'}}</td>
+							<td class="middle-align text-center"><span class="insurance-status {{policy.status}}">{{policy.status}}</span></td>
+							<td class="middle-align">{{policy.created | date: 'MMM d, yyyy'}}</td>
 							<td>
-								<a href="#!/insurances/{{policy._id}}">View Details</a>
+								<a class="green-btn" href="#!/insurances/{{policy._id}}"><span class="glyphicon glyphicon-pencil"></span></a>
 							</td>
 						</tr>
 						</tbody>
