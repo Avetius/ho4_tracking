@@ -2,16 +2,17 @@
 
 // Insurances controller
 angular.module('insurances').controller('InsurancesController', ['$scope', '$http', '$stateParams', '$location',
-	'Authentication', 'Insurances', 'Properties','$modal', '$rootScope',
-	function($scope, $http, $stateParams, $location, Authentication, Insurances, Properties, $modal, $rootScope) {
+	'Authentication', 'Insurances', 'Properties','$modal', '$rootScope', 'Residents',
+	function($scope, $http, $stateParams, $location, Authentication, Insurances, Properties, $modal, $rootScope, Residents) {
 		$scope.authentication = Authentication;
-
+		Residents.getResident($scope.authentication.user._id).then(function(response) {
+			$scope.unit = response.data.unit;
+		});
 		// Find existing Insurance
 		$scope.findOne = function() {
 			$scope.insurance = Insurances.get({
 				policyId: $stateParams.insuranceId
 			});
-
 		};
 
 		//Get Property info

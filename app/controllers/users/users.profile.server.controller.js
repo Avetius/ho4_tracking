@@ -636,7 +636,17 @@ exports.getResident = function (req, res) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		}
-		res.json(user);
+		Unit.findOne({property: user.propertyID, resident: user._id}).populate('property').exec(function(err, unit) {
+			if (err) {
+				return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+			}	else {
+				var temp_user = user.toObject();
+				temp_user.unit = unit;
+				res.json(temp_user);
+			}
+		});
 	});
 };
 

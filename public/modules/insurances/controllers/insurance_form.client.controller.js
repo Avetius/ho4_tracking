@@ -5,7 +5,9 @@ angular.module('insurances').controller('InsuranceFormController', ['$scope', '$
 	'Insurances', '$modalInstance', 'Residents',
 	function($scope, $location, Authentication, Upload, Insurances, $modalInstance, Residents) {
 		$scope.authentication = Authentication;
-
+		Residents.getResident($scope.authentication.user._id).then(function(response) {
+			$scope.unit = response.data.unit;
+		});
 		var now = new Date();
 		var fromDate = new Date(now.getFullYear(), now.getMonth(), 1);
 		$scope.dateFilter = {

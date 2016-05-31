@@ -19,7 +19,7 @@ module.exports = function(app) {
 		.put(users.requiresLogin, users.isPropertyManager, properties.update)
 		.delete(users.requiresLogin, users.isPropertyManager, properties.delete);
 
-
+	app.route('/properties_for_property_manager').get(users.requiresLogin, users.isPropertyManager, properties.propertyListForPropertyManager)
 	// Finish by binding the user middleware
 	app.param('propertyId', properties.propertyByID);
 };

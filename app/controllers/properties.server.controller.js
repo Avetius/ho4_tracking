@@ -119,6 +119,19 @@ exports.list = function(req, res) {
 	});
 };
 
+exports.propertyListForPropertyManager = function(req, res) {
+	var query = {propertyManager: req.user.id};
+	Property.find(query).sort('propertyName').exec(function (err, properties) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.json(properties);
+		}
+	});
+};
+
 /**
  * Property middleware
  */

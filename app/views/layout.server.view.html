@@ -46,7 +46,7 @@
 </head>
 
 <body class="ng-cloak" ng-controller="MainController">
-	<header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse" ng-class="{'main-header': mainpage_header || authentication.user}"></header>
+	<header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse" ng-class="{'main-header': mainpage_header || authentication.user, 'member-header': authentication.user}"></header>
 	<section class="content" ng-class="{'mainpage-content': mainpage_header || authentication.user}">
 		<section class="container">
 			{% block content %}{% endblock %}

@@ -14,31 +14,64 @@
 
 		</div>
 		<nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation" >
-			<ul class="nav navbar-nav" data-ng-if="menu.shouldRender(authentication.user);" style="margin-top: 10px;">
-				<li ng-if="authentication.user.roles.indexOf('pmanager')>-1 || authentication.user.roles.indexOf('admin')>-1" ng-switch="item" ui-route="/resident_insurances" class="item" ng-class="{active: ($uiRoute)}">
-					<a href="/#!/resident_insurances" ng-switch-default>
-						Resident HO4 Coverage
-					</a>
+			<ul class="nav navbar-right" data-ng-if="menu.shouldRender(authentication.user);">
+				<li class="text-right">
+					Call <span style="color: #6ec25e; font-weight: bold;">866.395.1308</span> if you have any questions
 				</li>
-				<li ng-if="authentication.user.roles.indexOf('pmanager')>-1 || authentication.user.roles.indexOf('admin')>-1" ng-switch="item" ui-route="/properties" class="item" ng-class="{active: ($uiRoute)}">
-					<a href="/#!/properties" ng-switch-default>
-						Properties
-					</a>
-				</li>
-				<li ng-if="authentication.user.roles.indexOf('admin')>-1" ng-switch="item" ui-route="/property_managers" class="item" ng-class="{active: ($uiRoute)}">
-					<a href="/#!/property_managers" ng-switch-default>
-						Property Managers
-					</a>
-				</li>
-				<li ng-if="authentication.user.roles.indexOf('admin')>-1" ng-switch="item" ui-route="/residents" class="item" ng-class="{active: ($uiRoute)}">
-					<a href="/#!/residents" ng-switch-default>
-						Residents
-					</a>
-				</li>
-				<li ng-if="authentication.user.roles.indexOf('user')>-1" ng-switch="item" ui-route="/insurances" class="item" ng-class="{active: ($uiRoute)}">
-					<a href="/#!/insurances" ng-switch-default>
-						Coverage History
-					</a>
+				<li style="margin-top: 26px;" class="pull-right">
+					<ul class="nav navbar-nav">
+						<li ng-if="authentication.user.roles.indexOf('admin')>-1" ng-switch="item" ui-route="/resident_insurances" class="item" ng-class="{active: ($uiRoute)}">
+							<a href="/#!/resident_insurances" ng-switch-default>
+								Resident HO4 Coverage
+							</a>
+						</li>
+						<li ng-if="authentication.user.roles.indexOf('admin')>-1" ng-switch="item" ui-route="/properties" class="item" ng-class="{active: ($uiRoute)}">
+							<a href="/#!/properties" ng-switch-default>
+								Properties
+							</a>
+						</li>
+						<li ng-if="authentication.user.roles.indexOf('admin')>-1" ng-switch="item" ui-route="/property_managers" class="item" ng-class="{active: ($uiRoute)}">
+							<a href="/#!/property_managers" ng-switch-default>
+								Property Managers
+							</a>
+						</li>
+						<li ng-if="authentication.user.roles.indexOf('admin')>-1" ng-switch="item" ui-route="/residents" class="item" ng-class="{active: ($uiRoute)}">
+							<a href="/#!/residents" ng-switch-default>
+								Residents
+							</a>
+						</li>
+						<li ng-if="authentication.user.roles.indexOf('user')>-1" ng-switch="item" ui-route="/insurances" class="item" ng-class="{active: current_route.includes('insurances')}">
+							<a href="/#!/insurances" ng-switch-default>
+								Coverage History
+							</a>
+						</li>
+						<li ng-if="authentication.user.roles.indexOf('pmanager')>-1 || authentication.user.roles.indexOf('admin')>-1"
+							ng-switch="item" ui-route="/property_insurances/{{current_property._id}}/insurances" class="dropdown" dropdown ng-class="{active: current_route.includes('property_insurances')}">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle style="padding-right: 50px; position: relative;">
+								{{current_property.propertyName}}
+								<div style="border-left: 1px solid #fff; bottom: 0; padding: 10px; position: absolute; right: 0; top: 0;">
+									<span class="glyphicon glyphicon-menu-down"></span>
+								</div>
+							</a>
+							<ul class="dropdown-menu">
+								<li ng-repeat="property in properties">
+									<a href="/#!/property_insurances/{{property._id}}/insurances">
+										{{property.propertyName}}
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li ng-switch="item" ui-route="/settings/profile" class="item" ng-class="{active: ($uiRoute)}">
+							<a href="/#!/settings/profile" ng-switch-default>
+								<i class="fa fa-gear" style="margin-right: 10px;"></i>{{authentication.user.displayName}}
+							</a>
+						</li>
+						<li ng-switch="item" class="item">
+							<a href="/auth/signout" ng-switch-default>
+								<i class=" glyphicon glyphicon-log-out"></i>
+							</a>
+						</li>
+					</ul>
 				</li>
 			</ul>
 			<!--data-ng-hide="authentication.user || mainpage_header || signup_header || signin_header"-->
@@ -64,32 +97,6 @@
 						<br>
 						<div class="rememberme"><span>Remember me </span> <input type="checkbox"></div>
 					</form>
-				</li>
-			</ul>
-			<ul class="nav navbar-nav navbar-right user-dropdownmenu" data-ng-show="authentication.user">
-				<li class="dropdown" dropdown>
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle>
-						<span data-ng-bind="authentication.user.displayName"></span>
-						<br>
-						<span style="text-transform: capitalize;" ng-if="authentication.user.roles[0] !== 'user'">{{authentication.user.roles[0]}}</span>
-						<span style="text-transform: capitalize;" ng-if="authentication.user.roles[0] === 'user'">Resident</span>
-						<b class="caret"></b>
-					</a>
-					<ul class="dropdown-menu">
-						<li>
-							<a href="/#!/settings/profile">
-								<i class="glyphicon glyphicon-user"></i>
-								Settings
-							</a>
-						</li>
-						<li class="divider"></li>
-						<li>
-							<a href="/auth/signout">
-								<i class=" glyphicon glyphicon-log-out"></i>
-								Signout
-							</a>
-						</li>
-					</ul>
 				</li>
 			</ul>
 		</nav>

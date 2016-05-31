@@ -133,7 +133,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 					$scope.errorCountry = true;
 					invalidItems++;
 				}*/
-		}
+			}
 			if(invalidItems == 0) {
 				if(path === 'account_info') $scope.finishUserInfoStep = true;
 				if(path === 'policy_info') $scope.finishAccountInfoStep = true;
@@ -214,7 +214,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 				$scope.authentication.user = response;
 
 				// And redirect to the index page
-				if($scope.authentication.user.roles.indexOf('pmanager')> -1) $location.path('/resident_insurances');
+				if($scope.authentication.user.roles.indexOf('pmanager')> -1) $location.path('/property_insurances/'+response.property._id+'/insurances');
 				else if($scope.authentication.user.roles.indexOf('admin')> -1) $location.path('/resident_insurances');
 				else $location.path('/insurances');
 			}).error(function(response) {

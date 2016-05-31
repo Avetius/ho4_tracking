@@ -48,6 +48,14 @@ angular.module('insurances').config(['$stateProvider',
 		state('viewInsuranceForResident', {
 			url: '/residents/:residentId/insurances/:insuranceId',
 			templateUrl: 'modules/insurances/views/resident-insurance-detail.client.view.html'
+		}).
+		state('listPMInsurance', {
+			url: '/property_insurances/:propertyId/insurances',
+			templateUrl: 'modules/insurances/views/pm-insurance-list.client.view.html'
+		}).
+		state('viewPMInsuranceDetail', {
+			url: '/property_insurances/:propertyId/:unitId/insurances/:insuranceId',
+			templateUrl: 'modules/insurances/views/pm-insurance-detail.client.view.html'
 		});
 	}
 ]);

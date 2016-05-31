@@ -15,6 +15,7 @@
 	  	"angular-smart-table": "~2.1.7",
 	  	"angular-bootstrap-lightbox": "~0.4.0",
 	  	"angular-prompt": "~1.1.1",
+	  	"font-awesome": "~4.6.3",
 	  	"grunt": "~0.4.0"
 	}
 }
