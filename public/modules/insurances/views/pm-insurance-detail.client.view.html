@@ -1,6 +1,6 @@
 <div class="gray-header-area"></div>
 <section data-ng-controller="PMInsurancesController" data-ng-init="findOneInsurance()">
-	<div style="margin-top: 20px;">
+	<div class="sub-container"  style="margin-top: 20px;">
 		<alert ng-repeat="alert in alerts" type="success">{{alert.msg}}</alert>
 		<ol class="breadcrumb">
 			<li><a href="#!/property_insurances/{{property._id}}/insurances">{{property.propertyName}}</a></li>
