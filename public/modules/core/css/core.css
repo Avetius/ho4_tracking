@@ -1370,9 +1370,18 @@ thead.gray-bg th {
 }
 
 .btn-enroll {
-	background-color: #B5B5B5;
-	color: #fff;
+	background-color: #b5b5b5;
 	border-radius: 0;
+	color: #fff;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 15px 20px;
+}
+
+.btn-insurance {
+	font-size: 14px;
+	font-weight: bold;
+	text-transform: uppercase;
 }
 
 .btn-enroll:hover,
@@ -1435,10 +1444,11 @@ a.green-color-link:hover {
 }
 
 .breadcrumb a {
-	color: #8AC77A;
+	color: #70C25E;
 }
 
 .breadcrumb a:hover {
+	color: #6FC15D;
 	text-decoration: underline;
 }
 
@@ -1447,4 +1457,16 @@ a.green-color-link:hover {
 	padding-right: 15px;
 	margin-right: 0;
 	margin-left: 0;
+}
+
+.breadcrumb > li + li::before {
+	content: '>';
+}
+
+.breadcrumb > .active {
+	color: #BBB;
+}
+
+.breadcrumb {
+	background-color: #f7f8fa;
 }

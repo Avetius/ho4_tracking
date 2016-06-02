@@ -35,17 +35,10 @@
 						<td class="td-hover middle-align" ng-click="viewDetailInsurance(insurance)">{{insurance.user.displayName}}</td>
 						<td class="td-hover middle-align" ng-click="viewDetailInsurance(insurance)">{{insurance.insuranceName}}</td>
 						<td class="td-hover middle-align" ng-click="viewDetailInsurance(insurance)">{{insurance.policyEndDate | date: 'MMM d, yyyy'}}</td>
-						<td class="td-hover text-center middle-align">
-							<span ng-if="authentication.user.roles.indexOf('admin')<0" class="insurance-status {{insurance.status}}">{{insurance.status}}</span>
-							<select class="form-control" ng-model="insurance.status" ng-change="updateInsuranceStatus(insurance)" ng-if="authentication.user.roles.indexOf('admin')>-1">
-								<option value="approved">Approved</option>
-								<option value="rejected">Rejected</option>
-								<option value="pending">Pending</option>
-								<option value="expired">Expired</option>
-								<option value="incomplete">Incomplete</option>
-							</select>
+						<td class="td-hover text-center middle-align" ng-click="viewDetailInsurance(insurance)">
+							<span class="insurance-status {{insurance.status}}">{{insurance.status}}</span>
 						</td>
-						<td class="td-hover middle-align" ng-click="viewDetailRecentInsurance(insurance)">{{insurance.created | date: 'MMM d, yyyy'}}</td>
+						<td class="td-hover middle-align" ng-click="viewDetailInsurance(insurance)">{{insurance.created | date: 'MMM d, yyyy'}}</td>
 						<td class="text-center middle-align">
 							<div class="certificate-btn" style="cursor: pointer;" ng-click="viewInsuranceCertificate(insurance)">
 								<span class="glyphicon glyphicon-duplicate"></span>

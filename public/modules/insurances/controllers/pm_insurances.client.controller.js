@@ -2,8 +2,8 @@
 
 // Insurances controller
 angular.module('insurances').controller('PMInsurancesController', ['$scope', '$http', '$stateParams', '$location',
-	'Authentication', 'ManagerInsurance','$modal', '$rootScope', '$timeout',
-	function($scope, $http, $stateParams, $location, Authentication, ManagerInsurance, $modal, $rootScope, $timeout) {
+	'Authentication', 'ManagerInsurance','$modal', '$rootScope', '$timeout', 'Lightbox',
+	function($scope, $http, $stateParams, $location, Authentication, ManagerInsurance, $modal, $rootScope, $timeout, Lightbox) {
 		$scope.authentication = Authentication;
 		$scope.propertyId = $stateParams.propertyId;
 		$scope.insuranceId = $stateParams.insuranceId;
@@ -119,6 +119,13 @@ angular.module('insurances').controller('PMInsurancesController', ['$scope', '$h
 				$scope.unit = result.unit;
 				$scope.insurance_status = $scope.insurance.status.split(' ')[0];
 			});
+		};
+
+		$scope.displayFullViewImage = function() {
+			var images = [{
+				url: $scope.insurance.insuranceFilePath
+			}];
+			Lightbox.openModal(images, 0);
 		};
 
 		$scope.alerts = [];

@@ -1,63 +1,103 @@
-<div class="modal-header">
-	<i ng-click="cancel()" class="glyphicon glyphicon-remove icon-arrow-right pull-right" style="cursor: pointer; font-size: 22px; font-weight: normal;"></i>
-	<h3 class="modal-title">Insurance</h3>
-</div>
 <div class="modal-body row">
-	<div class="col-md-4">
-		<img ngf-src="insurance.insuranceFilePath" style="width: 100%; margin-bottom: 20px;" ng-if="insurance.insuranceFilePath.indexOf('pdf')<0">
-		<iframe ngf-src="insurance.insuranceFilePath" frameBorder="0" width="100%" height="100%" ng-if="insurance.insuranceFilePath.indexOf('pdf')>-1" style="min-height: 500px;"></iframe>
-		<div class="form-group" ng-style="(!insurance.insuranceFilePath||insurance.insuranceFilePath==='') && {'margin-top':'225px'}">
-			<div ngf-drop ngf-select="uploadFiles($files)" class="drop-box"
-				 ngf-drag-over-class="'dragover'" ngf-multiple="false"
-				 ngf-pattern="'image/*,application/pdf'" ng-model="file" style="cursor: pointer;">Upload Insurance Certificate</div>
-			<div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
-			<h3>{{file.name}} {{f.$error}} {{f.$errorParam}}</h3>
-			<div class="status">{{file.status}}</div>
-			<div class="progress-bar">
-				<div class="progress" style="width: {{file.progress}}%" ng-init="progress=0"></div>
+	<div class="row">
+		<i ng-click="cancel()" class="glyphicon glyphicon-remove icon-close-right pull-right" style="cursor: pointer; font-size: 22px; z-index: 2; margin-right: -15px; margin-top: -16px;"></i>
+		<div class="col-md-12" style="margin-top: 15px; margin-bottom: 30px;">
+			<div class="col-md-7">
+				<h2 class="HelveticaNeue" style="font-size: 50px; margin: 0px;">Insurance Certificate</h2>
 			</div>
-			<span class="text-danger text-left" ng-if="errorInsuranceFile">Please upload insurance file.</span>
+			<div class="col-md-5 text-right HelveticaNeue">
+				<span class="gray-color" style="font-size: 21px;">Unit# </span><span style="font-size:35px; margin-left: 10px;">{{insurance.unitNumber}}</span>
+			</div>
+			<div class="clearfix"></div>
 		</div>
 	</div>
-	<div class="col-md-8" style="min-height: 500px; overflow: auto; border-left: 2px solid #ccc;">
-		<div class="form-group no-margin">
-			<input type="text" id="insuranceName" name="insuranceName" class="form-control" data-ng-model="insurance.insuranceName" placeholder="Insurance Company">
-			<span class="text-danger text-left" ng-if="errorInsuranceName">Please enter insurance company.</span>
-		</div>
-		<div class="form-group no-margin" ng-if="authentication.user.roles.indexOf('admin')>-1 || authentication.user.roles.indexOf('pmanager')>-1">
-			<input type="text" ng-model="insurance.unitNumber" placeholder="Unit #" typeahead="unit as unit.unitNumber for unit in getUnits($viewValue)" typeahead-loading="loadingUnits" class="form-control">
-			<i ng-show="loadingUnits" class="glyphicon glyphicon-refresh"></i>
-			<span class="text-danger text-left" ng-if="errorUnitNumber">Please enter unit number.</span>
-		</div>
-		<div class="form-group no-margin" ng-if="authentication.user.roles.indexOf('user')>-1">
-			<input type="text" ng-model="insurance.unitNumber" placeholder="Unit #" class="form-control">
-			<span class="text-danger text-left" ng-if="errorUnitNumber">Please enter unit number.</span>
-		</div>
-		<div class="form-group no-margin">
-			<input type="text" id="policyHolderName" name="policyHolderName" class="form-control" data-ng-model="insurance.policyHolderName" placeholder="Policy's Holder Name">
-			<span class="text-danger text-left" ng-if="errorPolicyHolderName">Please enter policy's holder name.</span>
-		</div>
-		<div class="form-group no-margin">
-			<input type="text" id="policyNumber" name="policyNumber" class="form-control" data-ng-model="insurance.policyNumber" placeholder="Policy Number">
-			<span class="text-danger text-left" ng-if="errorPolicyNumber">Please enter policy number.</span>
-		</div>
-		<div class="row">
-			<div class="form-group  col-md-6 datepicker-popup">
-				<input type="text" class="form-control" datepicker-popup ng-model="insurance.policyStartDate" placeholder="Policy Start Date"
-					   is-open="fromElements.opened" max-date="insurance.policyEndDate" close-text="Close" show-button-bar="false"
-					   datepicker-options="datePickerOptions" ng-focus="from_open($event)"/>
-				<span class="text-danger text-left" ng-if="errorPolicyStartDate">Please enter start date.</span>
+	<div class="row" style="margin-bottom: 30px; min-height: 350px;">
+		<div class="col-md-4">
+			<img ngf-src="insurance.insuranceFilePath" style="width: 100%; margin-bottom: 20px;" ng-if="insurance.insuranceFilePath.indexOf('pdf')<0">
+			<div ng-if="insurance.insuranceFilePath && insurance.insuranceFilePath !== ''" style="position: relative;">
+				<div ngf-drop ngf-select="uploadFiles($files)" class="drop-box"
+					 ngf-drag-over-class="'dragover'" ngf-multiple="false"
+					 ngf-pattern="'image/*,application/pdf'" ng-model="file" style="background-color: #70c05f; color: #fff; cursor: pointer; margin-top: -50px;">
+					<div>
+						<p style="">Upload Another Insurance Certificate</p>
+					</div>
+				</div>
+				<h3>{{file.name}} {{f.$error}} {{f.$errorParam}}</h3>
+				<div class="status">{{file.status}}</div>
+				<div class="progress-bar">
+					<div class="progress" style="width: {{file.progress}}%" ng-init="progress=0"></div>
+				</div>
 			</div>
-			<div class="form-group col-md-6 datepicker-popup">
-				<input type="text" class="form-control" datepicker-popup ng-model="insurance.policyEndDate" placeholder="Policy End Date"
-					   is-open="toElements.opened" min-date="insurance.policyStartDate" close-text="Close" show-button-bar="false"
-					   datepicker-options="datePickerOptions" ng-focus="to_open($event)"/>
-				<span class="text-danger text-left" ng-if="errorPolicyEndDate">Please enter end date.</span>
+			<iframe ngf-src="insurance.insuranceFilePath" frameBorder="0" width="100%" height="100%" ng-if="insurance.insuranceFilePath.indexOf('pdf')>-1" style="min-height: 500px;"></iframe>
+			<div class="form-group" ng-class="{upload_area: (!insurance.insuranceFilePath||insurance.insuranceFilePath==='')}" ng-if="!insurance.insuranceFilePath||insurance.insuranceFilePath===''">
+				<div ngf-drop ngf-select="uploadFiles($files)" class="drop-box"
+					 ngf-drag-over-class="'dragover'" ngf-multiple="false"
+					 ngf-pattern="'image/*,application/pdf'" ng-model="file" style="cursor: pointer;">
+					<div style="margin: 85px auto;">
+						<span class="glyphicon glyphicon-camera" style="border-radius: 50%; padding: 15px; font-size: 35px; color: #fff;"></span>
+						<p style="color: #64AD54; width: 100px; margin: 5px auto;">Upload Insurance Certificate</p>
+					</div>
+				</div>
+				<div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+				<h3>{{file.name}} {{f.$error}} {{f.$errorParam}}</h3>
+				<div class="status">{{file.status}}</div>
+				<div class="progress-bar">
+					<div class="progress" style="width: {{file.progress}}%" ng-init="progress=0"></div>
+				</div>
+				<span class="text-danger text-left" ng-if="errorInsuranceFile">Please upload insurance file.</span>
+			</div>
+		</div>
+		<div class="col-md-8" style="min-height: 500px; overflow: auto; border-left: 2px solid #ccc;">
+			<div class="form-group no-margin">
+				<input type="text" id="insuranceName" name="insuranceName" class="form-control" data-ng-model="insurance.insuranceName" placeholder="Insurance Company">
+				<span class="text-danger text-left" ng-if="errorInsuranceName">Please enter insurance company.</span>
+			</div>
+			<div class="form-group no-margin" ng-if="authentication.user.roles.indexOf('admin')>-1 || authentication.user.roles.indexOf('pmanager')>-1">
+				<input type="text" ng-model="insurance.unitNumber" placeholder="Unit #" typeahead="unit as unit.unitNumber for unit in getUnits($viewValue)" typeahead-loading="loadingUnits" class="form-control">
+				<i ng-show="loadingUnits" class="glyphicon glyphicon-refresh"></i>
+				<span class="text-danger text-left" ng-if="errorUnitNumber">Please enter unit number.</span>
+			</div>
+			<div class="form-group no-margin" ng-if="authentication.user.roles.indexOf('user')>-1">
+				<input type="text" ng-model="insurance.unitNumber" placeholder="Unit #" class="form-control">
+				<span class="text-danger text-left" ng-if="errorUnitNumber">Please enter unit number.</span>
+			</div>
+			<div class="form-group no-margin">
+				<input type="text" id="policyHolderName" name="policyHolderName" class="form-control" data-ng-model="insurance.policyHolderName" placeholder="Policy's Holder Name">
+				<span class="text-danger text-left" ng-if="errorPolicyHolderName">Please enter policy's holder name.</span>
+			</div>
+			<div class="form-group no-margin">
+				<input type="text" id="policyNumber" name="policyNumber" class="form-control" data-ng-model="insurance.policyNumber" placeholder="Policy Number">
+				<span class="text-danger text-left" ng-if="errorPolicyNumber">Please enter policy number.</span>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-6" style="padding-left: 0px; padding-right: 0px;">
+					<div class="input-group datepicker-popup">
+						<input type="text" class="form-control" datepicker-popup ng-model="insurance.policyStartDate" placeholder="Policy Start Date"
+							   is-open="fromElements.opened" max-date="insurance.policyEndDate" close-text="Close" show-button-bar="false"
+							   datepicker-options="datePickerOptions" ng-focus="from_open($event)"/>
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-calendar" ng-click="from_open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+						</span>
+						<span class="text-danger text-left" ng-if="errorPolicyStartDate">Please enter start date.</span>
+					</div>
+				</div>
+				<div class="form-group col-md-6" style="padding-left: 0px; padding-right: 0px;">
+					<div class="input-group datepicker-popup">
+						<input type="text" class="form-control" datepicker-popup ng-model="insurance.policyEndDate" placeholder="Policy End Date"
+							   is-open="toElements.opened" min-date="insurance.policyStartDate" close-text="Close" show-button-bar="false"
+							   datepicker-options="datePickerOptions" ng-focus="to_open($event)"/>
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-calendar" ng-click="to_open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+						</span>
+						<span class="text-danger text-left" ng-if="errorPolicyEndDate">Please enter end date.</span>
+					</div>
+				</div>
+			</div>
+			<div class="text-center" style="margin-top: 55px;">
+				<button class="btn btn-enroll btn-lg" type="button" ng-click="saveInsurance()" style="padding: 10px 35px;">Save</button>
+				<button class="btn btn-success btn-lg" type="button" ng-click="submitInsurance()" style="padding: 10px 35px; font-size: 14px;">Submit</button>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="modal-footer">
-	<button class="btn btn-success btn-lg" type="button" ng-click="saveInsurance()">Save</button>
-	<button class="btn btn-default btn-lg custom-gray-btn" type="button" ng-click="cancel()">Cancel</button>
-</div>
+
