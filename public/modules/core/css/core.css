@@ -43,13 +43,13 @@ body.ng-cloak
 	background-color: #fff;
 }
 
-.navbar  .sub-container .container::after{
+.frontend-header::after{
 	background-image: url("/modules/core/img/top-header-trail.png");
 	background-repeat: no-repeat;
 	content: " ";
 	height: 170px;
 	position: absolute;
-	top: 43px;
+	top: 32px;
 	width: 100%;
 	z-index: -1;
 }
@@ -844,7 +844,7 @@ table thead th {
 	}
 
 	.navbar .container .sub-container::after {
-		left: 200px;
+		left: 25px;
 	}
 
 	.footer-info::after {
@@ -1118,7 +1118,7 @@ thead.gray-bg th {
 }
 
 /**********HEADER ************/
-.frontend-header > div{background:#fff; padding:0 15px}
+.frontend-header > div{padding:0 15px}
 .hide-effect:after{display: none !important;}
 .gray-header-area{margin-bottom: 30px}
 .navbar-inverse {background: #fff}
