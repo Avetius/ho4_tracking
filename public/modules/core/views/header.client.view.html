@@ -46,7 +46,8 @@
 							</a>
 						</li>
 						<li ng-if="authentication.user.roles.indexOf('pmanager')>-1"
-							ng-switch="item" ui-route="/property_insurances/{{current_property._id}}/insurances" class="dropdown" dropdown ng-class="{active: current_route.includes('property_insurances')}">
+							ng-switch="item" ui-route="/property_insurances/{{current_property._id}}/insurances" class="dropdown"
+							dropdown ng-class="{active: current_route.includes('property_insurances')}" style="text-transform: uppercase">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle style="padding-right: 65px; position: relative;">
 								{{current_property.propertyName}}
 								<div style="border-left: 1px solid #fff; bottom: 0; padding: 17px 15px; position: absolute; right: 0; top: 0;">
@@ -61,7 +62,7 @@
 								</li>
 							</ul>
 						</li>
-						<li ng-switch="item" ui-route="/settings/profile" class="item" ng-class="{active: ($uiRoute)}">
+						<li ng-switch="item" ui-route="/settings/profile" class="item" ng-class="{active: ($uiRoute)}" style="text-transform: uppercase">
 							<a href="/#!/settings/profile" ng-switch-default>
 								<i class="fa fa-gear" style="margin-right: 10px;"></i>{{authentication.user.displayName}}
 							</a>
@@ -81,26 +82,21 @@
 				</li>
 				<li>
 					<form class="form-inline login-form" data-ng-submit="signin()">
-						<div class="pull-left">
-							<span class="glyphicon glyphicon-lock" style="color: #c7c7c7;"></span>
-							<div class="form-group">
-								<input type="email" class="form-control" placeholder="Email" data-ng-model="credentials.username">
-							</div>
-							<div class="form-group">
-								<input type="password" class="form-control" placeholder="Password" data-ng-model="credentials.password">
-							</div>
-							<div class="rememberme"><span>Remember me </span>
-								<div class="squaredTwo">
-									<input type="checkbox" value="None" id="squaredTwo" name="check" />
-									<label for="squaredTwo"></label>
-								</div>
-							</div>
+						<span class="glyphicon glyphicon-lock" style="color: #c7c7c7;"></span>
+						<div class="form-group">
+							<input type="email" class="form-control" placeholder="Email" data-ng-model="credentials.username">
 						</div>
-						<div class="pull-left">
-							<button type="submit" class="btn btn-success login-btn green-btn-color" ng-model="smb">
-								Login
-							</button>
+						<div class="form-group">
+							<input type="password" class="form-control" placeholder="Password" data-ng-model="credentials.password">
 						</div>
+						<button type="submit" class="btn btn-success login-btn green-btn-color" ng-model="smb">
+							{{smb}} Login..
+						</button>
+						<a href="/#!/signup/signup_user_info" class="btn btn-success login-btn green-btn-color" data-ng-if="!signup_header">
+							Signup
+						</a>
+						<br>
+						<div class="rememberme"><span>Remember me </span> <input type="checkbox"></div>
 					</form>
 				</li>
 			</ul>
