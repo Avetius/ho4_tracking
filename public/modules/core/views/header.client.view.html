@@ -81,21 +81,26 @@
 				</li>
 				<li>
 					<form class="form-inline login-form" data-ng-submit="signin()">
-						<span class="glyphicon glyphicon-lock" style="color: #c7c7c7;"></span>
-						<div class="form-group">
-							<input type="email" class="form-control" placeholder="Email" data-ng-model="credentials.username">
+						<div class="pull-left">
+							<span class="glyphicon glyphicon-lock" style="color: #c7c7c7;"></span>
+							<div class="form-group">
+								<input type="email" class="form-control" placeholder="Email" data-ng-model="credentials.username">
+							</div>
+							<div class="form-group">
+								<input type="password" class="form-control" placeholder="Password" data-ng-model="credentials.password">
+							</div>
+							<div class="rememberme"><span>Remember me </span>
+								<div class="squaredTwo">
+									<input type="checkbox" value="None" id="squaredTwo" name="check" />
+									<label for="squaredTwo"></label>
+								</div>
+							</div>
 						</div>
-						<div class="form-group">
-							<input type="password" class="form-control" placeholder="Password" data-ng-model="credentials.password">
+						<div class="pull-left">
+							<button type="submit" class="btn btn-success login-btn green-btn-color" ng-model="smb">
+								Login
+							</button>
 						</div>
-						<button type="submit" class="btn btn-success login-btn green-btn-color" ng-model="smb">
-							{{smb}} Login..
-						</button>
-						<a href="/#!/signup/signup_user_info" class="btn btn-success login-btn green-btn-color" data-ng-if="!signup_header">
-							Signup
-						</a>
-						<br>
-						<div class="rememberme"><span>Remember me </span> <input type="checkbox"></div>
 					</form>
 				</li>
 			</ul>

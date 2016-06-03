@@ -43,23 +43,32 @@ body.ng-cloak
 	background-color: #fff;
 }
 
-.navbar  .sub-container .container::after{
+.frontend-header::after{
 	background-image: url("/modules/core/img/top-header-trail.png");
 	background-repeat: no-repeat;
 	content: " ";
 	height: 170px;
 	position: absolute;
-	top: 43px;
-	width: 100%;
+	top: 34px;
+	width: 84%;
 	z-index: -1;
+	left: 26px;
+	right: 0;
+	-webkit-transform: rotate(-1deg);
+	-moz-transform: rotate(-1deg);
+	-ms-transform: rotate(-1deg);
+	-o-transform: rotate(-1deg);
+	transform: rotate(-1deg);
 }
-
+.member-header  .frontend-header::after{
+	display:none
+}
 .navbar.member-header .sub-container .container::after {
 	height:0;
 }
 
 .navbar .navbar-brand {
-	margin: 39px 0 !important;
+	margin: 39px 0 0px 25px !important;
 	padding: 0;
 	height: auto;
 }
@@ -84,6 +93,7 @@ body.ng-cloak
 	margin-right: 3px;
 	margin-top: 10px;
 	font-size: 1.2em;
+	position: relative;
 }
 
 .navbar-nav.login-navbar > li {
@@ -151,7 +161,8 @@ body.ng-cloak
 }
 
 .slide-area .signup-btn-area p {
-	line-height: 1.2em;
+	line-height: 1.1em;
+	/* color: red; */
 }
 
 .signup-btn-area .resident_txt {
@@ -204,6 +215,7 @@ body.ng-cloak
 
 .footer {
 	position: relative;
+	overflow-y: hidden;
 }
 
 .footer-info {
@@ -421,6 +433,8 @@ body.ng-cloak
 .navbar-inverse .navbar-collapse,
 .navbar-inverse .navbar-form {
 	border-color: #101010;
+	/* max-width: 71%; */
+	/* background-color: pink; */
 }
 .navbar-inverse .navbar-nav > .open > a,
 .navbar-inverse .navbar-nav > .open > a:hover,
@@ -705,6 +719,8 @@ table thead th {
 
 	.navbar-brand img{
 		margin-left: 0;
+		width: 272px;
+		max-width: 100%;
 	}
 
 	.home-class .gray-header-area {
@@ -741,9 +757,9 @@ table thead th {
 		font-family: "Helvetica";
 		left: 0px;
 		position: absolute;
-		top: 250px;
+		top: 337px;
 		background-color: rgba(0, 0, 0, 0.7);
-		padding: 30px 145px;
+		padding: 21px 70px 87px 148px;
 		bottom: auto;
 		right: auto;
 		text-align: left;
@@ -803,12 +819,14 @@ table thead th {
 		font-size: 3.7em;
 		left: 0px;
 		position: absolute;
-		top: 250px;
+		top: 342px;
 		background-color: rgba(0, 0, 0, 0.8);
-		padding: 30px 145px;
+		padding: 30px 80px 80px 149px;
+		/* width: 610px; */
 		bottom: auto;
 		right: auto;
 		text-align: left;
+		display: inline-block;
 	}
 
 	.getstarted-btn {
@@ -844,7 +862,7 @@ table thead th {
 	}
 
 	.navbar .container .sub-container::after {
-		left: 200px;
+		left: 25px;
 	}
 
 	.footer-info::after {
@@ -885,7 +903,8 @@ table thead th {
 .public_navigation
 {
 	position: absolute;
-	padding-top:8px;
+	padding-top: 16px;
+	text-align: left;
 }
 .public_navigation a
 {
@@ -894,10 +913,10 @@ table thead th {
 }
 .public_navigation .item {
 	display:inline-block;
-	padding:0px 20px;
+	padding: 0px 10px;
 }
 .rememberme{
-	margin-right: 106px;
+
 	margin-top: 5px;
 }
 .thumbnail-content{
@@ -905,10 +924,15 @@ table thead th {
 }
 .questionresident{
 	display: inline-block;
+	margin-top: 24px;
+	float: left;
+	/* margin-left: 27px; */
+	max-height: 150px;
 }
 .questionresident .quest {
-	font-size: 176px;
+	font-size: 150px;
 	font-family: "HelveticaNeue";
+	max-height: 150px;
 }
 
 .member-header {
@@ -1118,10 +1142,10 @@ thead.gray-bg th {
 }
 
 /**********HEADER ************/
-.frontend-header > div{background:#fff; padding:0 15px}
+
 .hide-effect:after{display: none !important;}
 .gray-header-area{margin-bottom: 30px}
-.navbar-inverse {background: #fff}
+.navbar-inverse {background: rgba(0,0,0,0);}
 .signup-page {background: #F7F7F7}
 .rememberme input,
 .rememberme span {
@@ -1174,6 +1198,9 @@ thead.gray-bg th {
 	width: 100%;
 	margin-top:200px
 
+;
+	padding: 70px 0;
+	/* overflow-x: hidden; */
 }
 .footer-wrap:before{
 	position:absolute;
@@ -1257,13 +1284,13 @@ thead.gray-bg th {
 	.footer-wrap:before{
 		position:absolute;
 		right:0;
-		top:-102px;
+		top: -132px;
 		content:" ";
 		z-index:999;
 		width: 0;
 		height: 0;
 		border-style: solid;
-		border-width: 0 0 170px 2090px;
+		border-width: 0 0 200px 2090px;
 		border-color: transparent transparent #6EC25E transparent;
 	}
 	.footer-wrap:after{
@@ -1370,9 +1397,18 @@ thead.gray-bg th {
 }
 
 .btn-enroll {
-	background-color: #B5B5B5;
-	color: #fff;
+	background-color: #b5b5b5;
 	border-radius: 0;
+	color: #fff;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 15px 20px;
+}
+
+.btn-insurance {
+	font-size: 14px;
+	font-weight: bold;
+	text-transform: uppercase;
 }
 
 .btn-enroll:hover,
@@ -1435,10 +1471,11 @@ a.green-color-link:hover {
 }
 
 .breadcrumb a {
-	color: #8AC77A;
+	color: #70C25E;
 }
 
 .breadcrumb a:hover {
+	color: #6FC15D;
 	text-decoration: underline;
 }
 
@@ -1447,4 +1484,119 @@ a.green-color-link:hover {
 	padding-right: 15px;
 	margin-right: 0;
 	margin-left: 0;
+}
+
+.breadcrumb > li + li::before {
+	content: '>';
+}
+
+.breadcrumb > .active {
+	color: #BBB;
+}
+
+.breadcrumb {
+	background-color: #f7f8fa;
+}
+.padding-15{padding: 15px 0;margin: -5px auto;/* padding: 0; *//* vertical-align: top; *//* display: inline-block; *//* width: 100%; */}
+/*.navbar-brand{width:105%;display: inline-block;}*/
+header.navbar-inverse {text-align:center}
+.frontend-header {display:inline-block;margin:0 auto;width: 1130px; position: relative;background:#fff; /* padding: 10px 0; */}
+
+.member-header .frontend-header {width:100%}
+.login-form input.form-control{
+	border-radius:0 !important
+}
+.login-form .form-control{width:230px}
+.login-form .login-btn { margin:0 0 0 20px }
+.navbar-right { margin:10px 20px }
+.navbar-right li:nth-child(1){font-size: 17.8px;font-weight:bold;padding:0 5px 0 0;display:inline-block;text-align:right;width:100%;}
+.member-header .navbar-right li{display:block; width:auto}
+
+.login-form .rememberme input{/* background:pink; */width:30px;}
+.rememberme input[type=checkbox] {
+	visibility: hidden;
+}
+
+.rememberme > span{display:inline-block; vertical-align:top}
+.squaredTwo {
+	width: 16.5px;
+	display: inline-block;
+	vertical-align:top;
+	height: 18px;
+	margin: 0;
+	background: rgba(0,0,0,0);
+
+	position: relative;
+}
+
+.squaredTwo label {
+	cursor: pointer;
+	position: absolute;
+	width: 15px;
+	height: 15px;
+	left: 2.2px;
+	top: 4px;
+	border:1px solid #999;
+	background:#fff;
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#222', endColorstr='#45484d',GradientType=0 );
+}
+
+.squaredTwo label:after {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	filter: alpha(opacity=0);
+	opacity: 0;
+	content: '';
+	position: absolute;
+	width: 9px;
+	height: 5px;
+	background: transparent;
+	top: 4px;
+	left: 3px;
+	border: 3px solid #444;
+	border-top: none;
+	border-right: none;
+
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	-o-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+}
+
+.squaredTwo label:hover::after {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+	filter: alpha(opacity=30);
+	opacity: 0.3;
+}
+
+.squaredTwo input[type=checkbox]:checked + label:after {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+
+.signup-btn-area .btn-success
+{padding:13px 35px;margin-top: 45px;display: inline-block;}
+.signup-btn-area > p{width:100%;padding:0;}
+
+.sub-container .media .col-md-6 .media-heading{
+	font-size:37px;
+	margin-bottom:25px;
+}
+
+.signup-btn-area .questionresident:nth-child(2) p{margin-left:45px;}
+@media (min-width:1500px) and (max-width:4500px){
+	.navbar-inverse .navbar-collapse{max-width:70%}
+}
+
+@media (min-width:1000px) and (max-width:2500px){
+	.sub-container .media .col-md-6{padding:0}
+	.sub-container .media .thumbnail{padding:0 !important}
+	.sub-container .media .thumbnail img {
+		float:right;
+		margin-right: -15px;
+		display:inline-block;
+		vertical-align:top;
+	}
+
 }
