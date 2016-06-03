@@ -1585,7 +1585,7 @@ header.navbar-inverse {text-align:center}
 }
 
 .signup-btn-area .questionresident:nth-child(2) p{margin-left:45px;}
-@media (min-width:1500px) and (max-width:4500px){
+@media (min-width:1900px) and (max-width:4500px){
 	.navbar-inverse .navbar-collapse{max-width:70%}
 }
 
