@@ -722,6 +722,10 @@ table thead th {
 		max-width: 100%;
 	}
 
+	.main-header .navbar-brand img{
+		width: auto;
+	}
+
 	.home-class .gray-header-area {
 		display: none;
 	}
@@ -1529,7 +1533,12 @@ header.navbar-inverse {text-align:center}
 .navbar-right { margin:10px 20px }
 .navbar-right li:nth-child(1){font-size: 17.8px;font-weight:bold;padding:0 5px 0 0;display:inline-block;text-align:right;width:100%;}
 .member-header .navbar-right li{display:block; width:auto}
-
+.member-header .navbar-right {
+	margin-right: 3px;
+	margin-top: 10px;
+	margin-bottom: 0;
+	margin-left: 0;
+}
 .login-form .rememberme input{/* background:pink; */width:30px;}
 .rememberme input[type=checkbox] {
 	visibility: hidden;
