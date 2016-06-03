@@ -65,7 +65,6 @@ angular.module('units').controller('UnitFormController', ['$scope', '$location',
 		};
 
 		$scope.saveUnitResidenId = function () {
-			$scope.unit.resident = document.getElementById('resident_id').value;
 			Units.saveUnit($scope.unit).then(function() {
 				$modalInstance.close({unit: $scope.unit});
 			}, function(errorResponse) {

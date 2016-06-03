@@ -10,7 +10,7 @@ angular.module('insurances').controller('InsurancesController', ['$scope', '$htt
 		});
 		// Find existing Insurance
 		$scope.findOne = function() {
-			$scope.insurance = Insurances.get({
+			$scope.policy = Insurances.get({
 				policyId: $stateParams.insuranceId
 			});
 		};

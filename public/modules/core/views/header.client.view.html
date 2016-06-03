@@ -18,7 +18,7 @@
 				<li class="text-right">
 					Call <span style="color: #6ec25e; font-weight: bold;">866.395.1308</span> if you have any questions
 				</li>
-				<li style="margin-top: 26px;" class="pull-right">
+				<li style="margin-top: 36px;" class="pull-right">
 					<ul class="nav navbar-nav">
 						<li ng-if="authentication.user.roles.indexOf('admin')>-1" ng-switch="item" ui-route="/resident_insurances" class="item" ng-class="{active: ($uiRoute)}">
 							<a href="/#!/resident_insurances" ng-switch-default>
@@ -45,11 +45,11 @@
 								Coverage History
 							</a>
 						</li>
-						<li ng-if="authentication.user.roles.indexOf('pmanager')>-1 || authentication.user.roles.indexOf('admin')>-1"
+						<li ng-if="authentication.user.roles.indexOf('pmanager')>-1"
 							ng-switch="item" ui-route="/property_insurances/{{current_property._id}}/insurances" class="dropdown" dropdown ng-class="{active: current_route.includes('property_insurances')}">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle style="padding-right: 50px; position: relative;">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle style="padding-right: 65px; position: relative;">
 								{{current_property.propertyName}}
-								<div style="border-left: 1px solid #fff; bottom: 0; padding: 10px; position: absolute; right: 0; top: 0;">
+								<div style="border-left: 1px solid #fff; bottom: 0; padding: 17px 15px; position: absolute; right: 0; top: 0;">
 									<span class="glyphicon glyphicon-menu-down"></span>
 								</div>
 							</a>

@@ -363,7 +363,7 @@ body.ng-cloak
 }
 
 .mainpage-content .gray-header-area {
-	height: 100px;
+	height: 120px;
 }
 
 .custom-gray-btn,
@@ -450,7 +450,7 @@ body.ng-cloak
 
 .policy-list {
 	margin-top: 30px;
-	padding: 20px;
+	padding: 20px 0;
 }
 
 .bold {
@@ -497,7 +497,6 @@ body.ng-cloak
 }
 
 .maincontent-area {
-	background-color: #ffffff;
 	margin-top: 30px;
 	padding: 20px;
 }
@@ -799,12 +798,31 @@ table thead th {
 		top: 110px;
 	}
 }
+@media (min-width: 1065px) {
+	.container {
+		width: 100%;
+	}
 
+	.sub-container {
+		padding-left: 50px;
+		padding-right: 50px;
+	}
+
+	.main-header .container,
+	.mainpage-content .container {
+		width: 1065px;
+	}
+}
 @media (min-width: 1470px) {
 	.container {
 		width: 1470px;
 		padding-left: 0;
 		padding-right: 0;
+	}
+
+	.main-header .container,
+	.mainpage-content .container {
+		width: 1065px;
 	}
 
 	.sub-container {
@@ -945,7 +963,7 @@ table thead th {
 	text-shadow: none;
 	background-color: #EAEBED;
 	border-right: 1px solid #fff;
-	padding: 10px 15px;
+	padding: 14px 17px;
 	line-height: 21px;
 }
 
@@ -1402,7 +1420,7 @@ thead.gray-bg th {
 	color: #fff;
 	font-size: 14px;
 	font-weight: bold;
-	padding: 15px 20px;
+	padding: 15px 35px;
 }
 
 .btn-insurance {

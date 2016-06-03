@@ -1,81 +1,87 @@
-<div class="gray-header-area"></div>
+<div class="gray-header-area" style="margin-bottom: 8px;"></div>
 <section data-ng-controller="PMInsurancesController" data-ng-init="findOneInsurance()">
-	<div class="sub-container"  style="margin-top: 20px;">
-		<alert ng-repeat="alert in alerts" type="success">{{alert.msg}}</alert>
-		<ol class="breadcrumb">
-			<li><a href="#!/property_insurances/{{property._id}}/insurances">{{property.propertyName}}</a></li>
-			<li class="active">Unit {{unit.unitNumber}}</li>
-		</ol>
-		<div class="sub-header HelveticaNeue">
-			<div class="col-md-6">
-				<span class="gray-color" style="font-size: 52px; margin-bottom: 20px;">
-					Insurance details
-				</span>
-				<button class="btn btn-note" style="padding: 10px 15px; font-size: 21px; margin-top: 5px; vertical-align: top;" ng-click="viewInsuranceNotes(insurance.notes)">
-					<span class="glyphicon glyphicon-list-alt"></span>
-				</button>
-			</div>
-			<div class="col-md-6 text-right" style="padding-top: 6px;">
-				<div style="display: inline-block; padding-right: 34px; vertical-align: bottom;">
-					<span style="font-size: 20px;" class="gray-color">Unit# </span><span style="font-size:30px;font-weight: bold;">{{unit.unitNumber}}</span>
+	<div class="container">
+		<div class="sub-container">
+			<alert ng-repeat="alert in alerts" type="success">{{alert.msg}}</alert>
+			<ol class="breadcrumb">
+				<li><a href="#!/property_insurances/{{property._id}}/insurances">{{property.propertyName}}</a></li>
+				<li class="active">Unit {{unit.unitNumber}}</li>
+			</ol>
+			<div class="sub-header HelveticaNeue">
+				<div class="col-md-6" style="padding: 0;">
+					<span class="gray-color" style="font-size: 52px; margin-left: 10px;">
+						Insurance details
+					</span>
+					<button class="btn btn-note" style="padding: 10px 15px; font-size: 21px; margin-top: 5px; vertical-align: top;" ng-click="viewInsuranceNotes(insurance.notes)">
+						<span class="glyphicon glyphicon-list-alt"></span>
+					</button>
 				</div>
-				<button type="button" class="btn btn-lg btn-enroll btn-pm-insurance" ng-click="enrollToRll(insurance)">Enroll to RLL</button>
-				<button type="button" class="btn btn-lg btn-success btn-insurance" style="padding: 15px 55px;" ng-click="openInsuranceModal(insurance)">Edit</button>
-			</div>
-		</div>
-		<div class="clearfix"></div>
-		<div class="row" style="margin-top: 25px;">
-			<div class="col-md-7" style="overflow: auto;">
-				<a ng-click="displayFullViewImage()" ng-if="insurance.insuranceFilePath.indexOf('pdf')<0">
-					<img ngf-src="insurance.insuranceFilePath" style="width: 100%;" class="img-thumbnail">
-				</a>
-				<div class="mark-area">
-					<img src="modules/core/img/{{insurance_status}}.png">
-				</div>
-				<iframe ngf-src="insurance.insuranceFilePath" frameBorder="0" width="100%" height="100%" ng-if="insurance.insuranceFilePath.indexOf('pdf')>-1" style="min-height: 500px;"></iframe>
-			</div>
-			<div class="col-md-5 HelveticaNeue">
-				<div class="row" style="padding: 15px;">
-					<p style="color: #7a7a7a;">Insurance Company</p>
-					<h3 class="bold" style="font-size: 30px;">{{insurance.insuranceName}}</h3>
-				</div>
-				<div class="row" style="padding: 15px;">
-					<p style="color: #7a7a7a;">Policy's Holder Name</p>
-					<h3 class="bold" style="font-size: 30px;">{{insurance.policyHolderName}}</h3>
-				</div>
-				<div class="row" style="padding: 15px;">
-					<p style="color: #7a7a7a;">Policy Number</p>
-					<h3 class="bold" style="font-size: 30px;">{{insurance.policyNumber}}</h3>
-				</div>
-				<div class="row" style="padding: 15px;">
-					<p style="color: #7a7a7a;">Expiration Date</p>
-					<h3 class="bold" style="font-size: 30px;">{{insurance.policyStartDate | date: 'MMM d, yyyy'}} - {{insurance.policyEndDate | date: 'MMM d, yyyy'}}</h3>
-				</div>
-				<div class="row" style="padding: 30px; background-color: #F1F1F3;">
-					<div>
-						<div style="padding: 5px;">
-							<p style="color: #7a7a7a;">Date (adding)</p>
-							<p class="bold" style="color: #000;">{{insurance.created | date: 'MMM d, yyyy'}}</p>
-						</div>
-						<div style="padding: 5px;">
-							<p style="color: #7a7a7a;">Resident Name</p>
-							<p class="bold" style="color: #000;">{{insurance.user.displayName}}</p>
-						</div>
-						<div style="padding: 5px;">
-							<p class="pull-left" style="color: #7a7a7a;">Resident Email</p>
-							<button class="btn btn-success pull-right" style="margin-top: 3px;">
-								<span class="glyphicon glyphicon-envelope"></span>
-							</button>
-							<div class="clearfix"></div>
-							<p class="bold" style="color: #000;">{{insurance.user.email}}</p>
-						</div>
-						<div style="padding: 5px;">
-							<p style="color: #7a7a7a;">Propety Name/Property Code</p>
-							<p class="bold" style="color: #000;">{{property.propertyName}} / {{property.propertyCode}}</p>
-						</div>
+				<div class="col-md-6 text-right" style="padding-top: 6px; padding-left: 0; padding-right: 5px; position: relative;">
+					<div style="display: inline-block; padding-right: 318px; vertical-align: bottom; padding-top: 18px;">
+						<span style="font-size: 20px;" class="gray-color">Unit# </span><span style="font-size:30px;font-weight: bold;">{{unit.unitNumber}}</span>
+					</div>
+					<div style="position: absolute; top: 5px; right: 5px;">
+						<button type="button" class="btn btn-lg btn-enroll btn-pm-insurance" ng-click="enrollToRll(insurance)">Enroll to RLL</button>
+						<button type="button" class="btn btn-lg btn-success btn-insurance" style="padding: 15px 55px;" ng-click="openInsuranceModal(insurance)">Edit</button>
 					</div>
 				</div>
+			</div>
+			<div class="clearfix"></div>
+			<div class="row" style="margin-top: 40px;">
+				<div class="col-md-6" style="overflow: auto;">
+					<a ng-click="displayFullViewImage()" ng-if="insurance.insuranceFilePath.indexOf('pdf')<0">
+						<img ngf-src="insurance.insuranceFilePath" style="width: 100%;" class="img-thumbnail">
+					</a>
+					<div class="mark-area">
+						<img src="modules/core/img/{{insurance_status}}.png">
+					</div>
+					<iframe ngf-src="insurance.insuranceFilePath" frameBorder="0" width="100%" height="100%" ng-if="insurance.insuranceFilePath.indexOf('pdf')>-1" style="min-height: 500px;"></iframe>
+				</div>
+				<div class="col-md-6 HelveticaNeue">
+					<div class="row" style="padding: 0 15px;">
+						<p style="color: #7a7a7a;margin-bottom: 7px;">Insurance Company</p>
+						<h3 class="bold" style="font-size: 30px;margin-top: 0;">{{insurance.insuranceName}}</h3>
+					</div>
+					<div class="row" style="padding: 10px 15px;">
+						<p style="color: #7a7a7a;margin-bottom: 7px;">Policy's Holder Name</p>
+						<h3 class="bold" style="font-size: 30px;margin-top: 0;">{{insurance.policyHolderName}}</h3>
+					</div>
+					<div class="row" style="padding: 0 15px;">
+						<p style="color: #7a7a7a;margin-bottom: 7px;">Policy Number</p>
+						<h3 class="bold" style="font-size: 30px;margin-top: 0;">{{insurance.policyNumber}}</h3>
+					</div>
+					<div class="row" style="padding: 10px 15px;">
+						<p style="color: #7a7a7a;margin-bottom: 7px;">Expiration Date</p>
+						<h3 class="bold" style="font-size: 30px;margin-top: 0;">{{insurance.policyStartDate | date: 'MMM d, yyyy'}} - {{insurance.policyEndDate | date: 'MMM d, yyyy'}}</h3>
+					</div>
+					<div class="row" style="padding: 15px 20px; background-color: #F1F1F3; margin: 10px 15px;">
+						<div>
+							<div>
+								<p style="color: #7a7a7a; margin: 0 0 5px;">Date (adding)</p>
+								<p class="bold" style="color: #000; margin: 0 0 5px;">{{insurance.created | date: 'MMM d, yyyy'}}</p>
+							</div>
+							<div>
+								<p style="color: #7a7a7a; margin: 0 0 5px;">Resident Name</p>
+								<p class="bold" style="color: #000; margin: 0 0 5px;">{{insurance.user.displayName}}</p>
+							</div>
+							<div class="pull-left">
+								<p style="color: #7a7a7a; margin: 0 0 5px;">Resident Email</p>
+								<p class="bold" style="color: #000; margin: 0 0 5px;">{{insurance.user.email}}</p>
+							</div>
+							<div class="pull-right">
+								<button class="btn btn-success" style="padding: 10px 15px;">
+									<span class="glyphicon glyphicon-envelope"></span>
+								</button>
+							</div>
+							<div class="clearfix"></div>
+							<div>
+								<p style="color: #7a7a7a; margin: 0 0 5px;">Propety Name/Property Code</p>
+								<p class="bold" style="color: #000; margin: 0 0 5px;">{{property.propertyName}} / {{property.propertyCode}}</p>
+							</div>
+						</div>
+					</div>
 
+				</div>
 			</div>
 		</div>
 	</div>

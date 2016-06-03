@@ -224,7 +224,7 @@ exports.createPolicy = function (req, res) {
 };
 
 exports.getPolicy = function (req, res) {
-	Policy.findOne({_id: req.params.policyId}).exec(function (err, policy) {
+	Policy.findOne({_id: req.params.policyId}).populate('user', 'propertyID').exec(function (err, policy) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -235,7 +235,9 @@ exports.getPolicy = function (req, res) {
 				message: 'Policy is invalid'
 			});
 		}
-		res.json(policy);
+		Unit.findOne({resident: policy.user._id, property: policy.user.propertyID}).populate('property').exec(function(err, unit) {
+			res.json({insurance: policy, unit: unit});
+		});
 	});
 };
 
@@ -525,7 +527,7 @@ exports.getAllResidentList = function (req, res) {
 exports.addResident = function (req, res) {
 	var password = randomstring.generate(8);
 	var resident = new User(req.body);
-	var inviteResident = resident.invite;
+	var inviteResident = req.body.invite;
 	if (typeof req.body.appartmentNumber === 'object') {
 		resident.appartmentNumber = req.body.appartmentNumber.unitNumber;
 	}
@@ -553,7 +555,7 @@ exports.addResident = function (req, res) {
 					});
 				}
 				if (typeof req.body.appartmentNumber === 'object') {
-					Unit.findById(req.body.appartmentNumber._id).exec(function (err, unit) {
+					Unit.findById(req.body.appartmentNumber._id).populate('property', 'propertyName').exec(function (err, unit) {
 						if (err) {
 							return res.status(400).send({
 								message: errorHandler.getErrorMessage(err)
@@ -571,36 +573,25 @@ exports.addResident = function (req, res) {
 									key: '-firstName-',
 									val: resident.firstName
 								},{
-									key: '-property_manager_email-',
+									key: '-resident_email-',
 									val: resident.email
 								}, {
 									key: '-password-',
 									val: password
 								}, {
 									key: '-link-',
-									val: 'http://' + req.headers.host + '/#!/signin'
+									val: 'http://' + req.headers.host + '/#!/insurances'
+								}, {
+									key: '-unit_number-',
+									val: unit.unitNumber
+								}, {
+									key: '-property_name-',
+									val: unit.property.propertyName
 								}];
-								emailHandler.send('18ee0a51-e673-4538-a9f6-fd449e8822cb', params, propertyManager.email, 'Please upload your Insurance Certificate', 'Please upload your Insurance Certificate', function (err, result) {
+								emailHandler.send('18ee0a51-e673-4538-a9f6-fd449e8822cb', params, resident.email, 'Please upload your Insurance Certificate', 'Please upload your Insurance Certificate', function (err, result) {
 									console.log(err);
 								});
 								res.json(resident);
-								/*res.render('templates/send-invitation', {
-									name: resident.displayName,
-									email: resident.email,
-									password: password,
-									url: 'http://' + req.headers.host + '/#!/signin'
-								}, function (err, emailHTML) {
-									sendgrid.send({
-										to: resident.email,
-										from: 'enterscompliance@veracityins.com',
-										subject: resident.displayName + ' Invitation from HO4 ',
-										html: emailHTML
-									}, function (err, json) {
-										console.log(json);
-									});
-									console.log(password);
-									res.json(resident);
-								});*/
 							} else {
 								res.json(resident);
 							}
@@ -612,16 +603,22 @@ exports.addResident = function (req, res) {
 							key: '-firstName-',
 							val: resident.firstName
 						},{
-							key: '-property_manager_email-',
+							key: '-resident_email-',
 							val: resident.email
 						}, {
 							key: '-password-',
 							val: password
 						}, {
 							key: '-link-',
-							val: 'http://' + req.headers.host + '/#!/signin'
+							val: 'http://' + req.headers.host + '/#!/insurances'
+						}, {
+							key: '-unit_number-',
+							val: ''
+						}, {
+							key: '-property_name-',
+							val: ''
 						}];
-						emailHandler.send('18ee0a51-e673-4538-a9f6-fd449e8822cb', params, propertyManager.email, 'Please upload your Insurance Certificate', 'Please upload your Insurance Certificate', function (err, result) {
+						emailHandler.send('18ee0a51-e673-4538-a9f6-fd449e8822cb', params, resident.email, 'Please upload your Insurance Certificate', 'Please upload your Insurance Certificate', function (err, result) {
 							console.log(err);
 						});
 						res.json(resident);
