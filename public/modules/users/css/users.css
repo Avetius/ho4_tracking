@@ -183,3 +183,7 @@ input.form-control{
 .modal-content .form-control:focus {
 	border: 2px solid #6ec25e;
 }
+
+.form-control.search:focus {
+	border: 2px solid #6ec25e;
+}

@@ -7,13 +7,17 @@ var mongoose = require('mongoose'),
 	errorHandler = require('./errors.server.controller'),
 	User = mongoose.model('User'),
 	Property = mongoose.model('Property'),
+	emailHandler = require('./email.server.controller.js'),
 	_ = require('lodash');
 
 /**
  * Create a property
  */
 exports.create = function(req, res) {
-	if(req.body.propertyManager) req.body.propertyManager = req.body.propertyManager._id;
+	var propertyManager = req.body.propertyManager;
+	if(req.body.propertyManager) {
+		req.body.propertyManager = req.body.propertyManager._id;
+	}
 	var property = new Property(req.body);
 	property.updated = Date.now();
 	property.save(function(err) {
@@ -22,6 +26,27 @@ exports.create = function(req, res) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
+			if(propertyManager) {
+				var params = [{
+					key: '-firstName-',
+					val: propertyManager.firstName
+				}, {
+					key: '-property_name-',
+					val: property.propertyName
+				}, {
+					key: '-property_manager_email-',
+					val: propertyManager.email
+				}, {
+					key: '-password-',
+					val: ''
+				}, {
+					key: '-link-',
+					val: 'http://' + req.headers.host + '/#!/signin'
+				}];
+				emailHandler.send('db25d056-0667-49a8-aec7-af46680e6132', params, propertyManager.email, 'You\'ve been assigned to a property', 'You\'ve been assigned to a property', function (err, result) {
+					console.log(err);
+				});
+			}
 			res.json(property);
 		}
 	});

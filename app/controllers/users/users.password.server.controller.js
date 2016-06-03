@@ -106,6 +106,7 @@ exports.forgot = function(req, res, next) {
  * Reset password GET from email token
  */
 exports.validateResetToken = function(req, res) {
+	if(req.user) req.logout();
 	User.findOne({
 		resetPasswordToken: req.params.token,
 		resetPasswordExpires: {

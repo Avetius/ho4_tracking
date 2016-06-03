@@ -364,7 +364,7 @@ exports.propertyInsurances = function(req, res) {
 	var sort = JSON.parse(req.query.sort) || {};
 	var filterVal = req.query.filter;
 	Property.findById(req.params.propertyId).exec(function(err, property) {
-		Unit.find({property: req.params.propertyId}).populate('property').exec(function (err, units) {
+		Unit.find({property: req.params.propertyId}).populate('property').populate('resident').exec(function (err, units) {
 			var insuranceListCallback = [];
 			_.each(units, function (unit) {
 				insuranceListCallback.push(function (cb) {
@@ -378,13 +378,22 @@ exports.propertyInsurances = function(req, res) {
 			async.parallel(insuranceListCallback, function (err, results) {
 				var resultArray = [];
 				_.each(results, function (item) {
-					_.each(item.policies, function (policy) {
-						var temp_insurance = policy.toObject();
+					if(item.policies.length > 0) {
+						_.each(item.policies, function (policy) {
+							var temp_insurance = policy.toObject();
+							temp_insurance.unitNumber = item.unitNumber;
+							temp_insurance.unitId = item._id;
+							temp_insurance.residentName = policy.user.displayName;
+							resultArray.push(temp_insurance);
+						});
+					} else {
+						var temp_insurance = {};
 						temp_insurance.unitNumber = item.unitNumber;
 						temp_insurance.unitId = item._id;
-						temp_insurance.residentName = policy.user.displayName;
+						temp_insurance.residentName = item.resident?item.resident.displayName:'';
 						resultArray.push(temp_insurance);
-					});
+					}
+
 				});
 				var notesCallbacks = [];
 				_.each(resultArray, function (insurance) {
@@ -489,7 +498,7 @@ exports.updateStatusInsurance = function(req, res) {
 					key: '-firstName-',
 					val: insurance.user.firstName
 				}];
-				emailHandler.send('e07ca774-385f-4962-b401-940fb1a09a6d', params, insurance.user.email, 'Your Certificate was received and will be checked', 'Account Set Up and Certificate Received Approval', function (err, result) {
+				emailHandler.send('e07ca774-385f-4962-b401-940fb1a09a6d', params, insurance.user.email, 'Account Set Up and Certificate Received Approval', 'Account Set Up and Certificate Received Approval', function (err, result) {
 					console.log(err);
 				});
 			}

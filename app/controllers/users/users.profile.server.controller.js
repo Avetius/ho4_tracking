@@ -89,6 +89,7 @@ exports.updateProfile = function (req, res) {
 		} else {
 			profile = _.extend(profile, req.body);
 			var email_changed = (user.email !== profile.user.email);
+			var old_email = user.email;
 			user.firstName = profile.user.firstName;
 			user.lastName = profile.user.lastName;
 			user.email = profile.user.email;
@@ -120,8 +121,11 @@ exports.updateProfile = function (req, res) {
 									}, {
 										key: '-reset_link-',
 										val: 'http://' + req.headers.host + '/auth/reset/' + user.resetPasswordToken
+									}, {
+										key: '-setting_link-',
+										val: 'http://' + req.headers.host + '/#!/settings/password'
 									}];
-									emailHandler.send('db13173b-794e-4f71-98f6-8968fa50f365', params, user.email, 'Recovery Email Changed', 'Recovery Email Changed', function (err, result) {
+									emailHandler.send('db13173b-794e-4f71-98f6-8968fa50f365', params, old_email, 'Recovery Email Changed', 'Recovery Email Changed', function (err, result) {
 										console.log(err);
 									});
 								}
@@ -368,26 +372,27 @@ exports.addPropertyManager = function (req, res) {
 							property_names += property_item.propertyName;
 							if(i < properties.length-1) property_names += ', ';
 						});
-
-						var params = [{
-							key: '-firstName-',
-							val: propertyManager.firstName
-						}, {
-							key: '-property_name-',
-							val: property_names
-						}, {
-							key: '-property_manager_email-',
-							val: propertyManager.email
-						}, {
-							key: '-password-',
-							val: password
-						}, {
-							key: '-link-',
-							val: 'http://' + req.headers.host + '/#!/signin'
-						}];
-						emailHandler.send('db25d056-0667-49a8-aec7-af46680e6132', params, propertyManager.email, 'You\'ve been assigned to a property', 'You\'ve been assigned to a property', function (err, result) {
-							console.log(err);
-						});
+						if(assigned_property_ids.length > 0) {
+							var params = [{
+								key: '-firstName-',
+								val: propertyManager.firstName
+							}, {
+								key: '-property_name-',
+								val: property_names
+							}, {
+								key: '-property_manager_email-',
+								val: propertyManager.email
+							}, {
+								key: '-password-',
+								val: password
+							}, {
+								key: '-link-',
+								val: 'http://' + req.headers.host + '/#!/signin'
+							}];
+							emailHandler.send('db25d056-0667-49a8-aec7-af46680e6132', params, propertyManager.email, 'You\'ve been assigned to a property', 'You\'ve been assigned to a property', function (err, result) {
+								console.log(err);
+							});
+						}
 						res.json(propertyManager);
 						/*res.render('templates/send-invitation', {
 						 name: propertyManager.displayName,

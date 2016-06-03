@@ -1,5 +1,5 @@
-<div class="sub-container frontend-header" >
-	<div class="container" data-ng-controller="HeaderController" ng-class="{'hide-effect': hide_navigation}">
+<div class="container" data-ng-controller="HeaderController" ng-class="{'hide-effect': hide_navigation}">
+	<div class="sub-container" ng-class="{'frontend-header': !authentication.user}">
 
 		<div class="navbar-header">
 			<button class="navbar-toggle" type="button" data-ng-click="toggleCollapsibleMenu()" ng-hide="mainpage_header && !authentication.user">
@@ -124,8 +124,8 @@
 		</div>
 		<div data-ng-if="menu.shouldRender(authentication.user)">
 			<style>
-				.navbar .sub-container .container::after{
-					top: -48px !important;
+				.frontend-header::after{
+					top: -25px !important;
 				}
 			</style>
 		</div>

@@ -1,24 +1,27 @@
-<div class="modal-header">
-	<i ng-click="cancel()" class="glyphicon glyphicon-remove icon-arrow-right pull-right" style="cursor: pointer; font-size: 22px; font-weight: normal;"></i>
-	<h3 class="modal-title">Notes</h3>
-</div>
 <div class="modal-body row">
-	<div class="table-responsive">
-		<table st-table="policies" class="table">
-			<thead class="gray-bg">
-			<tr>
-				<th>Subject</th>
-				<th>Date</th>
-				<th>Comment</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr ng-repeat="note in notes">
-				<td>{{note.subject}}</td>
-				<td>{{note.created | date: 'MMM d, yyyy'}}</td>
-				<td>{{note.content}}</td>
-			</tr>
-			</tbody>
-		</table>
+	<i ng-click="cancel()" class="glyphicon glyphicon-remove icon-close-right pull-right" style="cursor: pointer; font-size: 22px; font-weight: normal; z-index: 2; margin-right: -15px; margin-top: -16px;"></i>
+	<div style="padding-left: 20px; padding-right: 20px;">
+		<div class="HelveticaNeue">
+			<h2 style="font-size: 55px; font-weight: bold;">Notes</h2>
+		</div>
+
+		<div class="table-responsive" style="margin-top: 20px;">
+			<table st-table="policies" class="table">
+				<thead class="gray-bg">
+				<tr>
+					<th>Subject</th>
+					<th>Date</th>
+					<th>Comment</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr ng-repeat="note in notes">
+					<td>{{note.subject}}</td>
+					<td>{{note.created | date: 'MMM d, yyyy'}}</td>
+					<td>{{note.content}}</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
