@@ -20,6 +20,9 @@ angular.module('insurances').controller('InsurancesController', ['$scope', '$htt
 			$scope.property = datax.data;
 		});
 
+		$http.get('/property_unit_list/'+Authentication.user.propertyID).then(function(datax){
+			$scope.units = datax.data;
+		});
 
 		$scope.policies = [];
 		$scope.findPolicies = function() {
@@ -39,6 +42,7 @@ angular.module('insurances').controller('InsurancesController', ['$scope', '$htt
 					var scope = $rootScope.$new();
 					scope.insurance = insurance || {};
 					scope.add_insurance = !insurance;
+					scope.propertyID = Authentication.user.propertyID;
 					return scope;
 				}(),
 				controller: 'InsuranceFormController'

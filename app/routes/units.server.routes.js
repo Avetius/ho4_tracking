@@ -18,6 +18,9 @@ module.exports = function(app) {
 		.get(users.requiresLogin, users.isPropertyManager, units.propertyUnitList)
 		.post(users.requiresLogin, users.isPropertyManager, units.createUnitForProperty);
 
+	app.route('/property_unit_list/:propertyId')
+		.get(users.requiresLogin, users.isPropertyManager, units.propertyAllUnitList)
+
 	app.route('/units/:unitId')
 		.get(users.requiresLogin, users.isPropertyManager, units.read)
 		.put(users.requiresLogin, users.isPropertyManager, units.update)

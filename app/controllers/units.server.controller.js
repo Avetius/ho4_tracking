@@ -153,6 +153,18 @@ exports.propertyUnitList = function(req, res) {
 	});
 };
 
+exports.propertyAllUnitList = function(req, res) {
+	Unit.find({property: req.params.propertyId}).exec(function (err, units) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.json(units);
+		}
+	});
+};
+
 /**
  * Property middleware
  */

@@ -2,12 +2,24 @@
 
 // Insurances controller
 angular.module('insurances').controller('InsuranceFormController', ['$scope', '$location', 'Authentication', 'Upload',
-	'Insurances', '$modalInstance', 'Residents',
-	function($scope, $location, Authentication, Upload, Insurances, $modalInstance, Residents) {
+	'Insurances', '$modalInstance', 'Residents', '$http',
+	function($scope, $location, Authentication, Upload, Insurances, $modalInstance, Residents, $http) {
 		$scope.authentication = Authentication;
 		Residents.getResident($scope.authentication.user._id).then(function(response) {
 			$scope.unit = response.data.unit;
+			$scope.insurance.unitNumber = $scope.unit?$scope.unit.unitNumber:null ;
 		});
+
+		if($scope.propertyID) {
+			$http.get('/property_unit_list/'+$scope.propertyID).then(function(datax){
+				$scope.units = datax.data;
+			});
+
+			$http.get('/properties/'+$scope.propertyID).then(function(datax){
+				$scope.property = datax.data;
+			});
+		}
+
 		var now = new Date();
 		var fromDate = new Date(now.getFullYear(), now.getMonth(), 1);
 		$scope.dateFilter = {
@@ -75,8 +87,7 @@ angular.module('insurances').controller('InsuranceFormController', ['$scope', '$
 				});
 			} else {
 				var insurance = $scope.insurance;
-
-				insurance.$update(function() {
+				Insurances.update(insurance, function() {
 					$modalInstance.close({insurance: $scope.insurance});
 				}, function(errorResponse) {
 					$scope.error = errorResponse.data.message;
@@ -116,8 +127,7 @@ angular.module('insurances').controller('InsuranceFormController', ['$scope', '$
 					});
 				} else {
 					var insurance = $scope.insurance;
-
-					insurance.$update(function() {
+					Insurances.update(insurance, function() {
 						$modalInstance.close({insurance: $scope.insurance});
 					}, function(errorResponse) {
 						$scope.error = errorResponse.data.message;
@@ -135,5 +145,12 @@ angular.module('insurances').controller('InsuranceFormController', ['$scope', '$
 				return response.data;
 			});
 		};
+
+		$scope.getResidentUnits = function(val) {
+			return Residents.getUnits(val).then(function(response){
+				return response.data;
+			});
+		};
+
 	}
 ]);

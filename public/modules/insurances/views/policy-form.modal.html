@@ -6,7 +6,10 @@
 				<h2 class="HelveticaNeue" style="font-size: 50px; margin: 0px;">Insurance Certificate</h2>
 			</div>
 			<div class="col-md-5 text-right HelveticaNeue">
-				<span class="gray-color" style="font-size: 21px;">Unit# </span><span style="font-size:35px; margin-left: 10px;">{{unit.unitNumber}}</span>
+				<span class="gray-color" style="font-size: 21px;">Unit# </span><!--<span style="font-size:35px; margin-left: 10px;" ng-if="isUnitNumberString(insurance.unitNumber)">{{insurance.unitNumber}}</span>-->
+				<input type="text" ng-model="insurance.unitNumber" placeholder="Unit #"
+					   typeahead="unit as unit.unitNumber for unit in units | filter:{unitNumber: $viewValue}" class="form-control"
+					   style="display: inline-block; width: 120px;">
 			</div>
 			<div class="clearfix"></div>
 		</div>
@@ -84,7 +87,7 @@
 					</div>
 				</div>
 			</div>
-			<h3><span class="gray-color">Your Property:</span> {{unit.property.propertyName}}</h3>
+			<h3><span class="gray-color">Your Property:</span> {{property.propertyName}}</h3>
 			<div class="text-center" style="margin-top: 55px;">
 				<button class="btn btn-enroll btn-lg" type="button" ng-click="saveInsurance()" style="padding: 10px 35px;">Save</button>
 				<button class="btn btn-success btn-lg" type="button" ng-click="submitInsurance()" style="padding: 10px 35px; font-size: 14px;">Submit</button>

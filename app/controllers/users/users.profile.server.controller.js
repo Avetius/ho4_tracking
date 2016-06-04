@@ -218,7 +218,13 @@ exports.createPolicy = function (req, res) {
 					console.log(err);
 				});
 			}
-			res.json(policy);
+			if (typeof req.body.unitNumber === 'object') {
+				Unit.update({_id: req.body.unitNumber._id}, {resident: req.user._id}, function(err, data) {
+					res.json(policy);
+				});
+			} else {
+				res.json(policy);
+			}
 		}
 	});
 };
@@ -279,7 +285,13 @@ exports.updatePolicy = function (req, res) {
 						console.log(err);
 					});
 				}
-				res.json(policy);
+				if (typeof req.body.unitNumber === 'object') {
+					Unit.update({_id: req.body.unitNumber._id}, {resident: policy_user._id}, function(err, data) {
+						res.json(policy);
+					});
+				} else {
+					res.json(policy);
+				}
 			}
 		});
 	});

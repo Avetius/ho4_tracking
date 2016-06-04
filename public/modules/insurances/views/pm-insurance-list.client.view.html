@@ -33,7 +33,7 @@
 						<tbody>
 						<tr ng-repeat="insurance in insurances">
 							<td class="td-hover middle-align" ng-click="viewDetailInsurance(insurance)">{{insurance.unitNumber}}</td>
-							<td class="td-hover middle-align" ng-click="viewDetailInsurance(insurance)">{{insurance.user.displayName}}</td>
+							<td class="td-hover middle-align" ng-click="viewDetailInsurance(insurance)">{{insurance.user.displayName || insurance.residentName}}</td>
 							<td class="td-hover middle-align" ng-click="viewDetailInsurance(insurance)">{{insurance.insuranceName}}</td>
 							<td class="td-hover middle-align" ng-click="viewDetailInsurance(insurance)">{{insurance.policyEndDate | date: 'MMM d, yyyy'}}</td>
 							<td class="td-hover text-center middle-align" ng-click="viewDetailInsurance(insurance)">
