@@ -35,7 +35,7 @@ angular.module('users').config(['$stateProvider',
 			templateUrl: 'modules/users/views/authentication/signin.client.view.html'
 		}).
 		state('forgot', {
-			url: '/password/forgot',
+			url: '/password/forgot?email',
 			templateUrl: 'modules/users/views/password/forgot-password.client.view.html'
 		}).
 		state('reset-invalid', {

@@ -93,6 +93,7 @@ exports.updateProfile = function (req, res) {
 			user.firstName = profile.user.firstName;
 			user.lastName = profile.user.lastName;
 			user.email = profile.user.email;
+			user.username = profile.user.email;
 			user.updated = Date.now();
 			user.displayName = user.firstName + ' ' + user.lastName;
 			profile.save(function (err) {

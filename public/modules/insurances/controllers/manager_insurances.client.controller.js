@@ -5,7 +5,7 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 	'ManagerInsurance', '$modal', '$rootScope', '$timeout', 'Lightbox', 'prompt',
 	function($scope, $stateParams, $location, Authentication, ManagerInsurance, $modal, $rootScope, $timeout, Lightbox, prompt) {
 		$scope.authentication = Authentication;
-		if(!$scope.authentication.user || $scope.authentication.user.roles.indexOf('admin') < 0) $location.path('/');
+		if(!$scope.authentication.user || $scope.authentication.user.roles.indexOf('admin') < 0) return $location.path('/');
 
 		$scope.propertyId = $stateParams.propertyId;
 		$scope.unitId = $stateParams.unitId;

@@ -16,7 +16,7 @@
 					<button type="submit" class="btn btn-large btn-success btn-block" style="padding: 15px;">Login</button>
 				</div>
 				<div class="forgot-password">
-					<a href="/#!/password/forgot">Forgot your password?</a>
+					<a href="/#!/password/forgot?email={{credentials.username}}">Forgot your password?</a>
 				</div>
 				<div data-ng-show="error" class="text-center text-danger">
 					<strong data-ng-bind="error"></strong>

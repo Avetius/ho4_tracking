@@ -7,8 +7,8 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 		$scope.authentication = Authentication;
 		$scope.propertyId = $stateParams.propertyId;
 		$scope.propertyManagerId = $stateParams.propertyManagerId;
-		if(!$scope.authentication.user || ($scope.propertyManagerId && $scope.authentication.user.roles.indexOf('admin') < 0)) $location.path('/');
-		if(!$scope.authentication.user || (!$scope.propertyManagerId && $scope.authentication.user.roles.indexOf('pmanager') < 0)) $location.path('/');
+		if(!$scope.authentication.user || ($scope.propertyManagerId && $scope.authentication.user.roles.indexOf('admin') < 0)) return $location.path('/');
+		if(!$scope.authentication.user || (!$scope.propertyManagerId && $scope.authentication.user.roles.indexOf('pmanager') < 0)) return $location.path('/');
 
 		$scope.numberOfPages = 1;
 		$scope.currentPage = 1;

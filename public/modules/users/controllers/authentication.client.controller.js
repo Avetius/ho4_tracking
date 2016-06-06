@@ -69,6 +69,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 				$scope.errorConfirmPassword = false;
 				$scope.errorPropertyCode = false;
 				$scope.errorUnitNum = false;
+
 				if(!$scope.credentials.firstName || $scope.credentials.firstName == "") {
 					$scope.errorFirstName = true;
 					invalidItems++;
@@ -151,6 +152,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 			$scope.errorEmail = false;
 			$scope.errorPassword = false;
 			$scope.errorPropertyCode = false;
+			$scope.errorPasswordLength = false;
 
 			if(!$scope.credentials.firstName || $scope.credentials.firstName == "") {
 				$scope.errorFirstName = true;
@@ -166,6 +168,9 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 			}
 			if(!$scope.credentials.password || $scope.credentials.password == "") {
 				$scope.errorPassword = true;
+				invalidItems++;
+			} else if($scope.credentials.password.length < 8) {
+				$scope.errorPasswordLength = true;
 				invalidItems++;
 			}
 			if(!$scope.credentials.property_code || $scope.credentials.property_code == "") {

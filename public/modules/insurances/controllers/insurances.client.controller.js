@@ -5,6 +5,7 @@ angular.module('insurances').controller('InsurancesController', ['$scope', '$htt
 	'Authentication', 'Insurances', 'Properties','$modal', '$rootScope', 'Residents',
 	function($scope, $http, $stateParams, $location, Authentication, Insurances, Properties, $modal, $rootScope, Residents) {
 		$scope.authentication = Authentication;
+		if(!$scope.authentication.user) return $location.path('/');
 		Residents.getResident($scope.authentication.user._id).then(function(response) {
 			$scope.unit = response.data.unit;
 		});

@@ -5,7 +5,7 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 	'Properties', 'PropertySmartList', '$modal', '$rootScope', 'prompt',
 	function($scope, $stateParams, $location, Authentication, Properties, PropertySmartList, $modal, $rootScope, prompt) {
 		$scope.authentication = Authentication;
-		if(!$scope.authentication.user || $scope.authentication.user.roles.indexOf('admin') < 0) $location.path('/');
+		if(!$scope.authentication.user || $scope.authentication.user.roles.indexOf('admin') < 0) return $location.path('/');
 		$scope.numberOfPages = 1;
 		$scope.currentPage = 1;
 		$scope.itemsByPage = 20;

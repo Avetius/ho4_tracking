@@ -5,7 +5,7 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 		$scope.user = Authentication.user;
 
 		// If user is not signed in then redirect back home
-		if (!$scope.user) $location.path('/');
+		if (!$scope.user) return $location.path('/');
 		$scope.policy = {};
 		//search object to filter orders
 		var now = new Date();
