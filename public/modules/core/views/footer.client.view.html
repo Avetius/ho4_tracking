@@ -8,43 +8,35 @@
 </div>
 <!-- && !mainpage_header-->
 <div ng-if="!authentication.user && !mainpage_header">
-	<div class="footer-wrap">
-		<div class="text-center footer-inner-wrap">
-			<div class="col-md-12 z-index">
-				<span class="footer-info-text white-text "> FOR MOR INFORMATION, CALL US </span>
-			</div>
-			<div class="col-md-12 z-index">
-				<span class="footer-info-contact white-text "> 866.395.1308 </span>
-			</div>
-
-		</div>
+	<div class="footer-info text-center HelveticaNeue">
+		<span style="font-size: 40px; word-wrap: break-word; display: block; max-width: 665px; margin: 0px auto; padding: 163px 0px 80px; letter-spacing: 1px;">
+			FOR MORE INFORMATION, CALL US <b style="font-size: 32px;">866.395.1308</b>
+		</span>
 	</div>
-	<div class="row cool-dark padding-15">
-		<div class="container">
-			<div class="col-md-10 col-md-offset-1">
-				<div class="col-md-4 col-sm-4 col-xs-12">
-					<img class="img-responsive text-center" src="modules/core/img/prev_logo.jpg">
-				</div>
-				<div class="col-md-8 col-sm-8 col-xs-12">
-					<div class="footer-menu-wrap">
-						<div class="item">
-							<a ng-href="/#!/">Home</a>
-						</div>
-						<div class="item">
-							<a ng-href="/#!/services"  class="ng-scope">Services</a>
-						</div>
-						<div class="item">
-							<a ng-href="/#!/privacy-policy">Privacy Policy</a>
-						</div>
-						<div class="item">
-							<a ng-href="/#!/faqs">FAQs</a>
-						</div>
-						<div class="item">
-							<a href="/#!/contact-us">Contact us</a>
-						</div>
-					</div>
-				</div>
-			</div>
+	<div class="sub-container">
+		<a href="/#!/" class="navbar-brand" style="padding: 15px 0;">
+			<img class="img-responsive text-center" src="modules/core/img/landing_footer_logo.png" />
+		</a>
+		<div class="nav navbar-nav navbar-right HelveticaNeue" style="margin-top: -18px; letter-spacing: 1px; font-weight: bold;">
+			<ul class="list-inline navbar-text">
+				<li class="item" ng-class="{active: ($uiRoute)}" ui-route="/">
+					<a href="/#!/">Home</a>
+				</li>
+				<li class="item" ng-class="{active: ($uiRoute)}" ui-route="/services">
+					<a href="/#!/services">Services</a>
+				</li>
+				<li class="item" ng-class="{active: ($uiRoute)}" ui-route="/privacy-policy">
+					<a href="/#!/privacy-policy">Privacy Policy</a>
+				</li>
+				<li class="item" ng-class="{active: ($uiRoute)}" ui-route="/faqs">
+					<a href="/#!/faqs">FAQs</a>
+				</li>
+				<li class="item" ng-class="{active: ($uiRoute)}" ui-route="/contact-us">
+					<a href="/#!/contact-us">Contact us</a>
+				</li>
+			</ul>
+			<br>
+			<p class="navbar-text" style="float: right;">Copyright © 2016, Renters Legal Liability LLC</p>
 		</div>
 	</div>
 </div>

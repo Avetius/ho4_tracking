@@ -5,7 +5,7 @@ angular.module('users').controller('PropertyManagerController', ['$scope', '$sta
 	'PropertyManagers', '$modal', '$rootScope', 'prompt',
 	function($scope, $stateParams, $location, Authentication, PropertyManagers, $modal, $rootScope, prompt) {
 		$scope.authentication = Authentication;
-
+		if(!$scope.authentication.user || $scope.authentication.user.roles.indexOf('admin') < 0) $location.path('/');
 		$scope.numberOfPages = 1;
 		$scope.currentPage = 1;
 		$scope.itemsByPage = 10;

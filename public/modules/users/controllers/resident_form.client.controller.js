@@ -30,30 +30,6 @@ angular.module('users').controller('ResidentFormController', ['$scope', '$locati
 					}, function (errorResponse) {
 						$scope.error = errorResponse.message;
 					});
-					//sending email
-					if ($scope.resident.invite == true) {
-
-
-						console.log(mailer);
-
-						var transporter = mailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
-
-						var mailOptions = {
-							from: '"Fred Foo 👥" <foo@blurdybloop.com>', // sender address
-							to: 'bar@blurdybloop.com, baz@blurdybloop.com', // list of receivers
-							subject: 'Hello ✔', // Subject line
-							text: 'Hello world 🐴', // plaintext body
-							html: '<b>Hello world 🐴</b>' // html body
-						};
-
-						transporter.sendMail(mailOptions, function (error, info) {
-							if (error) {
-								return console.log(error);
-							}
-							console.log('Message sent: ' + info.response);
-						});
-					}
-					// end of sending email
 				} else {
 					Residents.saveResident($scope.resident).then(function() {
 						$modalInstance.close({resident: $scope.resident});

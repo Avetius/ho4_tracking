@@ -53,23 +53,13 @@ exports.hasAuthorization = function(roles) {
 };
 
 exports.verifyUser = function(req, res, next) {
-	User.findOne({verifyToken: req.query.token}).exec(function(err, user) {
-		if (user) {
-			user.verified = true;
-			user.verifyToken = '';
-			user.save(function (err) {
-				if (err) {
-					return res.status(400).send({
-						message: errorHandler.getErrorMessage(err)
-					});
-				} else {
-					res.redirect('/#!/settings/profile');
-				}
+	User.update({verifyToken: req.query.token}, {verified: true, verifyToken: ''}, function(err, user) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			return res.status(403).send({
-				message: 'Token is invalid one.'
-			});
+			res.redirect('/#!/settings/profile');
 		}
 	});
 };

@@ -75,7 +75,15 @@ exports.forgot = function(req, res, next) {
 			}];
 			emailHandler.send('8c4022bd-5bb1-4e3f-891c-75a690da6a59', params, user.email, 'Recovery Password Email', 'Recovery Password Email', function (err, result) {
 				console.log(err);
-				done(err);
+				if (!err) {
+					res.send({
+						message: 'An email has been sent to ' + user.email + ' with further instructions.'
+					});
+				} else {
+					return res.status(400).send({
+						message: 'Failure sending email'
+					});
+				}
 			});
 		}/*,
 		// If valid email, send reset email using service

@@ -28,3 +28,15 @@ exports.send = function (templateId, template_params, email, subject, text, done
 		done(err, json);
 	});
 };
+
+exports.sendContactEmail = function (data, done) {
+	sendgrid.send({
+		to: 'enterscompliance@veracityins.com',
+		from: data.email,
+		subject: 'New inquiry received on HO4 Tracking system',
+		text:  data.message
+	}, function (err, json) {
+		console.log(json);
+		done(err, json);
+	});
+};

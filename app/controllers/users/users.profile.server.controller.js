@@ -738,3 +738,16 @@ exports.transferResidentsRLLCoverage = function(req, res) {
 		res.json({success: true});
 	})
 };
+
+exports.sendContactEmail = function(req, res) {
+	var data = req.body;
+	emailHandler.sendContactEmail(data, function (err, result) {
+		console.log(err);
+		if(err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		}
+		res.json({message: 'Contact message has been sent to site administrator'})
+	});
+};

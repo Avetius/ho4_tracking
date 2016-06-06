@@ -369,7 +369,7 @@ exports.propertyInsurances = function(req, res) {
 				var insuranceListCallback = [];
 				var unit_residents = [];
 				_.each(units, function (unit) {
-					if(unit_residents.indexOf(unit.resident._id)< 0) unit_residents.push(unit.resident._id);
+					if(unit.resident && unit_residents.indexOf(unit.resident._id)< 0) unit_residents.push(unit.resident._id);
 					insuranceListCallback.push(function (cb) {
 						var policy_query = {user: unit.resident};
 						Policy.find(policy_query).populate('user').exec(function (err, policies) {

@@ -5,6 +5,8 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 	'ManagerInsurance', '$modal', '$rootScope', '$timeout', 'Lightbox', 'prompt',
 	function($scope, $stateParams, $location, Authentication, ManagerInsurance, $modal, $rootScope, $timeout, Lightbox, prompt) {
 		$scope.authentication = Authentication;
+		if(!$scope.authentication.user || $scope.authentication.user.roles.indexOf('admin') < 0) $location.path('/');
+
 		$scope.propertyId = $stateParams.propertyId;
 		$scope.unitId = $stateParams.unitId;
 		$scope.residentId = $stateParams.residentId;
@@ -67,7 +69,7 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 			$scope.tableState.sort = tableState.sort;
 			var pagination = tableState.pagination;
 			var start = pagination.start || 0;
-			var number = pagination.number || 10;
+			var number = 100;
 			var search = tableState.search;
 			if(typeof search === 'object') search = '';
 			var sort = tableState.sort || '';

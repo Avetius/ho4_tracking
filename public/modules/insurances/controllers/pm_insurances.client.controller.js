@@ -5,6 +5,7 @@ angular.module('insurances').controller('PMInsurancesController', ['$scope', '$h
 	'Authentication', 'ManagerInsurance','$modal', '$rootScope', '$timeout', 'Lightbox',
 	function($scope, $http, $stateParams, $location, Authentication, ManagerInsurance, $modal, $rootScope, $timeout, Lightbox) {
 		$scope.authentication = Authentication;
+		if(!$scope.authentication.user || $scope.authentication.user.roles.indexOf('pmanager') < 0) $location.path('/');
 		$scope.propertyId = $stateParams.propertyId;
 		$scope.insuranceId = $stateParams.insuranceId;
 		$scope.unitId = $stateParams.unitId;

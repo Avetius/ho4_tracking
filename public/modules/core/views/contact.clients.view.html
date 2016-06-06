@@ -1,72 +1,66 @@
-<section data-ng-controller="ContactController" class="contact-class row">
+<section data-ng-controller="ContactController" class="contactpage-class">
     <div class="slide-area-regular"></div>
-    <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12">
-        <div class="col-md-8 col-sm-8 col-xs-12">
-            <div class="col-md-10 col-sm-10 col-xs-12">
-                <h1 class="page-title HelveticaNeue page-title"> Get In Touch</h1>
-            </div>
-            <div class="row-sep"></div>
-            <div class="col-md-10 col-sm-10 col-xs-12">
-                <p class="text-left">
-                    We would love to hear from you! You can contact us using our contact details below or you can complete the contact form and we will get in touch with you shortly.
-                </p>
-            </div>
-            <div class="row-sep"></div>
-            <div class="col-md-10 col-sm-10 col-xs-12">
-                <h2 class="bold-title">
-                    We Are Avaiable:
-                </h2>
-                <h4 class="green-text bold">
-                    Monday - Friday 8:00 AM - 5:00 PM MST
-                </h4>
-            </div>
-            <div class="row-sep"></div>
-            <div class="row-sep"></div>
-            <div class="row-sep"></div>
-            <div class="row-sep"></div>
-            <div class="col-md-10 col-sm-10 col-xs-12 info-data">
-                <span>Renters Compliance Portal</span>
-                <span>260 S 2500 W Suite 303</span>
-                <span>Pleasant Grove, Utah 84062</span>
-                <div class="row-sep"></div>
-                <span>(866) 395-1308</span>
-                <span>renterscompliance@veracityins.com</span>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-4 col-xs-12 ">
-            <div class="row-sep"></div>
-            <div class="row-sep"></div>
-            <div class="row-sep"></div>
-            <div class="row-sep"></div>
+    <div class="sub-container HelveticaNeue" style="margin-bottom: 100px;">
+		<div class="row">
+			<div class="col-md-7 col-sm-7 col-xs-12" style="padding-left: 4px;">
+				<div style="margin-top: 73px; letter-spacing: 2px;">
+					<h1 class="page-title HelveticaNeue page-title"> Get in touch</h1>
+				</div>
+				<div style="padding-top: 32px; padding-right: 90px;">
+					<p class="text-left" style="font-size: 15px; font-weight: bold; letter-spacing: 1px;">
+						We would love to hear from you! You can contact us using our contact details below or you can complete the contact form and we will get in touch with you shortly.
+					</p>
+				</div>
+				<div style="padding: 8px 0; letter-spacing: 2px;">
+					<h2 style="font-weight: bold; font-size: 27px;">
+						We are available:
+					</h2>
+					<h4 class="green-text bold" style="font-size: 27px; font-weight: bold; letter-spacing: 1px;">
+						Monday - Friday 8:00 AM - 5:00 PM MST
+					</h4>
+				</div>
+				<div style="padding-top: 101px; letter-spacing: 1px;">
+					<span style="display: block; font-size: 15px; font-weight: bold;">Renters Compliance Portal</span>
+					<span style="display: block; font-size: 15px; font-weight: bold;">260 S 2500 W Suite 303</span>
+					<span style="display: block; font-size: 15px; font-weight: bold;">Pleasant Grove, Utah 84062</span>
+					<span style="display: block; font-size: 15px; font-weight: bold; padding-top: 18px;">(866) 395-1308</span>
+					<span style="font-size: 15px; font-weight: bold;">renterscompliance@veracityins.com</span>
+				</div>
+			</div>
+			<div class="col-md-5 col-sm-5 col-xs-12 ">
 
-                <div class="contact-form-guests  row col-md-12">
-                    <div class="col-md-12 brown-bgr ">
-                        <div class="row-sep"></div>
-                        <div class="row-sep"></div>
-                        <h2 class="bold-title">
-                            Contact Form
-                        </h2>
-                        <div class="row-sep"></div>
-                        <div class="row-sep"></div>
-                        <form action="col-md-8 col-md-offset-2">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Name*">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Phone*">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Email*">
-                            </div>
-                            <div class="form-group">
-                                <textarea class="form-control" placeholder="Message" rows="10"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <input  type="submit" value="Send Message" class="reg-btn">
-                            </div>
-                        </form>
-                    </div>
-                </div>
-        </div>
+				<div class="contact-form-guests brown-bgr" style="margin-top: 70px; padding: 25px 50px; margin-left: 10px; margin-right: -17px;">
+					<h2 style="font-size: 27px; font-weight: bold; letter-spacing: 1px;">
+						Contact Form
+					</h2>
+					<form action="col-md-8 col-md-offset-2" style="margin-top: 35px;">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Name *" ng-model="contact.name" required>
+							<span class="text-danger text-left" ng-if="errorName" style="font-weight: bold; letter-spacing: 1px;">Please enter your name.</span>
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Phone" ng-model="contact.phone">
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="E-mail *" ng-model="contact.email" required>
+							<span class="text-danger text-left" ng-if="errorEmail" style="font-weight: bold; letter-spacing: 1px;">Please enter your email.</span>
+						</div>
+						<div class="form-group">
+							<textarea class="form-control" placeholder="Message *" ng-model="contact.message" rows="8"></textarea>
+							<span class="text-danger text-left" ng-if="errorMessage" style="font-weight: bold; letter-spacing: 1px;">Please enter message.</span>
+						</div>
+						<div class="form-group">
+							<button ng-click="sendContactEmail()" class="reg-btn" type="button" style="text-transform: uppercase; padding: 15px 42px; font-weight: bold; font-size: 15px; letter-spacing: 1px;">Send Message</button>
+						</div>
+						<div data-ng-show="error" class="text-center text-danger">
+							<strong>{{error}}</strong>
+						</div>
+						<div data-ng-show="success" class="text-center text-success">
+							<strong>{{success}}</strong>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
     </div>
 </section>
