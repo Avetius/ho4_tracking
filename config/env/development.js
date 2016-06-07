@@ -2,7 +2,7 @@
 
 module.exports = {
 	db: {
-		uri: 'mongodb://localhost/rllinsure-ho4-dev',
+		uri: 'mongodb://127.0.0.1/rllinsure-ho4-dev',
 		options: {
 			user: '',
 			pass: ''
