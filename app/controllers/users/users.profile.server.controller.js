@@ -198,7 +198,7 @@ exports.createPolicy = function (req, res) {
 		policy.unitNumber = req.body.unitNumber.unitNumber;
 	}
 	policy.user = req.user;
-	if (policy.insuranceFilePath && policy.insuranceFilePath !== '') policy.status = 'pending';
+	if (policy.insuranceFilePath && policy.insuranceFilePath !== '' && policy.policyHolderName  && policy.policyHolderName !== '') policy.status = 'pending';
 	else policy.status = 'incomplete';
 	policy.updated = Date.now();
 	policy.save(function (err) {
@@ -265,7 +265,7 @@ exports.updatePolicy = function (req, res) {
 		if (typeof req.body.unitNumber === 'object') {
 			policy.unitNumber = req.body.unitNumber.unitNumber;
 		}
-		if (policy.insuranceFilePath && policy.insuranceFilePath !== '') policy.status = 'pending';
+		if (policy.insuranceFilePath && policy.insuranceFilePath !== '' && policy.policyHolderName  && policy.policyHolderName !== '') policy.status = 'pending';
 		else policy.status = 'incomplete';
 		policy.updated = Date.now();
 		policy.save(function (err) {
@@ -460,6 +460,7 @@ exports.updatePropertyManager = function (req, res) {
 		email: req.body.email,
 		displayName: req.body.firstName + ' ' + req.body.lastName
 	};
+	var phoneNumber = req.body.phoneNumber || '';
 	User.update({_id: req.params.propertyManagerId}, updateObj, function (err, user) {
 		if (err) {
 			var message = errorHandler.getErrorMessage(err);
@@ -468,7 +469,8 @@ exports.updatePropertyManager = function (req, res) {
 				message: message
 			});
 		}
-		Profile.update({user: req.params.propertyManagerId}, {phoneNumber: req.body.phoneNumber}, function (err, profile) {
+
+		Profile.update({user: req.params.propertyManagerId}, {phoneNumber: phoneNumber}, function (err, profile) {
 			if (err) {
 				return res.status(400).send({
 					message: errorHandler.getErrorMessage(err)
@@ -543,6 +545,10 @@ exports.addResident = function (req, res) {
 	var inviteResident = req.body.invite;
 	if (typeof req.body.appartmentNumber === 'object') {
 		resident.appartmentNumber = req.body.appartmentNumber.unitNumber;
+		resident.propertyID = req.body.appartmentNumber.property;
+	} else {
+		resident.appartmentNumber = req.body.appartmentNumber;
+		resident.propertyID = req.body.property._id;
 	}
 	resident.displayName = resident.firstName + ' ' + resident.lastName;
 	resident.username = resident.email;
@@ -567,6 +573,7 @@ exports.addResident = function (req, res) {
 						message: errorHandler.getErrorMessage(err)
 					});
 				}
+
 				if (typeof req.body.appartmentNumber === 'object') {
 					Unit.findById(req.body.appartmentNumber._id).populate('property', 'propertyName').exec(function (err, unit) {
 						if (err) {
@@ -611,33 +618,53 @@ exports.addResident = function (req, res) {
 						});
 					});
 				} else {
-					if (inviteResident) {
-						var params = [{
-							key: '-firstName-',
-							val: resident.firstName
-						},{
-							key: '-resident_email-',
-							val: resident.email
-						}, {
-							key: '-password-',
-							val: password
-						}, {
-							key: '-link-',
-							val: 'http://' + req.headers.host + '/#!/insurances'
-						}, {
-							key: '-unit_number-',
-							val: ''
-						}, {
-							key: '-property_name-',
-							val: ''
-						}];
-						emailHandler.send('18ee0a51-e673-4538-a9f6-fd449e8822cb', params, resident.email, 'Please upload your Insurance Certificate', 'Please upload your Insurance Certificate', function (err, result) {
-							console.log(err);
+					var unit = new Unit({
+						unitNumber: req.body.appartmentNumber,
+						property: req.body.property._id,
+						resident: resident._id
+					});
+					unit.save(function(err) {
+						if (err) {
+							return res.status(400).send({
+								message: errorHandler.getErrorMessage(err)
+							});
+						}
+						var unitCount = req.body.property.totalUnits + 1;
+						Property.update({_id: req.body.property._id}, {totalUnits: unitCount}, function(err, response) {
+							if (err) {
+								return res.status(400).send({
+									message: errorHandler.getErrorMessage(err)
+								});
+							}
+							if (inviteResident) {
+								var params = [{
+									key: '-firstName-',
+									val: resident.firstName
+								},{
+									key: '-resident_email-',
+									val: resident.email
+								}, {
+									key: '-password-',
+									val: password
+								}, {
+									key: '-link-',
+									val: 'http://' + req.headers.host + '/#!/insurances'
+								}, {
+									key: '-unit_number-',
+									val: req.body.appartmentNumber
+								}, {
+									key: '-property_name-',
+									val: req.body.property.propertyName
+								}];
+								emailHandler.send('18ee0a51-e673-4538-a9f6-fd449e8822cb', params, resident.email, 'Please upload your Insurance Certificate', 'Please upload your Insurance Certificate', function (err, result) {
+									console.log(err);
+								});
+								res.json(resident);
+							} else {
+								res.json(resident);
+							}
 						});
-						res.json(resident);
-					} else {
-						res.json(resident);
-					}
+					});
 				}
 			});
 		}
@@ -675,8 +702,10 @@ exports.updateResident = function (req, res) {
 
 	if (typeof req.body.appartmentNumber === 'object') {
 		updateObj.appartmentNumber = req.body.appartmentNumber.unitNumber;
+		resident.propertyID = req.body.appartmentNumber.property;
 	} else {
 		updateObj.appartmentNumber = req.body.appartmentNumber;
+		updateObj.propertyID = req.body.property._id;
 	}
 	User.update({_id: req.params.residentId}, updateObj, function (err, user) {
 		if (err) {
@@ -704,7 +733,27 @@ exports.updateResident = function (req, res) {
 				});
 			});
 		} else {
-			res.json(user);
+			var unit = new Unit({
+				unitNumber: req.body.appartmentNumber,
+				property: req.body.property._id,
+				resident: req.params.residentId
+			});
+			unit.save(function(err) {
+				if (err) {
+					return res.status(400).send({
+						message: errorHandler.getErrorMessage(err)
+					});
+				}
+				var unitCount = req.body.property.totalUnits + 1;
+				Property.update({_id: req.body.property._id}, {totalUnits: unitCount}, function (err, response) {
+					if (err) {
+						return res.status(400).send({
+							message: errorHandler.getErrorMessage(err)
+						});
+					}
+					res.json(user);
+				});
+			});
 		}
 	})
 };

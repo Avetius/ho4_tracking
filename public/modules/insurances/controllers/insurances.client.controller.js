@@ -31,6 +31,13 @@ angular.module('insurances').controller('InsurancesController', ['$scope', '$htt
 				Insurances.query({}, function(data) {
 					$scope.policies = data;
 					if(data.length == 0) $scope.openInsuranceModal();
+					else {
+						var notIncompleteCount = 0;
+						for(var i = 0; i < data.length; i++) {
+							if(data[i].status != 'incomplete') notIncompleteCount++;
+						}
+						if(notIncompleteCount == data.length) $scope.openInsuranceModal();
+					}
 				});
 			}
 		};

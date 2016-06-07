@@ -33,7 +33,7 @@ angular.module('users').controller('PropertyManagerFormController', ['$scope', '
 					PropertyManagers.savePropertyManager($scope.propertyManager).then(function() {
 						$modalInstance.close({propertyManager: $scope.propertyManager});
 					}, function(errorResponse) {
-						$scope.error = errorResponse;
+						$scope.error = errorResponse.message;
 					});
 				}
 			}

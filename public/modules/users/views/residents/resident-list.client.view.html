@@ -7,7 +7,7 @@
 				<button type="button" class="btn btn-default" ng-click="transferToRllCoverage()">Transfer to RLL Coverage</button>
 			</div>
 			<div class="pull-right">
-				<button type="button" class="btn btn-large btn-success btn-block" style="padding: 15px;" ng-click="openResidentModal()">Add resident</button>
+				<button type="button" class="btn btn-large btn-success btn-block" style="padding: 15px;" ng-click="openResidentModal({}, true)">Add resident</button>
 			</div>
 		</div>
 		<div class="clearfix"></div>
@@ -33,7 +33,7 @@
 								<td>{{resident.email}}</td>
 								<td>
 									<a href="" ng-click="removeResident(resident)"><span class="glyphicon glyphicon-trash"></span></a> |
-									<a href="" ng-click="openResidentModal(resident)"><span class="glyphicon glyphicon-pencil"></span></a>
+									<a href="" ng-click="openResidentModal(resident, false)"><span class="glyphicon glyphicon-pencil"></span></a>
 								</td>
 							</tr>
 							</tbody>

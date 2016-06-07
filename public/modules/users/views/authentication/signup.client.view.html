@@ -1,11 +1,7 @@
-<div class="gray-header-area"></div>
+<div class="signup-login-header"></div>
 <section class="row signup-page">
-	<a href="/#!/signin" class="btn btn-default btn-lg signup-login-btn pull-right" style="margin-top: 22px; margin-right: 15px;float:right" >
-		Login
-	</a>
-	<h2 class="col-md-12 text-center" style="font-size: 30pt;">Sign up now</h2>
-	<p class="col-md-12 text-center" style="font-size: 1em; color: #7a7a7a;">Are you a Resident?</p>
-	<p class="col-md-12 text-center" style="font-size: 1em; color: #7a7a7a;">Register for an account below</p>
+	<h2 class="col-md-12 text-center HelveticaNeue title">Sign Up</h2>
+	<p class="col-md-12 text-center HelveticaNeue sub-title">Are you a Resident? Register for an account below</p>
 
 	<div class="col-md-offset-4 col-md-4 signup-wizard-area">
 		<form id="signup-form" name="signupForm" ng-submit="signup()">
@@ -18,15 +14,17 @@
 				<span class="text-danger text-left" ng-if="errorLastName">Please enter your last name.</span>
 			</div>
 			<div class="form-group no-margin">
-				<input type="email" id="email" name="email" class="form-control" data-ng-model="credentials.email" placeholder="Email">
+				<input type="email" id="email" name="email" class="form-control" data-ng-model="credentials.email" placeholder="E-mail">
 				<span class="text-danger text-left" ng-if="errorEmail">Please enter a valid email address.</span>
 			</div>
-			<div class="form-group inner-addon right-addon no-margin">
-				<i class="glyphicon glyphicon-lock gray-color"></i>
-				<input type="password" id="password" name="password" class="form-control" data-ng-model="credentials.password" placeholder="Password"
-					   tooltip="Password has to be minimum 8 letters"  tooltip-trigger="focus" tooltip-placement="bottom">
+			<div class="form-group no-margin">
+				<input type="password" id="password" name="password" class="form-control" data-ng-model="credentials.password" placeholder="Password">
 				<span class="text-danger text-left" ng-if="errorPassword">Please enter password.</span>
 				<span class="text-danger text-left" ng-if="errorPasswordLength">Password has to be minimum 8 letters.</span>
+			</div>
+			<div class="form-group no-margin">
+				<input type="password" id="repeat_password" name="repeat_password" class="form-control" data-ng-model="credentials.repeat_password" placeholder="Repeat Password">
+				<span class="text-danger text-left" ng-if="errorPasswordNotMatch">Passwords do not match</span>
 			</div>
 			<div class="form-group inner-addon right-addon no-margin">
 				<i class="glyphicon glyphicon-question-sign gray-color"></i>
@@ -35,7 +33,7 @@
 				<span class="text-danger text-left" ng-if="errorPropertyCode">Please enter correct property code.</span>
 			</div>
 			<div class="text-center form-group">
-				<button type="submit" class="btn btn-large btn-success btn-block" style="padding: 15px;">Sign up</button>
+				<button type="submit" class="btn btn-large btn-success" style="padding: 12px 35px;">SIGN UP</button>
 			</div>
 
 			<div data-ng-show="error" class="text-center text-danger">

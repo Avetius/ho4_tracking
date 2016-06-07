@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('users').controller('ResidentFormController', ['$scope', '$location', 'Authentication', 'Residents', '$modalInstance',
-	function($scope, $location, Authentication, Residents, $modalInstance) {
+	function ($scope, $location, Authentication, Residents, $modalInstance) {
 		$scope.authentication = Authentication;
 
 		$scope.saveResident = function () {
@@ -10,32 +10,36 @@ angular.module('users').controller('ResidentFormController', ['$scope', '$locati
 			$scope.errorLastName = false;
 			$scope.errorEmail = false;
 
-			if(!$scope.resident.firstName || $scope.resident.firstName == "") {
+			if (!$scope.resident.firstName || $scope.resident.firstName == "") {
 				$scope.errorFirstName = true;
 				invalidItems++;
 			}
-			if(!$scope.resident.lastName || $scope.resident.lastName == "") {
+			if (!$scope.resident.lastName || $scope.resident.lastName == "") {
 				$scope.errorLastName = true;
 				invalidItems++;
 			}
-			if(!$scope.resident.email || $scope.resident.email == "" || !validateEmail($scope.resident.email)) {
+			if (!$scope.resident.email || $scope.resident.email == "" || !validateEmail($scope.resident.email)) {
 				$scope.errorEmail = true;
 				invalidItems++;
 			}
 
-			if(invalidItems == 0) {
-				if($scope.add_resident) {
-					Residents.addResident($scope.resident).then(function (response) {
-						$modalInstance.close(response);
-					}, function (errorResponse) {
-						$scope.error = errorResponse.message;
-					});
+			if (invalidItems == 0) {
+				if (typeof $scope.resident.appartmentNumber == 'string') {
+					$modalInstance.close({resident: $scope.resident, showPropertyModal: true, add_resident: $scope.add_resident});
 				} else {
-					Residents.saveResident($scope.resident).then(function() {
-						$modalInstance.close({resident: $scope.resident});
-					}, function(errorResponse) {
-						$scope.error = errorResponse;
-					});
+					if ($scope.add_resident) {
+						Residents.addResident($scope.resident).then(function (response) {
+							$modalInstance.close(response);
+						}, function (errorResponse) {
+							$scope.error = errorResponse.message;
+						});
+					} else {
+						Residents.saveResident($scope.resident).then(function () {
+							$modalInstance.close({resident: $scope.resident});
+						}, function (errorResponse) {
+							$scope.error = errorResponse;
+						});
+					}
 				}
 			}
 		};
@@ -44,8 +48,8 @@ angular.module('users').controller('ResidentFormController', ['$scope', '$locati
 			$modalInstance.dismiss('cancel');
 		};
 
-		$scope.getUnits = function(val) {
-			return Residents.getUnits(val).then(function(response){
+		$scope.getUnits = function (val) {
+			return Residents.getUnits(val).then(function (response) {
 				return response.data;
 			});
 		};

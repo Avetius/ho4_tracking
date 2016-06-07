@@ -321,13 +321,13 @@ exports.recentInsurances = function(req, res) {
 				var resultArray = results;
 				if (search !== '') {
 					var propertSearchResultArray = resultArray.filter(function (item) {
-						return item.propertyName.search(search) > -1;
+						return item.propertyName && item.propertyName.search(search) > -1;
 					});
 					var unitSearchResultArray = resultArray.filter(function (item) {
-						return item.unitNumber.search(search) > -1;
+						return item.unitNumber && item.unitNumber.search(search) > -1;
 					});
 					var residentSearchResultArray = resultArray.filter(function (item) {
-						return item.user.displayName.search(search) > -1;
+						return item.user && item.user.displayName.search(search) > -1;
 					});
 
 					var searchResultArray = propertSearchResultArray.concat(unitSearchResultArray);
@@ -439,11 +439,12 @@ exports.propertyInsurances = function(req, res) {
 						async.parallel(notesCallbacks, function (err, results) {
 							resultArray = results;
 							if (search !== '') {
+
 								var unitSearchResultArray = resultArray.filter(function (item) {
-									return item.unitNumber.search(search) > -1;
+									return item.unitNumber && item.unitNumber.search(search) > -1;
 								});
 								var residentSearchResultArray = resultArray.filter(function (item) {
-									return item.user.displayName.search(search) > -1;
+									return item.residentName.search(search) > -1;
 								});
 
 								var searchResultArray = unitSearchResultArray.concat(residentSearchResultArray);
@@ -609,7 +610,7 @@ var checkExpireInsurances = function() {
 								key: '-firstName-',
 								val: property.propertyManager.firstName
 							}];
-							emailHandler.send('0c8352ee-49fc-40f8-afc3-3a66b3c6c596', params, policy.user.email, 'Time to enroll unit in RL', 'Insurance certificate was canceled', function (err, result) {
+							emailHandler.send('0c8352ee-49fc-40f8-afc3-3a66b3c6c596', params, property.propertyManager.email, 'Time to enroll unit in RLL', 'Insurance certificate was canceled', function (err, result) {
 								console.log(err);
 							});
 							params = [{

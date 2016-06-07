@@ -59,7 +59,6 @@
 }
 
 .signup-wizard-area {
-	background-color: #ffffff;
 	padding: 30px;
 }
 
@@ -96,16 +95,13 @@
 #signup-form input.form-control,
 #signin-form input.form-control,
 input.form-control{
-	background: transparent;
-	border-left: 0;
-	border-right: 0;
-	border-top: 0;
 	border-radius: 0;
 	box-shadow: none;
 }
 
-.form-control:focus {
-	box-shadow: none;
+#signup-form input.form-control:focus,
+#signin-form input.form-control:focus {
+	border-color: #5c8c45;
 }
 
 .main-header .navbar-brand {
@@ -117,7 +113,6 @@ input.form-control{
 }
 
 .signin-area {
-	background-color: #ffffff;
 	padding: 45px;
 }
 
@@ -186,4 +181,21 @@ input.form-control{
 
 .form-control.search:focus {
 	border: 2px solid #6ec25e;
+}
+.signup-login-header {
+  height: 140px;
+  background-color: transparent;
+ 	width: 100%;
+}
+
+.signup-page .title {
+	font-size: 70px;
+	font-weight: bold;
+	letter-spacing: 3px;
+}
+
+.signup-page .sub-title {
+	font-size: 20px;
+	color: #7a7a7a;
+	letter-spacing: 1px;
 }

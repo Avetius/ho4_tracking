@@ -1,4 +1,4 @@
-<div class="container" data-ng-controller="HeaderController" ng-class="{'hide-effect': hide_navigation}">
+<div class="container" data-ng-controller="HeaderController" ng-class="{'hide-effect': hide_navigation, 'signup-header': signup_header || signin_header}">
 	<div class="sub-container" ng-class="{'frontend-header': !authentication.user}">
 
 		<div class="navbar-header">
@@ -94,7 +94,10 @@
 						</button>
 
 						<br>
-						<div class="rememberme HelveticaNeue" style="font-size: 14px; font-weight: bold; margin-right: 125px; margin-top: 8px;"><span>Remember me </span> <input type="checkbox"></div>
+						<div class="rememberme HelveticaNeue" style="font-size: 14px; font-weight: bold; margin-right: 125px; margin-top: 8px;">
+							<strong class="text-center text-danger" data-ng-bind="error"></strong>
+							<span>Remember me </span> <input type="checkbox">
+						</div>
 					</form>
 				</li>
 			</ul>

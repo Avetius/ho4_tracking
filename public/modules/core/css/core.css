@@ -311,7 +311,8 @@ body.ng-cloak
 .signup-page {
 	margin-right: 0;
 	margin-left: 0;
-	padding-top: 35px;
+	padding-top: 80px;
+	margin-bottom: -110px;
 }
 
 .no-margin {
@@ -835,6 +836,7 @@ table thead th {
 		padding-left: 15px;
 		padding-right: 15px;
 	}
+
 
 	.landing-page .sub-container {
 		margin-left: 145px;
@@ -1678,4 +1680,8 @@ header.navbar-inverse {text-align:center}
 		vertical-align:top;
 	}
 
+}
+
+.signup-header.container {
+	background-color: #fff;
 }

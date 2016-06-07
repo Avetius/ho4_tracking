@@ -153,7 +153,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 			$scope.errorPassword = false;
 			$scope.errorPropertyCode = false;
 			$scope.errorPasswordLength = false;
-
+			$scope.errorPasswordNotMatch = false;
 			if(!$scope.credentials.firstName || $scope.credentials.firstName == "") {
 				$scope.errorFirstName = true;
 				invalidItems++;
@@ -173,6 +173,10 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 				$scope.errorPasswordLength = true;
 				invalidItems++;
 			}
+			if(!$scope.credentials.repeat_password || ($scope.credentials.password && $scope.credentials.repeat_password && $scope.credentials.password !== $scope.credentials.repeat_password)) {
+				$scope.errorPasswordNotMatch = true;
+				invalidItems++;
+			}
 			if(!$scope.credentials.property_code || $scope.credentials.property_code == "") {
 				$scope.errorPropertyCode = true;
 				invalidItems++;
@@ -181,7 +185,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 			var start =  0;
 			var number = 20;
 			var sort = '';
-			var  propertyCode = $scope.credentials.property_code;
+			var propertyCode = $scope.credentials.property_code;
 			var url = '/properties?start=' + start + '&num=' + number + '&propertyCode='+ propertyCode +'&sort=' + JSON.stringify(sort);
 
 

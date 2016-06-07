@@ -86,16 +86,42 @@ angular.module('users').controller('ResidentController', ['$scope', '$stateParam
 			});
 		};
 
-		$scope.openResidentModal = function(resident) {
+		$scope.openResidentModal = function(resident, add_resident) {
 			var modalInstance = $modal.open({
 				templateUrl: 'modules/users/views/residents/resident-form.modal.html',
 				scope: function () {
 					var scope = $rootScope.$new();
-					scope.resident = resident || {};
-					scope.add_resident = !resident;
+					scope.resident = resident;
+					scope.add_resident = add_resident;
 					return scope;
 				}(),
 				controller: 'ResidentFormController'
+			});
+
+			modalInstance.result.then(function (selectedItem) {
+				if(selectedItem.showPropertyModal) {
+					$scope.openPropertyForUnitModal(selectedItem.resident, selectedItem.add_resident);
+				} else {
+					if($scope.currentTab == 'resident')
+						$scope.findResidents($scope.tableState);
+					else
+						$scope.findRLLResidents($scope.tableState);
+				}
+			}, function () {
+				console.log('Modal dismissed at: ' + new Date());
+			});
+		};
+
+		$scope.openPropertyForUnitModal = function(resident, add_resident) {
+			var modalInstance = $modal.open({
+				templateUrl: 'modules/users/views/residents/resident-property-form.modal.html',
+				scope: function () {
+					var scope = $rootScope.$new();
+					scope.resident = resident;
+					scope.add_resident = add_resident;
+					return scope;
+				}(),
+				controller: 'ResidentPropertyFormController'
 			});
 
 			modalInstance.result.then(function (selectedItem) {
@@ -104,7 +130,7 @@ angular.module('users').controller('ResidentController', ['$scope', '$stateParam
 				else
 					$scope.findRLLResidents($scope.tableState);
 			}, function () {
-				console.log('Modal dismissed at: ' + new Date());
+				$scope.openResidentModal(resident, add_resident);
 			});
 		};
 

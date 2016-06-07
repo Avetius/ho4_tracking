@@ -1,0 +1,22 @@
+<div class="modal-header">
+	<i ng-click="cancel()" class="glyphicon glyphicon-remove icon-arrow-right pull-right" style="cursor: pointer; font-size: 22px; font-weight: normal;"></i>
+	<h3 class="modal-title">Add a new unit?</h3>
+</div>
+<div class="modal-body row">
+	<div class="col-md-12">
+		<p>Are you sure you want to add a new unit {{resident.appartmentNumber}}? If yes, please choose a property</p>
+		<div class="form-group no-margin">
+			<select class="form-control" ng-options="property as property.propertyName for property in properties track by property._id" ng-model="resident.property">
+
+			</select>
+			<span class="text-danger text-left" ng-if="errorProperty">Please select property.</span>
+		</div>
+		<div data-ng-show="error" class="text-center text-danger">
+			<strong data-ng-bind="error"></strong>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-default btn-lg custom-gray-btn" type="button" ng-click="cancel()">Cancel</button>
+	<button class="btn btn-success btn-lg" type="button" ng-click="saveResident()">Save</button>
+</div>
