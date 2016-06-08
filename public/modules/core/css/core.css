@@ -566,6 +566,8 @@ table thead th {
 	margin: 0;
 	padding:0;
 	border-color: #76C366;
+	text-transform: uppercase;
+	box-shadow: none;
 }
 
 .datepicker-popup .dropdown-menu .btn-default {
@@ -573,6 +575,8 @@ table thead th {
 	border:none;
 	border-radius: 0;
 	box-shadow: none;
+	padding: 10px 15px;
+	text-transform: uppercase;
 }
 
 .datepicker-popup .dropdown-menu .btn-default:hover {
@@ -593,16 +597,19 @@ table thead th {
 .datepicker-popup .dropdown-menu table th:first-child .btn-default{
 	background-color: #70C05F;
 	color: #fff;
+	padding: 10px 15px;
 }
 
 .datepicker-popup .dropdown-menu table th:last-child .btn-default{
 	background-color: #70C05F;
 	color: #fff;
+	padding: 10px 15px;
 }
 
 .datepicker-popup .dropdown-menu table th:nth-child(2) .btn-default{
 	background-color: #fff;
 	color: #76C366;
+	text-transform: uppercase;
 }
 
 .datepicker-popup .dropdown-menu table th:nth-child(2) .btn-default:hover{
@@ -612,6 +619,12 @@ table thead th {
 
 .datepicker-popup .dropdown-menu table thead tr:nth-child(2) {
 	background-color: #F7F8FA;
+}
+
+.datepicker-popup .dropdown-menu table thead tr:nth-child(2) th{
+	padding: 5px;
+	color: #7c7c7c;
+	font-weight: normal;
 }
 
 .user-dropdownmenu .dropdown-menu > li > a:hover,
@@ -1477,7 +1490,7 @@ thead.gray-bg th {
 
 .btn-insurance {
 	font-size: 14px;
-	font-weight: bold;
+	font-family: 'sans-serif';
 	text-transform: uppercase;
 }
 
@@ -1532,14 +1545,16 @@ a.green-color-link:hover {
 	border: none;
 }
 
-.glyphicon-camera {
+.uploadbtn-area .glyphicon-camera {
 	background-color: #70C05F;
 }
 
-.glyphicon-camera:hover {
+.uploadbtn-area:hover .glyphicon-camera {
 	background-color: #64AD54;
 }
-
+.uploadbtn-area:hover p {
+	color: #71B467
+}
 .breadcrumb a {
 	color: #70C25E;
 }

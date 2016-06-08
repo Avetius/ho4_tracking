@@ -1,9 +1,9 @@
 <div class="modal-body">
 	<div class="row">
 		<i ng-click="cancel()" class="glyphicon glyphicon-remove icon-close-right pull-right" style="cursor: pointer; font-size: 22px; z-index: 2; margin-right: -15px; margin-top: -16px;"></i>
-		<div class="col-md-12" style="margin-top: 15px; margin-bottom: 30px;">
+		<div class="col-md-12" style="margin-top: 15px; margin-bottom: 30px; padding: 0 40px;">
 			<div class="col-md-7">
-				<h2 class="HelveticaNeue" style="font-size: 50px; margin: 0px;">Insurance Certificate</h2>
+				<h2 class="HelveticaNeue" style="font-size: 48px; margin: 0px; font-weight: bold; letter-spacing: 2px;">Insurance Certificate</h2>
 			</div>
 			<div class="col-md-5 text-right HelveticaNeue">
 				<span class="gray-color" style="font-size: 21px;">Unit# </span><!--<span style="font-size:35px; margin-left: 10px;" ng-if="isUnitNumberString(insurance.unitNumber)">{{insurance.unitNumber}}</span>-->
@@ -14,15 +14,15 @@
 			<div class="clearfix"></div>
 		</div>
 	</div>
-	<div class="row" style="margin-bottom: 30px; min-height: 350px;">
+	<div class="row" style="margin-bottom: 30px; min-height: 350px; padding: 0 40px;">
 		<div class="col-md-4">
 			<img ngf-src="insurance.insuranceFilePath" style="width: 100%; margin-bottom: 20px;" ng-if="insurance.insuranceFilePath.indexOf('pdf')<0">
 			<div ng-if="insurance.insuranceFilePath && insurance.insuranceFilePath !== ''" style="position: relative;">
 				<div ngf-drop ngf-select="uploadFiles($files)" class="drop-box"
 					 ngf-drag-over-class="'dragover'" ngf-multiple="false"
-					 ngf-pattern="'image/*,application/pdf'" ng-model="file" style="background-color: #70c05f; color: #fff; cursor: pointer; margin-top: -50px;">
+					 ngf-pattern="'image/*,application/pdf'" ng-model="file" style="background-color: #70c05f; color: #fff; cursor: pointer; margin-top: -50px; margin-left: -10px; margin-right: -10px;">
 					<div>
-						<p style="">Upload Another Insurance Certificate</p>
+						<p class="upper-letters">Upload Another Insurance Certificate</p>
 					</div>
 				</div>
 				<h3>{{file.name}} {{f.$error}} {{f.$errorParam}}</h3>
@@ -36,9 +36,9 @@
 				<div ngf-drop ngf-select="uploadFiles($files)" class="drop-box"
 					 ngf-drag-over-class="'dragover'" ngf-multiple="false"
 					 ngf-pattern="'image/*,application/pdf'" ng-model="file" style="cursor: pointer;">
-					<div style="margin: 85px auto;">
+					<div style="margin: 110px auto;" class="uploadbtn-area">
 						<span class="glyphicon glyphicon-camera" style="border-radius: 50%; padding: 15px; font-size: 35px; color: #fff;"></span>
-						<p style="color: #64AD54; width: 100px; margin: 5px auto;">Upload Insurance Certificate</p>
+						<p style="color: #64AD54; width: 100px; margin: 5px auto; text-transform: uppercase;">Upload Insurance Certificate</p>
 					</div>
 				</div>
 				<div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
@@ -50,7 +50,7 @@
 				<span class="text-danger text-left" ng-if="errorInsuranceFile">Please upload insurance file.</span>
 			</div>
 		</div>
-		<div class="col-md-8">
+		<div class="col-md-8" style="padding-left: 50px;">
 			<div class="form-group no-margin">
 				<input type="text" id="insuranceName" name="insuranceName" class="form-control" data-ng-model="insurance.insuranceName" placeholder="Insurance Company">
 				<span class="text-danger text-left" ng-if="errorInsuranceName">Please enter insurance name.</span>
@@ -89,8 +89,8 @@
 			</div>
 			<h3><span class="gray-color">Your Property:</span> {{property.propertyName}}</h3>
 			<div class="text-center" style="margin-top: 55px;">
-				<button class="btn btn-enroll btn-lg" type="button" ng-click="saveInsurance()" style="padding: 10px 35px;">Save</button>
-				<button class="btn btn-success btn-lg" type="button" ng-click="submitInsurance()" style="padding: 10px 35px; font-size: 14px;">Submit</button>
+				<button class="btn btn-enroll btn-lg upper-letters" type="button" ng-click="saveInsurance()" style="padding: 15px 50px;">Save</button>
+				<button class="btn btn-success btn-lg upper-letters" type="button" ng-click="submitInsurance()" style="padding: 15px 41px; font-size: 14px; margin-left: 15px;">Submit</button>
 			</div>
 		</div>
 	</div>

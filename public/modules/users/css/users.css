@@ -134,7 +134,7 @@ input.form-control{
 }
 
 .account-page {
-	padding: 30px;
+	padding: 37px 165px;
 	border: 2px dotted #333;
 }
 
@@ -163,6 +163,20 @@ input.form-control{
 	height: 42px;
 }
 
+.account-page .sub-title {
+	font-size: 32px;
+	letter-spacing: 2px;
+	margin-bottom: 25px;
+}
+
+.account-page .form-group {
+	margin-bottom: 9px;
+}
+
+.account-page label {
+	font-weight: normal;
+}
+
 .account-page .form-control:focus {
 	border: 2px solid #6ec25e;
 }
@@ -171,7 +185,6 @@ input.form-control{
 	background-color: #F7F8FA;
 	border: none;
 	padding: 12px;
-	text-align: center;
 	height: 42px;
 }
 

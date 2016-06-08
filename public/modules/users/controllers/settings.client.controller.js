@@ -157,14 +157,14 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 
 		// Change user password
 		$scope.changeUserPassword = function() {
-			$scope.success = $scope.error = null;
+			$scope.pwd_success = $scope.pwd_error = null;
 
 			$http.post('/users/password', $scope.passwordDetails).success(function(response) {
 				// If successful show success message and clear form
-				$scope.success = true;
+				$scope.pwd_success = true;
 				$scope.passwordDetails = null;
 			}).error(function(response) {
-				$scope.error = response.message;
+				$scope.pwd_error = response.message;
 			});
 		};
 

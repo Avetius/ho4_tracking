@@ -135,7 +135,7 @@ exports.list = function(req, res) {
 						res.json({count: count, properties: properties, property_manager: property_manager});
 					});
 				} else {
-					User.find({roles: 'pmanager'}).exec(function (err, managers) {
+					User.find({roles: 'pmanager'}).sort('displayName').exec(function (err, managers) {
 						res.json({count: count, properties: properties, property_manager: null, managers: managers});
 					});
 				}
