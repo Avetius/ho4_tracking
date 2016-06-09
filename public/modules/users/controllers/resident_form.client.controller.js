@@ -18,7 +18,7 @@ angular.module('users').controller('ResidentFormController', ['$scope', '$locati
 				$scope.errorLastName = true;
 				invalidItems++;
 			}
-			if (!$scope.resident.email || $scope.resident.email == "" || !validateEmail($scope.resident.email)) {
+			if ($scope.resident.invite && (!$scope.resident.email || $scope.resident.email == "" || !validateEmail($scope.resident.email))) {
 				$scope.errorEmail = true;
 				invalidItems++;
 			}

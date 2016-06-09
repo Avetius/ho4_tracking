@@ -617,10 +617,13 @@ exports.getAllResidentList = function (req, res) {
 			var user_policy_callbacks = [];
 			_.each(users, function (user) {
 				user_policy_callbacks.push(function (cb) {
-					Policy.count({user: user._id}, function (err, policy_count) {
-						var tmp_user = user.toObject();
-						tmp_user.policy_count = policy_count;
-						cb(err, tmp_user);
+					Unit.findOne({unitNumber: user.appartmentNumber, property: user.propertyID}).exec(function(err, unit) {
+						Policy.count({user: user._id}, function (err, policy_count) {
+							var tmp_user = user.toObject();
+							tmp_user.policy_count = policy_count;
+							tmp_user.appartmentNumber = unit || user.appartmentNumber;
+							cb(err, tmp_user);
+						});
 					});
 				});
 			});
@@ -789,18 +792,22 @@ exports.updateResident = function (req, res) {
 		firstName: req.body.firstName,
 		lastName: req.body.lastName,
 		email: req.body.email,
-		displayName: req.body.firstName + ' ' + req.body.lastName
+		displayName: req.body.firstName + ' ' + req.body.lastName,
+		username: req.body.email
 	};
 
 	if (typeof req.body.appartmentNumber === 'object') {
 		updateObj.appartmentNumber = req.body.appartmentNumber.unitNumber;
-		resident.propertyID = req.body.appartmentNumber.property;
+		updateObj.propertyID = req.body.appartmentNumber.property;
 	} else {
-		updateObj.appartmentNumber = req.body.appartmentNumber;
-		updateObj.propertyID = req.body.property._id;
+		if(req.body.appartmentNumber)
+			updateObj.appartmentNumber = req.body.appartmentNumber;
+		if(req.body.property)
+			updateObj.propertyID = req.body.property._id;
 	}
 	User.update({_id: req.params.residentId}, updateObj, function (err, user) {
 		if (err) {
+			console.log(err)
 			var message = errorHandler.getErrorMessage(err);
 			if(message.indexOf('already exists') > -1) message = 'Email already exists';
 			return res.status(400).send({
@@ -825,27 +832,31 @@ exports.updateResident = function (req, res) {
 				});
 			});
 		} else {
-			var unit = new Unit({
-				unitNumber: req.body.appartmentNumber,
-				property: req.body.property._id,
-				resident: req.params.residentId
-			});
-			unit.save(function(err) {
-				if (err) {
-					return res.status(400).send({
-						message: errorHandler.getErrorMessage(err)
-					});
-				}
-				var unitCount = req.body.property.totalUnits + 1;
-				Property.update({_id: req.body.property._id}, {totalUnits: unitCount}, function (err, response) {
+			if(req.body.appartmentNumber && req.body.property) {
+				var unit = new Unit({
+					unitNumber: req.body.appartmentNumber,
+					property: req.body.property._id,
+					resident: req.params.residentId
+				});
+				unit.save(function(err) {
 					if (err) {
 						return res.status(400).send({
 							message: errorHandler.getErrorMessage(err)
 						});
 					}
-					res.json(user);
+					var unitCount = req.body.property.totalUnits + 1;
+					Property.update({_id: req.body.property._id}, {totalUnits: unitCount}, function (err, response) {
+						if (err) {
+							return res.status(400).send({
+								message: errorHandler.getErrorMessage(err)
+							});
+						}
+						res.json(user);
+					});
 				});
-			});
+			} else {
+				res.json(user);
+			}
 		}
 	})
 };
