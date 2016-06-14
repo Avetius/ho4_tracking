@@ -9,14 +9,8 @@ angular.module('users').controller('ContactController', ['$scope', '$stateParams
 		$scope.contact = {};
 		$scope.sendContactEmail = function() {
 			var invalidItems = 0;
-			$scope.errorName = false;
 			$scope.errorEmail = false;
 			$scope.errorMessage = false;
-
-			if(!$scope.contact.name || $scope.contact.name == "") {
-				$scope.errorName = true;
-				invalidItems++;
-			}
 
 			if(!$scope.contact.email || $scope.contact.email == "" || !validateEmail($scope.contact.email)) {
 				$scope.errorEmail = true;

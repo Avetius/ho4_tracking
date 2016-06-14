@@ -15,7 +15,7 @@
 		</div>
 		<nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation" >
 			<ul class="nav navbar-right" data-ng-if="menu.shouldRender(authentication.user);">
-				<li class="text-right" style="text-align: right;">
+				<li class="text-right HelveticaNeue" style="text-align: right;">
 					Call <span style="color: #6ec25e; font-weight: bold;">866.395.1308</span> if you have any questions
 				</li>
 				<li style="margin-top: 36px;" class="pull-right">
@@ -80,21 +80,21 @@
 				<li class="HelveticaNeue">
 					Call <span style="color: #6ec25e; font-weight: bold;">866.395.1308</span> if you have any questions
 				</li>
-				<li style="padding-right: 15px;">
+				<li style="padding-right: 6px; margin-bottom: 5px;" class="HelveticaNeue">
 					<form class="form-inline login-form" data-ng-submit="signin()">
-						<span class="glyphicon glyphicon-lock" style="color: #c7c7c7;"></span>
+						<span class="fa fa-lock" style="color: #c7c7c7; font-size: 25px; margin-right: 5px; vertical-align: middle;"></span>
 						<div class="form-group">
-							<input type="email" class="form-control" placeholder="E-mail" data-ng-model="credentials.username"  style="width: 220px;">
+							<input type="email" class="form-control" placeholder="E-mail" data-ng-model="credentials.username"  style="">
 						</div>
 						<div class="form-group" style="margin-left: 5px;">
-							<input type="password" class="form-control" placeholder="Password" data-ng-model="credentials.password" style="width: 220px;">
+							<input type="password" class="form-control" placeholder="Password" data-ng-model="credentials.password" style="width: 220px; padding-left: 16px; padding-right: 16px; letter-spacing: 1px;">
 						</div>
 						<button type="submit" class="btn btn-success login-btn green-btn-color upper-letters">
 							Login
 						</button>
 
 						<br>
-						<div class="rememberme HelveticaNeue" style="font-size: 14px; font-weight: bold; margin-right: 125px; margin-top: 8px;">
+						<div class="rememberme HelveticaNeue" style="font-size: 13px; margin-right: 125px; margin-top: 8px;">
 							<strong class="text-center text-danger" data-ng-bind="error"></strong>
 							<span>Remember me </span> <input type="checkbox">
 						</div>
@@ -102,20 +102,20 @@
 				</li>
 			</ul>
 		</nav>
-		<div class="row col-md-6 public_navigation HelveticaNeue" data-ng-if="!menu.shouldRender(authentication.user)" ng-hide="hide_navigation">
+		<div class="row col-md-6 public_navigation HelveticaNeueCyrLight" data-ng-if="!menu.shouldRender(authentication.user)" ng-hide="hide_navigation">
 			<div class="item" ng-class="{active: ($uiRoute)}" ui-route="/">
 				<a ng-href="/#!/">Home</a>
 			</div>
 			<div class="item" ng-class="{active: ($uiRoute)}" ui-route="/services">
 				<a ng-href="/#!/services"  class="ng-scope">Services</a>
 			</div>
-			<div class="item" ng-class="{active: ($uiRoute)}" ui-route="/privacy-policy">
+			<div class="item" ng-class="{active: ($uiRoute)}" ui-route="/privacy-policy" style="padding-left: 23px;">
 				<a ng-href="/#!/privacy-policy">Privacy Policy</a>
 			</div>
-			<div class="item" ng-class="{active: ($uiRoute)}" ui-route="/faqs">
+			<div class="item" ng-class="{active: ($uiRoute)}" ui-route="/faqs" style="padding-left: 21px;">
 				<a ng-href="/#!/faqs">FAQs</a>
 			</div>
-			<div class="item" ng-class="{active: ($uiRoute)}" ui-route="/contact-us">
+			<div class="item" ng-class="{active: ($uiRoute)}" ui-route="/contact-us" style="padding-left: 20px;">
 				<a href="/#!/contact-us">Contact us</a>
 			</div>
 		</div>

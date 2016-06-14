@@ -1,42 +1,41 @@
 <section data-ng-controller="ContactController" class="contactpage-class">
     <div class="slide-area-regular"></div>
-    <div class="sub-container HelveticaNeue" style="margin-bottom: 100px;">
+    <div class="sub-container HelveticaNeue" style="margin-bottom: 78px;">
 		<div class="row">
 			<div class="col-md-7 col-sm-7 col-xs-12" style="padding-left: 4px;">
-				<div style="margin-top: 73px; letter-spacing: 2px;">
-					<h1 class="page-title HelveticaNeue page-title"> Get in touch</h1>
+				<div style="margin-top: 79px;">
+					<h1 class="page-title HelveticaNeueCyrThin"> Get in touch</h1>
 				</div>
-				<div style="padding-top: 32px; padding-right: 90px;">
-					<p class="text-left" style="font-size: 15px; font-weight: bold; letter-spacing: 1px;">
+				<div style="padding-top: 25px; padding-right: 90px;">
+					<p class="text-left" style="font-size: 16px; color: #777; line-height: 1.3;">
 						We would love to hear from you! You can contact us using our contact details below or you can complete the contact form and we will get in touch with you shortly.
 					</p>
 				</div>
-				<div style="padding: 8px 0; letter-spacing: 2px;">
-					<h2 style="font-weight: bold; font-size: 27px;">
+				<div style="padding: 15px 0;">
+					<h2 class="HelveticaNeueCyrMedium" style="font-size: 26px; margin-bottom: 2px;">
 						We are available:
 					</h2>
-					<h4 class="green-text bold" style="font-size: 27px; font-weight: bold; letter-spacing: 1px;">
+					<h2 class="green-text HelveticaNeueCyrMedium" style="font-size: 26px; margin-top: 0;">
 						Monday - Friday 8:00 AM - 5:00 PM MST
-					</h4>
+					</h2>
 				</div>
-				<div style="padding-top: 101px; letter-spacing: 1px;">
-					<span style="display: block; font-size: 15px; font-weight: bold;">Renters Compliance Portal</span>
-					<span style="display: block; font-size: 15px; font-weight: bold;">260 S 2500 W Suite 303</span>
-					<span style="display: block; font-size: 15px; font-weight: bold;">Pleasant Grove, Utah 84062</span>
-					<span style="display: block; font-size: 15px; font-weight: bold; padding-top: 18px;">(866) 395-1308</span>
-					<span style="font-size: 15px; font-weight: bold;">renterscompliance@veracityins.com</span>
+				<div style="padding-top: 99px;">
+					<span style="display: block; font-size: 16px; color: #777;">Renters Compliance Portal</span>
+					<span style="display: block; font-size: 16px; color: #777; margin-top: -2px;">260 S 2500 W Suite 303</span>
+					<span style="display: block; font-size: 16px; color: #777; margin-top: -1px;">Pleasant Grove, Utah 84062</span>
+					<span style="display: block; font-size: 16px; color: #777; padding-top: 18px; margin-bottom: -2px;">(866) 395-1308</span>
+					<span style="font-size: 16px; color: #777;">renterscompliance@veracityins.com</span>
 				</div>
 			</div>
 			<div class="col-md-5 col-sm-5 col-xs-12 ">
 
-				<div class="contact-form-guests brown-bgr" style="margin-top: 70px; padding: 25px 50px; margin-left: 10px; margin-right: -17px;">
-					<h2 style="font-size: 27px; font-weight: bold; letter-spacing: 1px;">
+				<div class="contact-form-guests brown-bgr" style="margin-top: 72px; padding: 25px 48px 39px 50px; margin-left: 10px; margin-right: -17px;">
+					<h2 class="HelveticaNeueCyrMedium" style="font-size: 26px;">
 						Contact Form
 					</h2>
 					<form action="col-md-8 col-md-offset-2" style="margin-top: 35px;">
 						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Name *" ng-model="contact.name" required>
-							<span class="text-danger text-left" ng-if="errorName" style="font-weight: bold; letter-spacing: 1px;">Please enter your name.</span>
+							<input type="text" class="form-control" placeholder="Name *" ng-model="contact.name">
 						</div>
 						<div class="form-group">
 							<input type="text" class="form-control" placeholder="Phone" ng-model="contact.phone">
@@ -46,11 +45,11 @@
 							<span class="text-danger text-left" ng-if="errorEmail" style="font-weight: bold; letter-spacing: 1px;">Please enter your email.</span>
 						</div>
 						<div class="form-group">
-							<textarea class="form-control" placeholder="Message *" ng-model="contact.message" rows="8"></textarea>
+							<textarea class="form-control" placeholder="Message *" ng-model="contact.message" rows="7"></textarea>
 							<span class="text-danger text-left" ng-if="errorMessage" style="font-weight: bold; letter-spacing: 1px;">Please enter message.</span>
 						</div>
 						<div class="form-group">
-							<button ng-click="sendContactEmail()" class="reg-btn" type="button" style="text-transform: uppercase; padding: 15px 42px; font-weight: bold; font-size: 15px; letter-spacing: 1px;">Send Message</button>
+							<button ng-click="sendContactEmail()" class="reg-btn" type="button" style="text-transform: uppercase; padding: 13px 38px; font-size: 16px;">Send Message</button>
 						</div>
 						<div data-ng-show="error" class="text-center text-danger">
 							<strong>{{error}}</strong>

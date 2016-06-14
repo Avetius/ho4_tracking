@@ -1,7 +1,27 @@
 @font-face {
 	font-family: "HelveticaNeue";
-	src: url("/modules/core/font/HelveticaNeueUltraLight.ttf") format("truetype");
+	src: url("/modules/core/font/HelveticaNeue.ttf");
 }
+
+@font-face {
+	font-family: "HelveticaNeueCyrLight";
+	src: url("/modules/core/font/HelveticaNeueCyr-Light.otf");
+}
+
+@font-face {
+	font-family: "HelveticaNeueCyrThin";
+	src: url("/modules/core/font/HelveticaNeueCyr-Thin.otf");
+}
+
+@font-face {
+	font-family: "HelveticaNeueCyrMedium";
+	src: url("/modules/core/font/HelveticaNeueCyr-Medium.otf");
+}
+
+.HelveticaNeue{font-family: "HelveticaNeue";}
+.HelveticaNeueCyrLight {font-family: "HelveticaNeueCyrLight";}
+.HelveticaNeueCyrThin {font-family: "HelveticaNeueCyrThin";}
+.HelveticaNeueCyrMedium {font-family: "HelveticaNeueCyrMedium";}
 
 body {
 	position: absolute;
@@ -122,11 +142,15 @@ body.ng-cloak
 }
 
 .login-navbar .login-form {
-	padding: 34px 0px 0px 0px;
+	padding: 33px 0px 0px 0px;
 }
 
 .login-navbar .login-form .form-control{
 	height: 30px;
+	width: 220px;
+	padding-left: 16px;
+	padding-right: 16px;
+	letter-spacing: 1px;
 }
 
 .green-btn-color {
@@ -137,8 +161,6 @@ body.ng-cloak
 
 .login-navbar .login-form .login-btn {
 	padding: 4px 27px;
-	-webkit-border-radius:0px;
-	-moz-border-radius:0px;
 	border-radius:0px;
 }
 
@@ -161,15 +183,14 @@ body.ng-cloak
 }
 
 .slide-area .signup-btn-area p {
-	line-height: 1.1em;
+	line-height: 1em;
 	/* color: red; */
 }
 
 .signup-btn-area .resident_txt {
-	font-size: 68px !important;
-	max-width: 300px !important;
+	font-size: 74px !important;
+	max-width: 302px !important;
 	word-wrap: break-word;
-	font-family: "HelveticaNeue";
 }
 
 .white-color {
@@ -191,6 +212,7 @@ body.ng-cloak
 	padding: 0;
 	border-radius: 0;
 	border: none;
+	box-shadow: none;
 }
 
 .home-class .thumbnail .thumbnail-title {
@@ -221,7 +243,7 @@ body.ng-cloak
 .footer-info {
 	background-image: url('/modules/core/img/gree-bottom-rect.png');
 	background-repeat:no-repeat;
-	background-position: center center;
+	background-position: top center;
 	min-height: 402px;
 	color: #ffffff;
 	font-size: 1.3em;
@@ -234,7 +256,7 @@ body.ng-cloak
 	content: "";
 	height: 100px;
 	position: absolute;
-	top: 110px;
+	top: 111px;
 	width: 100%;
 	z-index: -1;
 	left: 0;
@@ -365,7 +387,7 @@ body.ng-cloak
 }
 
 .landing-content {
-	margin-top: -164px;
+	margin-top: -166px;
 }
 
 .mainpage-content .gray-header-area {
@@ -817,7 +839,7 @@ table thead th {
 	}
 
 	.footer-info::after {
-		top: 110px;
+		top: 111px;
 	}
 }
 @media (min-width: 1065px) {
@@ -866,7 +888,7 @@ table thead th {
 		margin-left: 145px;
 		margin-right: 145px;
 		padding-left: 60px;
-		padding-right: 215px;
+		padding-right: 185px;
 	}
 
 	.contactpage-class .sub-container {
@@ -887,9 +909,9 @@ table thead th {
 		font-size: 3.7em;
 		left: 0px;
 		position: absolute;
-		top: 342px;
+		top: 340px;
 		background-color: rgba(0, 0, 0, 0.8);
-		padding: 30px 80px 80px 149px;
+		padding: 30px 70px 80px 149px;
 		/* width: 610px; */
 		bottom: auto;
 		right: auto;
@@ -906,7 +928,7 @@ table thead th {
 	}
 
 	.footer .sub-container {
-		padding-top: 20px;
+		padding-top: 19px;
 		padding-left: 145px;
 		padding-right: 145px;
 	}
@@ -934,7 +956,7 @@ table thead th {
 	}
 
 	.footer-info::after {
-		top: 110px;
+		top: 111px;
 	}
 
 	.signup-btn-area .resident_txt {
@@ -972,18 +994,16 @@ table thead th {
 .public_navigation
 {
 	position: absolute;
-	padding-top: 15px;
+	padding-top: 13px;
 	text-align: left;
-	padding-left: 37px;
-	font-size: 16px;
+	padding-left: 27px;
+	font-size: 17px;
 }
 
 .public_navigation a
 {
 	color:#FFFFFF;
 	text-decoration: none;
-	font-weight: bold;
-	letter-spacing: 2px;
 }
 
 .public_navigation a:hover,
@@ -994,7 +1014,7 @@ table thead th {
 
 .public_navigation .item {
 	display:inline-block;
-	padding: 0 0 0 10px;
+	padding: 0 0 0 18px;
 }
 
 .rememberme{
@@ -1004,18 +1024,19 @@ table thead th {
 
 .thumbnail-content{
 	color:gray;
+	margin-left: 3px;
+	font-size: 16px;
+	line-height: 20px;
 }
 
 .questionresident{
 	display: inline-block;
-	margin-top: 24px;
+	margin-top: 31px;
 	float: left;
-	font-weight: bold;
 	max-height: 150px;
 }
 .questionresident .quest {
 	font-size: 150px;
-	font-family: "HelveticaNeue";
 	max-height: 150px;
 }
 
@@ -1196,10 +1217,9 @@ a.green-text:hover {
 .page-title, .green-text {color: #6EC25E}
 .extrapage-class .page-title,
 .contactpage-class .page-title {
-	font-size: 73px;
+	font-size: 74px;
 }
 .bold{font-weight: bold; }
-.HelveticaNeue{font-family: "HelveticaNeue";}
 .row-sep {width: 100%; display: inline-block; float: left;height: 15px}
 
 .info-data span{display: inline-block;width: 100%}
@@ -1209,20 +1229,19 @@ a.green-text:hover {
 .contact-form-guests input[type="text"]{
 	border:1px solid   #F3F3F3;
 	background:#fff;
-	padding:20px 10px;;
-	border-radius:3px;
-	-o-border-radius:3px;
-	-webkit-border-radius:3px;
-	-moz-border-radius:3px;
+	padding:24px 21px;;
+	border-radius:0;
+	letter-spacing: 1px;
+}
+.contact-form-guests .form-group {
+	margin-bottom: 10px;
 }
 .contact-form-guests textarea{
 	border:1px solid   #F3F3F3;
 	background:#fff;
-	padding:10px 10px;;
-	border-radius:3px;
-	-o-border-radius:3px;
-	-webkit-border-radius:3px;
-	-moz-border-radius:3px;
+	padding:19px 21px;
+	border-radius:0;
+	letter-spacing: 1px;
 }
 .services-list ul {list-style-type: none}
 .services-list ul li{position: relative; margin-bottom: 20px; padding-left: 15px; font-weight: bold;}
@@ -1622,7 +1641,7 @@ a.green-color-link:hover {
 .padding-15{padding: 15px 0;margin: -5px auto;/* padding: 0; *//* vertical-align: top; *//* display: inline-block; *//* width: 100%; */}
 /*.navbar-brand{width:105%;display: inline-block;}*/
 header.navbar-inverse {text-align:center}
-.frontend-header {display:inline-block;margin:0 auto;width: 1175px; position: relative;background:#fff; /* padding: 10px 0; */}
+.frontend-header {display:inline-block;margin:0 auto;width: 1180px; position: relative;background:#fff; margin-left: 10px;}
 
 .member-header .frontend-header {width:100%}
 .login-form input.form-control{
@@ -1631,7 +1650,14 @@ header.navbar-inverse {text-align:center}
 .login-form .form-control{width:230px}
 .login-form .login-btn { margin:0 0 0 25px }
 .navbar-right { margin:10px 20px }
-.frontend-header .navbar-right li:nth-child(1){font-size: 19px;font-weight:bold;padding:0 23px 0 0;display:inline-block;text-align:right;width:100%;}
+.frontend-header .navbar-right li:nth-child(1){
+	font-size: 17px;
+	padding: 2px 11px 0 0;
+	display: inline-block;
+	text-align: right;
+	width: 100%;
+	letter-spacing: 0.5px;
+}
 .member-header .navbar-right li{
 	display:block;
 	width:auto;
@@ -1706,15 +1732,18 @@ header.navbar-inverse {text-align:center}
 }
 
 .signup-btn-area .btn-success {
-	padding: 12px 16px;
-	margin-top: 43px;
+	padding: 15px 40px;
+	margin-top: 37px;
 	display: inline-block;
 }
 .signup-btn-area > p{width:100%;padding:0;}
 
 .sub-container .media .col-md-6 .media-heading{
-	font-size:37px;
-	margin-bottom:25px;
+	font-size: 41px;
+	margin-bottom: 22px;
+}
+.sub-container .media .col-md-6 {
+	width: 52%;
 }
 
 .signup-btn-area .questionresident:nth-child(2) p{margin-left:45px;}
@@ -1829,4 +1858,8 @@ label.form-select {
 
 .invalid-field {
 	border: 2px solid #ff0000 !important;
+}
+
+.landing-page .col-md-offset-1 {
+	margin-left: 71px;
 }
