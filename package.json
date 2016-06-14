@@ -44,7 +44,8 @@
 	  	"connect-multiparty": "~1.2.5",
 	  	"sendgrid": "~2.0.0",
 	  	"randomstring": "~1.1.4",
-	  	"node-schedule": "~1.1.0"
+	  	"node-schedule": "~1.1.0",
+	  	"request": "~2.72.0"
 	},
 	"devDependencies": {
 		"supertest": "~0.14.0",
