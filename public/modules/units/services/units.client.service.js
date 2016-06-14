@@ -5,9 +5,9 @@ angular.module('units').factory('Units', ['$q', '$filter', '$timeout', '$http',
 	function ($q, $filter, $timeout, $http) {
 		return {
 			//Get orders by page and search values
-			getPage: function (start, number, propertyId, propertyManagerId, sort) {
+			getPage: function (start, number, propertyId, propertyManagerId, sort, search) {
 				var deferred = $q.defer();
-				$http.get('/property_units/'+propertyId+'?start=' + start + '&num=' + number + '&propertyManagerId=' + propertyManagerId + '&sort=' + JSON.stringify(sort)).success(function (data) {
+				$http.get('/property_units/'+propertyId+'?start=' + start + '&num=' + number + '&propertyManagerId=' + propertyManagerId + '&search=' + search + '&sort=' + JSON.stringify(sort)).success(function (data) {
 					deferred.resolve({
 						data: data.units,
 						property: data.property,

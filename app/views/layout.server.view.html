@@ -46,11 +46,12 @@
 </head>
 
 <body class="ng-cloak" ng-controller="MainController">
-	<header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse" ng-class="{'main-header': mainpage_header || authentication.user, 'member-header': authentication.user}"></header>
-	<section class="content" ng-class="{'mainpage-content': mainpage_header || authentication.user}">
+	<header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-inverse"
+			ng-class="{'main-header': mainpage_header || authentication.user, 'navbar-fixed-top member-header': authentication.user}" style="z-index: 3;"></header>
+	<section class="content" ng-class="{'mainpage-content': mainpage_header || authentication.user, 'landing-content': !authentication.user}">
 		<section class="container">
 			{% block content %}{% endblock %}
-			<footer data-ng-include="'/modules/core/views/footer.client.view.html'" class="footer"></footer>
+			<footer data-ng-include="'/modules/core/views/footer.client.view.html'" class="footer" style="width: 100%;"></footer>
 		</section>
 	</section>
 	<!--Embedding The User Object-->

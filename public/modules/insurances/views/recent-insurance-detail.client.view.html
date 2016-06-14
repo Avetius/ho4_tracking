@@ -1,66 +1,86 @@
-<div class="gray-header-area"></div>
+<div class="gray-header-area" style="margin-bottom: 8px;"></div>
 <section data-ng-controller="ManagerInsurancesController" data-ng-init="findOneRecentInsurance()">
-	<div class="sub-container" style="margin-top: 20px;">
-		<alert ng-repeat="alert in alerts" type="success">{{alert.msg}}</alert>
-		<ol class="breadcrumb">
-			<li><a href="#!/recent_insurances">Recent Insurances</a></li>
-			<li class="active">{{insurance.insuranceName}}</li>
-		</ol>
-		<div class="sub-header">
-			<h3 class="pull-left">
-				{{insurance.insuranceName}}
-				<span class="label label-primary insurance-status-label" ng-if="insurance.status=='approved'">{{insurance.status}}</span>
-				<span class="label label-warning insurance-status-label" ng-if="insurance.status=='pending' || insurance.status=='incomplete'">{{insurance.status}}</span>
-				<span class="label label-danger insurance-status-label" ng-if="insurance.status=='rejected' || insurance.status=='expired'">{{insurance.status}}</span>
-			</h3>
-			<div class="pull-right">
-				<button type="button" class="btn btn-large btn-success btn-block" style="padding: 15px;" ng-click="openRecentInsuranceModal(insurance)">Edit Insurance Certificate</button>
-			</div>
-		</div>
-		<div class="clearfix"></div>
-		<div class="policy-list row">
-			<div class="col-md-6" style="min-height: 500px; overflow: auto; border-right: 2px solid #ccc;">
-				<a ng-click="displayFullViewImage()" ng-if="insurance.insuranceFilePath.indexOf('pdf')<0">
-					<img ngf-src="insurance.insuranceFilePath" style="width: 100%;" class="img-thumbnail">
-				</a>
-				<iframe ngf-src="insurance.insuranceFilePath" frameBorder="0" width="100%" height="100%" ng-if="insurance.insuranceFilePath.indexOf('pdf')>-1" style="min-height: 500px;"></iframe>
-			</div>
-			<div class="col-md-6">
-				<h2>Insurance details</h2>
-				<div class="row" style="padding: 15px;">
-					<span class="col-sm-4 upper-letters" style="color: #7a7a7a; font-size: 11px;">Insurance Company</span>
-					<span class="col-sm-6 bold">{{insurance.insuranceName}}</span>
+	<div class="container">
+		<div class="sub-container">
+			<alert ng-repeat="alert in alerts" type="success">{{alert.msg}}</alert>
+			<ol class="breadcrumb">
+				<li><a href="#!/resident_insurances">Resident HO4 Coverage</a></li>
+				<li class="active">Unit {{insurance.unitNumber}}</li>
+			</ol>
+			<div class="sub-header HelveticaNeue">
+				<div class="col-md-6" style="padding: 0;">
+						<span class="gray-color" style="font-size: 52px; margin-left: 10px;">
+							Insurance details
+						</span>
+					<button class="btn btn-note" style="padding: 10px 15px; font-size: 21px; margin-top: 5px; vertical-align: top;" ng-click="viewInsuranceNotes(insurance.notes)">
+						<span class="glyphicon glyphicon-list-alt"></span>
+					</button>
 				</div>
-				<div class="row" style="padding: 15px;">
-					<span class="col-sm-4 upper-letters" style="color: #7a7a7a; font-size: 11px;">Unit #</span>
-					<span class="col-sm-6 bold">{{insurance.unitNumber}}</span>
-				</div>
-				<div class="row" style="padding: 15px;">
-					<span class="col-sm-4 upper-letters" style="color: #7a7a7a; font-size: 11px;">Policy's Holder Name</span>
-					<span class="col-sm-6 bold">{{insurance.policyHolderName}}</span>
-				</div>
-				<div class="row" style="padding: 15px;">
-					<span class="col-sm-4 upper-letters" style="color: #7a7a7a; font-size: 11px;">Policy Number</span>
-					<span class="col-sm-6 bold">{{insurance.policyNumber}}</span>
-				</div>
-				<div class="row" style="padding: 15px;">
-					<span class="col-sm-4 upper-letters" style="color: #7a7a7a; font-size: 11px;">Policy Period</span>
-					<span class="col-sm-6 bold">{{insurance.policyStartDate | date: 'MMM d, yyyy'}} - {{insurance.policyEndDate | date: 'MMM d, yyyy'}}</span>
-				</div>
-				<div class="row" style="padding: 15px;">
-					<span class="col-sm-4 upper-letters" style="color: #7a7a7a; font-size: 11px;">Status</span>
-					<div class="col-sm-6">
-						<select class="form-control" ng-model="insurance.status" ng-change="updateInsuranceStatus(insurance)">
-							<option value="approved">Approved</option>
-							<option value="rejected">Rejected</option>
-							<option value="pending">Pending</option>
-							<option value="expired">Expired</option>
-							<option value="incomplete">Incomplete</option>
-						</select>
+				<div class="col-md-6 text-right" style="padding-top: 6px; padding-left: 0; padding-right: 5px; position: relative;">
+					<div style="display: inline-block; padding-right: 318px; vertical-align: bottom; padding-top: 18px;">
+						<span style="font-size: 20px;" class="gray-color">Unit# </span><span style="font-size:30px;font-weight: bold;">{{insurance.unitNumber}}</span>
+					</div>
+					<div style="position: absolute; top: 5px; right: 5px;">
+						<button type="button" class="btn btn-lg btn-enroll btn-pm-insurance upper-letters" ng-click="enrollToRll(insurance)">Enroll to RLL</button>
+						<button type="button" class="btn btn-lg btn-success btn-insurance" style="padding: 15px 53px;" ng-click="openRecentInsuranceModal(insurance)">Edit</button>
 					</div>
 				</div>
-				<div class="row" style="padding: 15px;">
-					<button class="btn btn-default" ng-click="viewInsuranceNotes(insurance.notes)">View Notes</button>
+			</div>
+			<div class="clearfix"></div>
+			<div class="row" style="margin-top: 40px;">
+				<div class="col-md-6" style="overflow: auto;">
+					<a ng-click="displayFullViewImage()" ng-if="insurance.insuranceFilePath.indexOf('pdf')<0">
+						<img ngf-src="insurance.insuranceFilePath" style="width: 100%;" class="img-thumbnail">
+					</a>
+					<div class="mark-area">
+						<img src="modules/core/img/{{insurance_status}}.png">
+					</div>
+					<iframe ngf-src="insurance.insuranceFilePath" frameBorder="0" width="100%" height="100%" ng-if="insurance.insuranceFilePath.indexOf('pdf')>-1" style="min-height: 500px;"></iframe>
+				</div>
+				<div class="col-md-6 HelveticaNeue">
+					<div class="row" style="padding: 0 15px;">
+						<p style="color: #7a7a7a;margin-bottom: 7px;">Insurance Company</p>
+						<h3 class="bold" style="font-size: 30px;margin-top: 0;">{{insurance.insuranceName}}</h3>
+					</div>
+					<div class="row" style="padding: 10px 15px;">
+						<p style="color: #7a7a7a;margin-bottom: 7px;">Policy's Holder Name</p>
+						<h3 class="bold" style="font-size: 30px;margin-top: 0;">{{insurance.policyHolderName}}</h3>
+					</div>
+					<div class="row" style="padding: 0 15px;">
+						<p style="color: #7a7a7a;margin-bottom: 7px;">Policy Number</p>
+						<h3 class="bold" style="font-size: 30px;margin-top: 0;">{{insurance.policyNumber}}</h3>
+					</div>
+					<div class="row" style="padding: 10px 15px;">
+						<p style="color: #7a7a7a;margin-bottom: 7px;">Expiration Date</p>
+						<h3 class="bold" style="font-size: 30px;margin-top: 0;">{{insurance.policyStartDate | date: 'MMM d, yyyy'}} - {{insurance.policyEndDate | date: 'MMM d, yyyy'}}</h3>
+					</div>
+					<div class="row" style="padding: 15px 20px; background-color: #F1F1F3; margin: 10px 15px;">
+						<div>
+							<div>
+								<p style="color: #7a7a7a; margin: 0 0 5px;">Date (adding)</p>
+								<p class="bold" style="color: #000; margin: 0 0 5px;">{{insurance.created | date: 'MMM d, yyyy'}}</p>
+							</div>
+							<div>
+								<p style="color: #7a7a7a; margin: 0 0 5px;">Resident Name</p>
+								<p class="bold" style="color: #000; margin: 0 0 5px;">{{insurance.user.displayName}}</p>
+							</div>
+							<div class="pull-left">
+								<p style="color: #7a7a7a; margin: 0 0 5px;">Resident Email</p>
+								<p class="bold" style="color: #000; margin: 0 0 5px;">{{insurance.user.email}}</p>
+							</div>
+							<div class="pull-right">
+								<button class="btn btn-success" style="padding: 10px 15px;">
+									<span class="glyphicon glyphicon-envelope"></span>
+								</button>
+							</div>
+							<div class="clearfix"></div>
+							<div>
+								<p style="color: #7a7a7a; margin: 0 0 5px;">Propety Name/Property Code</p>
+								<p class="bold" style="color: #000; margin: 0 0 5px;">{{property.propertyName}} / {{property.propertyCode}}</p>
+							</div>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</div>

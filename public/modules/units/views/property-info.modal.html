@@ -1,62 +1,53 @@
-<div class="modal-header">
-	<i ng-click="cancel()" class="glyphicon glyphicon-remove icon-arrow-right pull-right" style="cursor: pointer; font-size: 22px; font-weight: normal;"></i>
-	<h3 class="modal-title">{{property.propertyName}}</h3>
-</div>
-<div class="modal-body row">
-	<div class="col-md-6">
-		<div class="row" style="padding: 20px 10px;">
-			<span class="col-md-5 upper-letters" style="color: #7a7a7a;">Property Name</span>
-			<span class="col-md-6 bold">{{property.propertyName}}</span>
-		</div>
-		<div class="row" style="padding: 20px 10px;">
-			<span class="col-md-5 upper-letters" style="color: #7a7a7a;">Property ID</span>
-			<span class="col-md-6 bold">{{property.propertyId}}</span>
-		</div>
-		<div class="row" style="padding: 20px 10px;">
-			<span class="col-md-5 upper-letters" style="color: #7a7a7a;">Management Company</span>
-			<span class="col-md-6 bold">{{property.managementCompany}}</span>
-		</div>
-		<div class="row" style="padding: 20px 10px;">
-			<span class="col-md-5 upper-letters" style="color: #7a7a7a;">Phone Number</span>
-			<span class="col-md-6 bold">{{property.phoneNumber}}</span>
-		</div>
-		<div class="row" style="padding: 20px 10px;">
-			<span class="col-md-5 upper-letters" style="color: #7a7a7a;">Fax Number</span>
-			<span class="col-md-6 bold">{{property.faxNumber}}</span>
-		</div>
-		<div class="row" style="padding: 20px 10px;">
-			<span class="col-md-5 upper-letters" style="color: #7a7a7a;">Email Address</span>
-			<span class="col-md-6 bold">{{property.email}}</span>
-		</div>
-		<div class="row" style="padding: 20px 10px;">
-			<span class="col-md-5 upper-letters" style="color: #7a7a7a;">Secondary Email</span>
-			<span class="col-md-6 bold">{{property.secondaryEmail}}</span>
+<div class="modal-body">
+	<div class="row">
+		<i ng-click="cancel()" class="glyphicon glyphicon-remove icon-close-right pull-right" style="cursor: pointer; font-size: 22px; z-index: 2; margin-right: -15px; margin-top: -16px;"></i>
+		<div class="col-md-12" style="margin-top: 15px; margin-bottom: 30px; padding: 0 40px;">
+			<h2 class="HelveticaNeue" style="font-size: 48px; margin: 0px; font-weight: bold; letter-spacing: 2px;">{{property.propertyName}}</h2>
 		</div>
 	</div>
-	<div class="col-md-6">
-		<div class="row" style="padding: 20px 10px;">
-			<span class="col-md-5 upper-letters" style="color: #7a7a7a;">Invoice Email</span>
-			<span class="col-md-6 bold">{{property.invoiceEmail}}</span>
+	<div class="row" style="margin-bottom: 30px;">
+		<div class="col-md-12" style="padding: 5px 40px;">
+			<input type="text" ng-model="property.propertyName" class="form-control" placeholder="Property Name" disabled>
 		</div>
-		<div class="row" style="padding: 20px 10px;">
-			<span class="col-md-5 upper-letters" style="color: #7a7a7a;">Status</span>
-			<span class="col-md-6 bold">{{property.status}}</span>
+		<div class="col-md-6" style="padding: 0 40px;">
+			<div class="row" style="padding: 5px 0;">
+				<input type="text" ng-model="property.propertyId" class="form-control" placeholder="Property ID" disabled>
+			</div>
+			<div class="row" style="padding: 5px 0;">
+				<input type="text" ng-model="property.managementCompany" class="form-control" placeholder="Management Company" disabled>
+			</div>
+			<div class="row" style="padding: 5px 0;">
+				<input type="text" ng-model="property.phoneNumber" class="form-control" placeholder="Phone Number" disabled>
+			</div>
+			<div class="row" style="padding: 5px 0;">
+				<input type="text" ng-model="property.faxNumber" class="form-control" placeholder="Fax Number" disabled>
+			</div>
+			<div class="row" style="padding: 5px 0;">
+				<input type="text" ng-model="property.email" class="form-control" placeholder="Email Address" disabled>
+			</div>
+			<div class="row" style="padding: 5px 0;">
+				<input type="text" ng-model="property.secondaryEmail" class="form-control" placeholder="Secondary Email" disabled>
+			</div>
 		</div>
-		<div class="row" style="padding: 20px 10px;">
-			<span class="col-md-5 upper-letters" style="color: #7a7a7a;">State</span>
-			<span class="col-md-6 bold">{{property.state}}</span>
-		</div>
-		<div class="row" style="padding: 20px 10px;">
-			<span class="col-md-5 upper-letters" style="color: #7a7a7a;">City</span>
-			<span class="col-md-6 bold">{{property.city}}</span>
-		</div>
-		<div class="row" style="padding: 20px 10px;">
-			<span class="col-md-5 upper-letters" style="color: #7a7a7a;">Street Address</span>
-			<span class="col-md-6 bold">{{property.streetAddress}}</span>
-		</div>
-		<div class="row" style="padding: 20px 10px;">
-			<span class="col-md-5 upper-letters" style="color: #7a7a7a;">Zip</span>
-			<span class="col-md-6 bold">{{property.zip}}</span>
+		<div class="col-md-6" style="padding: 0 40px;">
+			<div class="row" style="padding: 5px 0;">
+				<input type="text" ng-model="property.invoiceEmail" class="form-control" placeholder="Invoice Email" disabled>
+			</div>
+			<div class="row" style="padding: 5px 0;">
+				<input type="text" ng-model="property.status" class="form-control" placeholder="Status" disabled>
+			</div>
+			<div class="row" style="padding: 5px 0;">
+				<input type="text" ng-model="property.state" class="form-control" placeholder="State" disabled>
+			</div>
+			<div class="row" style="padding: 5px 0;">
+				<input type="text" ng-model="property.city" class="form-control" placeholder="City" disabled>
+			</div>
+			<div class="row" style="padding: 5px 0;">
+				<input type="text" ng-model="property.streetAddress" class="form-control" placeholder="Street Address" disabled>
+			</div>
+			<div class="row" style="padding: 5px 0;">
+				<input type="text" ng-model="property.zip" class="form-control" placeholder="Zip" disabled>
+			</div>
 		</div>
 	</div>
 </div>

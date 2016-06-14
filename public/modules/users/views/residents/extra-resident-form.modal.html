@@ -1,25 +1,31 @@
-<div class="modal-header">
-    <i ng-click="cancel()" class="glyphicon glyphicon-remove icon-arrow-right pull-right" style="cursor: pointer; font-size: 22px; font-weight: normal;"></i>
-    <h3 class="modal-title">Resident</h3>
-</div>
-<div class="modal-body row">
-    <div class="col-md-12">
-        <div class="form-group no-margin">
-            <label class="control-label">Choose Resident from the List</label>
-            <select id="resident_id" class="form-control" ng-options="resident as resident.displayName for resident in residents track by resident._id" ng-model="unit.resident">
+<div class="modal-body">
+	<div class="row">
+		<i ng-click="cancel()" class="glyphicon glyphicon-remove icon-close-right pull-right" style="cursor: pointer; font-size: 22px; z-index: 2; margin-right: -15px; margin-top: -16px;"></i>
+		<div class="col-md-12" style="margin-top: 15px; margin-bottom: 30px; padding: 0 40px;">
+			<h2 class="HelveticaNeue" style="font-size: 48px; margin: 0px; font-weight: bold; letter-spacing: 2px;">Resident</h2>
+		</div>
+	</div>
+	<div class="row" style="margin-bottom: 30px; padding: 0 40px;">
+		<p class="control-label gray-color">Choose Resident from the List</p>
+		<div class="col-md-6" style="padding: 0;">
+			<label class="form-select" style="width: 100%;">
+				<select id="resident_id" class="form-control" ng-options="resident as resident.displayName for resident in residents track by resident._id" ng-model="unit.resident">
 
-            </select>
-        </div>
-        <p class="text-center">OR</p>
-        <div class="form-group no-margin">
-            <button type="button" class="btn btn-default btn-block" ng-click="openResidentModalForUnit()">Create New Resident</button>
-        </div>
-        <div data-ng-show="error" class="text-center text-danger">
-            <strong data-ng-bind="error"></strong>
-        </div>
-    </div>
+				</select>
+			</label>
+		</div>
+		<span class="text-center col-md-1" style="line-height: 45px;">OR</span>
+		<div class="col-md-5" style="padding: 0;">
+			<button type="button" class="btn btn-gray upper-letters btn-block" ng-click="openResidentModalForUnit()" style="padding-top: 10px; padding-bottom: 10px;">Create New Resident</button>
+		</div>
+		<div class="clearfix"></div>
+		<div data-ng-show="error" class="text-center text-danger">
+			<strong data-ng-bind="error"></strong>
+		</div>
+		<div class="text-right" style="margin-top: 55px;">
+			<button class="btn btn-gray btn-lg upper-letters" type="button" ng-click="cancel()" style="padding: 15px 50px;">Cancel</button>
+			<button class="btn btn-success btn-lg upper-letters" type="button" ng-click="saveUnitResidenId()" style="padding: 15px 50px; font-size: 14px; margin-left: 15px;">Save</button>
+		</div>
+	</div>
 </div>
-<div class="modal-footer">
-    <button class="btn btn-default btn-lg custom-gray-btn" type="button" ng-click="cancel()">Cancel</button>
-    <button class="btn btn-success btn-lg" type="button" ng-click="saveUnitResidenId()">Save</button>
-</div>
+

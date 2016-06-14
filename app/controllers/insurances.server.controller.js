@@ -35,9 +35,21 @@ exports.read = function(req, res) {
 };
 
 exports.residentInsurances = function(req, res) {
-	Policy.count({user: req.params.residentId}, function (err, count) {
+	var start = parseInt(req.query.start);
+	var num = parseInt(req.query.num);
+	var search = req.query.search || '';
+	var sort = JSON.parse(req.query.sort) || {};
+	var query = {user: req.params.residentId};
+	if(search && search !== '') query = {$and: [{user: req.params.residentId}, {insuranceName: {'$regex': search, '$options': 'i'}}]};
+
+	Policy.count(query, function (err, count) {
 		Profile.findOne({user: req.params.residentId}).populate('user').exec(function(err, profile) {
-			Policy.find({user: req.params.residentId}).sort('-created').populate('user').exec(function (err, insurances) {
+			var sortString = '-created';
+			if(sort.predicate) {
+				sortString = sort.predicate;
+				if(sort.reverse) sortString = '-' + sortString;
+			}
+			Policy.find(query).sort(sortString).populate('user').limit(num).skip(start).exec(function (err, insurances) {
 				if (err) {
 					return res.status(400).send({
 						message: errorHandler.getErrorMessage(err)
@@ -118,8 +130,10 @@ exports.createResidentInsurances = function(req, res) {
 		policy.unitNumber = req.body.unitNumber.unitNumber;
 	}
 	policy.user = req.params.residentId;
-	if(policy.insuranceFilePath && policy.insuranceFilePath !== '') policy.status = 'pending';
-	else policy.status = 'incomplete';
+	if(req.user.roles.indexOf('admin') < 0) {
+		if(policy.insuranceFilePath && policy.insuranceFilePath !== '') policy.status = 'pending';
+		else policy.status = 'incomplete';
+	}
 	policy.updated = Date.now();
 	policy.save(function(err) {
 		if (err) {
@@ -149,8 +163,10 @@ exports.updateResidentInsurance = function(req, res) {
 		if(typeof req.body.unitNumber === 'object') {
 			policy.unitNumber = req.body.unitNumber.unitNumber;
 		}
-		if(policy.insuranceFilePath && policy.insuranceFilePath !== '') policy.status = 'pending';
-		else policy.status = 'incomplete';
+		if(req.user.roles.indexOf('admin') < 0) {
+			if (policy.insuranceFilePath && policy.insuranceFilePath !== '') policy.status = 'pending';
+			else policy.status = 'incomplete';
+		}
 		policy.updated = Date.now();
 		policy.save(function(err) {
 			if (err) {
@@ -482,10 +498,12 @@ exports.propertyInsurances = function(req, res) {
 
 exports.recentInsuranceDetail = function(req, res) {
 	var insurance = req.insurance;
-	Note.find({policy: insurance._id}).populate('editor').exec(function(err, notes) {
-		insurance = insurance.toObject()
-		insurance.notes = notes;
-		res.json({insurance: insurance});
+	Unit.findOne({unitNumber: insurance.unitNumber, resident: insurance.user}).populate('property').exec(function(err, unit) {
+		Note.find({policy: insurance._id}).populate('editor').exec(function (err, notes) {
+			insurance = insurance.toObject();
+			insurance.notes = notes;
+			res.json({insurance: insurance, unit: unit});
+		});
 	});
 };
 

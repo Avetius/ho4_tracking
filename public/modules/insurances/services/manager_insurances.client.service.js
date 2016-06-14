@@ -4,17 +4,19 @@
 angular.module('insurances').factory('ManagerInsurance', ['$q', '$filter', '$timeout', '$http',
 	function ($q, $filter, $timeout, $http) {
 		return {
-			getInsurances: function(propertyId, unitId, residentId, propertyManagerId) {
+			getInsurances: function(propertyId, unitId, residentId, propertyManagerId, start, number, search, sort) {
 				var deferred = $q.defer();
-				var url = '/resident_insurances/'+propertyId+'/'+unitId  +'/'+residentId+'/insurances';
-				if(propertyManagerId) url = '/resident_insurances/'+propertyId+'/'+unitId  +'/'+residentId+'/insurances?propertyManagerId=' + propertyManagerId;
+				var url = '/resident_insurances/'+propertyId+'/'+unitId  +'/'+residentId+'/insurances?start=' + start + '&num=' + number + '&search=' + search + '&sort=' + JSON.stringify(sort);
+				if(propertyManagerId) url = '/resident_insurances/'+propertyId+'/'+unitId  +'/'+residentId+'/insurances?propertyManagerId=' + propertyManagerId + '&start=' + start + '&num=' + number + '&search=' + search + '&sort=' + JSON.stringify(sort);
 				$http.get(url).success(function (data) {
 					deferred.resolve({
 						unit: data.unit,
 						property: data.property,
 						insurances: data.insurances,
 						resident: data.resident,
-						property_manager: data.property_manager
+						property_manager: data.property_manager,
+						numberOfPages: Math.ceil(data.count / number),
+						count: data.count
 					});
 				}).error(function (msg, code) {
 					deferred.reject(msg);
@@ -83,7 +85,8 @@ angular.module('insurances').factory('ManagerInsurance', ['$q', '$filter', '$tim
 				var deferred = $q.defer();
 				$http.get('/recent_insurances/'+insuranceId).success(function (data) {
 					deferred.resolve({
-						insurance: data.insurance
+						insurance: data.insurance,
+						unit: data.unit
 					});
 				}).error(function (msg, code) {
 					deferred.reject(msg);

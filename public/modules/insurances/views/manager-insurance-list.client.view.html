@@ -1,57 +1,79 @@
-<div class="gray-header-area"></div>
-<section data-ng-controller="ManagerInsurancesController" data-ng-init="findPolicies()">
-	<div class="sub-container" style="margin-top: 20px;">
-		<alert ng-repeat="alert in alerts" type="success">{{alert.msg}}</alert>
-		<ol class="breadcrumb">
-			<li><a href="#!/properties">Properties</a></li>
-			<li><a href="#!/properties/{{property._id}}/units">{{property.propertyName}}</a></li>
-			<li class="active">{{unit.resident.displayName}}</li>
-		</ol>
-		<div class="sub-header">
-			<h3 class="pull-left">{{unit.resident.displayName}}</h3>
-			<div class="pull-right">
-				<button type="button" class="btn btn-large custom-gray-btn" style="padding: 15px; border: 1px solid; margin-right: 10px;" ng-click="openResidentInfo()">Resident info</button>
-				<button type="button" class="btn btn-large btn-success" style="padding: 15px;" ng-click="openInsuranceModal()">Add Insurance Certificate</button>
+<div class="gray-header-area" style="margin-bottom: 8px;"></div>
+<section data-ng-controller="ManagerInsurancesController">
+	<div class="container">
+		<div class="sub-container">
+			<alert ng-repeat="alert in alerts" type="success">{{alert.msg}}</alert>
+			<ol class="breadcrumb" style="margin-bottom: -15px;">
+				<li><a href="#!/properties">Properties</a></li>
+				<li><a href="#!/properties/{{property._id}}/units">{{property.propertyName}}</a></li>
+				<li class="active">{{unit.resident.displayName}}</li>
+			</ol>
+			<div class="sub-header">
+				<div class="pull-left" style="padding-top: 30px;">
+					<h2 style="font-size: 47px; font-weight: bold;" class="HelveticaNeue">
+						{{unit.resident.displayName}}
+					</h2>
+				</div>
+				<div class="pull-right" style="margin-right: 4px;">
+					<div class="input-group" style="margin-top: 10px; width: 320px; margin-left: 146px;">
+						<input type="text" ng-model="search" class="form-control search" ng-keypress="searchManagerInsuranceWithText($event)" placeholder="Search..." style="height: 50px;">
+						<span class="input-group-btn">
+							<button class="btn btn-success" ng-click="searchManagerInsurance()" style="font-size: 25px;padding: 7px 14px;"><i class="glyphicon glyphicon-search" style="font-size: 20px;"></i></button>
+						</span>
+					</div>
+					<div style="margin-top: 10px;" class="text-right">
+						<button type="button" class="btn btn-large btn-gray" style="padding: 14px 31px;" ng-click="openResidentInfo()">Resident info</button>
+						<button type="button" class="btn btn-large btn-success upper-letters" style="padding: 14px 38px;" ng-click="openInsuranceModal()">Add Insurance Certificate</button>
+					</div>
+				</div>
 			</div>
-		</div>
-		<div class="clearfix"></div>
-		<div class="">
-			<div class="policy-list">
-				<div class="table-responsive">
-					<table class="table table-striped">
-						<thead>
-						<tr>
-							<th class="text-center">Insurance Company</th>
-							<th class="text-center">Expiration Date</th>
-							<th class="text-center">Status</th>
-							<th class="text-center">Certificate</th>
-							<th class="text-center">Notes</th>
-							<th class="text-center">Actions</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr ng-repeat="insurance in insurances">
-							<td class="text-center">{{insurance.insuranceName}}</td>
-							<td class="text-center">{{insurance.policyEndDate | date: 'MMM d, yyyy'}}</td>
-							<td class="text-center">
-								<span ng-if="authentication.user.roles.indexOf('admin')<0">{{insurance.status}}</span>
-								<select class="form-control" ng-model="insurance.status" ng-change="updateInsuranceStatus(insurance, 'policies')" ng-if="authentication.user.roles.indexOf('admin')>-1">
-									<option value="approved">Approved</option>
-									<option value="rejected">Rejected</option>
-									<option value="pending">Pending</option>
-									<option value="expired">Expired</option>
-									<option value="incomplete">Incomplete</option>
-								</select>
-							</td>
-							<td class="text-center"><a style="cursor: pointer" ng-click="viewInsuranceCertificate(insurance.insuranceFilePath)"><span class="glyphicon glyphicon-file" ng-if="insurance.insuranceFilePath"></span></a></td>
-							<td><a style="cursor: pointer;" ng-click="viewInsuranceNotes(insurance.notes)"><span class="glyphicon glyphicon-list-alt" ng-if="insurance.notes"></span></a></td>
-							<td class="text-center">
-								<a style="cursor: pointer" ng-click="removeInsurance(insurance._id, $index)"><span class="glyphicon glyphicon-trash"></span></a> |
-								<a style="cursor: pointer" ng-click="openInsuranceModal(insurance)"><span class="glyphicon glyphicon-pencil"></span> </a>
-							</td>
-						</tr>
-						</tbody>
-					</table>
+			<div class="clearfix"></div>
+			<div class="">
+				<div class="policy-list">
+					<div class="table-responsive">
+						<table class="table table-hover" st-pipe="findPolicies" st-table="insurances" st-safe-src="insurances">
+							<thead class="gray-bg">
+							<tr>
+								<th class="sortable cursor-pointer" st-sort="insuranceName" st-sort-default="insuranceName" >Insurance Company</th>
+								<th class="sortable cursor-pointer" st-sort="policyEndDate">Expiration Date</th>
+								<th class="sortable cursor-pointer text-center" st-sort="status">Status</th>
+								<th class="sortable cursor-pointer" st-sort="created">Date (adding)</th>
+								<th class="text-center">Edit</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr ng-repeat="insurance in insurances">
+								<td class="middle-align">
+									<a class="green-text">{{insurance.insuranceName}}</a>
+								</td>
+								<td class="middle-align">{{insurance.policyStartDate | date: 'MMM d, yyyy'}} - {{insurance.policyEndDate | date: 'MMM d, yyyy'}}</td>
+								<td class="text-center middle-align">
+									<span class="insurance-status {{insurance.status}}">{{insurance.status}}</span>
+								</td>
+								<td class="middle-align">
+									{{insurance.created | date: 'MMM d, yyyy'}}
+								</td>
+								<td class="text-center">
+									<div class="green-btn" style="cursor: pointer;" ng-click="openInsuranceModal(insurance)">
+										<span class="glyphicon glyphicon-pencil"></span>
+									</div>
+								</td>
+							</tr>
+							</tbody>
+							<tfoot>
+							<tr>
+								<td class="text-center" colspan="7">
+									<p style="color: #666; font-size: 12px; text-align: left;">Total: {{totalItems}}</p>
+									<nav ng-if="numberOfPages && pages.length >= 2">
+										<ul class="pagination">
+											<li ng-repeat="page in pages" class="page-item" ng-class="{active: page==currentPage}"><a href="javascript: void(0);" ng-click="selectManagerPage(page)">{{page}}</a></li>
+										</ul>
+									</nav>
+								</td>
+							</tr>
+							</tfoot>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>

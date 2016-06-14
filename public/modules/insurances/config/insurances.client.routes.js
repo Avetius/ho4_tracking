@@ -18,7 +18,7 @@ angular.module('insurances').config(['$stateProvider',
 			templateUrl: 'modules/insurances/views/recent-insurance-list.client.view.html'
 		}).
 		state('viewRecentInsurance', {
-			url: '/recent_insurances/:insuranceId',
+			url: '/resident_insurances/:insuranceId',
 			templateUrl: 'modules/insurances/views/recent-insurance-detail.client.view.html'
 		}).
 		state('listInsuranceForManager', {

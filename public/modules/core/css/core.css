@@ -364,6 +364,10 @@ body.ng-cloak
 	height: 111px;
 }
 
+.landing-content {
+	margin-top: -164px;
+}
+
 .mainpage-content .gray-header-area {
 	height: 120px;
 }
@@ -1105,6 +1109,14 @@ table thead th {
 	color: #fff;
 }
 
+.table-hover > tbody > tr > .td-hover a {
+	color:#70C05F;
+}
+.table-hover > tbody > tr:hover > .td-hover a,
+.table-hover > tbody > tr:hover > .td-hover .green-text {
+	color: #fff;
+}
+
 .table-hover > tbody > tr:hover > .td-hover .insurance-status {
 	border-color: #fff;
 }
@@ -1176,6 +1188,10 @@ thead.gray-bg th {
 	background-position: center center;
 	background-image:url('/modules/core/img/gray_banner.png');
 	min-height: 420px;
+}
+a.green-text:hover {
+	color: #6EC25E;
+	text-decoration: underline;
 }
 .page-title, .green-text {color: #6EC25E}
 .extrapage-class .page-title,
@@ -1485,7 +1501,8 @@ thead.gray-bg th {
 	color: #fff;
 	font-size: 14px;
 	font-weight: bold;
-	padding: 15px 35px;
+	padding: 15px 19px;
+	letter-spacing: 1px;
 }
 
 .btn-insurance {
@@ -1496,6 +1513,26 @@ thead.gray-bg th {
 
 .btn-enroll:hover,
 .btn-enroll:focus {
+	background-color: #A3A3A3;
+	color: #fff;
+}
+
+.btn-gray {
+	background-color: #b5b5b5;
+	border-radius: 0;
+	color: #fff;
+	font-size: 14px;
+	padding: 15px 19px;
+}
+
+.btn-gray {
+	font-size: 14px;
+	font-family: 'sans-serif';
+	text-transform: uppercase;
+}
+
+.btn-gray:hover,
+.btn-gray:focus {
 	background-color: #A3A3A3;
 	color: #fff;
 }
@@ -1699,4 +1736,97 @@ header.navbar-inverse {text-align:center}
 
 .signup-header.container {
 	background-color: #fff;
+}
+
+
+label.custom-select,
+label.td-status-select,
+label.form-select {
+	position: relative;
+	display: inline-block;
+}
+
+.custom-select select,
+.td-status-select select,
+.form-select select {
+	display: inline-block;
+	border: none;
+	padding: 4px 3px 3px 40px;
+	margin: 0;
+	font: inherit;
+	outline:none; /* remove focus ring from Webkit */
+	line-height: 1.2;
+	-webkit-appearance:none; /* remove the strong OSX influence from Webkit */
+	border-radius: 0;
+	box-shadow: none;
+}
+
+.td-status-select select {
+	padding: 4px 3px 3px 5px;
+}
+
+/* for Webkit's CSS-only solution */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	.custom-select select {
+		padding-right:92px;
+	}
+	.td-status-select select {
+		padding-right:30px;
+	}
+	.form-select select {
+		padding-right: 40px;
+	}
+}
+
+/* Since we removed the default focus styles, we have to add our own */
+.custom-select select:focus,
+.td-status-select select:focus {
+
+}
+
+/* Select arrow styling */
+.custom-select:after,
+.td-status-select:after,
+.form-select:after {
+	content: "▼";
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	line-height: 50px;
+	padding: 0 18px;
+	background: #6ec25e;
+	color: white;
+
+	pointer-events:none;
+}
+
+.form-select:after {
+	line-height: 45px;
+	padding: 0 13px;
+}
+
+.td-status-select:after {
+	padding: 0 7px;
+	font-size: 60%;
+	line-height: 30px;
+}
+
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+	background-color: #6ec25e;
+}
+
+.pagination > li > a {
+	border: none;
+	background-color: #eee;
+	color: #000;
+}
+
+.invalid-field {
+	border: 2px solid #ff0000 !important;
 }

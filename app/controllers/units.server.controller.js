@@ -128,14 +128,17 @@ exports.list = function(req, res) {
 exports.propertyUnitList = function(req, res) {
 	var start = req.query.start;
 	var num = req.query.num;
+	var search = req.query.search || '';
 	var sort = JSON.parse(req.query.sort) || {};
-	Unit.count({property: req.params.propertyId}, function (err, count) {
+	var query = {property: req.params.propertyId};
+	if(search && search !== '') if(search && search !== '') query = {$and: [{property: req.params.propertyId}, {unitNumber: {'$regex': search, '$options': 'i'}}]};;
+	Unit.count(query, function (err, count) {
 		var sortString = '-created';
 		if(sort.predicate) {
 			sortString = sort.predicate;
 			if(sort.reverse) sortString = '-' + sortString;
 		}
-		Unit.find({property: req.params.propertyId}).sort(sortString).populate('resident', 'displayName').limit(num).skip(start).exec(function (err, units) {
+		Unit.find(query).sort(sortString).populate('resident', 'displayName').limit(num).skip(start).exec(function (err, units) {
 			if (err) {
 				return res.status(400).send({
 					message: errorHandler.getErrorMessage(err)

@@ -9,7 +9,8 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 		$scope.numberOfPages = 1;
 		$scope.currentPage = 1;
 		$scope.itemsByPage = 20;
-
+		$scope.pages = [];
+		$scope.stDisplayedPages = 3;
 		$scope.tableState = {
 			pagination: {
 				number: $scope.itemsByPage,
@@ -26,7 +27,7 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 				var t = {
 					pagination: {start: start, number: $scope.itemsByPage, numberOfPages: $scope.numberOfPages},
 					search: $scope.tableState.search,
-					sort: {}
+					sort: $scope.tableState.sort
 				};
 				$scope.currentPage = page;
 				$scope.findProperties(t);
@@ -40,7 +41,7 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 			var start = pagination.start || 0;
 			var number = pagination.number || 20;
 			var search = tableState.search;
-			if(typeof search === 'object') search = '';
+			if(typeof search === 'object' || search == undefined) search = '';
 			var sort = tableState.sort || '';
 			if(!sort.predicate) sort = '';
 			PropertySmartList.getPage(start, number, propertyManagerId, search, sort).then(function (result) {
@@ -49,6 +50,7 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 				$scope.totalItems = result.count;
 				$scope.property_manager = result.property_manager;
 				$scope.managers = result.managers;
+				redrawPagination(start, number)
 			});
 		};
 
@@ -135,6 +137,35 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 				$scope.tableState.search = $scope.search;
 				$scope.findProperties($scope.tableState);
 			}
-		}
+		};
+
+		$scope.searchProperty = function() {
+			$scope.tableState.search = $scope.search;
+			$scope.findProperties($scope.tableState);
+		};
+
+		var redrawPagination = function(start_index, number) {
+			var start = 1;
+			var end;
+			var i;
+			var prevPage = $scope.currentPage;
+			$scope.totalItemCount = $scope.totalItems;
+			$scope.currentPage = Math.floor(start_index / number) + 1;
+
+			start = Math.max(start, $scope.currentPage - Math.abs(Math.floor($scope.stDisplayedPages / 2)));
+			end = start + $scope.stDisplayedPages;
+
+			if (end > $scope.numberOfPages) {
+				end = $scope.numberOfPages + 1;
+				start = Math.max(1, end - $scope.stDisplayedPages);
+			}
+
+			$scope.pages = [];
+			$scope.numPages = $scope.numberOfPages;
+
+			for (i = start; i < end; i++) {
+				$scope.pages.push(i);
+			}
+		};
 	}
 ]);

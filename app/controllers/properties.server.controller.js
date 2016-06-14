@@ -8,7 +8,8 @@ var mongoose = require('mongoose'),
 	User = mongoose.model('User'),
 	Property = mongoose.model('Property'),
 	emailHandler = require('./email.server.controller.js'),
-	_ = require('lodash');
+	_ = require('lodash'),
+  request = require('request');
 
 /**
  * Create a property

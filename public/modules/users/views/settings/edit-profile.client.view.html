@@ -33,11 +33,13 @@
 							<input type="text" id="zipcode" name="zipcode" class="form-control" data-ng-model="profile.zipcode" placeholder="ZIP">
 						</div>
 						<div class="form-group">
-							<select class="form-control" id="country" name="country" data-ng-model="profile.country" placeholder="Country">
-								<option value="">Country</option>
-								<option value="US">US</option>
-								<option value="Canada">Canada</option>
-							</select>
+							<label class="form-select" style="width: 100%;">
+								<select class="form-control" id="country" name="country" data-ng-model="profile.country" placeholder="Country">
+									<option value="">Country</option>
+									<option value="US">US</option>
+									<option value="Canada">Canada</option>
+								</select>
+							</label>
 						</div>
 						<div class="text-center form-group">
 							<button type="submit" class="btn btn-success btn-lg upper-letters" style="font-size: 14px; font-weight: bold; margin-top: 14px; padding: 15px 28px;">Save Information</button>

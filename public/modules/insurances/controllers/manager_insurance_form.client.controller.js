@@ -63,7 +63,8 @@ angular.module('insurances').controller('ManagerInsuranceFormController', ['$sco
 					policyNumber: $scope.insurance.policyNumber,
 					policyStartDate: $scope.insurance.policyStartDate,
 					policyEndDate: $scope.insurance.policyEndDate,
-					insuranceFilePath: $scope.insurance.insuranceFilePath
+					insuranceFilePath: $scope.insurance.insuranceFilePath,
+					status: $scope.insurance.status
 				};
 				ManagerInsurance.addInsurance($scope.propertyId, $scope.unitId, $scope.residentId, insurance).then(function(response) {
 					$modalInstance.close(response);
@@ -81,8 +82,54 @@ angular.module('insurances').controller('ManagerInsuranceFormController', ['$sco
 			}
 		};
 
+		$scope.submitInsurance = function () {
+			var invalidItems = 0;
+			$scope.errorPolicyHolderName = false;
+			$scope.errorInsuranceFile = false;
+			if(!$scope.insurance.policyHolderName || $scope.insurance.policyHolderName === '') {
+				$scope.errorPolicyHolderName = true;
+				invalidItems++;
+			}
+			if(!$scope.insurance.insuranceFilePath || $scope.insurance.insuranceFilePath === '') {
+				$scope.errorInsuranceFile = true;
+				invalidItems++;
+			}
+			if(invalidItems === 0) {
+				if($scope.add_insurance) {
+
+					var insurance = {
+						insuranceName: $scope.insurance.insuranceName,
+						unitNumber: $scope.insurance.unitNumber,
+						policyHolderName: $scope.insurance.policyHolderName,
+						policyNumber: $scope.insurance.policyNumber,
+						policyStartDate: $scope.insurance.policyStartDate,
+						policyEndDate: $scope.insurance.policyEndDate,
+						insuranceFilePath: $scope.insurance.insuranceFilePath,
+						status: $scope.insurance.status
+					};
+					ManagerInsurance.addInsurance($scope.propertyId, $scope.unitId, $scope.residentId, insurance).then(function(response) {
+						$modalInstance.close(response);
+					}, function(errorResponse) {
+						$scope.error = errorResponse.message;
+					});
+				} else {
+					var insurance = $scope.insurance;
+
+					ManagerInsurance.saveInsurance($scope.propertyId, $scope.unitId, $scope.residentId, insurance).then(function() {
+						$modalInstance.close({insurance: $scope.insurance});
+					}, function(errorResponse) {
+						$scope.error = errorResponse.message;
+					});
+				}
+			}
+		};
+
 		$scope.cancel = function () {
 			$modalInstance.dismiss('cancel');
+		};
+
+		$scope.confirmData = function() {
+			$modalInstance.close();
 		};
 
 		$scope.getUnits = function(val) {

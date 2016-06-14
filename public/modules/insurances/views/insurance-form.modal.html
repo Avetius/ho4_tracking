@@ -46,27 +46,39 @@
 				</div>
 				<span class="text-danger text-left" ng-if="errorInsuranceFile">Please upload insurance file.</span>
 			</div>
+			<div>
+				<span class="HelveticaNeue" style="font-size: 18px; letter-spacing: 1px;">Status: </span>
+				<label class="form-select">
+					<select class="form-control" ng-model="insurance.status" ng-if="authentication.user.roles.indexOf('admin')>-1" style="padding-right: 70px; padding-top: 10px; padding-bottom: 10px;">
+						<option value="approved">Approved</option>
+						<option value="rejected">Rejected</option>
+						<option value="pending">Pending</option>
+						<option value="expired">Expired</option>
+						<option value="incomplete">Incomplete</option>
+					</select>
+				</label>
+			</div>
 		</div>
 		<div class="col-md-8" style="padding-left: 50px;">
 			<div class="form-group no-margin">
-				<input type="text" id="insuranceName" name="insuranceName" class="form-control" data-ng-model="insurance.insuranceName" placeholder="Insurance Company">
+				<input type="text" id="insuranceName" name="insuranceName" class="form-control" data-ng-model="insurance.insuranceName" placeholder="Insurance Company" ng-class="{'invalid-field': errorInsuranceName}">
 				<span class="text-danger text-left" ng-if="errorInsuranceName">Please enter insurance company.</span>
 			</div>
 			<div class="form-group no-margin" ng-if="authentication.user.roles.indexOf('admin')>-1 || authentication.user.roles.indexOf('pmanager')>-1">
-				<input type="text" ng-model="insurance.unitNumber" placeholder="Unit #" typeahead="unit as unit.unitNumber for unit in getUnits($viewValue)" typeahead-loading="loadingUnits" class="form-control">
+				<input type="text" ng-model="insurance.unitNumber" placeholder="Unit #" typeahead="unit as unit.unitNumber for unit in getUnits($viewValue)" typeahead-loading="loadingUnits" class="form-control" ng-class="{'invalid-field': errorUnitNumber}">
 				<i ng-show="loadingUnits" class="glyphicon glyphicon-refresh"></i>
 				<span class="text-danger text-left" ng-if="errorUnitNumber">Please enter unit number.</span>
 			</div>
 			<div class="form-group no-margin" ng-if="authentication.user.roles.indexOf('user')>-1">
-				<input type="text" ng-model="insurance.unitNumber" placeholder="Unit #" class="form-control">
+				<input type="text" ng-model="insurance.unitNumber" placeholder="Unit #" class="form-control" ng-class="{'invalid-field': errorUnitNumber}">
 				<span class="text-danger text-left" ng-if="errorUnitNumber">Please enter unit number.</span>
 			</div>
 			<div class="form-group no-margin">
-				<input type="text" id="policyHolderName" name="policyHolderName" class="form-control" data-ng-model="insurance.policyHolderName" placeholder="Policy's Holder Name">
+				<input type="text" id="policyHolderName" name="policyHolderName" class="form-control" data-ng-model="insurance.policyHolderName" placeholder="Policy's Holder Name" ng-class="{'invalid-field': errorPolicyHolderName}">
 				<span class="text-danger text-left" ng-if="errorPolicyHolderName">Please enter policy's holder name.</span>
 			</div>
 			<div class="form-group no-margin">
-				<input type="text" id="policyNumber" name="policyNumber" class="form-control" data-ng-model="insurance.policyNumber" placeholder="Policy Number">
+				<input type="text" id="policyNumber" name="policyNumber" class="form-control" data-ng-model="insurance.policyNumber" placeholder="Policy Number" ng-class="{'invalid-field': errorPolicyNumber}">
 				<span class="text-danger text-left" ng-if="errorPolicyNumber">Please enter policy number.</span>
 			</div>
 			<div class="row">
@@ -74,7 +86,7 @@
 					<div class="input-group datepicker-popup">
 						<input type="text" class="form-control" datepicker-popup ng-model="insurance.policyStartDate" placeholder="Policy Start Date"
 							   is-open="fromElements.opened" max-date="insurance.policyEndDate" close-text="Close" show-button-bar="false"
-							   datepicker-options="datePickerOptions" ng-focus="from_open($event)"/>
+							   datepicker-options="datePickerOptions" ng-focus="from_open($event)" ng-class="{'invalid-field': errorPolicyStartDate}"/>
 						<span class="input-group-btn">
 							<button type="button" class="btn btn-calendar" ng-click="from_open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 						</span>
@@ -85,7 +97,7 @@
 					<div class="input-group datepicker-popup">
 						<input type="text" class="form-control" datepicker-popup ng-model="insurance.policyEndDate" placeholder="Policy End Date"
 							   is-open="toElements.opened" min-date="insurance.policyStartDate" close-text="Close" show-button-bar="false"
-							   datepicker-options="datePickerOptions" ng-focus="to_open($event)"/>
+							   datepicker-options="datePickerOptions" ng-focus="to_open($event)" ng-class="{'invalid-field': errorPolicyEndDate}"/>
 						<span class="input-group-btn">
 							<button type="button" class="btn btn-calendar" ng-click="to_open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 						</span>

@@ -607,29 +607,31 @@ exports.getAllResidentList = function (req, res) {
 	var query = {roles: 'user'};
 	if(transfer==='true') query = {roles: 'user', rllCoverage: true};
 	else if(transfer==='false') query = {roles: 'user', rllCoverage: {$ne: true}};
-	User.count(query, function (err, count) {
-		User.find(query).limit(num).skip(start).exec(function (err, users) {
-			if (err) {
-				return res.status(400).send({
-					message: errorHandler.getErrorMessage(err)
-				});
-			}
-			var user_policy_callbacks = [];
-			_.each(users, function (user) {
-				user_policy_callbacks.push(function (cb) {
+	User.find(query).exec(function(err, users) {
+		var user_policy_callbacks = [];
+		_.each(users, function (user) {
+			user_policy_callbacks.push(function (cb) {
+				Property.findOne({_id: user.propertyID}).exec(function(err, property) {
 					Unit.findOne({unitNumber: user.appartmentNumber, property: user.propertyID}).exec(function(err, unit) {
 						Policy.count({user: user._id}, function (err, policy_count) {
 							var tmp_user = user.toObject();
 							tmp_user.policy_count = policy_count;
-							tmp_user.appartmentNumber = unit || user.appartmentNumber;
+							tmp_user.property = property;
+							tmp_user.appartmentNumber = unit;
 							cb(err, tmp_user);
 						});
+
 					});
 				});
 			});
-			async.parallel(user_policy_callbacks, function (err, results) {
-				res.json({count: count, residents: results});
+		});
+		async.parallel(user_policy_callbacks, function (err, results) {
+			var display_residents = [];
+			_.each(results, function(item) {
+				if(item.property && item.appartmentNumber) display_residents.push(item);
 			});
+			var returnResult = display_residents.slice(start, (start + num));
+			res.json({count: display_residents.length, residents: returnResult});
 		});
 	});
 };

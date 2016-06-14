@@ -1,43 +1,48 @@
-<div class="modal-header">
-	<i ng-click="cancel()" class="glyphicon glyphicon-remove icon-arrow-right pull-right" style="cursor: pointer; font-size: 22px; font-weight: normal;"></i>
-	<h3 class="modal-title">Property Manager</h3>
-</div>
-<div class="modal-body row">
-	<div class="col-md-12">
-		<div class="form-group no-margin">
-			<input type="text" id="firstName" name="firstName" class="form-control" data-ng-model="propertyManager.firstName" placeholder="First Name">
-			<span class="text-danger text-left" ng-if="errorFirstName">Please enter your first name.</span>
+<div class="modal-body">
+	<div class="row">
+		<i ng-click="cancel()" class="glyphicon glyphicon-remove icon-close-right pull-right" style="cursor: pointer; font-size: 22px; z-index: 2; margin-right: -15px; margin-top: -16px;"></i>
+		<div class="col-md-12" style="margin-top: 15px; margin-bottom: 30px; padding: 0 40px;">
+			<h2 class="HelveticaNeue" style="font-size: 48px; margin: 0px; font-weight: bold; letter-spacing: 2px;">Property Manager</h2>
 		</div>
-		<div class="form-group no-margin">
-			<input type="text" id="lastName" name="lastName" class="form-control" data-ng-model="propertyManager.lastName" placeholder="Last Name">
-			<span class="text-danger text-left" ng-if="errorLastName">Please enter your last name.</span>
-		</div>
-		<div class="form-group no-margin">
-			<input type="email" id="email" name="email" class="form-control" data-ng-model="propertyManager.email" placeholder="Email">
-			<span class="text-danger text-left" ng-if="errorEmail">Please enter a valid email address.</span>
-		</div>
-		<div class="form-group no-margin">
-			<input type="text" id="phoneNumber" name="phoneNumber" class="form-control" data-ng-model="propertyManager.phoneNumber" placeholder="Phone Number">
-		</div>
-		<div class="form-group no-margin">
-			<ul class="list-group">
-				<li class="list-group-item">Assigned Properties:</li>
-				<li class="list-group-item" ng-repeat="assigned_property in propertyManager.assigned_properties">
-					<a class="badge" ng-click="removeAssignedProperty(assigned_property, $index)"><span class="glyphicon glyphicon-remove"></span></a>
-					{{assigned_property.propertyName}}
-				</li>
-			</ul>
-			<label>Assign Additional Properties</label>
-			<select class="form-control" ng-options="property as property.propertyName for property in properties track by property._id" ng-model="new_property" ng-change="assignNewProperty(new_property)">
+	</div>
+	<div class="row" style="margin-bottom: 30px;">
+		<div class="col-md-12" style="padding: 0 40px;">
+			<div class="form-group no-margin">
+				<input type="text" id="firstName" name="firstName" class="form-control" data-ng-model="propertyManager.firstName" placeholder="First Name" ng-class="{'invalid-field': errorFirstName}">
+				<span class="text-danger text-left" ng-if="errorFirstName">Please enter your first name.</span>
+			</div>
+			<div class="form-group no-margin">
+				<input type="text" id="lastName" name="lastName" class="form-control" data-ng-model="propertyManager.lastName" placeholder="Last Name" ng-class="{'invalid-field': errorLastName}">
+				<span class="text-danger text-left" ng-if="errorLastName">Please enter your last name.</span>
+			</div>
+			<div class="form-group no-margin">
+				<input type="email" id="email" name="email" class="form-control" data-ng-model="propertyManager.email" placeholder="Email" ng-class="{'invalid-field': errorEmail}">
+				<span class="text-danger text-left" ng-if="errorEmail">Please enter a valid email address.</span>
+			</div>
+			<div class="form-group no-margin">
+				<input type="text" id="phoneNumber" name="phoneNumber" class="form-control" data-ng-model="propertyManager.phoneNumber" placeholder="Phone Number">
+			</div>
+			<div class="form-group no-margin">
+				<ul class="list-group">
+					<li class="list-group-item">Assigned Properties:</li>
+					<li class="list-group-item" ng-repeat="assigned_property in propertyManager.assigned_properties">
+						<a class="badge" ng-click="removeAssignedProperty(assigned_property, $index)"><span class="glyphicon glyphicon-remove"></span></a>
+						{{assigned_property.propertyName}}
+					</li>
+				</ul>
+				<label>Assign Additional Properties</label>
+				<select class="form-control" ng-options="property as property.propertyName for property in properties track by property._id" ng-model="new_property" ng-change="assignNewProperty(new_property)">
 
-			</select>
-		</div>
-		<div data-ng-show="error" class="text-center text-danger">
-			<strong data-ng-bind="error"></strong>
+				</select>
+			</div>
+			<div data-ng-show="error" class="text-center text-danger">
+				<strong data-ng-bind="error"></strong>
+			</div>
+			<div class="text-right" style="margin-top: 55px;">
+				<button class="btn btn-gray btn-lg upper-letters" type="button" ng-click="cancel()" style="padding: 15px 50px;">Cancel</button>
+				<button class="btn btn-success btn-lg upper-letters" type="button" ng-click="savePropertyManager()" style="padding: 15px 50px; font-size: 14px; margin-left: 15px;">Save</button>
+			</div>
 		</div>
 	</div>
 </div>
-<div class="modal-footer">
-	<button class="btn btn-default btn-lg custom-gray-btn" type="button" ng-click="cancel()">Cancel</button>
-	<button class="btn btn-success btn-lg" type="button" ng-click="savePropertyManager()">Save</button>
-</div>
+

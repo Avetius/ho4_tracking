@@ -7,8 +7,7 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 		$scope.authentication = Authentication;
 		$scope.propertyId = $stateParams.propertyId;
 		$scope.propertyManagerId = $stateParams.propertyManagerId;
-		if(!$scope.authentication.user || ($scope.propertyManagerId && $scope.authentication.user.roles.indexOf('admin') < 0)) return $location.path('/');
-		if(!$scope.authentication.user || (!$scope.propertyManagerId && $scope.authentication.user.roles.indexOf('pmanager') < 0)) return $location.path('/');
+		if(!$scope.authentication.user || ($scope.authentication.user.roles.indexOf('admin') < 0 && $scope.authentication.user.roles.indexOf('pmanager') < 0)) return $location.path('/');
 
 		$scope.numberOfPages = 1;
 		$scope.currentPage = 1;
@@ -32,7 +31,7 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 				var t = {
 					pagination: {start: start, number: $scope.itemsByPage, numberOfPages: $scope.numberOfPages},
 					search: $scope.tableState.search,
-					sort: {}
+					sort: $scope.tableState.sort
 				};
 				$scope.currentPage = page;
 				$scope.findUnits(t);
@@ -46,24 +45,37 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 			var start = pagination.start || 0;
 			var number = pagination.number || 10;
 			var sort = tableState.sort || '';
+			var search = tableState.search;
+			if(typeof search === 'object' || search == undefined) search = '';
 			if(!sort.predicate) sort = '';
-			Units.getPage(start, number, $scope.propertyId, $scope.propertyManagerId, sort).then(function (result) {
+			Units.getPage(start, number, $scope.propertyId, $scope.propertyManagerId, sort, search).then(function (result) {
 				$scope.units = result.data;
 				$scope.property = result.property;
 				$scope.property_manager = result.property_manager;
 				$scope.numberOfPages = result.numberOfPages;
 				$scope.totalItems = result.count;
+				redrawPagination(start, number)
 			});
 		};
 
 		$scope.removeUnit = function(unit) {
-			prompt({
-				title: 'Confirmation',
-				message: 'Are you sure, that you want to remove this unit?'
-			}).then(function() {
+			var modalInstance = $modal.open({
+				templateUrl: 'modules/insurances/views/confirm.modal.html',
+				size: 'lg',
+				scope: function () {
+					var scope = $rootScope.$new();
+					scope.title = 'Confirmation';
+					scope.content = 'Are you sure, that you want to remove this unit?';
+					return scope;
+				}(),
+				controller: 'ManagerInsuranceFormController'
+			});
+			modalInstance.result.then(function () {
 				Units.deleteUnit(unit).then(function (result) {
 					$scope.findUnits($scope.tableState);
 				});
+			}, function () {
+				console.log('Modal dismissed at: ' + new Date());
 			});
 		};
 
@@ -91,7 +103,6 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 			Units.getResidents().then(function(residents) {
 				var modalInstance = $modal.open({
 					templateUrl: 'modules/units/views/unit-form.modal.html',
-					size: 'lg',
 					scope: function () {
 						var scope = $rootScope.$new();
 						scope.unit = unit || {};
@@ -119,6 +130,7 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 			Units.getResidents().then(function(residents) {
 				var modalInstance = $modal.open({
 					templateUrl: 'modules/users/views/residents/extra-resident-form.modal.html',
+					size: 'lg',
 					scope: function () {
 						var scope = $rootScope.$new();
 						scope.unit = unit || {};
@@ -198,6 +210,40 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 			});
 		};
 
+		var redrawPagination = function(start_index, number) {
+			var start = 1;
+			var end;
+			var i;
+			var prevPage = $scope.currentPage;
+			$scope.totalItemCount = $scope.totalItems;
+			$scope.currentPage = Math.floor(start_index / number) + 1;
 
+			start = Math.max(start, $scope.currentPage - Math.abs(Math.floor($scope.stDisplayedPages / 2)));
+			end = start + $scope.stDisplayedPages;
+
+			if (end > $scope.numberOfPages) {
+				end = $scope.numberOfPages + 1;
+				start = Math.max(1, end - $scope.stDisplayedPages);
+			}
+
+			$scope.pages = [];
+			$scope.numPages = $scope.numberOfPages;
+
+			for (i = start; i < end; i++) {
+				$scope.pages.push(i);
+			}
+		};
+
+		$scope.searchWithText = function(e) {
+			if (e.keyCode == 13) {
+				$scope.tableState.search = $scope.search;
+				$scope.findUnits($scope.tableState);
+			}
+		};
+
+		$scope.searchUnits = function() {
+			$scope.tableState.search = $scope.search;
+			$scope.findUnits($scope.tableState);
+		}
 	}
 ]);

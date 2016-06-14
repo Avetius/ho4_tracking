@@ -20,17 +20,17 @@
 				</li>
 				<li style="margin-top: 36px;" class="pull-right">
 					<ul class="nav navbar-nav">
-						<li ng-if="authentication.user.roles.indexOf('admin')>-1" ng-switch="item" ui-route="/resident_insurances" class="item" ng-class="{active: ($uiRoute)}">
+						<li ng-if="authentication.user.roles.indexOf('admin')>-1" ng-switch="item" ui-route="/resident_insurances" class="item upper-letters" ng-class="{active: current_route.includes('resident_insurances')}">
 							<a href="/#!/resident_insurances" ng-switch-default>
 								Resident HO4 Coverage
 							</a>
 						</li>
-						<li ng-if="authentication.user.roles.indexOf('admin')>-1" ng-switch="item" ui-route="/properties" class="item" ng-class="{active: ($uiRoute)}">
+						<li ng-if="authentication.user.roles.indexOf('admin')>-1" ng-switch="item" ui-route="/properties" class="item upper-letters" ng-class="{active: ($uiRoute)}">
 							<a href="/#!/properties" ng-switch-default>
 								Properties
 							</a>
 						</li>
-						<li ng-if="authentication.user.roles.indexOf('admin')>-1" ng-switch="item" ui-route="/property_managers" class="item" ng-class="{active: ($uiRoute)}">
+						<!--<li ng-if="authentication.user.roles.indexOf('admin')>-1" ng-switch="item" ui-route="/property_managers" class="item" ng-class="{active: ($uiRoute)}">
 							<a href="/#!/property_managers" ng-switch-default>
 								Property Managers
 							</a>
@@ -39,15 +39,15 @@
 							<a href="/#!/residents" ng-switch-default>
 								Residents
 							</a>
-						</li>
+						</li>-->
 						<li ng-if="authentication.user.roles.indexOf('user')>-1" ng-switch="item" ui-route="/insurances" class="item" ng-class="{active: current_route.includes('insurances')}">
 							<a href="/#!/insurances" ng-switch-default>
 								Coverage History
 							</a>
 						</li>
 						<li ng-if="authentication.user.roles.indexOf('pmanager')>-1"
-							ng-switch="item" ui-route="/property_insurances/{{current_property._id}}/insurances" class="dropdown"
-							dropdown ng-class="{active: current_route.includes('property_insurances')}" style="text-transform: uppercase">
+							ng-switch="item" ui-route="/property_insurances/{{current_property._id}}/insurances" class="dropdown upper-letters"
+							dropdown ng-class="{active: current_route.includes('property_insurances')}">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle style="padding-right: 65px; position: relative;">
 								{{current_property.propertyName}}
 								<div style="border-left: 1px solid #fff; bottom: 0; padding: 17px 15px; position: absolute; right: 0; top: 0;">
@@ -62,7 +62,7 @@
 								</li>
 							</ul>
 						</li>
-						<li ng-switch="item" ui-route="/settings/profile" class="item" ng-class="{active: ($uiRoute)}" style="text-transform: uppercase">
+						<li ng-switch="item" ui-route="/settings/profile" class="item upper-letters" ng-class="{active: ($uiRoute)}">
 							<a href="/#!/settings/profile" ng-switch-default>
 								<i class="fa fa-gear" style="margin-right: 10px;"></i>{{authentication.user.displayName}}
 							</a>

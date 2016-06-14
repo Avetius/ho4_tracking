@@ -1,66 +1,84 @@
-<div class="gray-header-area"></div>
+<div class="gray-header-area" style="margin-bottom: 8px;"></div>
 <section data-ng-controller="UnitsController">
-	<div class="sub-container" style="margin-top: 20px;">
-		<ol class="breadcrumb">
-			<li><a href="#!/properties">Properties</a></li>
-			<li class="active">{{property.propertyName}}</li>
-		</ol>
-		<div class="sub-header">
-			<h3 class="pull-left">{{property.propertyName}}</h3>
-			<div class="pull-right">
-				<button type="button" class="btn btn-large custom-gray-btn" style="padding: 15px; border: 1px solid; margin-right: 10px;" ng-click="openPropertyInfo()">Property Info</button>
-				<button type="button" class="btn btn-large btn-success" style="padding: 15px;" ng-click="openUnitModal()">Add new unit</button>
+	<div class="container">
+		<div class="sub-container">
+			<ol class="breadcrumb" style="margin-bottom: -15px;">
+				<li><a href="#!/properties">Properties</a></li>
+				<li class="active">{{property.propertyName}}</li>
+			</ol>
+			<div class="sub-header">
+				<div class="pull-left" style="padding-top: 30px;">
+					<h2 style="font-size: 47px; font-weight: bold;" class="HelveticaNeue">
+						{{property.propertyName}}
+					</h2>
+				</div>
+				<div class="pull-right" style="margin-right: 4px;">
+					<div class="input-group" style="margin-top: 10px; width: 320px; margin-left: 39px;">
+						<input type="text" ng-model="search" class="form-control search" ng-keypress="searchWithText($event)" placeholder="Search..." style="height: 50px;">
+						<span class="input-group-btn">
+							<button class="btn btn-success" ng-click="searchUnits()" style="font-size: 25px;padding: 7px 14px;"><i class="glyphicon glyphicon-search" style="font-size: 20px;"></i></button>
+						</span>
+					</div>
+					<div style="margin-top: 10px;" class="text-right">
+						<button type="button" class="btn btn-large btn-gray" style="padding: 14px 31px;" ng-click="openPropertyInfo()">Property Info</button>
+						<button type="button" class="btn btn-large btn-success upper-letters" style="padding: 14px 38px;" ng-click="openUnitModal()">Add new unit</button>
+					</div>
+				</div>
 			</div>
-		</div>
-		<div class="clearfix"></div>
-		<div class="maincontent-area">
-			<div class="table-responsive">
-				<table class="table table-hover" st-pipe="findUnits" st-table="units" st-safe-src="units">
-					<thead>
-					<tr>
-						<th st-sort-default="unitNumber" st-sort="unitNumber">Unit #</th>
-						<th st-sort="buildingNumber">Unit Address</th>
-						<th>Resident Name</th>
-						<th st-sort="moveInDate">Move in</th>
-						<th st-sort="moveOutDate">Move out</th>
-						<th>Unit Status</th>
-						<th>Action</th>
-					</tr>
-					</thead>
-					<tbody>
-					<tr ng-repeat="unit in units">
-						<td>{{unit.unitNumber}}</td>
-						<td>{{unit.buildingNumber}}</td>
-						<td>
-							<a href="#!/properties/{{property._id}}/units/{{unit._id}}/{{unit.resident._id}}/insurances" ng-if="unit.resident">
-								{{unit.resident.displayName}}
-							</a>
-							<button type="btn btn-default" ng-if="!unit.resident" ng-click="displayExtraResidentModal(unit)">Add resident</button>
-						</td>
-						<td>{{unit.moveInDate | date: 'MMM d, yyyy'}}</td>
-						<td>{{unit.moveOutDate | date: 'MMM d, yyyy'}}</td>
-						<td>{{unit.resident?'occupied': 'vacant'}}</td>
-						<td>
-							<a href="" ng-click="removeUnit(unit)"><span class="glyphicon glyphicon-trash"></span></a> |
-							<a href="" ng-click="openUnitModal(unit)"><span class="glyphicon glyphicon-pencil"></span></a>
-						</td>
-					</tr>
-					</tbody>
-					<tfoot>
-					<tr>
-						<td class="text-center" colspan="7">
-							<span class="pull-left" style="margin: 20px 0;">Total: {{totalItems}}</span>
-							<nav class="pull-right" ng-if="numberOfPages >= 2">
-								<ul class="pagination">
-									<li><a ng-click="selectPage(currentPage - 1)">&lt;</a></li>
-									<li><a>{{currentPage}} of {{numberOfPages}}</a></li>
-									<li><a ng-click="selectPage(currentPage + 1)">&gt;</a></li>
-								</ul>
-							</nav>
-						</td>
-					</tr>
-					</tfoot>
-				</table>
+			<div class="clearfix"></div>
+			<div class="maincontent-area">
+				<div class="table-responsive">
+					<table class="table table-hover" st-pipe="findUnits" st-table="units" st-safe-src="units">
+						<thead class="gray-bg">
+						<tr>
+							<th class="sortable cursor-pointer" st-sort-default="unitNumber" st-sort="unitNumber">Unit #</th>
+							<th class="sortable cursor-pointer" st-sort="buildingNumber">Unit Address</th>
+							<th>Resident Name</th>
+							<th class="sortable cursor-pointer" st-sort="moveInDate">Move in</th>
+							<th class="sortable cursor-pointer" st-sort="moveOutDate">Move out</th>
+							<th>Unit Status</th>
+							<th class="text-center">Action</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr ng-repeat="unit in units">
+							<td class="middle-align">{{unit.unitNumber}}</td>
+							<td class="middle-align">{{unit.buildingNumber}}</td>
+							<td class="middle-align">
+								<a class="green-text" href="#!/properties/{{property._id}}/units/{{unit._id}}/{{unit.resident._id}}/insurances" ng-if="unit.resident">
+									{{unit.resident.displayName}}
+								</a>
+								<button class="btn btn-success" ng-if="!unit.resident" ng-click="displayExtraResidentModal(unit)">Add resident</button>
+							</td>
+							<td class="middle-align">{{unit.moveInDate | date: 'MMM d, yyyy'}}</td>
+							<td class="middle-align">{{unit.moveOutDate | date: 'MMM d, yyyy'}}</td>
+							<td class="middle-align">{{unit.resident?'occupied': 'vacant'}}</td>
+							<td class="middle-align text-center">
+								<div class="green-btn" style="cursor: pointer;" ng-click="removeUnit(unit)">
+									<span class="glyphicon glyphicon-trash"></span>
+								</div>
+								<div class="green-btn" style="cursor: pointer;" ng-click="openUnitModal(unit)">
+									<span class="glyphicon glyphicon-pencil"></span>
+								</div>
+							</td>
+						</tr>
+						</tbody>
+						<tfoot>
+						<tr>
+							<td class="text-center" colspan="7">
+								<p style="color: #666; font-size: 12px; text-align: left;">Total: {{totalItems}}</p>
+								<nav ng-if="numberOfPages && pages.length >= 2">
+									<ul class="pagination">
+										<li ng-repeat="page in pages" class="page-item" ng-class="{active: page==currentPage}">
+											<a href="javascript: void(0);" ng-click="selectPage(page)">{{page}}</a>
+										</li>
+									</ul>
+								</nav>
+							</td>
+						</tr>
+						</tfoot>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>

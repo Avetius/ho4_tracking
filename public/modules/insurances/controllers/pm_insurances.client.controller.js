@@ -31,7 +31,7 @@ angular.module('insurances').controller('PMInsurancesController', ['$scope', '$h
 				var t = {
 					pagination: {start: start, number: $scope.itemsByPage, numberOfPages: $scope.numberOfPages},
 					search: $scope.tableState.search,
-					sort: {}
+					sort: $scope.tableState.sort
 				};
 				$scope.currentPage = page;
 				$scope.findPMPropertyInsurances(t);
@@ -47,7 +47,7 @@ angular.module('insurances').controller('PMInsurancesController', ['$scope', '$h
 			var sort = tableState.sort || '';
 			if(!sort.predicate) sort = '';
 			var search = tableState.search;
-			if(typeof search === 'object') search = '';
+			if(typeof search === 'object' || search == undefined) search = '';
 			ManagerInsurance.getPMInsurancesPage(start, number, $scope.propertyId, search, sort).then(function (result) {
 				$scope.insurances = result.data;
 				$scope.numberOfPages = result.numberOfPages;
