@@ -8,7 +8,7 @@
 		<div class="clearfix"></div>
 		<div class="col-md-3 inner-addon right-addon">
 			<i class="glyphicon glyphicon-search"></i>
-			<input type="text" ng-model="search" class="form-control" ng-keypress="searchWithText($event)" placeholder="Search">
+			<input type="text" ng-model="search.user.displayName" class="form-control"  placeholder="Search">
 		</div>
 		<div class="col-md-3 col-md-offset-6">
 			<select class="form-control" ng-model="recent_insurance.filter" ng-change="filterByInsuranceStatus(recent_insurance.filter)" ng-if="authentication.user.roles.indexOf('admin')>-1">
@@ -34,7 +34,7 @@
 						</tr>
 						</thead>
 						<tbody>
-						<tr ng-repeat="insurance in insurances">
+						<tr ng-repeat="insurance in filtered = (insurances | filter:search:strict)">
 							<td ng-click="viewDetailRecentInsurance(insurance)">{{insurance.propertyName}}</td>
 							<td ng-click="viewDetailRecentInsurance(insurance)">{{insurance.unitNumber}}</td>
 							<td><a ng-click="openResidentEditor(insurance.user)">{{insurance.user.displayName}}</a></td>
@@ -61,7 +61,7 @@
 						<tfoot>
 						<tr>
 							<td class="text-center" colspan="8">
-								<span class="pull-left" style="margin: 20px 0;">Total: {{totalItems}}</span>
+								<span class="pull-left" style="margin: 20px 0;">Total: {{filtered.length}}</span>
 								<nav class="pull-right" ng-if="numberOfPages >= 2">
 									<ul class="pagination">
 										<li><a ng-click="selectPage(currentPage - 1)">&lt;</a></li>
