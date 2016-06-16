@@ -1,12 +1,12 @@
 <div class="modal-body row">
 	<i ng-click="cancel()" class="glyphicon glyphicon-remove icon-close-right pull-right" style="cursor: pointer; font-size: 22px; font-weight: normal; z-index: 2; margin-right: -15px; margin-top: -16px;"></i>
-	<div style="padding-left: 20px; padding-right: 20px;">
-		<div class="HelveticaNeue">
-			<h2 style="font-size: 55px; font-weight: bold;">Notes</h2>
+	<div style="padding: 16px 61px;">
+		<div class="HelveticaNeueCyrThin">
+			<h2 style="font-size: 60px;">Notes</h2>
 		</div>
 
-		<div class="table-responsive" style="margin-top: 20px;">
-			<table st-table="policies" class="table">
+		<div class="table-responsive" style="margin-top: 42px;">
+			<table st-table="policies" class="table HelveticaNeue">
 				<thead class="gray-bg">
 				<tr>
 					<th>Subject</th>
@@ -17,10 +17,15 @@
 				<tbody>
 				<tr ng-repeat="note in notes">
 					<td>{{note.subject}}</td>
-					<td>{{note.created | date: 'MMM d, yyyy'}}</td>
+					<td>{{note.created | date: 'MM/dd/yyyy'}}</td>
 					<td>{{note.content}}</td>
 				</tr>
 				</tbody>
+				<tfoot>
+				<tr>
+					<td colspan="3"></td>
+				</tr>
+				</tfoot>
 			</table>
 		</div>
 	</div>

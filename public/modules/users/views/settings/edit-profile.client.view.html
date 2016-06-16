@@ -1,11 +1,11 @@
-<section class="row margin-header" data-ng-controller="SettingsController" data-ng-init="findOne()">
+<section class="row margin-header" data-ng-controller="SettingsController" data-ng-init="findOne()" style=" margin-left: 10px;">
 	<div class="sub-container">
-		<div class="sub-header text-center" style="padding-top: 63px; padding-bottom: 20px;">
-			<h1 class="HelveticaNeue" style="font-size: 50px; letter-spacing: 2px;">{{profile.user.displayName}}</h1>
+		<div class="sub-header text-center" style="padding-top: 66px; padding-bottom: 18px;">
+			<h1 class="HelveticaNeueCyrThin" style="font-size: 50px;">{{profile.user.displayName}}</h1>
 		</div>
 		<div class="row">
-			<div class="col-xs-offset-2 col-xs-8 col-md-offset-2 col-md-8 account-page text-center">
-				<h3 class="HelveticaNeue sub-title">Contact Information</h3>
+			<div class="account-page text-center">
+				<h3 class="HelveticaNeueCyrThin sub-title" style="margin-bottom: 20px; margin-top: 22px;">Contact Information</h3>
 				<form name="userForm" data-ng-submit="updateUserProfile(userForm.$valid)" class="signin form-horizontal" autocomplete="off">
 					<fieldset>
 						<div class="form-group">
@@ -42,7 +42,7 @@
 							</label>
 						</div>
 						<div class="text-center form-group">
-							<button type="submit" class="btn btn-success btn-lg upper-letters" style="font-size: 14px; font-weight: bold; margin-top: 14px; padding: 15px 28px;">Save Information</button>
+							<button type="submit" class="btn btn-success btn-lg upper-letters" style="font-size: 14px; margin-top: 17px; padding: 15px 29px;">Save Information</button>
 						</div>
 						<div data-ng-show="success" class="text-center text-success">
 							<strong>Account Information Saved Successfully</strong>
@@ -53,24 +53,24 @@
 					</fieldset>
 				</form>
 			</div>
-			<div class="col-xs-offset-2 col-xs-8 col-md-offset-2 col-md-8 account-page text-center" style="margin-top: 50px;">
-				<h3 class="HelveticaNeue sub-title">Password details</h3>
+			<div class="account-page text-center" style="margin-top: 38px;">
+				<h3 class="HelveticaNeueCyrThin sub-title" style="margin-bottom: 15px; margin-top: 23px;">Password details</h3>
 				<form data-ng-submit="changeUserPassword()" class="signin form-horizontal" autocomplete="off">
 					<fieldset>
-						<div class="form-group">
-							<label>Current Password</label>
+						<div class="form-group" style="margin-bottom: 14px;">
+							<label style="color: #8c8c8c;">Current Password</label>
 							<input type="password" id="currentPassword" name="currentPassword" class="form-control" data-ng-model="passwordDetails.currentPassword" placeholder="Password">
 						</div>
-						<div class="form-group">
-							<label>New Password</label>
+						<div class="form-group" style="margin-bottom: 14px;">
+							<label style="color: #8c8c8c;">New Password</label>
 							<input type="password" id="newPassword" name="newPassword" class="form-control" data-ng-model="passwordDetails.newPassword" placeholder="Password">
 						</div>
-						<div class="form-group">
-							<label>Verify Password</label>
+						<div class="form-group" style="margin-bottom: 14px;">
+							<label style="color: #8c8c8c;">Verify Password</label>
 							<input type="password" id="verifyPassword" name="verifyPassword" class="form-control" data-ng-model="passwordDetails.verifyPassword" placeholder="Password">
 						</div>
 						<div class="text-center form-group">
-							<button type="submit" class="btn btn-success btn-lg upper-letters" style="font-size: 14px; font-weight: bold; margin-top: 24px; padding: 15px 28px;">Save Password</button>
+							<button type="submit" class="btn btn-success btn-lg upper-letters" style="font-size: 14px; margin-top: 16px; padding: 15px 29px;">Save Password</button>
 						</div>
 						<div data-ng-show="pwd_success" class="text-center text-success">
 							<strong>Password Changed Successfully</strong>

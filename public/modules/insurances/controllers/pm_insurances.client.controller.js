@@ -71,7 +71,7 @@ angular.module('insurances').controller('PMInsurancesController', ['$scope', '$h
 		};
 
 		$scope.viewDetailInsurance = function(insurance) {
-			$location.path('property_insurances/'+$scope.propertyId+'/'+insurance.unitId+'/insurances/' + insurance._id);
+			if(insurance._id)	$location.path('property_insurances/'+$scope.propertyId+'/'+insurance.unitId+'/insurances/' + insurance._id);
 		};
 
 		$scope.viewInsuranceCertificate = function(insurance) {

@@ -7,7 +7,7 @@ angular.module('insurances').controller('InsuranceFormController', ['$scope', '$
 		$scope.authentication = Authentication;
 		Residents.getResident($scope.authentication.user._id).then(function(response) {
 			$scope.unit = response.data.unit;
-			$scope.insurance.unitNumber = $scope.unit?$scope.unit.unitNumber:null ;
+			$scope.insurance.unitNumber = $scope.unit?$scope.unit.unitNumber:$scope.insurance.unitNumber ;
 		});
 
 		if($scope.propertyID) {

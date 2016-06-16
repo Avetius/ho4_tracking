@@ -8,7 +8,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a href="{{logo_link}}" class="navbar-brand">
+			<a href="{{logo_link}}" class="navbar-brand" ng-class="{'logo-system': authentication.user}">
 				<img class="img-responsive text-center" src="modules/core/img/logo.jpg" ng-click="ResetNavbar()"/>
 			</a>
 
@@ -18,8 +18,8 @@
 				<li class="text-right HelveticaNeue" style="text-align: right;">
 					Call <span style="color: #6ec25e; font-weight: bold;">866.395.1308</span> if you have any questions
 				</li>
-				<li style="margin-top: 36px;" class="pull-right">
-					<ul class="nav navbar-nav">
+				<li style="margin-top: 36px;" class="pull-right HelveticaNeueCyrLight">
+					<ul class="nav navbar-nav upper-letters">
 						<li ng-if="authentication.user.roles.indexOf('admin')>-1" ng-switch="item" ui-route="/resident_insurances" class="item upper-letters" ng-class="{active: current_route.includes('resident_insurances')}">
 							<a href="/#!/resident_insurances" ng-switch-default>
 								Resident HO4 Coverage
@@ -41,17 +41,17 @@
 							</a>
 						</li>-->
 						<li ng-if="authentication.user.roles.indexOf('user')>-1" ng-switch="item" ui-route="/insurances" class="item" ng-class="{active: current_route.includes('insurances')}">
-							<a href="/#!/insurances" ng-switch-default>
+							<a href="/#!/insurances" ng-switch-default style="font-size: 15px;">
 								Coverage History
 							</a>
 						</li>
 						<li ng-if="authentication.user.roles.indexOf('pmanager')>-1"
 							ng-switch="item" ui-route="/property_insurances/{{current_property._id}}/insurances" class="dropdown upper-letters"
 							dropdown ng-class="{active: current_route.includes('property_insurances')}">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle style="padding-right: 65px; position: relative;">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle style="padding-right: 90px; padding-left: 40px; position: relative;">
 								{{current_property.propertyName}}
-								<div style="border-left: 1px solid #fff; bottom: 0; padding: 17px 15px; position: absolute; right: 0; top: 0;">
-									<span class="glyphicon glyphicon-menu-down"></span>
+								<div style="border-left: 1px solid #fff; bottom: 0; padding: 15px 18px; position: absolute; right: 0; top: 0;">
+									<span class="fa fa-angle-down" style="font-size: 23px;"></span>
 								</div>
 							</a>
 							<ul class="dropdown-menu">
@@ -63,13 +63,14 @@
 							</ul>
 						</li>
 						<li ng-switch="item" ui-route="/settings/profile" class="item upper-letters" ng-class="{active: ($uiRoute)}">
-							<a href="/#!/settings/profile" ng-switch-default>
-								<i class="fa fa-gear" style="margin-right: 10px;"></i>{{authentication.user.displayName}}
+							<a href="/#!/settings/profile" ng-switch-default style="font-size: 15px; padding: 17px 40px 11px 67px; position: relative;">
+								<i class="setting-icon" style="position: absolute; left: 38px; top: 15px;"></i>
+								{{authentication.user.displayName}}
 							</a>
 						</li>
 						<li ng-switch="item" class="item">
-							<a href="/auth/signout" ng-switch-default>
-								<i class=" glyphicon glyphicon-log-out"></i>
+							<a href="/auth/signout" ng-switch-default style="font-size: 19px; padding: 15px 15px 8px;">
+								<i class="log-out"></i>
 							</a>
 						</li>
 					</ul>
@@ -84,12 +85,12 @@
 					<form class="form-inline login-form" data-ng-submit="signin()">
 						<span class="fa fa-lock" style="color: #c7c7c7; font-size: 25px; margin-right: 5px; vertical-align: middle;"></span>
 						<div class="form-group">
-							<input type="email" class="form-control" placeholder="E-mail" data-ng-model="credentials.username"  style="">
+							<input type="email" class="form-control" placeholder="E-mail" data-ng-model="credentials.username">
 						</div>
 						<div class="form-group" style="margin-left: 5px;">
-							<input type="password" class="form-control" placeholder="Password" data-ng-model="credentials.password" style="width: 220px; padding-left: 16px; padding-right: 16px; letter-spacing: 1px;">
+							<input type="password" class="form-control" placeholder="Password" data-ng-model="credentials.password">
 						</div>
-						<button type="submit" class="btn btn-success login-btn green-btn-color upper-letters">
+						<button type="submit" class="btn login-btn btn-success upper-letters">
 							Login
 						</button>
 

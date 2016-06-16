@@ -126,12 +126,12 @@ exports.residentInsurance = function(req, res) {
 
 exports.createResidentInsurances = function(req, res) {
 	var policy = new Policy(req.body);
-	if(typeof req.body.unitNumber === 'object') {
+	if(req.body.unitNumber && typeof req.body.unitNumber === 'object') {
 		policy.unitNumber = req.body.unitNumber.unitNumber;
 	}
 	policy.user = req.params.residentId;
 	if(req.user.roles.indexOf('admin') < 0) {
-		if(policy.insuranceFilePath && policy.insuranceFilePath !== '') policy.status = 'pending';
+		if(policy.insuranceFilePath && policy.insuranceFilePath !== '' && policy.policyHolderName  && policy.policyHolderName !== '') policy.status = 'pending';
 		else policy.status = 'incomplete';
 	}
 	policy.updated = Date.now();
@@ -160,11 +160,11 @@ exports.updateResidentInsurance = function(req, res) {
 		}
 
 		policy = _.extend(policy, req.body);
-		if(typeof req.body.unitNumber === 'object') {
+		if(req.body.unitNumber && typeof req.body.unitNumber === 'object') {
 			policy.unitNumber = req.body.unitNumber.unitNumber;
 		}
 		if(req.user.roles.indexOf('admin') < 0) {
-			if (policy.insuranceFilePath && policy.insuranceFilePath !== '') policy.status = 'pending';
+			if (policy.insuranceFilePath && policy.insuranceFilePath !== '' && policy.policyHolderName  && policy.policyHolderName !== '') policy.status = 'pending';
 			else policy.status = 'incomplete';
 		}
 		policy.updated = Date.now();

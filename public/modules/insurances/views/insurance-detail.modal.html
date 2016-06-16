@@ -1,19 +1,19 @@
 <div class="modal-body row">
 	<i ng-click="cancel()" class="glyphicon glyphicon-remove icon-close-right pull-right" style="cursor: pointer; font-size: 22px; font-weight: normal; z-index: 2; margin-right: -15px; margin-top: -16px;"></i>
-	<div style="padding-left: 20px; padding-right: 20px;">
-		<div class="col-md-7 HelveticaNeue">
-			<h2 style="font-size: 55px; font-weight: bold;">Certificate</h2>
+	<div style="padding: 16px 47px;">
+		<div class="col-md-7 HelveticaNeueCyrThin">
+			<h2 style="font-size: 60px;">Certificate</h2>
 		</div>
-		<div class="col-md-5 text-right HelveticaNeue" style="margin-top: 5px;">
-			<span class="gray-color" style="font-size: 16px;">Unit # </span><span style="font-size:28px;font-weight: bold;">{{unitNumber}}</span>
+		<div class="col-md-5 text-right HelveticaNeueCyrLight" style="margin-top: 40px;">
+			<span style="font-size: 19px; color: #ababab; padding-right: 7px;">Unit # </span><span style="font-size:31px;">{{unitNumber}}</span>
 		</div>
 		<div class="clearfix"></div>
-		<div class="lightbox-image-container" style="padding: 30px 13px;">
+		<div class="lightbox-image-container" style="padding: 32px 17px;">
 			<img src="{{image}}" style="width: 100%;" ng-if="image">
-			<div ng-if="!image" style="text-align: center; background-color: #F7F8FA; height: 300px; padding: 103px;">
+			<div ng-if="!image" style="text-align: center; background-color: #F7F8FA; height: 283px; padding: 82px;">
 				<div style="width: 115px; margin: 0 auto; cursor: pointer;" class="uploadbtn-area">
-					<span class="glyphicon glyphicon-camera" style="border-radius: 50%; padding: 15px; font-size: 35px; color: #fff;"></span>
-					<p style="color: #64AD54;">Upload Insurance Certificate</p>
+					<i class="camera-icon" style="border-radius: 50%; padding: 40px; color: #fff; margin-bottom: 10px;"></i>
+					<p class="HelveticaNeue upper-letters">Upload Insurance Certificate</p>
 				</div>
 
 			</div>

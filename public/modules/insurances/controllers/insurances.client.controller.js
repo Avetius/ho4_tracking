@@ -32,11 +32,11 @@ angular.module('insurances').controller('InsurancesController', ['$scope', '$htt
 					$scope.policies = data;
 					if(data.length == 0) $scope.openInsuranceModal();
 					else {
-						var notIncompleteCount = 0;
+						var incompleteCount = 0;
 						for(var i = 0; i < data.length; i++) {
-							if(data[i].status != 'incomplete') notIncompleteCount++;
+							if(data[i].status == 'incomplete') incompleteCount++;
 						}
-						if(notIncompleteCount == data.length) $scope.openInsuranceModal();
+						if(incompleteCount == data.length) $scope.openInsuranceModal();
 					}
 				});
 			}
@@ -57,7 +57,8 @@ angular.module('insurances').controller('InsurancesController', ['$scope', '$htt
 			});
 
 			modalInstance.result.then(function (selectedItem) {
-				$scope.findPolicies();
+				if(!insurance) $scope.findPolicies();
+				else $scope.findOne();
 			}, function () {
 				console.log('Modal dismissed at: ' + new Date());
 			});

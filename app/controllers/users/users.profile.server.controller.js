@@ -194,7 +194,7 @@ exports.getPolicies = function (req, res) {
 
 exports.createPolicy = function (req, res) {
 	var policy = new Policy(req.body);
-	if (typeof req.body.unitNumber === 'object') {
+	if (req.body.unitNumber && typeof req.body.unitNumber === 'object') {
 		policy.unitNumber = req.body.unitNumber.unitNumber;
 	}
 	policy.user = req.user;
@@ -230,13 +230,13 @@ exports.createPolicy = function (req, res) {
 							val: req.user.displayName
 						}, {
 							key: '-Unit#-',
-							val: unit.unitNumber
+							val: unit?unit.unitNumber:''
 						}, {
 							key: '-Property Name-',
-							val: unit.property.propertyName
+							val: unit?unit.property.propertyName:''
 						}, {
 							key: '-link to resident\'s certificate on PM pr admin side-',
-							val: 'http://' + req.headers.host + '/#!/'+'property_insurances/'+unit.property._id+'/'+unit._id+'/insurances/'+policy._id
+							val: unit?'http://' + req.headers.host + '/#!/'+'property_insurances/'+unit.property._id+'/'+unit._id+'/insurances/'+policy._id:''
 						}];
 						emailHandler.send('9eba3959-a659-473a-bfc0-a29612548a9b', params, pmanager.email, 'Insurance Certificate Changes', 'Insurance Certificate Changes', function (err, result) {
 							console.log(err);
@@ -252,22 +252,24 @@ exports.createPolicy = function (req, res) {
 						val: req.user.displayName
 					}, {
 						key: '-Unit#-',
-						val: unit.unitNumber
+						val: unit?unit.unitNumber:''
 					}, {
 						key: '-Property Name-',
-						val: unit.property.propertyName
+						val: unit?unit.property.propertyName:''
 					}, {
 						key: '-link to resident\'s certificate on PM pr admin side-',
-						val: 'http://' + req.headers.host + '/#!/' + 'properties/'+unit.property._id+'/units/'+unit._id+'/:residentId/insurances/'+policy._id
+						val: unit?'http://' + req.headers.host + '/#!/' + 'properties/'+unit.property._id+'/units/'+unit._id+'/:residentId/insurances/'+policy._id:''
 					}];
 					emailHandler.send('9eba3959-a659-473a-bfc0-a29612548a9b', params, admin.email, 'Insurance Certificate Changes', 'Insurance Certificate Changes', function (err, result) {
 						console.log(err);
 					});
 				});
 			});
-			if (typeof req.body.unitNumber === 'object') {
-				Unit.update({_id: req.body.unitNumber._id}, {resident: req.user._id}, function(err, data) {
-					res.json(policy);
+			if (req.body.unitNumber && typeof req.body.unitNumber === 'object') {
+				Unit.update({resident: req.user._id}, {$unset: {resident: 1 }}, function(err, data) {
+					Unit.update({_id: req.body.unitNumber._id}, {resident: req.user._id}, function (err, data) {
+						res.json(policy);
+					});
 				});
 			} else {
 				res.json(policy);
@@ -308,7 +310,7 @@ exports.updatePolicy = function (req, res) {
 		}
 		var policy_user = policy.user;
 		policy = _.extend(policy, req.body);
-		if (typeof req.body.unitNumber === 'object') {
+		if (req.body.unitNumber && typeof req.body.unitNumber === 'object') {
 			policy.unitNumber = req.body.unitNumber.unitNumber;
 		}
 		if (policy.insuranceFilePath && policy.insuranceFilePath !== '' && policy.policyHolderName  && policy.policyHolderName !== '') policy.status = 'pending';
@@ -343,13 +345,13 @@ exports.updatePolicy = function (req, res) {
 								val: req.user.displayName
 							}, {
 								key: '-Unit#-',
-								val: unit.unitNumber
+								val: unit?unit.unitNumber:''
 							}, {
 								key: '-Property Name-',
-								val: unit.property.propertyName
+								val: unit?unit.property.propertyName:''
 							}, {
 								key: '-link to resident\'s certificate on PM pr admin side-',
-								val: 'http://' + req.headers.host + '/#!/'+'property_insurances/'+unit.property._id+'/'+unit._id+'/insurances/'+policy._id
+								val: unit?'http://' + req.headers.host + '/#!/'+'property_insurances/'+unit.property._id+'/'+unit._id+'/insurances/'+policy._id:''
 							}];
 							emailHandler.send('9eba3959-a659-473a-bfc0-a29612548a9b', params, pmanager.email, 'Insurance Certificate Changes', 'Insurance Certificate Changes', function (err, result) {
 								console.log(err);
@@ -365,23 +367,26 @@ exports.updatePolicy = function (req, res) {
 							val: req.user.displayName
 						}, {
 							key: '-Unit#-',
-							val: unit.unitNumber
+							val: unit?unit.unitNumber:''
 						}, {
 							key: '-Property Name-',
-							val: unit.property.propertyName
+							val: unit?unit.property.propertyName:''
 						}, {
 							key: '-link to resident\'s certificate on PM pr admin side-',
-							val: 'http://' + req.headers.host + '/#!/' + 'properties/'+unit.property._id+'/units/'+unit._id+'/:residentId/insurances/'+policy._id
+							val: unit?'http://' + req.headers.host + '/#!/' + 'properties/'+unit.property._id+'/units/'+unit._id+'/:residentId/insurances/'+policy._id:''
 						}];
 						emailHandler.send('9eba3959-a659-473a-bfc0-a29612548a9b', params, admin.email, 'Insurance Certificate Changes', 'Insurance Certificate Changes', function (err, result) {
 							console.log(err);
 						});
 					});
 				});
-				if (typeof req.body.unitNumber === 'object') {
-					Unit.update({_id: req.body.unitNumber._id}, {resident: policy_user._id}, function(err, data) {
-						res.json(policy);
+				if (req.body.unitNumber && typeof req.body.unitNumber === 'object') {
+					Unit.update({resident: policy_user._id}, {$unset: {resident: 1 }}, function(err, data) {
+						Unit.update({_id: req.body.unitNumber._id}, {resident: policy_user._id}, function(err, data) {
+							res.json(policy);
+						});
 					});
+
 				} else {
 					res.json(policy);
 				}
@@ -501,24 +506,6 @@ exports.addPropertyManager = function (req, res) {
 							});
 						}
 						res.json(propertyManager);
-						/*res.render('templates/send-invitation', {
-						 name: propertyManager.displayName,
-						 email: propertyManager.email,
-						 password: password,
-						 url: 'http://' + req.headers.host + '/#!/signin'
-						 }, function (err, emailHTML) {
-						 sendgrid.send({
-						 to: propertyManager.email,
-						 from: 'enterscompliance@veracityins.com',
-						 subject: propertyManager.displayName + ' Invitation for Property Manager of HO4 ',
-						 html: emailHTML
-						 }, function (err, json) {
-						 console.log(json);
-						 });
-						 console.log(password);
-
-						 res.json(propertyManager);
-						 });*/
 					});
 				});
 			});
@@ -640,13 +627,13 @@ exports.addResident = function (req, res) {
 	var password = randomstring.generate(8);
 	var resident = new User(req.body);
 	var inviteResident = req.body.invite;
-	if (typeof req.body.appartmentNumber === 'object') {
+	if (req.body.appartmentNumber && typeof req.body.appartmentNumber === 'object') {
 		resident.appartmentNumber = req.body.appartmentNumber.unitNumber;
-		resident.propertyID = req.body.appartmentNumber.property;
 	} else {
 		resident.appartmentNumber = req.body.appartmentNumber;
-		resident.propertyID = req.body.property._id;
+
 	}
+	resident.propertyID = req.body.property._id;
 	resident.displayName = resident.firstName + ' ' + resident.lastName;
 	resident.username = resident.email;
 	resident.roles = ['user'];
@@ -671,7 +658,7 @@ exports.addResident = function (req, res) {
 					});
 				}
 
-				if (typeof req.body.appartmentNumber === 'object') {
+				if (req.body.appartmentNumber && typeof req.body.appartmentNumber === 'object') {
 					Unit.findById(req.body.appartmentNumber._id).populate('property', 'propertyName').exec(function (err, unit) {
 						if (err) {
 							return res.status(400).send({
@@ -700,10 +687,10 @@ exports.addResident = function (req, res) {
 									val: 'http://' + req.headers.host + '/#!/insurances'
 								}, {
 									key: '-unit_number-',
-									val: unit.unitNumber
+									val: unit?unit.unitNumber:''
 								}, {
 									key: '-property_name-',
-									val: unit.property.propertyName
+									val: req.body.property.propertyName
 								}];
 								emailHandler.send('18ee0a51-e673-4538-a9f6-fd449e8822cb', params, resident.email, 'Please upload your Insurance Certificate', 'Please upload your Insurance Certificate', function (err, result) {
 									console.log(err);
@@ -798,15 +785,14 @@ exports.updateResident = function (req, res) {
 		username: req.body.email
 	};
 
-	if (typeof req.body.appartmentNumber === 'object') {
+	if (req.body.appartmentNumber && typeof req.body.appartmentNumber === 'object') {
 		updateObj.appartmentNumber = req.body.appartmentNumber.unitNumber;
-		updateObj.propertyID = req.body.appartmentNumber.property;
 	} else {
 		if(req.body.appartmentNumber)
 			updateObj.appartmentNumber = req.body.appartmentNumber;
-		if(req.body.property)
-			updateObj.propertyID = req.body.property._id;
 	}
+	if(req.body.property)
+		updateObj.propertyID = req.body.property._id;
 	User.update({_id: req.params.residentId}, updateObj, function (err, user) {
 		if (err) {
 			console.log(err)
@@ -816,7 +802,7 @@ exports.updateResident = function (req, res) {
 				message: message
 			});
 		}
-		if (typeof req.body.appartmentNumber === 'object') {
+		if (req.body.appartmentNumber && typeof req.body.appartmentNumber === 'object') {
 			Unit.findById(req.body.appartmentNumber._id).exec(function (err, unit) {
 				if (err) {
 					return res.status(400).send({

@@ -2,6 +2,9 @@
 	.nav-users {
 		position: fixed;
 	}
+	.account-page {
+		width: 620px;
+	}
 }
 .remove-account-container {
 	display: inline-block;
@@ -59,7 +62,7 @@
 }
 
 .signup-wizard-area {
-	padding: 30px;
+	padding: 19px 45px;
 }
 
 .asterisk_input:after {
@@ -97,11 +100,19 @@
 input.form-control{
 	border-radius: 0;
 	box-shadow: none;
+	border-width: 0;
+	height: 40px;
+	padding: 6px 19px;
+}
+
+#signup-form .form-group {
+	margin-bottom: 10px;
 }
 
 #signup-form input.form-control:focus,
 #signin-form input.form-control:focus {
-	border-color: #5c8c45;
+	border-color: #90bf63;
+	border-width: 1px;
 }
 
 .main-header .navbar-brand {
@@ -134,8 +145,9 @@ input.form-control{
 }
 
 .account-page {
-	padding: 37px 165px;
+	padding: 37px 135px 52px;
 	border: 2px dotted #333;
+	margin: 0 auto;
 }
 
 .account-page .nav {
@@ -160,13 +172,12 @@ input.form-control{
 	border: none;
 	padding: 12px;
 	text-align: center;
-	height: 42px;
+	height: 41px;
 }
 
 .account-page .sub-title {
-	font-size: 32px;
-	letter-spacing: 2px;
-	margin-bottom: 25px;
+	font-size: 35px;
+	color: #ababab;
 }
 
 .account-page .form-group {
@@ -177,23 +188,20 @@ input.form-control{
 	font-weight: normal;
 }
 
-.account-page .form-control:focus {
-	border: 2px solid #6ec25e;
-}
-
 .modal-content .form-control {
 	background-color: #F7F8FA;
 	border: none;
-	padding: 12px;
+	padding: 12px 20px;
 	height: 42px;
 }
 
-.modal-content .form-control:focus {
-	border: 2px solid #6ec25e;
+.modal-content .form-group {
+	margin-bottom: 8px;
 }
 
-.form-control.search:focus {
-	border: 2px solid #6ec25e;
+.form-control:focus {
+	border: 1px solid #6ec25e;
+	box-shadow: none;
 }
 .signup-login-header {
   height: 140px;
@@ -202,13 +210,11 @@ input.form-control{
 }
 
 .signup-page .title {
-	font-size: 70px;
-	font-weight: bold;
-	letter-spacing: 3px;
+	font-size: 74px;
+	margin-bottom: 6px;
 }
 
 .signup-page .sub-title {
-	font-size: 20px;
-	color: #7a7a7a;
-	letter-spacing: 1px;
+	font-size: 21px;
+	color: #bababa;
 }

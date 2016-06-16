@@ -3,26 +3,27 @@
 	<div class="container">
 		<div class="sub-container">
 			<ol class="breadcrumb">
-				<li><a href="#!/insurances">Coverage History</a></li>
+				<li><a href="#!/insurances">Coverage history</a></li>
 				<li class="active">Insurance details</li>
 			</ol>
-			<div class="sub-header HelveticaNeue">
-				<div class="col-md-6" style="padding: 0;">
-					<span class="gray-color" style="font-size: 52px; margin-left: 10px;">
+			<div class="sub-header">
+				<div class="col-md-6" style="padding: 7px 0 0;">
+					<span class="HelveticaNeueCyrThin" style="font-size: 50px; margin-left: 10px; color: #dadadc;">
 						Insurance details
 					</span>
 				</div>
 				<div class="col-md-6 text-right" style="padding-top: 6px;padding-right: 5px;">
-					<div style="display: inline-block; padding-right: 180px; vertical-align: bottom; padding-top: 18px;">
-						<span style="font-size: 20px;" class="gray-color">Unit# </span><span style="font-size:30px;font-weight: bold;">{{policy.unit.unitNumber}}</span>
+					<div style="display: inline-block; padding-right: 177px; vertical-align: bottom; padding-top: 22px;">
+						<span style="font-size: 19px; padding-right: 9px; color: #ababab;" class="HelveticaNeueCyrLight">Unit # </span>
+						<span class="HelveticaNeueCyrRoman" style="font-size:30px;">{{policy.unit.unitNumber || policy.insurance.unitNumber}}</span>
 					</div>
-					<div style="position: absolute; top: 5px; right: 5px;">
-						<button type="button" class="btn btn-lg btn-success btn-insurance" style="padding: 15px 53px;" ng-click="openInsuranceModal(policy.insurance)">Edit</button>
+					<div style="position: absolute; top: 7px; right: 4px;">
+						<button type="button" class="btn btn-lg btn-success btn-insurance HelveticaNeue" style="padding: 15px 53px;" ng-click="openInsuranceModal(policy.insurance)">Edit</button>
 					</div>
 				</div>
 			</div>
 			<div class="clearfix"></div>
-			<div class="row" style="margin-top: 40px;">
+			<div class="row" style="margin-top: 38px; margin-left: 8px;">
 				<div class="col-md-6" style="overflow: auto;">
 					<img ngf-src="policy.insurance.insuranceFilePath" style="width: 100%;" ng-if="policy.insurance.insuranceFilePath.indexOf('pdf')<0">
 					<div class="mark-area">
@@ -30,31 +31,31 @@
 					</div>
 					<iframe ngf-src="insurance.insuranceFilePath" frameBorder="0" width="100%" height="100%" ng-if="policy.insurance.insuranceFilePath.indexOf('pdf')>-1" style="min-height: 500px;"></iframe>
 				</div>
-				<div class="col-md-6 HelveticaNeue">
+				<div class="col-md-6 HelveticaNeue" style="margin-top: -3px;">
 					<div class="row" style="padding: 0 15px;">
-						<p style="color: #7a7a7a;margin-bottom: 7px;">Insurance Company</p>
-						<h3 class="bold" style="font-size: 30px;margin-top: 0;">{{policy.insurance.insuranceName}}</h3>
+						<p style="color: #bababa;margin-bottom: 9px;">Insurance Company</p>
+						<h3 style="font-size: 30px;margin-top: 0;" class="HelveticaNeueCyrThin">{{policy.insurance.insuranceName}}</h3>
+					</div>
+					<div class="row" style="padding: 7px 15px;">
+						<p style="color: #bababa;margin-bottom: 9px;">Policy's Holder Name</p>
+						<h3 class="HelveticaNeueCyrThin" style="font-size: 30px;margin-top: 0;">{{policy.insurance.policyHolderName}}</h3>
+					</div>
+					<div class="row" style="padding: 0 15px;">
+						<p style="color: #bababa;margin-bottom: 9px;">Policy Number</p>
+						<h3 class="HelveticaNeueCyrThin" style="font-size: 30px;margin-top: 0;">{{policy.insurance.policyNumber}}</h3>
 					</div>
 					<div class="row" style="padding: 10px 15px;">
-						<p style="color: #7a7a7a;margin-bottom: 7px;">Policy's Holder Name</p>
-						<h3 class="bold" style="font-size: 30px;margin-top: 0;">{{policy.insurance.policyHolderName}}</h3>
+						<p style="color: #bababa;margin-bottom: 9px;">Expiration Date</p>
+						<h3 class="HelveticaNeueCyrThin" style="font-size: 30px;margin-top: 0;">{{policy.insurance.policyStartDate | date: 'd MMM, yyyy'}} - {{policy.insurance.policyEndDate | date: 'd MMM, yyyy'}}</h3>
 					</div>
-					<div class="row" style="padding: 0 15px;">
-						<p style="color: #7a7a7a;margin-bottom: 7px;">Policy Number</p>
-						<h3 class="bold" style="font-size: 30px;margin-top: 0;">{{policy.insurance.policyNumber}}</h3>
-					</div>
-					<div class="row" style="padding: 10px 15px;">
-						<p style="color: #7a7a7a;margin-bottom: 7px;">Expiration Date</p>
-						<h3 class="bold" style="font-size: 30px;margin-top: 0;">{{policy.insurance.policyStartDate | date: 'MMM d, yyyy'}} - {{policy.insurance.policyEndDate | date: 'MMM d, yyyy'}}</h3>
-					</div>
-					<div class="row" style="padding: 15px 20px; margin: 58px 0;">
+					<div class="row" style="padding: 13px 12px; margin: 58px 0;">
 						<div style="padding: 5px;">
-							<p style="color: #BBB;">Date (adding)</p>
-							<h3>{{policy.insurance.created | date: 'MMM d, yyyy'}}</h3>
+							<p style="color: #bababa;">Date (adding)</p>
+							<h3 class="HelveticaNeueCyrRoman" style="color: #ababab; margin-top: 0; font-size: 30px; margin-left: -4px;">{{policy.insurance.created | date: 'd MMM, yyyy'}}</h3>
 						</div>
-						<div style="padding: 5px;">
-							<p style="color: #BBB;">Propety Name/Property Code</p>
-							<h3>{{policy.unit.property.propertyName}} / {{policy.unit.property.propertyCode}}</h3>
+						<div style="padding: 2px 5px;">
+							<p style="color: #bababa;">Propety Name / Property Code</p>
+							<h3 class="HelveticaNeueCyrRoman" style="color: #ababab; margin-top: 0; font-size: 30px; margin-left: -4px;">{{policy.unit.property.propertyName}} / {{policy.unit.property.propertyCode}}</h3>
 						</div>
 					</div>
 				</div>
