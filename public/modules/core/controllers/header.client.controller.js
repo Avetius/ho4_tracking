@@ -47,6 +47,7 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 
 		// Collapsing the menu after navigation
 		$rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+			$rootScope.fromState = fromState;
 			$scope.current_route = toState.url;
 			$scope.isCollapsed = false;
 			if($scope.authentication.user) {

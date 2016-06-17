@@ -1,11 +1,11 @@
 <div class="modal-body">
 	<div class="row">
 		<i ng-click="cancel()" class="glyphicon glyphicon-remove icon-close-right pull-right" style="cursor: pointer; font-size: 22px; z-index: 2; margin-right: -15px; margin-top: -16px;"></i>
-		<div class="col-md-12" style="margin-top: 15px; margin-bottom: 30px; padding: 0 40px;">
-			<h2 class="HelveticaNeue" style="font-size: 48px; margin: 0px; font-weight: bold; letter-spacing: 2px;">Create Resident</h2>
+		<div class="col-md-12" style="margin-bottom: 30px; padding: 0 61px;">
+			<h2 style="font-size: 60px; margin-top: 0;" class="HelveticaNeueCyrThin">Create Resident</h2>
 		</div>
 	</div>
-	<div class="row" style="margin-bottom: 30px; padding: 0 40px;">
+	<div class="row" style="margin-bottom: 43px; padding: 2px 65px;">
 		<div class="col-md-12" style="padding: 0;">
 			<div class="form-group no-margin">
 				<input type="text" id="firstName" name="firstName" class="form-control text-center" data-ng-model="resident.firstName" placeholder="First Name" ng-class="{'invalid-field': errorFirstName}">
@@ -32,9 +32,9 @@
 			<div data-ng-show="error" class="text-center text-danger">
 				<strong data-ng-bind="error"></strong>
 			</div>
-			<div class="text-right" style="margin-top: 55px;">
-				<button class="btn btn-gray btn-lg upper-letters" type="button" ng-click="cancel()" style="padding: 15px 50px;">Cancel</button>
-				<button class="btn btn-success btn-lg upper-letters" type="button" ng-click="saveResident()" style="padding: 15px 50px; font-size: 14px; margin-left: 15px;">Save</button>
+			<div class="text-right" style="margin-top: 24px;">
+				<button class="btn btn-gray btn-lg upper-letters" type="button" ng-click="cancel()" style="padding: 15px 41px;">Cancel</button>
+				<button class="btn btn-success btn-lg upper-letters" type="button" ng-click="saveResident()" style="padding: 15px 52px; font-size: 14px; margin-left: 15px;">Save</button>
 			</div>
 		</div>
 	</div>

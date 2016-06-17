@@ -36,7 +36,7 @@ angular.module('insurances').controller('InsurancesController', ['$scope', '$htt
 						for(var i = 0; i < data.length; i++) {
 							if(data[i].status == 'incomplete') incompleteCount++;
 						}
-						if(incompleteCount == data.length) $scope.openInsuranceModal();
+						if(incompleteCount == data.length && $rootScope.fromState.name === 'home') $scope.openInsuranceModal();
 					}
 				});
 			}

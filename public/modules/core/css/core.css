@@ -737,6 +737,10 @@ table thead th {
 }
 
 @media (min-width: 768px) {
+	.modal-dialog {
+		width: 583px;
+	}
+
 	.container {
 		width: 100%;
 	}
@@ -1213,7 +1217,7 @@ thead.gray-bg th {
 }
 
 .list-table .table > tbody >tr > td {
-	padding: 29px 20px;
+	padding: 29px 15px;
 }
 
 .sortable {
@@ -1580,12 +1584,8 @@ a.green-text:hover {
 	color: #fff;
 	font-size: 14px;
 	padding: 15px 19px;
-}
-
-.btn-gray {
-	font-size: 14px;
-	font-family: 'sans-serif';
 	text-transform: uppercase;
+	border: none;
 }
 
 .btn-gray:hover,
@@ -1969,7 +1969,8 @@ a:hover i.setting-icon {
 	background-image: url("/modules/core/img/setting-hover.png");
 }
 
-a i.edit-icon {
+a i.edit-icon,
+.green-btn i.edit-icon{
 	background-image: url("/modules/core/img/edit.png");
 	background-repeat: no-repeat;
 	background-position: center center;
@@ -1978,7 +1979,8 @@ a i.edit-icon {
 	height: 20px;
 }
 
-a:hover i.edit-icon {
+a:hover i.edit-icon,
+.green-btn:hover i.edit-icon {
 	background-image: url("/modules/core/img/edit-hover.png");
 }
 

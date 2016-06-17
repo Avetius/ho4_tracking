@@ -1,7 +1,7 @@
 <div class="gray-header-area" style="margin-bottom: 8px;"></div>
 <section data-ng-controller="ManagerInsurancesController">
 	<div class="container">
-		<div class="sub-container">
+		<div class="sub-container" style=" margin-left: 10px;">
 			<alert ng-repeat="alert in alerts" type="success">{{alert.msg}}</alert>
 			<ol class="breadcrumb" style="margin-bottom: -15px;">
 				<li><a href="#!/properties">Properties</a></li>
@@ -9,27 +9,27 @@
 				<li class="active">{{unit.resident.displayName}}</li>
 			</ol>
 			<div class="sub-header">
-				<div class="pull-left" style="padding-top: 30px;">
-					<h2 style="font-size: 47px; font-weight: bold;" class="HelveticaNeue">
+				<div class="pull-left" style="padding-top: 36px;">
+					<h2 style="font-size: 45px;" class="HelveticaNeueCyrThin">
 						{{unit.resident.displayName}}
 					</h2>
 				</div>
-				<div class="pull-right" style="margin-right: 4px;">
+				<div class="pull-right HelveticaNeue" style="margin-right: 2px;">
 					<div class="input-group" style="margin-top: 10px; width: 320px; margin-left: 146px;">
 						<input type="text" ng-model="search" class="form-control search" ng-keypress="searchManagerInsuranceWithText($event)" placeholder="Search..." style="height: 50px;">
 						<span class="input-group-btn">
-							<button class="btn btn-success" ng-click="searchManagerInsurance()" style="font-size: 25px;padding: 7px 14px;"><i class="glyphicon glyphicon-search" style="font-size: 20px;"></i></button>
+							<button class="btn btn-success" ng-click="searchManagerInsurance()" style="font-size: 23px; padding: 9px 14px;"><i class="fa fa-search"></i></button>
 						</span>
 					</div>
 					<div style="margin-top: 10px;" class="text-right">
-						<button type="button" class="btn btn-large btn-gray" style="padding: 14px 31px;" ng-click="openResidentInfo()">Resident info</button>
-						<button type="button" class="btn btn-large btn-success upper-letters" style="padding: 14px 38px;" ng-click="openInsuranceModal()">Add Insurance Certificate</button>
+						<button type="button" class="btn btn-large btn-gray" style="padding: 15px 35px;" ng-click="openResidentInfo()">Resident info</button>
+						<button type="button" class="btn btn-large btn-success upper-letters" style="padding: 15px 43px;" ng-click="openInsuranceModal()">Add Insurance Certificate</button>
 					</div>
 				</div>
 			</div>
 			<div class="clearfix"></div>
 			<div class="">
-				<div class="policy-list">
+				<div class="policy-list list-table">
 					<div class="table-responsive">
 						<table class="table table-hover" st-pipe="findPolicies" st-table="insurances" st-safe-src="insurances">
 							<thead class="gray-bg">
@@ -55,7 +55,7 @@
 								</td>
 								<td class="text-center">
 									<div class="green-btn" style="cursor: pointer;" ng-click="openInsuranceModal(insurance)">
-										<span class="glyphicon glyphicon-pencil"></span>
+										<i class="edit-icon"></i>
 									</div>
 								</td>
 							</tr>

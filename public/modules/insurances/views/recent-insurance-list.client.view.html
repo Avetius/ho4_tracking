@@ -1,17 +1,17 @@
 <div class="gray-header-area"></div>
 <section data-ng-controller="ManagerInsurancesController">
 	<div class="container">
-		<div class="sub-container">
+		<div class="sub-container" style=" margin-left: 10px;">
 			<alert ng-repeat="alert in alerts" type="success">{{alert.msg}}</alert>
 			<div class="sub-header">
-				<div class="pull-left" style="padding-top: 30px;">
-					<h2 style="font-size: 47px; font-weight: bold;" class="HelveticaNeue">Resident HO4 Coverage</h2>
+				<div class="pull-left" style="padding-top: 35px;">
+					<h2 style="font-size: 45px;" class="HelveticaNeueCyrThin">Resident HO4 Coverage</h2>
 				</div>
 				<div class="pull-right" style="width: 320px; margin-right: 4px;">
 					<div class="input-group" style="margin-top: 10px;">
 						<input type="text" ng-model="search" class="form-control search" ng-keypress="searchWithText($event)" placeholder="Search..." style="height: 50px;">
 						<span class="input-group-btn">
-							<button class="btn btn-success" ng-click="searchInsurance()" style="font-size: 25px;padding: 7px 14px;"><i class="glyphicon glyphicon-search" style="font-size: 20px;"></i></button>
+							<button class="btn btn-success" ng-click="searchInsurance()" style="font-size: 23px; padding: 9px 14px;"><i class="fa fa-search"></i></button>
 						</span>
 					</div>
 					<div style="margin-top: 10px;" class="text-right">
@@ -27,7 +27,7 @@
 			</div>
 			<div class="clearfix"></div>
 			<div>
-				<div class="policy-list">
+				<div class="policy-list list-table">
 					<div class="table-responsive">
 						<table class="table table-hover" st-pipe="findRecentInsurances" st-table="insurances" st-safe-src="insurances">
 							<thead class="gray-bg">
@@ -50,7 +50,7 @@
 									<a ng-click="openResidentEditor(insurance.user)">{{insurance.user.displayName}}</a>
 								</td>
 								<td class="td-hover middle-align" ng-click="viewDetailRecentInsurance(insurance)">{{insurance.insuranceName}}</td>
-								<td class="td-hover middle-align" ng-click="viewDetailRecentInsurance(insurance)">{{insurance.policyEndDate | date: 'MMM d, yyyy'}}</td>
+								<td class="td-hover middle-align" ng-click="viewDetailRecentInsurance(insurance)">{{insurance.policyEndDate | date: 'MM/dd/yyyy'}}</td>
 								<td class="middle-align">
 									<span ng-if="authentication.user.roles.indexOf('admin')<0">{{insurance.status}}</span>
 									<label class="td-status-select">
@@ -63,13 +63,13 @@
 										</select>
 									</label>
 								</td>
-								<td class="middle-align" ng-click="viewDetailRecentInsurance(insurance)">{{insurance.created | date: 'MMM d, yyyy'}}</td>
+								<td class="middle-align" ng-click="viewDetailRecentInsurance(insurance)">{{insurance.created | date: 'MM/dd/yyyy'}}</td>
 								<td>
 									<div class="certificate-btn" style="cursor: pointer;" ng-click="viewInsuranceCertificate(insurance)">
-										<span class="glyphicon glyphicon-duplicate"></span>
+										<i class="certificate-icon"></i>
 									</div>
 									<div class="note-btn" style="cursor: pointer;" ng-click="viewInsuranceNotes(insurance.notes)">
-										<span class="glyphicon glyphicon-list-alt"></span>
+										<i class="note-icon"></i>
 									</div>
 								</td>
 							</tr>

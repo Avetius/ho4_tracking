@@ -1,30 +1,30 @@
 <div class="modal-body">
 	<div class="row">
 		<i ng-click="cancel()" class="glyphicon glyphicon-remove icon-close-right pull-right" style="cursor: pointer; font-size: 22px; z-index: 2; margin-right: -15px; margin-top: -16px;"></i>
-		<div class="col-md-12" style="margin-top: 15px; margin-bottom: 30px; padding: 0 40px;">
-			<h2 class="HelveticaNeue" style="font-size: 48px; margin: 0px; font-weight: bold; letter-spacing: 2px;">Resident</h2>
+		<div class="col-md-12" style="margin-bottom: 30px; padding: 0 65px;">
+			<h2 class="HelveticaNeueCyrThin" style="font-size: 60px; margin: 0px;">Add Resident</h2>
 		</div>
 	</div>
-	<div class="row" style="margin-bottom: 30px; padding: 0 40px;">
-		<p class="control-label gray-color">Choose Resident from the List</p>
-		<div class="col-md-6" style="padding: 0;">
+	<div class="row HelveticaNeue" style="margin-bottom: 30px; padding: 5px 65px;">
+		<p class="control-label HelveticaNeueCyrLight" style="color: #bababa; font-size: 19px; margin-bottom: 1px;">Choose Resident from the List</p>
+		<div class="col-md-6" style="padding: 9px 11px 9px 0;">
 			<label class="form-select" style="width: 100%;">
 				<select id="resident_id" class="form-control" ng-options="resident as resident.displayName for resident in residents track by resident._id" ng-model="unit.resident">
 
 				</select>
 			</label>
 		</div>
-		<span class="text-center col-md-1" style="line-height: 45px;">OR</span>
+		<span class="text-center col-md-1 HelveticaNeueCyrLight" style="line-height: 50px; color: #bababa; font-size: 18px; padding-left: 0;">or</span>
 		<div class="col-md-5" style="padding: 0;">
-			<button type="button" class="btn btn-gray upper-letters btn-block" ng-click="openResidentModalForUnit()" style="padding-top: 10px; padding-bottom: 10px;">Create New Resident</button>
+			<button type="button" class="btn btn-gray upper-letters btn-block" ng-click="openResidentModalForUnit()" style="padding-top: 15px; padding-bottom: 13px;">Create New Resident</button>
 		</div>
 		<div class="clearfix"></div>
 		<div data-ng-show="error" class="text-center text-danger">
 			<strong data-ng-bind="error"></strong>
 		</div>
-		<div class="text-right" style="margin-top: 55px;">
-			<button class="btn btn-gray btn-lg upper-letters" type="button" ng-click="cancel()" style="padding: 15px 50px;">Cancel</button>
-			<button class="btn btn-success btn-lg upper-letters" type="button" ng-click="saveUnitResidenId()" style="padding: 15px 50px; font-size: 14px; margin-left: 15px;">Save</button>
+		<div class="text-right" style="margin-top: 65px; margin-bottom: 30px;">
+			<button class="btn btn-gray btn-lg upper-letters" type="button" ng-click="cancel()" style="padding: 15px 42px;">Cancel</button>
+			<button class="btn btn-success btn-lg upper-letters" type="button" ng-click="saveUnitResidenId()" style="padding: 15px 60px; font-size: 14px; margin-left: 15px;">OK</button>
 		</div>
 	</div>
 </div>
