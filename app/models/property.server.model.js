@@ -95,3 +95,4 @@ var PropertySchema = new Schema({
 });
 
 mongoose.model('Property', PropertySchema);
+

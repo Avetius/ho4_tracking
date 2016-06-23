@@ -12,6 +12,7 @@ var _ = require('lodash'),
  */
 exports.send = function (templateId, template_params, email, subject, text, done) {
 	// Init Variables
+
 	var sendEmail = new sendgrid.Email({
 		to: email,
 		from: 'enterscompliance@veracityins.com',

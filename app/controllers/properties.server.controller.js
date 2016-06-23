@@ -39,13 +39,14 @@ exports.create = function(req, res) {
 					val: propertyManager.email
 				}, {
 					key: '-password-',
-					val: ''
+					val: req.session.password
 				}, {
 					key: '-link-',
 					val: 'http://' + req.headers.host + '/#!/signin'
 				}];
 				emailHandler.send('db25d056-0667-49a8-aec7-af46680e6132', params, propertyManager.email, 'You\'ve been assigned to a property', 'You\'ve been assigned to a property', function (err, result) {
 					console.log(err);
+					req.session.password = undefined;
 				});
 			}
 			res.json(property);

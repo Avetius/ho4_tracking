@@ -448,6 +448,8 @@ exports.getAllPropertyManagerList = function (req, res) {
 
 exports.addPropertyManager = function (req, res) {
 	var password = randomstring.generate(8);
+	req.session.password = password;
+
 	var propertyManager = new User(req.body);
 	propertyManager.displayName = propertyManager.firstName + ' ' + propertyManager.lastName;
 	propertyManager.username = propertyManager.email;
