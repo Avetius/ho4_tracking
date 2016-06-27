@@ -17,7 +17,7 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 			}
 		}
 		if($scope.authentication.user && $scope.authentication.user.roles.indexOf('pmanager')> -1) {
-			PropertySmartList.getProperties().then(function(result) {
+			PropertySmartList.getProperties().then(function(result) {		
 				$scope.properties = result;
 				if(!$rootScope.current_property) $rootScope.current_property = result[0];
 			});

@@ -312,8 +312,9 @@ exports.recentInsurances = function(req, res) {
 
 	Policy.find(query).populate('user').exec(function(err, policies) {
 		var policiesArray = [];
-		_.each(policies, function(policy) {
+		_.each(policies, function(policy) {		
 			policiesArray.push(function(cb) {
+				if(!policy.user){return cb(null, {})};
 				Property.findOne({_id: policy.user.propertyID}).exec(function(err, property) {
 					var temp = policy.toObject();
 					temp.propertyName = property?property.propertyName:'';

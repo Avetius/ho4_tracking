@@ -1,0 +1,11 @@
+<div class="modal-body" ng-controller="CompaniesController">
+	<h2>Companies List</h2>
+	<p>Total: {{companies.length}}</p>
+	<div ng-repeat="company in companies | startFrom: (companiesPage-1)*pageSize | limitTo: pageSize">
+		<hr>
+			<p><b>Name: </b><a href="#!/company/{{company.c_id}}">{{company.c_name}}</a></p>
+			<p><b>Id: </b>{{company.c_id}}</p>		
+	</div>
+	<pagination total-items="companies.length" ng-model="companiesPage" items-per-page="pageSize"></pagination>
+</div>
+

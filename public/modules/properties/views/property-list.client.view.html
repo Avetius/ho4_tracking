@@ -40,15 +40,14 @@
 						<tbody>
 						<tr ng-repeat="property in properties">
 							<td class="middle-align">
-								<a class="green-text" href="#!/properties_by_manager/{{property.propertyManager._id}}/properties/{{property._id}}/units" ng-if="authentication.user.roles.indexOf('admin')>-1">{{property.propertyName}}</a>
-								<a class="green-text" href="#!/properties/{{property._id}}/units" ng-if="authentication.user.roles.indexOf('pmanager')>-1">{{property.propertyName}}</a>
+								<a class="green-text" href="#!/company/{{property.c_id}}" ng-if="authentication.user.roles.indexOf('admin')>-1">{{property.propertyName || property.c_name}}</a>
 							</td>
 							<td class="middle-align" ng-if="authentication.user.roles.indexOf('admin')>-1">
 								<a class="green-text">{{property.propertyManager.displayName}}</a>
 								<button class="btn btn-success" ng-if="!property.propertyManager" ng-click="displayPropertyManagerModal(property)" style="padding: 15px 19px;">Add Property Manager</button>
 							</td>
-							<td class="middle-align">{{property.propertyCode}}</td>
-							<td class="middle-align">{{property.state}}, {{property.country}}</td>
+							<td class="middle-align">{{property.propertyCode || property.c_id}}</td>
+							<td class="middle-align" ng-if="property.state">{{property.state}}, {{property.country}}</td>
 							<td class="middle-align">{{property.totalUnits}}</td>
 							<td class="middle-align">{{property.updated | date: 'MM/dd/yyyy'}}</td>
 							<td class="middle-align text-center" ng-if="authentication.user.roles.indexOf('admin')>-1">
@@ -76,3 +75,4 @@
 		</div>
 	</div>
 </section>
+

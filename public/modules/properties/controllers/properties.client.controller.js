@@ -6,6 +6,9 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 	function($scope, $stateParams, $location, Authentication, Properties, PropertySmartList, $modal, $rootScope, prompt) {
 		$scope.authentication = Authentication;
 		if(!$scope.authentication.user || $scope.authentication.user.roles.indexOf('admin') < 0) return $location.path('/');
+		if($scope.authentication.user.roles.indexOf('admin') > -1){
+			$rootScope.admin = true;
+		}
 		$scope.numberOfPages = 1;
 		$scope.currentPage = 1;
 		$scope.itemsByPage = 20;
@@ -29,6 +32,7 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 					search: $scope.tableState.search,
 					sort: $scope.tableState.sort
 				};
+
 				$scope.currentPage = page;
 				$scope.findProperties(t);
 			}
@@ -45,7 +49,7 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 			var sort = tableState.sort || '';
 			if(!sort.predicate) sort = '';
 			PropertySmartList.getPage(start, number, propertyManagerId, search, sort).then(function (result) {
-				$scope.properties = result.data;
+				$scope.properties = result.data.slice(tableState.pagination.start, tableState.pagination.start + 20);
 				$scope.numberOfPages = result.numberOfPages;
 				$scope.totalItems = result.count;
 				$scope.property_manager = result.property_manager;
@@ -163,9 +167,11 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 			$scope.pages = [];
 			$scope.numPages = $scope.numberOfPages;
 
+
 			for (i = start; i < end; i++) {
 				$scope.pages.push(i);
 			}
+
 		};
 	}
 ]);

@@ -1,0 +1,16 @@
+<div class="modal-body" ng-controller="UnitController">
+	<h1>Units</h1>
+	<hr>
+	<br>
+	<p>Total: {{units.length}}</p>
+	<div ng-repeat="unit in units | startFrom: (unitsPage-1)*pageSize | limitTo: pageSize">
+		<h3>{{$index+1+(pageSize*(unitsPage-1))}}</h3>
+		<div ng-repeat="(unitKey, unitVal) in unit">
+			<p><b>{{unitKey}}: </b>{{unitVal}}</p>
+		</div>
+		<hr>
+	</div>
+
+	<pagination total-items="units.length" ng-model="unitsPage" items-per-page="pageSize"></pagination>
+</div>
+

@@ -1,27 +1,43 @@
 'use strict';
 
 //Properties service used for communicating with the properties REST endpoints
-angular.module('properties').factory('PropertySmartList', ['$q', '$filter', '$timeout', '$http',
-	function ($q, $filter, $timeout, $http) {
+angular.module('properties').factory('PropertySmartList', ['$q', '$filter', '$timeout', '$http', '$rootScope',
+	function ($q, $filter, $timeout, $http, $rootScope) {
 		return {
 			//Get orders by page and search values
-			getPage: function (start, number, propertyManagerId, search, sort) {
+			getPage: function (start, number, propertyManagerId, search, sort) {			
 				var deferred = $q.defer();
 				var url = '/properties?start=' + start + '&num=' + number + '&search=' + search + '&sort=' + JSON.stringify(sort);
 				if(propertyManagerId) {
 					url = '/properties?start=' + start + '&num=' + number + '&propertyManagerId=' + propertyManagerId + '&search=' + search + '&sort=' + JSON.stringify(sort);
 				}
-				$http.get(url).success(function (data) {
-					deferred.resolve({
-						data: data.properties,
-						property_manager: data.property_manager,
-						numberOfPages: Math.ceil(data.count / number),
-						count: data.count,
-						managers: data.managers
+
+				if($rootScope.admin){					
+					$http.post('http://localhost:3001/api/company', {username: 'mbarrus', password: 'password'}).success(function (data) {
+						deferred.resolve({
+							data: data,
+							property_manager: data.property_manager,
+							numberOfPages: Math.ceil(data.length / number),
+							count: data.length,
+							managers: ''
+						});
+					}).error(function (msg, code) {
+						deferred.reject(msg);
 					});
-				}).error(function (msg, code) {
-					deferred.reject(msg);
-				});
+				}else{					
+					$http.get(url).success(function (data) {
+						deferred.resolve({
+							data: data.properties,
+							property_manager: data.property_manager,
+							numberOfPages: Math.ceil(data.count / number),
+							count: data.count,
+							managers: data.managers
+						});
+					}).error(function (msg, code) {
+						deferred.reject(msg);
+					});					
+				}
+
 				return deferred.promise;
 			},
 			getProperties: function() {

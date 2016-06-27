@@ -1,0 +1,38 @@
+<div class="modal-body" ng-controller="CompanyController">
+	<h2>Company</h2>
+	<p><b>Name: </b>{{company.name}}</p>
+	<p><b>Id: </b>{{company.id}}</p>
+
+	<br><br>
+
+	<h2>Properties</h2>
+	<p>Total: {{properties.length}}</p>
+	<div ng-repeat="propertie in properties | startFrom: (propertiePage-1)*pageSize | limitTo: pageSize">
+		<div class="row">
+			<h3>{{$index+1+(pageSize*(propertiePage-1))}}</h3>
+			<div class="col-md-6">
+			<p><b>pr_id: </b><a href="#!/company/{{company.id}}/{{propertie.pr_id}}">{{propertie.pr_id}}</a></p>
+			<p><b>c_id: </b>{{propertie.c_id}}</p>
+			<p><b>pr_name: </b>{{propertie.pr_name}}</p>
+			</div>
+			<div class="col-md-6">
+			<b>Addresses: </b>
+				<div ng-if="propertie.Addresses">
+					<ul>
+						<li ng-repeat="(key, val) in propertie.Addresses">
+						<b>{{key+1}}</b>
+							<div>
+								<p ng-repeat="(itemKey, itemVal) in propertie.Addresses[key]"><b>{{itemKey}}: </b>{{itemVal}}</p>
+							</div>
+							<hr>
+						</li>
+					</ul>			
+				</div>  	
+			</div>
+		</div>
+		<hr>
+	</div>
+
+	<pagination total-items="properties.length" ng-model="propertiePage" items-per-page="pageSize"></pagination>
+</div>
+

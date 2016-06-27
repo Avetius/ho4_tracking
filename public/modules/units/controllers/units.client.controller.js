@@ -48,6 +48,7 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 			var search = tableState.search;
 			if(typeof search === 'object' || search == undefined) search = '';
 			if(!sort.predicate) sort = '';
+
 			Units.getPage(start, number, $scope.propertyId, $scope.propertyManagerId, sort, search).then(function (result) {
 				$scope.units = result.data;
 				$scope.property = result.property;

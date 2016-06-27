@@ -27,6 +27,7 @@ angular.module('users').controller('PropertyManagerController', ['$scope', '$sta
 					search: $scope.tableState.search,
 					sort: {}
 				};
+				console.log(t)
 				$scope.currentPage = page;
 				$scope.findPropertyManagers(t);
 			}
