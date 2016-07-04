@@ -1,78 +1,26 @@
-<div class="gray-header-area"></div>
-<section data-ng-controller="PropertiesController">
-	<div class="container">
-		<div class="sub-container" style=" margin-left: 10px;">
-			<div class="sub-header">
-				<div class="pull-left" style="padding-top: 34px;">
-					<h2 style="font-size: 45px;" class="HelveticaNeueCyrThin">
-						Properties
-						<span class="glyphicon glyphicon-question-sign gray-color" style="font-size: 18px; vertical-align: top; cursor: pointer;"
-							  tooltip="Please choose property from the list or use search to find properties and residents"
-							  tooltip-trigger="mouseenter" tooltip-placement="top"></span>
-					</h2>
-				<div class="pull-right HelveticaNeue" style="width: 320px; margin-right: 2px;">
-					<div class="input-group" style="margin-top: 10px;">
-						<input type="text" ng-model="search" class="form-control search" ng-keypress="searchWithText($event)" placeholder="Search..." style="height: 50px;">
-						<span class="input-group-btn">
-							<button class="btn btn-success" ng-click="searchProperty()" style="font-size: 23px; padding: 9px 15px;"><i class="fa fa-search"></i></button>
-						</span>
-					</div>
-					<div style="margin-top: 10px;" class="text-right">
-						<button type="button" class="btn btn-large btn-success upper-letters" style="padding: 15px 40px;" ng-click="openPropertyModal()" ng-if="authentication.user.roles.indexOf('admin')>-1">Add new property</button>
-					</div>
-				</div>
-			</div>
-			<div class="clearfix"></div>
-			<div style="margin-top: 40px;" class="list-table">
-				<div class="table-responsive HelveticaNeue">
-					<table class="table table-hover" st-pipe="findProperties" st-table="properties" st-safe-src="properties">
-						<thead class="gray-bg">
-						<tr>
-							<th class="sortable cursor-pointer" st-sort-default="propertyName" st-sort="propertyName">Property Name</th>
-							<th ng-if="authentication.user.roles.indexOf('admin')>-1">Property Manager</th>
-							<th class="sortable cursor-pointer" st-sort="propertyCode">Property Code</th>
-							<th class="sortable cursor-pointer" st-sort="state">State, Country</th>
-							<th class="sortable cursor-pointer" st-sort="totalUnits">Units</th>
-							<th class="sortable cursor-pointer" st-sort="updated">Last modified</th>
-							<th ng-if="authentication.user.roles.indexOf('admin')>-1">Edit</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr ng-repeat="property in properties">
-							<td class="middle-align">
-								<a class="green-text" href="#!/company/{{property.c_id}}" ng-if="authentication.user.roles.indexOf('admin')>-1">{{property.propertyName || property.c_name}}</a>
-							</td>
-							<td class="middle-align" ng-if="authentication.user.roles.indexOf('admin')>-1">
-								<a class="green-text">{{property.propertyManager.displayName}}</a>
-								<button class="btn btn-success" ng-if="!property.propertyManager" ng-click="displayPropertyManagerModal(property)" style="padding: 15px 19px;">Add Property Manager</button>
-							</td>
-							<td class="middle-align">{{property.propertyCode || property.c_id}}</td>
-							<td class="middle-align" ng-if="property.state">{{property.state}}, {{property.country}}</td>
-							<td class="middle-align">{{property.totalUnits}}</td>
-							<td class="middle-align">{{property.updated | date: 'MM/dd/yyyy'}}</td>
-							<td class="middle-align text-center" ng-if="authentication.user.roles.indexOf('admin')>-1">
-								<div class="green-btn" style="cursor: pointer;" ng-click="openPropertyModal(property)">
-									<i class="edit-icon"></i>
-								</div>
-							</td>
-						</tr>
-						</tbody>
-						<tfoot>
-						<tr>
-							<td class="text-center" colspan="7">
-								<p style="color: #666; font-size: 12px; text-align: left;">Total: {{totalItems}}</p>
-								<nav ng-if="numberOfPages && pages.length >= 2">
-									<ul class="pagination">
-										<li ng-repeat="page in pages" class="page-item" ng-class="{active: page==currentPage}"><a href="javascript: void(0);" ng-click="selectPage(page)">{{page}}</a></li>
-									</ul>
-								</nav>
-							</td>
-						</tr>
-						</tfoot>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
+<div style="margin-top:100px" class="modal-body" ng-controller="PropertiesController">
+	<h2>Properties</h2>
+	<p><b>Company Name: </b>{{company.name}}</p>
+	<table class="table table-hover">
+		<thead>
+			<th>Property Name</th>
+			<th>Property Manager</th>
+			<th>Country</th>
+			<th>City</th>
+			<th>Address</th>
+		</thead>
+		<tbody>
+		<tr ng-repeat="property in properties | startFrom: (propertiesPage-1)*pageSize | limitTo: pageSize">
+			<td class="middle-align">
+				<a class="green-text" href="#!/properties/{{property.pr_id}}/units/{{property.c_id}}" ng-if="authentication.user.roles.indexOf('admin')>-1">{{property.pr_name}}</a>
+			</td>
+			<td>{{property.Userinfo.firstname}} {{property.Userinfo.lastname}}</td>
+			<td>{{property.Addresses.0.country}}</td>
+			<td>{{property.Addresses.0.city}}</td>
+			<td>{{property.Addresses.0.address}}</td>
+		</tr>
+		</tbody>
+	</table>
+	<pagination total-items="properties.length" ng-model="propertiesPage" items-per-page="pageSize"></pagination>
+</div>
 

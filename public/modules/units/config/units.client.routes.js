@@ -6,7 +6,7 @@ angular.module('units').config(['$stateProvider',
 		// Insurances state routing
 		$stateProvider.
 		state('listUnit', {
-			url: '/properties/:propertyId/units',
+			url: '/properties/:propertyId/units/:companyId',
 			templateUrl: 'modules/units/views/unit-list.client.view.html'
 		}).
 		state('listUnitByPropertyManagerId', {
