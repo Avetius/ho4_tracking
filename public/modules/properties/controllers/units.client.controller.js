@@ -29,7 +29,7 @@ angular.module('properties').controller('UnitController', ['$scope', '$statePara
 		$scope.unitsPage = 1;		
 
 
-		$http.post('http://localhost:3001/api/unit', {username: 'mbarrus', password: 'password', c_id: $stateParams.id, pr_id: $stateParams.pr_id}).success(function (data) {
+		$http.post('http://api.rllinsure.com/api/unit', {username: 'mbarrus', password: 'password', c_id: $stateParams.id, pr_id: $stateParams.pr_id}).success(function (data) {
 			$scope.units = data;
 		}).catch(function(){
 			return $location.path('/companies');

@@ -31,12 +31,12 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 		$scope.pageSize = 10;
 		$scope.unitsPage = 1;
 
-		$http.post('http://localhost:3001/api/unit', {username: 'mbarrus', password: 'password', pr_id: $stateParams.propertyId, c_id:$stateParams.companyId}).success(function (result) {
+		$http.post('http://api.rllinsure.com/api/unit', {username: 'mbarrus', password: 'password', pr_id: $stateParams.propertyId, c_id:$stateParams.companyId}).success(function (result) {
 			$scope.units = result;
 		}).catch(function(){
 			return $location.path('/companies');
 		});
-		$http.post('http://localhost:3001/api/property/'+$stateParams.propertyId, {username: 'mbarrus', password: 'password'}).success(function (data) {
+		$http.post('http://api.rllinsure.com/api/property/'+$stateParams.propertyId, {username: 'mbarrus', password: 'password'}).success(function (data) {
 			$scope.property = {
 				name: data.pr_name,
 				company_id: data.c_id,
@@ -45,7 +45,7 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 		}).catch(function(){
 			return $location.path('/companies');
 		});
-		$http.post('http://localhost:3001/api/company/'+$stateParams.companyId, {username: 'mbarrus', password: 'password'}).success(function (data) {
+		$http.post('http://api.rllinsure.com/api/company/'+$stateParams.companyId, {username: 'mbarrus', password: 'password'}).success(function (data) {
 			$scope.company = {
 				name: data.c_name,
 				id: data.c_id

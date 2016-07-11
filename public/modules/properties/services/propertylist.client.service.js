@@ -13,7 +13,7 @@ angular.module('properties').factory('PropertySmartList', ['$q', '$filter', '$ti
 				}
 
 				if($rootScope.admin){					
-					$http.post('http://localhost:3001/api/company', {username: 'mbarrus', password: 'password'}).success(function (data) {
+					$http.post('http://api.rllinsure.com/api/company', {username: 'mbarrus', password: 'password'}).success(function (data) {
 						deferred.resolve({
 							data: data,
 							property_manager: data.property_manager,

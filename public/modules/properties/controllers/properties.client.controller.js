@@ -32,7 +32,7 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 		$scope.propertiesPage = 1;
 
 
-		$http.post('http://localhost:3001/api/company/'+$stateParams.companyid, {username: 'mbarrus', password: 'password'}).success(function (data) {
+		$http.post('http://api.rllinsure.com/api/company/'+$stateParams.companyid, {username: 'mbarrus', password: 'password'}).success(function (data) {
 			$scope.company = {
 				name: data.c_name,
 				id: data.c_id
@@ -41,7 +41,7 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 			return $location.path('/companies');
 		});
 
-		$http.post('http://localhost:3001/api/property', {username: 'mbarrus', password: 'password', c_id: $stateParams.companyid}).success(function (data) {
+		$http.post('http://api.rllinsure.com/api/property', {username: 'mbarrus', password: 'password', c_id: $stateParams.companyid}).success(function (data) {
 			$scope.properties = data;
 		}).catch(function(){
 			return $location.path('/companies');

@@ -25,7 +25,7 @@ angular.module('properties').controller('CompaniesController', ['$scope', '$stat
 		};		
 
 		
-		$http.post('http://localhost:3001/api/company/', {username: 'mbarrus', password: 'password'}).success(function (data) {
+		$http.post('http://api.rllinsure.com/api/company/', {username: 'mbarrus', password: 'password'}).success(function (data) {
 			$scope.companies = data;
 		}).catch(function(){
 			return $location.path('/properties');
