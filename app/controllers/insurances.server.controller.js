@@ -127,9 +127,9 @@ exports.residentInsurance = function(req, res) {
 exports.createResidentInsurances = function(req, res) {
 	var policy = new Policy(req.body);
 	if(req.body.unitNumber && typeof req.body.unitNumber === 'object') {
-		policy.unitNumber = req.body.unitNumber.unitNumber;
+		policy.unitNumber = req.body.unitNumber;
 	}
-	policy.user = req.params.residentId;
+	policy.user = req.body.id;
 	if(req.user.roles.indexOf('admin') < 0) {
 		if(policy.insuranceFilePath && policy.insuranceFilePath !== '' && policy.policyHolderName  && policy.policyHolderName !== '') policy.status = 'pending';
 		else policy.status = 'incomplete';
@@ -141,7 +141,9 @@ exports.createResidentInsurances = function(req, res) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.json(policy);
+			Policy.findById(policy._id).populate('user').exec(function(err, insurance) {
+				res.json(insurance);
+			})
 		}
 	});
 };
@@ -580,6 +582,23 @@ exports.insuranceByID = function(req, res, next, id) {
 		}
 		req.insurance = insurance;
 		next();
+	});
+};
+
+exports.insurancesByUnitID = function(req,res){
+	var id = req.body.unitID;
+	Policy.find({unitNumber:id},function(err,insurances){
+		if(err) {throw err};
+		if(!insurances) res.json({status:[]});
+		res.json({insurances:insurances});
+	});
+};
+exports.insurancesByAPIUnitID = function(req,res){
+	var id = req.body.apiunitID;
+	Policy.find({ApiUnitId:id}).populate('user').exec(function(err,insurances){
+		if(err) {throw err};
+		if(!insurances) res.json({status:[]});
+		res.json({insurances:insurances});
 	});
 };
 

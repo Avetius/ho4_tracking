@@ -777,6 +777,13 @@ exports.getResident = function (req, res) {
 		});
 	});
 };
+exports.getAllResitents = function (req, res){
+	User.find().exec(function(err, users) {
+
+		res.json({residents: users});
+
+	});
+}
 
 exports.updateResident = function (req, res) {
 	var updateObj = {

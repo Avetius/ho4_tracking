@@ -86,6 +86,8 @@ module.exports = function(app) {
 		.get(users.requiresLogin, users.isAdminUser, users.getAllResidentList)
 		.post(users.requiresLogin, users.isAdminUser, users.addResident);
 
+	app.route('/allresidents')
+		.get(users.requiresLogin, users.isAdminUser, users.getAllResitents);
 	app.route('/residents/:residentId')
 		.get(users.requiresLogin, users.isAdminUser, users.getResident)
 		.put(users.requiresLogin, users.isAdminUser, users.updateResident)

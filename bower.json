@@ -1,21 +1,22 @@
 {
-	"name": "rllinsure",
-	"version": "0.0.1",
-	"description": "RLL Insure HO4",
-	"dependencies": {
-		"bootstrap": "~3",
-		"angular": "~1.2",
-		"angular-resource": "~1.2",
-		"angular-animate": "~1.2",
-		"angular-mocks": "~1.2",
-		"angular-bootstrap": "~0.12.0",
-		"angular-ui-utils": "~0.1.1",
-		"angular-ui-router": "~0.2.11",
-	  	"ng-file-upload": "~12.0.3",
-	  	"angular-smart-table": "~2.1.7",
-	  	"angular-bootstrap-lightbox": "~0.4.0",
-	  	"angular-prompt": "~1.1.1",
-	  	"font-awesome": "~4.6.3",
-	  	"grunt": "~0.4.0"
-	}
+  "name": "rllinsure",
+  "version": "0.0.1",
+  "description": "RLL Insure HO4",
+  "dependencies": {
+    "bootstrap": "~3",
+    "angular": "~1.2",
+    "angular-resource": "~1.2",
+    "angular-animate": "~1.2",
+    "angular-mocks": "~1.2",
+    "angular-bootstrap": "~0.12.0",
+    "angular-ui-utils": "~0.1.1",
+    "angular-ui-router": "~0.2.11",
+    "ng-file-upload": "~12.0.3",
+    "angular-smart-table": "~2.1.7",
+    "angular-bootstrap-lightbox": "~0.4.0",
+    "angular-prompt": "~1.1.1",
+    "font-awesome": "~4.6.3",
+    "grunt": "~0.4.0",
+    "moment": "^2.14.1"
+  }
 }

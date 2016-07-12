@@ -33,6 +33,13 @@ module.exports = function(app) {
 
 	app.route('/insurance_status/:insuranceId')
 		.post(users.requiresLogin, users.isAdminUser, users.isPropertyManager, insurances.updateStatusInsurance);
+	app.route('/insuranceById/')
+		.post(users.requiresLogin, users.isAdminUser, users.isPropertyManager, insurances.insurancesByUnitID);
+	app.route('/insurancesByAPIUnitID/')
+		.post(users.requiresLogin, users.isAdminUser, users.isPropertyManager, insurances.insurancesByAPIUnitID);
+	app.route('/createInsurance')
+		.post(users.requiresLogin, users.isAdminUser, users.isPropertyManager, insurances.createResidentInsurances);
+
 
 	// Finish by binding the user middleware
 	app.param('insuranceId', insurances.insuranceByID);

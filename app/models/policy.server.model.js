@@ -21,6 +21,9 @@ var PolicySchema = new Schema({
 	unitNumber: {
 		type: String
 	},
+	ApiUnitId:{
+		type:String
+	},
 	policyHolderName: {
 		type: String
 	},

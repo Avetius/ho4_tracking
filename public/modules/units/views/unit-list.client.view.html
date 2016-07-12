@@ -2,6 +2,12 @@
 	<h2>Units</h2>
 	<p><b>Property Name: </b>{{property.name}}</p>
 	<p><b>Company Name: </b><a href="#!/properties/{{company.id}}">{{company.name}}</a></p>
+	<div class="sub-header">
+		<div class="pull-right">
+			<button type="button" class="btn btn-large custom-gray-btn" style="padding: 15px; border: 1px solid; margin-right: 10px;" ng-click="openPropertyInfo()">Property Info</button>
+			<button type="button" class="btn btn-large btn-success" style="padding: 15px;" ng-click="openUnitModal()">Add new unit</button>
+		</div>
+	</div>
 	<table class="table table-hover">
 		<thead>
 			<th>Unit no</th>
@@ -13,7 +19,7 @@
 		</thead>
 		<tbody>
 		<tr ng-repeat="unit in units | startFrom: (unitsPage-1)*pageSize | limitTo: pageSize">
-			<td>{{unit.unit_no}}</td>
+			<td><a ng-href="#!/unit/insurances/{{companyId}}/{{propertyId}}/{{unit.u_id}}">{{unit.unit_no}}</a></td>
 			<td>{{unit.address}}</td>
 			<td>{{unit.city}}</td>
 			<td>{{unit.country}}</td>

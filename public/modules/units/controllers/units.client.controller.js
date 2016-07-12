@@ -14,6 +14,8 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 		$scope.itemsByPage = 20;
 		$scope.pages = [];
 		$scope.stDisplayedPages = 3;
+		$scope.propertyId = $stateParams.propertyId;
+		$scope.companyId = $stateParams.companyId;
 		$scope.tableState = {
 			pagination: {
 				number: $scope.itemsByPage,
@@ -54,7 +56,45 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 			return $location.path('/companies');
 		});
 
+	}
+]).controller('UnitInsuranceController', ['$scope', '$stateParams', '$location','$http','Units','$modal','$rootScope',
+	function($scope, $stateParams, $location,$http, Units, $modal, $rootScope) {
+		$scope.id = parseInt($stateParams.unitID);
+		$http.post('http://api.rllinsure.com/api/unit', {username: 'mbarrus', password: 'password', pr_id: $stateParams.propertyId, c_id:$stateParams.companyId}).success(function(result) {
+			$scope.units = result;
+		});
+		$http.post("/insurancesByAPIUnitID",{apiunitID:$scope.id}).success(function (coverages) {
+			$scope.coverages = coverages.insurances;
+		});	
 
+		$scope.openUnitModal = function(unit) {
+			unit.ApiUnitId = $scope.id;
+			Units.getResidents().then(function(residents) {
+				var modalInstance = $modal.open({
+					templateUrl: 'modules/units/views/unit-form.modal.html',
+					scope: function () {
+						var scope = $rootScope.$new();
+						scope.unit = unit || {};
+						scope.coverages = $scope.coverages || {};
+						scope.propertyId = $scope.propertyId;
+						scope.residents = residents.data;
+						scope.add_unit= !unit || !unit._id;
+						return scope;
+					}(),
+					controller: 'UnitFormController'
+				});
+
+				modalInstance.result.then(function (selectedItem) {
+					if(selectedItem.resident_modal) {
+						$scope.openResidentModal(selectedItem.unit);
+					} else {
+						$scope.findUnits($scope.tableState);
+					}
+				}, function () {
+					console.log('Modal dismissed at: ' + new Date());
+				});
+			});
+		};
 	}
 ]).filter('startFrom', function(){
 	return function(data, start){

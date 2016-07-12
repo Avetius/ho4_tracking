@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('units').controller('UnitFormController', ['$scope', '$location', 'Authentication', 'Units', '$modalInstance','$rootScope',
-	function($scope, $location, Authentication, Units, $modalInstance,$rootScope) {
+angular.module('units').controller('UnitFormController', ['$scope', '$location', 'Authentication','$http', 'Units', '$modalInstance','$rootScope',
+	function($scope, $location, Authentication, $http, Units, $modalInstance,$rootScope) {
 		$scope.authentication = Authentication;
 		var now = new Date();
 		var fromDate = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -72,6 +72,20 @@ angular.module('units').controller('UnitFormController', ['$scope', '$location',
 			});
 		};
 
+		$scope.saveInsurance = function(insurance){
+			var policy = {};
+			policy.ApiUnitId = insurance.ApiUnitId;
+			policy.unitNumber = insurance.unit_no;
+			policy.id = insurance.resident._id;
+			policy.policyStartDate = insurance.moveInDate;
+			policy.policyEndDate = insurance.moveOutDate;
+			$http.post("/createInsurance",policy).success(function(newPolicy){
+				$scope.coverages.push(newPolicy);
+				$modalInstance.close({coverages: $scope.coverages});
+			}).catch(function(){
+				$modalInstance.close();
+			});
+		}
 
 		$scope.cancel = function () {
 			$modalInstance.dismiss('cancel');
