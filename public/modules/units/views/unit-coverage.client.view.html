@@ -1,0 +1,43 @@
+<div style="margin-top:100px" class="modal-body" ng-controller="UnitInsuranceController">
+    <h2>Units</h2>
+    <div class="row" ng-repeat="unit in units" ng-if="unit.u_id == id" >
+        <div class="col-md-6">
+    <p><b>Unit no: </b>{{unit.unit_no}}</p>
+    <p><b>Unit Address: </b>{{unit.address}}</p>
+    <p><b>Unit City: </b>{{unit.city}}</p>
+        </div>
+        <div class="col-md-6">
+    <p><b>Unit country: </b>{{unit.country}}</p>
+    <p><b>Unit state: </b>{{unit.state}}</p>
+    <p><b>Unit zip: </b>{{unit.zip}}</p>
+        </div>
+        <div class="sub-header">
+            <div class="pull-right">
+                <button type="button" class="btn btn-large custom-gray-btn" style="padding: 15px; border: 1px solid; margin-right: 10px;" ng-click="openPropertyInfo()">Property Info</button>
+                <button type="button" class="btn btn-large btn-success" style="padding: 15px;" ng-click="openUnitModal(unit)">Add new unit</button>
+            </div>
+        </div>
+    </div>
+
+
+    <table class="table table-hover">
+        <thead>
+        <th>Resident name</th>
+        <th>Start date</th>
+        <th>End date</th>
+        <th>Coverage status</th>
+        <th>Action</th>
+        </thead>
+        <tbody>
+        <tr ng-repeat="coverage in coverages">
+            <td>{{coverage.user.displayName}}</td>
+            <td >{{coverage.policyStartDate | date:'dd-MM-yyyy'}}</td>
+            <td>{{coverage.policyEndDate | date:'dd-MM-yyyy'}}</td>
+            <td>{{coverage.status}}</td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+    <pagination total-items="units.length" ng-model="unitsPage" items-per-page="pageSize"></pagination>
+</div>
+
