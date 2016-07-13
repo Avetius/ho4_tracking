@@ -65,11 +65,20 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 		});
 		$http.post("/insurancesByAPIUnitID",{apiunitID:$scope.id}).success(function (coverages) {
 			$scope.coverages = coverages.insurances;
+			console.log($scope.coverages[0])
+
 		});	
 
-		$scope.openUnitModal = function(unit) {
-			unit.ApiUnitId = $scope.id;
-			Units.getResidents().then(function(residents) {
+		$scope.openUnitModal = function(unit,index) {
+			console.log(unit)
+			unit.ApiUnitId = unit.ApiUnitId || $scope.id;
+			unit.moveInDate = unit.policyStartDate || "";
+			unit.moveOutDate = unit.policyEndDate || "";
+			unit.unit_no = unit.unitNumber || unit.unit_no;
+			unit.buildingNumber = unit.policyNumber || "";
+			unit.resident = unit.user;
+			Units.getResidents(unit.ApiUnitId).then(function(residents) {
+				//console.log(residents.data)
 				var modalInstance = $modal.open({
 					templateUrl: 'modules/units/views/unit-form.modal.html',
 					scope: function () {
@@ -79,6 +88,7 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 						scope.propertyId = $scope.propertyId;
 						scope.residents = residents.data;
 						scope.add_unit= !unit || !unit._id;
+						scope.index = index;
 						return scope;
 					}(),
 					controller: 'UnitFormController'
@@ -95,6 +105,18 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 				});
 			});
 		};
+
+
+		$scope.deleteInsurance = function(insurance,index){
+			if(confirm("Are you sure, you want to delete policy?")){
+				$http.post("/deleteInsurance",{id:insurance._id}).success(function (data) {
+					if(!data.status) return
+					$scope.coverages.splice(index,1);
+				})
+			}
+		}
+
+
 	}
 ]).filter('startFrom', function(){
 	return function(data, start){

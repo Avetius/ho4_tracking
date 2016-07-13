@@ -26,15 +26,18 @@
         <th>Start date</th>
         <th>End date</th>
         <th>Coverage status</th>
-        <th>Action</th>
+        <th>Edit</th>
+        <th>Delete</th>
         </thead>
         <tbody>
         <tr ng-repeat="coverage in coverages">
-            <td>{{coverage.user.displayName}}</td>
-            <td >{{coverage.policyStartDate | date:'dd-MM-yyyy'}}</td>
+            <td>{{coverage.user.firstname}}  {{coverage.user.lastname}}</td>
+            <td>{{coverage.policyStartDate | date:'dd-MM-yyyy'}}</td>
             <td>{{coverage.policyEndDate | date:'dd-MM-yyyy'}}</td>
             <td>{{coverage.status}}</td>
-            <td></td>
+            <td><div class="note-btn" ng-click="openUnitModal(coverage,$index)"><i class="note-icon"></i></div></td>
+            <td><div class="note-btn" ng-click="deleteInsurance(coverage,$index)"><i class="glyphicon glyphicon-trash"></i></div></td>
+
         </tr>
         </tbody>
     </table>

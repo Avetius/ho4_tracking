@@ -39,7 +39,10 @@ module.exports = function(app) {
 		.post(users.requiresLogin, users.isAdminUser, users.isPropertyManager, insurances.insurancesByAPIUnitID);
 	app.route('/createInsurance')
 		.post(users.requiresLogin, users.isAdminUser, users.isPropertyManager, insurances.createResidentInsurances);
-
+	app.route('/updateInsurance')
+		.post(users.requiresLogin, users.isAdminUser, users.isPropertyManager, insurances.updatePolicy);
+	app.route('/deleteInsurance')
+		.post(users.requiresLogin, users.isAdminUser, users.isPropertyManager, insurances.deletePolicy);
 
 	// Finish by binding the user middleware
 	app.param('insuranceId', insurances.insuranceByID);

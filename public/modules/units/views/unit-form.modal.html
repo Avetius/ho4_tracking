@@ -2,14 +2,14 @@
 	<div class="row">
 		<i ng-click="cancel()" class="glyphicon glyphicon-remove icon-close-right pull-right" style="cursor: pointer; font-size: 22px; z-index: 2; margin-right: -15px; margin-top: -16px;"></i>
 		<div class="col-md-12" style="margin-bottom: 42px; padding: 0 45px;">
-			<h2 class="HelveticaNeueCyrThin" style="font-size: 60px; margin: 0px;" ng-if="add_unit">Add New Unit</h2>
-			<h2 class="HelveticaNeueCyrThin" style="font-size: 60px; margin: 0px;" ng-if="!add_unit">Edit Unit</h2>
+			<h2 class="HelveticaNeueCyrThin" style="font-size: 60px; margin: 0px;" ng-if="add_unit">Add New Policy</h2>
+			<h2 class="HelveticaNeueCyrThin" style="font-size: 60px; margin: 0px;" ng-if="!add_unit">Edit Policy</h2>
 		</div>
 	</div>
 	<div class="row HelveticaNeue" style="margin-bottom: 30px;">
 		<div class="col-md-12" style="padding: 0 45px;">
 			<div class="form-group no-margin">
-				<input type="text" id="unitNumber" name="unitNumber" class="form-control text-center" ng-model="unit.unit_no" placeholder="Unit Number" ng-disabled="true" >
+				<input  type="text" id="unitNumber" name="unitNumber" class="form-control text-center" ng-model="unit.unit_no" placeholder="Unit Number" ng-disabled="true" >
 			</div>
 			<div class="form-group no-margin">
 				<input type="text" id="buildingNumber" name="buildingNumber" class="form-control text-center" data-ng-model="unit.buildingNumber" ng-change="savebuildingNumber()" placeholder="Building Number">
@@ -18,14 +18,28 @@
 				<div class="form-group no-margin text-center">
 					<p class="control-label HelveticaNeueCyrLight" style="font-size: 19px; padding: 0 44px; margin-bottom: 10px; color: #bababa;">Choose Resident from the List</p>
 					<label class="form-select" style="width: 100%;">
-						<select class="form-control" ng-options="resident as resident.displayName for resident in residents track by resident._id" ng-model="unit.resident">
-
+						<select class="form-control"  ng-options="resident.firstname for resident in residents" ng-model="unit.resident">
+							<!--<option data-ng-repeat="resident in residents" ng-value="resident"   ng-selected="{{$index == 0 || resident == user.resident}}">{{resident.firstname}} {{resident.lastname}} </option>-->
 						</select>
 					</label>
 				</div>
 				<p class="text-center" style="color: #bababa;">or</p>
 				<div class="form-group no-margin text-center" style="margin-top: 16px;">
 					<button type="button" class="btn btn-gray upper-letters" ng-click="openResidentModalForUnit()" style="padding: 14px 40px;">Create New Resident</button>
+				</div>
+			</div>
+			<div class="row" ng-if="!add_unit" >
+				<div class="form-group no-margin text-center">
+					<p class="control-label HelveticaNeueCyrLight" style="font-size: 19px; padding: 0 44px; margin-bottom: 10px; color: #bababa;">Policy status</p>
+					<label class="form-select" style="width: 100%;">
+					<select ng-model="unit.status" class="form-control">
+						<option value="approved">Approved</option>
+						<option value="rejected">Rejected</option>
+						<option value="pending">Pending</option>
+						<option value="expired">Expired</option>
+						<option value="incomplete">Incomplete</option>
+					</select>
+					</label>
 				</div>
 			</div>
 			<div class="row" style="margin-top: 20px;">
@@ -52,7 +66,8 @@
 			</div>
 			<div class="text-right" style="margin-top: 70px;">
 				<button class="btn btn-gray btn-lg upper-letters" type="button" ng-click="cancel()" style="padding: 15px 42px;">Cancel</button>
-				<button class="btn btn-success btn-lg upper-letters" type="button" ng-click="saveInsurance(unit)" style="padding: 15px 53px; font-size: 14px; margin-left: 15px;">Save</button>
+				<button ng-if="add_unit" class="btn btn-success btn-lg upper-letters" type="button" ng-click="saveInsurance(unit)" style="padding: 15px 53px; font-size: 14px; margin-left: 15px;">Save</button>
+				<button ng-if="!add_unit" class="btn btn-success btn-lg upper-letters" type="button" ng-click="updateInsurance(unit)" style="padding: 15px 53px; font-size: 14px; margin-left: 15px;">Update</button>
 			</div>
 		</div>
 	</div>

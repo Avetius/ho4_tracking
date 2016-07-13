@@ -24,6 +24,9 @@ var PolicySchema = new Schema({
 	ApiUnitId:{
 		type:String
 	},
+	ApiResId:{
+	   type: Number
+	},
 	policyHolderName: {
 		type: String
 	},
@@ -55,8 +58,7 @@ var PolicySchema = new Schema({
 		type: String
 	},
 	user: {
-		type: Schema.ObjectId,
-		ref: 'User'
+		type: Object
 	}
 });
 

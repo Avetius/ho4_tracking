@@ -129,7 +129,6 @@ exports.createResidentInsurances = function(req, res) {
 	if(req.body.unitNumber && typeof req.body.unitNumber === 'object') {
 		policy.unitNumber = req.body.unitNumber;
 	}
-	policy.user = req.body.id;
 	if(req.user.roles.indexOf('admin') < 0) {
 		if(policy.insuranceFilePath && policy.insuranceFilePath !== '' && policy.policyHolderName  && policy.policyHolderName !== '') policy.status = 'pending';
 		else policy.status = 'incomplete';
@@ -141,7 +140,7 @@ exports.createResidentInsurances = function(req, res) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			Policy.findById(policy._id).populate('user').exec(function(err, insurance) {
+			Policy.findById(policy._id).exec(function(err, insurance) {
 				res.json(insurance);
 			})
 		}
@@ -169,6 +168,8 @@ exports.updateResidentInsurance = function(req, res) {
 			if (policy.insuranceFilePath && policy.insuranceFilePath !== '' && policy.policyHolderName  && policy.policyHolderName !== '') policy.status = 'pending';
 			else policy.status = 'incomplete';
 		}
+		policy.ApiResId = parseInt(req.body.ApiResId);
+		console.log(policy);
 		policy.updated = Date.now();
 		policy.save(function(err) {
 			if (err) {
@@ -181,6 +182,41 @@ exports.updateResidentInsurance = function(req, res) {
 		});
 	});
 };
+
+
+exports.updatePolicy = function(req,res){
+	Policy.findOne({_id: req.body._id},function(err,policy){
+
+
+		if(!policy) return console.log("Not found by id: "+ req.body._id);
+		policy.user = req.body.user;
+		policy.ApiResId = parseInt(req.body.ApiResId);
+		policy.policyStartDate = req.body.policyStartDate;
+		policy.policyEndDate = req.body.policyEndDate;
+		policy.policyNumber = req.body.policyNumber;
+		policy.status = req.body.status;
+			policy.updated = Date.now();
+			policy.save(function(err) {
+				if (err) {
+					return res.status(400).send({
+						message: errorHandler.getErrorMessage(err)
+					});
+				} else {
+					Policy.findById(policy._id).populate('user').exec(function(err, insurance) {
+						res.json(insurance);
+					})
+				}
+			});
+	})
+}
+
+exports.deletePolicy = function(req,res){
+	Policy.findOneAndRemove({_id:req.body.id},function(err){
+		if(err) return res.json({status:false});
+		res.json({status:true});
+	})
+}
+
 
 exports.removeInsurance = function(req, res) {
 	var insurance = req.insurance;
@@ -595,7 +631,7 @@ exports.insurancesByUnitID = function(req,res){
 };
 exports.insurancesByAPIUnitID = function(req,res){
 	var id = req.body.apiunitID;
-	Policy.find({ApiUnitId:id}).populate('user').exec(function(err,insurances){
+	Policy.find({ApiUnitId:id}).exec(function(err,insurances){
 		if(err) {throw err};
 		if(!insurances) res.json({status:[]});
 		res.json({insurances:insurances});

@@ -20,9 +20,10 @@ angular.module('units').factory('Units', ['$q', '$filter', '$timeout', '$http',
 				});
 				return deferred.promise;
 			},
-			getResidents: function() {
+			getResidents: function(id) {
 				var deferred = $q.defer();
-				$http.get('/residents_list').success(function (data) {
+				$http.post('http://api.rllinsure.com/api/resident',{u_id:id}).success(function (data) {
+			//		console.log(data)
 					deferred.resolve({
 						data: data
 					});

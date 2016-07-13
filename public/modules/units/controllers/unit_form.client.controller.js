@@ -73,12 +73,18 @@ angular.module('units').controller('UnitFormController', ['$scope', '$location',
 		};
 
 		$scope.saveInsurance = function(insurance){
+			if(!insurance.buildingNumber.trim("") || !insurance.moveInDate || !insurance.moveOutDate || !insurance.resident) return alert("Please fill all fields!")
+
 			var policy = {};
 			policy.ApiUnitId = insurance.ApiUnitId;
 			policy.unitNumber = insurance.unit_no;
 			policy.id = insurance.resident._id;
+			policy.user = insurance.resident;
 			policy.policyStartDate = insurance.moveInDate;
 			policy.policyEndDate = insurance.moveOutDate;
+			policy.policyNumber = insurance.buildingNumber;
+			policy.ApiResId = insurance.resident.res_id;
+			console.log(policy)
 			$http.post("/createInsurance",policy).success(function(newPolicy){
 				$scope.coverages.push(newPolicy);
 				$modalInstance.close({coverages: $scope.coverages});
@@ -86,6 +92,37 @@ angular.module('units').controller('UnitFormController', ['$scope', '$location',
 				$modalInstance.close();
 			});
 		}
+
+
+		$scope.updateInsurance = function(insurance){
+			if(!insurance.buildingNumber.trim("") || !insurance.moveInDate || !insurance.moveOutDate || !insurance.resident) return alert("Please fill all fields!")
+			var policy = {};
+			policy.ApiUnitId = insurance.ApiUnitId;
+			policy.unitNumber = insurance.unit_no;
+			policy.id = insurance.resident._id;
+			policy.user = insurance.resident;
+			policy.policyStartDate = insurance.moveInDate;
+			policy.policyEndDate = insurance.moveOutDate;
+			policy.policyNumber = insurance.buildingNumber;
+			policy._id = insurance._id;
+			policy.status = insurance.status;
+			policy.ApiResId = insurance.resident.res_id;
+			//console.log(policy)
+			$http.post("/updateInsurance",policy).success(function(updatedPolicy){
+				//$scope.coverages.push(newPolicy);
+				for(var i in $scope.coverages){
+					if($scope.coverages[i]._id == policy._id){
+						$scope.coverages[i] = policy;
+					}
+				}
+		//		console.log(updatedPolicy);
+				$modalInstance.close({coverages: $scope.coverages});
+			}).catch(function(){
+				$modalInstance.close();
+			});
+		}
+
+
 
 		$scope.cancel = function () {
 			$modalInstance.dismiss('cancel');
