@@ -18,8 +18,8 @@ module.exports = function(app) {
 		.get(users.requiresLogin, users.isPropertyManager, units.propertyUnitList)
 		.post(users.requiresLogin, users.isPropertyManager, units.createUnitForProperty);
 
-	app.route('/property_unit_list/:propertyId')
-		.get(users.requiresLogin, users.isPropertyManager, units.propertyAllUnitList)
+	app.route('/property_unit_list/:mysql_pr_id')
+		.get(users.requiresLogin, users.isPropertyManager, units.mysqlpropertyUnitList)
 
 	app.route('/units/:unitId')
 		.get(users.requiresLogin, users.isPropertyManager, units.read)

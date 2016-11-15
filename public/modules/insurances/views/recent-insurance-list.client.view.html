@@ -9,10 +9,8 @@
 				</div>
 				<div class="pull-right" style="width: 320px; margin-right: 4px;">
 					<div class="input-group" style="margin-top: 10px;">
-						<input type="text" ng-model="search" class="form-control search" ng-keypress="searchWithText($event)" placeholder="Search..." style="height: 50px;">
-						<span class="input-group-btn">
-							<button class="btn btn-success" ng-click="searchInsurance()" style="font-size: 23px; padding: 9px 14px;"><i class="fa fa-search"></i></button>
-						</span>
+						<input type="text" ng-model="search" class="form-control search"  placeholder="Search..." style="height: 50px;">
+
 					</div>
 					<div style="margin-top: 10px;" class="text-right">
 						<label class="custom-select">
@@ -29,20 +27,20 @@
 			<div>
 				<div class="policy-list list-table">
 					<div class="table-responsive">
-						<table class="table table-hover" st-pipe="findRecentInsurances" st-table="insurances" st-safe-src="insurances">
+						<table class="table table-hover" st-table="_displayInsurances" st-safe-src="_insurances">
 							<thead class="gray-bg">
 							<tr>
 								<th class="sortable cursor-pointer" st-sort-default="propertyName" st-sort="propertyName">Property</th>
 								<th class="sortable cursor-pointer" st-sort="unitNumber">Unit#,<br>Resident Name</th>
 								<th class="sortable cursor-pointer" st-sort="insuranceName">Insurance Company</th>
-								<th class="sortable cursor-pointer" st-sort="policyEndDate">Expiration Date</th>
+								<th class="sortable cursor-pointer" st-sort="policyEndDate">Policy Term</th>
 								<th class="sortable cursor-pointer" st-sort="status">Status</th>
 								<th class="sortable cursor-pointer" st-sort="residentName">Date (adding)</th>
 								<th style="text-align: center;">Certificate,<br>Notes</th>
 							</tr>
 							</thead>
 							<tbody>
-							<tr ng-repeat="insurance in insurances">
+							<tr ng-repeat="insurance in filtered = (_displayInsurances| filter: search) | startFrom:(currentPage-1)*itemsByPage | limitTo: itemsByPage">
 								<td class="td-hover middle-align" ng-click="viewDetailRecentInsurance(insurance)">{{insurance.propertyName}}</td>
 								<td class="td-hover middle-align">
 									<span class="green-text">{{insurance.unitNumber}}</span>
@@ -77,12 +75,8 @@
 							<tfoot>
 							<tr>
 								<td class="text-center" colspan="7">
-									<p style="color: #666; font-size: 12px; text-align: left;">Total: {{totalItems}}</p>
-									<nav ng-if="numberOfPages && pages.length >= 2">
-										<ul class="pagination">
-											<li ng-repeat="page in pages" class="page-item" ng-class="{active: page==currentPage}"><a href="javascript: void(0);" ng-click="selectPage(page)">{{page}}</a></li>
-										</ul>
-									</nav>
+									<p style="color: #666; font-size: 12px; text-align: left;">Total: {{filtered.length}}</p>
+									<pagination ng-model="currentPage" total-items="filtered.length" items-per-page="itemsByPage" max-size="5" boundary-links="true"></pagination>
 								</td>
 							</tr>
 							</tfoot>

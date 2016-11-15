@@ -339,10 +339,6 @@ exports.removeInsurance = function(req, res) {
 };*/
 
 exports.recentInsurances = function(req, res) {
-	var start = parseInt(req.query.start);
-	var num = parseInt(req.query.num);
-	var search = req.query.search || '';
-	var sort = JSON.parse(req.query.sort) || {};
 	var filterVal = req.query.filter;
 	var query = {};
 	if(filterVal === 'pending') query = {status: 'pending'};
@@ -350,15 +346,15 @@ exports.recentInsurances = function(req, res) {
 
 	Policy.find(query).populate('user').exec(function(err, policies) {
 		var policiesArray = [];
-		_.each(policies, function(policy) {		
+		_.each(policies, function(policy) {
 			policiesArray.push(function(cb) {
-				if(!policy.user){return cb(null, {})};
-				Property.findOne({_id: policy.user.propertyID}).exec(function(err, property) {
+				Unit.find({resident: policy.user._id}).populate('property').exec(function(err, unit) {
 					var temp = policy.toObject();
-					temp.propertyName = property?property.propertyName:'';
+					temp.propertyName = unit[0] ? unit[0].property.propertyName : '';
 					temp.residentName = policy.user.displayName;
 					cb(null, temp);
-				});
+				})
+
 			});
 		});
 		async.parallel(policiesArray, function(err, result) {
@@ -373,44 +369,13 @@ exports.recentInsurances = function(req, res) {
 				});
 			});
 			async.parallel(notesCallbacks, function (err, results) {
-				var resultArray = results;
-				if (search !== '') {
-					var propertSearchResultArray = resultArray.filter(function (item) {
-						return item.propertyName && item.propertyName.search(search) > -1;
-					});
-					var unitSearchResultArray = resultArray.filter(function (item) {
-						return item.unitNumber && item.unitNumber.search(search) > -1;
-					});
-					var residentSearchResultArray = resultArray.filter(function (item) {
-						return item.user && item.user.displayName.search(search) > -1;
-					});
+				res.json({insurances: results});
 
-					var searchResultArray = propertSearchResultArray.concat(unitSearchResultArray);
-					searchResultArray = searchResultArray.concat(residentSearchResultArray);
-					for (var i = 0; i < searchResultArray.length; ++i) {
-						for (var j = i + 1; j < searchResultArray.length; ++j) {
-							if (searchResultArray[i] === searchResultArray[j])
-								searchResultArray.splice(j--, 1);
-						}
-					}
-					if (sort.predicate) {
-						searchResultArray.sort(dynamicSort(sort.predicate));
-						if (sort.reverse) searchResultArray.sort(dynamicSort('-' + sort.predicate));
-					}
-					var returnResult = searchResultArray.slice(start, (start + num));
-					res.json({count: searchResultArray.length, insurances: returnResult});
-				} else {
-					if (sort.predicate) {
-						resultArray.sort(dynamicSort(sort.predicate));
-						if (sort.reverse) resultArray.sort(dynamicSort('-' + sort.predicate));
-					}
-					var returnResult = resultArray.slice(start, (start + num));
-					res.json({count: resultArray.length, insurances: returnResult});
-				}
 			});
 		});
 	});
 };
+
 
 exports.propertyInsurances = function(req, res) {
 	var start = parseInt(req.query.start);

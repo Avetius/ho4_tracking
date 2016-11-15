@@ -1198,7 +1198,8 @@ input.search {
 thead.gray-bg th {
 	background-color: #eaebec;
 	vertical-align: middle !important;
-	padding: 17px 28px !important;
+	padding: 17px 21px 17px 2px !important;
+	text-align: center;
 	border-bottom: none !important;
 	font-weight: normal;
 	border-right: 1px solid transparent;
@@ -2025,4 +2026,7 @@ button i.calendar-icon {
 	background-color: transparent;
 	background-image: none;
 	color: #70C05F;
+}
+.insurance-status{
+	text-transform: capitalize;
 }

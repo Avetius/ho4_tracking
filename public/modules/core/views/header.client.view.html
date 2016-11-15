@@ -30,11 +30,6 @@
 								Companies
 							</a>
 						</li>
-<!-- 						<li ng-if="authentication.user.roles.indexOf('admin')>-1" ng-switch="item" ui-route="/company" class="item upper-letters" ng-class="{active: ($uiRoute)}">
-							<a href="/#!/companies" ng-switch-default>
-								Companies
-							</a>
-						</li>	 -->					
 						<!--<li ng-if="authentication.user.roles.indexOf('admin')>-1" ng-switch="item" ui-route="/property_managers" class="item" ng-class="{active: ($uiRoute)}">
 							<a href="/#!/property_managers" ng-switch-default>
 								Property Managers
@@ -51,15 +46,15 @@
 							</a>
 						</li>
 						<li ng-if="authentication.user.roles.indexOf('pmanager')>-1"
-							ng-switch="item" ui-route="/property_insurances/{{current_property._id}}/insurances" class="dropdown upper-letters"
+							ng-switch="item" class="dropdown upper-letters"
 							dropdown ng-class="{active: current_route.includes('property_insurances')}">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle style="padding-right: 90px; padding-left: 40px; position: relative;">
-								{{current_property.propertyName}}
-								<div style="border-left: 1px solid #fff; bottom: 0; padding: 15px 18px; position: absolute; right: 0; top: 0;">
+							<a href="/#!/property_insurances/{{properties[0]._id}}/insurances" class="dropdown-toggle "   style="padding-right: 90px; padding-left: 40px; position: relative;">
+								{{properties[0].propertyName}}
+								<div style="border-left: 1px solid #fff; bottom: 0; padding: 15px 18px; position: absolute; right: 0; top: 0;" dropdown-toggle>
 									<span class="fa fa-angle-down" style="font-size: 23px;"></span>
 								</div>
 							</a>
-							<ul class="dropdown-menu">
+							<ul class="dropdown-menu" ng-if="properties.length > 0">
 								<li ng-repeat="property in properties">
 									<a href="/#!/property_insurances/{{property._id}}/insurances">
 										{{property.propertyName}}
@@ -90,7 +85,7 @@
 					<form class="form-inline login-form" data-ng-submit="signin()">
 						<span class="fa fa-lock" style="color: #c7c7c7; font-size: 25px; margin-right: 5px; vertical-align: middle;"></span>
 						<div class="form-group">
-							<input type="email" class="form-control" placeholder="E-mail" data-ng-model="credentials.username">
+							<input type="email" class="form-control" placeholder="Email" data-ng-model="credentials.username">
 						</div>
 						<div class="form-group" style="margin-left: 5px;">
 							<input type="password" class="form-control" placeholder="Password" data-ng-model="credentials.password">
@@ -122,7 +117,7 @@
 				<a ng-href="/#!/faqs">FAQs</a>
 			</div>
 			<div class="item" ng-class="{active: ($uiRoute)}" ui-route="/contact-us" style="padding-left: 20px;">
-				<a href="/#!/contact-us">Contact us</a>
+				<a href="/#!/contact-us">Contact Us</a>
 			</div>
 		</div>
 		<div data-ng-if="menu.shouldRender(authentication.user)">

@@ -33,10 +33,13 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 		$scope.pageSize = 10;
 		$scope.unitsPage = 1;
 
-		$http.post('http://api.rllinsure.com/api/unit', {username: 'mbarrus', password: 'password', pr_id: $stateParams.propertyId, c_id:$stateParams.companyId}).success(function (result) {
-			$scope.units = result;
-		}).catch(function(){
-			return $location.path('/companies');
+		$http.get('/property_unit_list/'+$stateParams.propertyId ).success(function (result) {
+			$scope.propertyunits = result;
+			console.log(result);
+		}).catch(function(err){
+			console.log(err);
+
+		//	return $location.path('/companies');
 		});
 		$http.post('http://api.rllinsure.com/api/property/'+$stateParams.propertyId, {username: 'mbarrus', password: 'password'}).success(function (data) {
 			$scope.property = {
@@ -45,15 +48,16 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 				pr_id: data.pr_id,
 			};
 		}).catch(function(){
-			return $location.path('/companies');
+			//return $location.path('/companies');
 		});
 		$http.post('http://api.rllinsure.com/api/company/'+$stateParams.companyId, {username: 'mbarrus', password: 'password'}).success(function (data) {
 			$scope.company = {
 				name: data.c_name,
 				id: data.c_id
 			};
-		}).catch(function(){
-			return $location.path('/companies');
+		}).catch(function(err){
+			console.log(err);
+			//return $location.path('/companies');
 		});
 
 	}
@@ -67,7 +71,7 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 			$scope.coverages = coverages.insurances;
 			console.log($scope.coverages[0])
 
-		});	
+		});
 
 		$scope.openUnitModal = function(unit,index) {
 			console.log(unit)

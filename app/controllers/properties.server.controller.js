@@ -170,6 +170,19 @@ exports.propertyListForPropertyManager = function(req, res) {
 		}
 	});
 };
+exports.getCompanyProperties = function(req, res)
+{
+	var query = {mysql_c_id: req.params.c_id};
+	Property.find(query).sort('propertyName').exec(function (err, properties) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.json(properties);
+		}
+	});
+}
 
 /**
  * Property middleware

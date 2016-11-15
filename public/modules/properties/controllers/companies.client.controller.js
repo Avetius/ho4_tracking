@@ -22,16 +22,16 @@ angular.module('properties').controller('CompaniesController', ['$scope', '$stat
 			},
 			search: null,
 			sort: null
-		};		
+		};
 
-		
+
 		$http.post('http://api.rllinsure.com/api/company/', {username: 'mbarrus', password: 'password'}).success(function (data) {
 			$scope.companies = data;
 		}).catch(function(){
 			return $location.path('/properties');
 		});
 
-		$scope.pageSize = 20;
+		$scope.pageSize = 9999999;
 		$scope.companiesPage = 1;
 	}
 ])

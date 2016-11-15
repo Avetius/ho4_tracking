@@ -91,8 +91,13 @@ var PropertySchema = new Schema({
 	propertyManager: {
 		type: Schema.ObjectId,
 		ref: 'User'
-	}
+	},
+	mysql_c_id: { type: Number, required: true },
+	mysql_id: {
+		type: Number,
+		required: true,
+		unique: true,
+		index: true }
 });
 
 mongoose.model('Property', PropertySchema);
-

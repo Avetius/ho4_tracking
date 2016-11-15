@@ -167,6 +167,20 @@ exports.propertyAllUnitList = function(req, res) {
 		}
 	});
 };
+exports.mysqlpropertyUnitList = function(req, res) {
+	console.log('mtav');
+	console.log(req.params.mysql_pr_id);
+	Unit.find({mysql_pr_id: req.params.mysql_pr_id}).exec(function (err, units) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			console.log(units);
+			res.json(units);
+		}
+	});
+};
 
 /**
  * Property middleware

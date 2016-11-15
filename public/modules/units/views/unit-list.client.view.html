@@ -1,33 +1,69 @@
-<div style="margin-top:100px" class="modal-body" ng-controller="UnitsController">
-	<h2>Units</h2>
-	<p><b>Property Name: </b>{{property.name}}</p>
-	<p><b>Company Name: </b><a href="#!/properties/{{company.id}}">{{company.name}}</a></p>
-	<div class="sub-header">
-		<div class="pull-right">
-			<button type="button" class="btn btn-large custom-gray-btn" style="padding: 15px; border: 1px solid; margin-right: 10px;" ng-click="openPropertyInfo()">Property Info</button>
-			<button type="button" class="btn btn-large btn-success" style="padding: 15px;" ng-click="openUnitModal()">Add new unit</button>
+<div class="gray-header-area" style="margin-bottom: 8px;"></div>
+<section data-ng-controller="UnitsController">
+	<div class="container">
+		<div class="sub-container" style=" margin-left: 10px;">
+			<h2>Units</h2>
+			<p><b>Property Name: </b>{{property.name}}</p>
+			<p><b>Company Name: </b><a href="#!/properties/{{company.id}}">{{company.name}}</a></p>
+			<div class="sub-header">
+				<div class="pull-right">
+					<button type="button" class="btn btn-large custom-gray-btn" style="padding: 15px; border: 1px solid; margin-right: 10px;" ng-click="openPropertyInfo()">Property Info</button>
+					<button type="button" class="btn btn-large btn-success" style="padding: 15px;" ng-click="openUnitModal()">Add new unit</button>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+			<div class="list-table" style="margin-top: 40px;">
+				<div class="table-responsive HelveticaNeue">
+					<table class="table table-hover"  st-table="units" st-safe-src="_units">
+						<thead class="gray-bg">
+						<tr>
+							<th class="sortable cursor-pointer" st-sort-default="unitNumber" st-sort="unitNumber">Unit #</th>
+							<th class="sortable cursor-pointer" st-sort="description">Coverage</th>
+							<th class="sortable cursor-pointer" st-sort="buildingNumber">Unit Address</th>
+							<th class="sortable cursor-pointer" st-sort="displayName">Resident Name</th>
+							<th class="sortable cursor-pointer" st-sort="moveInDate">Move in</th>
+							<th class="sortable cursor-pointer" st-sort="moveOutDate">Move out</th>
+							<th class="sortable cursor-pointer" st-sort="certificate_status">Certificate Status</th>
+							<th class="sortable cursor-pointer" st-sort="status">Unit Status</th>
+							<th class="text-center">Action</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr ng-repeat="unit in propertyunits">
+							<td class="middle-align">{{unit.unitNumber}}</td>
+							<td class="middle-align">{{unit.description}}</td>
+							<td class="middle-align">{{unit.buildingNumber}}</td>
+							<td class="middle-align">
+								<a class="green-text" href="#!/properties/{{property._id}}/units/{{unit._id}}/{{unit.resident._id}}/insurances" ng-if="unit.resident">
+									{{unit.resident.displayName}}
+								</a>
+								<button class="btn btn-success" ng-if="!unit.resident" ng-click="displayExtraResidentModal(unit)" style="padding: 15px 19px;">Add resident</button>
+							</td>
+							<td class="middle-align">{{toLocalTime(unit.moveInDate) | date: 'MM/dd/yyyy'}}</td>
+							<td class="middle-align">{{toLocalTime(unit.moveOutDate) | date: 'MM/dd/yyyy'}}</td>
+							<td class="middle-align text-capitalize">{{unit.insurances.status ? unit.insurances.status : ''}}</td>
+							<td class="middle-align">{{unit.resident?'Occupied': 'Vacant'}}</td>
+							<td class="middle-align text-center">
+								<div class="green-btn" style="cursor: pointer;" ng-click="removeUnit(unit)">
+									<span class="glyphicon glyphicon-trash"></span>
+								</div>
+								<div class="green-btn" style="cursor: pointer;" ng-click="openUnitModal(unit)">
+									<i class="edit-icon"></i>
+								</div>
+							</td>
+						</tr>
+						</tbody>
+						<tfoot>
+						<tr>
+							<td class="text-center" colspan="7">
+								<p style="color: #666; font-size: 12px; text-align: left;">Total: {{filtered.length}}</p>
+								<pagination ng-model="currentPage" total-items="filtered.length" items-per-page="itemsByPage" max-size="5" boundary-links="true"></pagination>
+							</td>
+						</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
 		</div>
 	</div>
-	<table class="table table-hover">
-		<thead>
-			<th>Unit no</th>
-			<th>Address</th>
-			<th>City</th>
-			<th>Country</th>
-			<th>State</th>
-			<th>Zip</th>
-		</thead>
-		<tbody>
-		<tr ng-repeat="unit in units | startFrom: (unitsPage-1)*pageSize | limitTo: pageSize">
-			<td><a ng-href="#!/unit/insurances/{{companyId}}/{{propertyId}}/{{unit.u_id}}">{{unit.unit_no}}</a></td>
-			<td>{{unit.address}}</td>
-			<td>{{unit.city}}</td>
-			<td>{{unit.country}}</td>
-			<td>{{unit.state}}</td>
-			<td>{{unit.zip}}</td>
-		</tr>
-		</tbody>
-	</table>
-	<pagination total-items="units.length" ng-model="unitsPage" items-per-page="pageSize"></pagination>
-</div>
-
+</section>

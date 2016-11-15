@@ -10,8 +10,8 @@ module.exports = function(app) {
 	var users = require('../../app/controllers/users.server.controller');
 	var properties = require('../../app/controllers/properties.server.controller');
 
-	app.route('/properties')
-		.get(properties.list)
+	app.route('/company_properties/:c_id')
+		.get(properties.getCompanyProperties)
 		.post(users.requiresLogin, users.isPropertyManager, properties.create);
 
 	app.route('/all_properties').get(properties.all_list);

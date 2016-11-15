@@ -43,9 +43,15 @@ var UnitSchema = new Schema({
 	resident: {
 		type: Schema.ObjectId,
 		ref: 'User'
-	}
+	},
+	description:String,
+	mysql_c_id: { type: Number },
+	mysql_pr_id: { type: Number, required: true },
+	mysql_id: {
+		type: Number,
+		required: true,
+		unique: true,
+		index: true }
 });
 
 mongoose.model('Unit', UnitSchema);
-
-var Unit = mongoose.model('Unit', UnitSchema);

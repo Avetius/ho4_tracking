@@ -41,7 +41,7 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 			return $location.path('/companies');
 		});
 
-		$http.post('http://api.rllinsure.com/api/property', {username: 'mbarrus', password: 'password', c_id: $stateParams.companyid}).success(function (data) {
+		$http.get('/company_properties/'+$stateParams.companyid).success(function (data) {
 			$scope.properties = data;
 		}).catch(function(){
 			return $location.path('/companies');

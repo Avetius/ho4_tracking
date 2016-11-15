@@ -11,7 +11,6 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 		$scope.unitId = $stateParams.unitId;
 		$scope.residentId = $stateParams.residentId;
 		$scope.insuranceId = $stateParams.insuranceId;
-
 		$scope.numberOfPages = 1;
 		$scope.currentPage = 1;
 		$scope.pages = [];
@@ -31,6 +30,8 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 			filter:$scope.recent_insurance.filter
 		};
 
+
+
 		$scope.selectManagerPage = function(page) {
 			if (page > 0 && page <= $scope.numberOfPages) {
 				var start = (page - 1) * $scope.itemsByPage;
@@ -44,18 +45,7 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 			}
 		};
 
-		$scope.selectPage = function (page) {
-			if (page > 0 && page <= $scope.numberOfPages) {
-				var start = (page - 1) * $scope.itemsByPage;
-				var t = {
-					pagination: {start: start, number: $scope.itemsByPage, numberOfPages: $scope.numberOfPages},
-					search: $scope.tableState.search,
-					sort: $scope.tableState.sort
-				};
-				$scope.currentPage = page;
-				$scope.findRecentInsurances(t);
-			}
-		};
+
 
 		// Find existing Insurance
 		$scope.findOne = function() {
@@ -90,25 +80,7 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 			});
 		};
 
-		$scope.findRecentInsurances = function(tableState) {
-			tableState.filter = $scope.recent_insurance.filter;
-			$scope.tableState.sort = tableState.sort;
-			var pagination = tableState.pagination;
-			var start = pagination.start || 0;
-			var number = 100;
-			var search = tableState.search;
-			if(typeof search === 'object' || search == undefined) search = '';
-			var sort = tableState.sort || '';
-			if(!sort.predicate) sort = '';
-			var filterVal = tableState.filter || 'pending';
 
-			ManagerInsurance.getRecentInsurances(start, number, search, sort, filterVal).then(function(result) {
-				$scope.numberOfPages = result.numberOfPages;
-				$scope.totalItems = result.count;
-				$scope.insurances = result.data;
-				redrawPagination(start, number)
-			});
-		};
 
 		$scope.findResidentInsurances = function(tableState) {
 			$scope.tableState.sort = tableState.sort;
@@ -134,6 +106,7 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 		};
 
 		$scope.viewInsuranceCertificate = function(insurance) {
+
 			var modalInstance = $modal.open({
 				templateUrl: 'modules/insurances/views/insurance-detail.modal.html',
 				size: 'lg',
@@ -255,6 +228,8 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 				console.log('Modal dismissed at: ' + new Date());
 			});
 		};
+
+
 
 		$scope.openResidentInsuranceModal = function() {
 			var modalInstance = $modal.open({
@@ -384,7 +359,6 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 
 		$scope.filterByInsuranceStatus = function(insuranceFilter) {
 			$scope.tableState.filter = insuranceFilter;
-			console.log($scope.tableState);
 			$scope.findRecentInsurances($scope.tableState);
 		};
 
@@ -428,5 +402,29 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 				$scope.pages.push(i);
 			}
 		};
+
+		$scope.findRecentInsurances = function() {
+			var filterVal = $scope.recent_insurance.filter || 'pending';
+
+			ManagerInsurance.getRecentInsurances(filterVal).then(function(result) {
+				$scope._insurances = result.data;
+			});
+		};
+		ManagerInsurance.getRecentInsurances(null).then(function(result) {
+			$scope._insurances = result.data;
+		});
+
+		$scope.$watch('currentPage + itemsByPage', function() {
+			if($scope._insurances) {
+				var begin = (($scope.currentPage - 1) * $scope.itemsByPage)
+					, end = begin + $scope.itemsByPage;
+				$scope.filteredInsurances = $scope._insurances.slice(begin, end);
+			}
+		});
 	}
-]);
+]).filter("startFrom",function(){
+	return function(data,start){
+		if(data)
+			return data.slice(start);
+	}});
+
