@@ -22,11 +22,11 @@ angular.module('properties').controller('UnitController', ['$scope', '$statePara
 			},
 			search: null,
 			sort: null
-		};		
+		};
 
 
 		$scope.pageSize = 10;
-		$scope.unitsPage = 1;		
+		$scope.unitsPage = 1;
 
 
 		$http.post('http://api.rllinsure.com/api/unit', {username: 'mbarrus', password: 'password', c_id: $stateParams.id, pr_id: $stateParams.pr_id}).success(function (data) {

@@ -22,11 +22,11 @@ angular.module('properties').controller('CompanyPrIdController', ['$scope', '$st
 			},
 			search: null,
 			sort: null
-		};		
+		};
 
 		if($stateParams.pr_id == ''){
 			 return $location.path('/companies');
-		}		
+		}
 
 		$http.post('http://api.rllinsure.com/api/property/'+$stateParams.pr_id, {username: 'mbarrus', password: 'password', c_id: $stateParams.id}).success(function (data) {
 			$scope.property = data;

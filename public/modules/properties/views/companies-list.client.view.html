@@ -9,7 +9,7 @@
 				</thead>
 				<tbody>
 					<tr ng-repeat="company in companies | startFrom: (companiesPage-1)*pageSize | limitTo: pageSize">
-						<td  class="td-hover"><a href="#!/properties/{{company.c_id}}">{{company.c_name}}</a></td>
+						<td  class="td-hover"><a href="#!/properties/{{company.mysql_id}}">{{company.name}}</a></td>
 					</tr>
 				</tbody>
 			</table>

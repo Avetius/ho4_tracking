@@ -84,7 +84,6 @@ angular.module('units').controller('UnitFormController', ['$scope', '$location',
 			policy.policyEndDate = insurance.moveOutDate;
 			policy.policyNumber = insurance.buildingNumber;
 			policy.ApiResId = insurance.resident.res_id;
-			console.log(policy)
 			$http.post("/createInsurance",policy).success(function(newPolicy){
 				$scope.coverages.push(newPolicy);
 				$modalInstance.close({coverages: $scope.coverages});

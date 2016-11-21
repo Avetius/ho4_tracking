@@ -405,12 +405,13 @@ angular.module('insurances').controller('ManagerInsurancesController', ['$scope'
 
 		$scope.findRecentInsurances = function() {
 			var filterVal = $scope.recent_insurance.filter || 'pending';
-
 			ManagerInsurance.getRecentInsurances(filterVal).then(function(result) {
 				$scope._insurances = result.data;
 			});
 		};
-		ManagerInsurance.getRecentInsurances(null).then(function(result) {
+		console.log('here');
+		ManagerInsurance.getRecentInsurances().then(function(result) {
+			console.log(result);
 			$scope._insurances = result.data;
 		});
 

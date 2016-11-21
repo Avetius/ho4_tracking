@@ -32,10 +32,105 @@ angular.module('properties').controller('PropertiesController', ['$scope', '$sta
 		$scope.propertiesPage = 1;
 
 
-		$http.post('http://api.rllinsure.com/api/company/'+$stateParams.companyid, {username: 'mbarrus', password: 'password'}).success(function (data) {
+		$scope.openPropertyModal = function(property) {
+			var modalInstance = $modal.open({
+				templateUrl: 'modules/properties/views/property-form.modal.html',
+				size: 'lg',
+				scope: function () {
+					var scope = $rootScope.$new();
+					scope.property = property || {};
+					scope.property_manager = $scope.property_manager;
+					scope.add_property= !property||!property._id;
+					scope.managers = $scope.managers;
+					return scope;
+				}(),
+				controller: 'PropertyFormController'
+			});
+
+			modalInstance.result.then(function (selectedItem) {
+				if(selectedItem.manager_modal) {
+					$scope.openPropertyManagerModal(selectedItem.property);
+				} else {
+					$scope._properties.push(selectedItem);
+					$scope.findProperties($scope.tableState);
+				}
+			}, function () {
+				console.log('Modal dismissed at: ' + new Date());
+			});
+		};
+		$scope.openPropertyManagerModal = function(property) {
+			var modalInstance = $modal.open({
+				templateUrl: 'modules/users/views/property_managers/property-manager-form.modal.html',
+				scope: function () {
+					var scope = $rootScope.$new();
+					scope.propertyManager = {};
+					scope.add_property_manager= true;
+					scope.properties = $scope.properties;
+					return scope;
+				}(),
+				controller: 'PropertyManagerFormController'
+			});
+
+			modalInstance.result.then(function (selectedItem) {
+				$scope.managers.push(selectedItem.data);
+				property.propertyManager = selectedItem.data;
+				$scope.openPropertyModal(property);
+			}, function () {
+				$scope.openPropertyModal(property);
+				console.log('Modal dismissed at: ' + new Date());
+			});
+		};
+
+
+		$scope.displayPropertyManagerModal = function(assignedproperty) {
+			var modalInstance = $modal.open({
+				templateUrl: 'modules/users/views/property_managers/choose-property-manager-form.modal.html',
+				scope: function () {
+					var scope = $rootScope.$new();
+					scope.property = assignedproperty;
+					scope.add_property_manager = false;
+					scope.managers = $scope.managers;
+					return scope;
+				}(),
+				controller: 'PropertyManagerFormController'
+			});
+			modalInstance.result.then(function (selectedItem) {
+				if(selectedItem.manager_modal) {
+					$scope.displayPropertyManagerCreateModal(selectedItem.property);
+				} else {
+					$scope.findProperties($scope.tableState);
+				}
+			}, function () {
+				console.log('Modal dismissed at: ' + new Date());
+			});
+		};
+
+
+
+		$scope.displayPropertyManagerCreateModal = function(assignedproperty) {
+			var modalInstance = $modal.open({
+				templateUrl: 'modules/users/views/property_managers/property-manager-form.modal.html',
+				scope: function () {
+					var scope = $rootScope.$new();
+					scope.propertyManager = {assigned_properties:[assignedproperty]};
+					scope.add_property_manager= true;
+					scope.properties = $scope.properties;
+					return scope;
+				}(),
+				controller: 'PropertyManagerFormController'
+			});
+			modalInstance.result.then(function (selectedItem) {
+				$scope.findProperties($scope.tableState);
+			}, function () {
+				console.log('Modal dismissed at: ' + new Date());
+			});
+		};
+
+
+		$http.get('/company/'+$stateParams.companyid).success(function (data) {
 			$scope.company = {
-				name: data.c_name,
-				id: data.c_id
+				name: data.name,
+				id: data.mysql_id
 			};
 		}).catch(function(){
 			return $location.path('/companies');

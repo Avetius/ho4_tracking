@@ -170,6 +170,7 @@ exports.propertyListForPropertyManager = function(req, res) {
 		}
 	});
 };
+
 exports.getCompanyProperties = function(req, res)
 {
 	var query = {mysql_c_id: req.params.c_id};
@@ -183,6 +184,21 @@ exports.getCompanyProperties = function(req, res)
 		}
 	});
 }
+
+exports.getProperty_by_mysql_id = function(req, res)
+{
+	var query = {mysql_id: req.params.pr_id};
+	Property.find(query).exec(function (err, properties) {
+		if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.json(properties[0]);
+		}
+	});
+}
+
 
 /**
  * Property middleware
@@ -212,7 +228,6 @@ exports.propertyByID = function(req, res, next, id) {
  */
 exports.getByCode = function(req, res, next) {
 
-	console.log(req.query.code);
 	Property.find({propertyCode:req.query.code}).populate('propertyManager', 'displayName').exec(function(err, property) {
 		/*if (err) return next(err);
 		if (!property) {

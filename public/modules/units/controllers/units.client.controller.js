@@ -32,28 +32,184 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 
 		$scope.pageSize = 10;
 		$scope.unitsPage = 1;
-
-		$http.get('/property_unit_list/'+$stateParams.propertyId ).success(function (result) {
-			$scope.propertyunits = result;
-			console.log(result);
-		}).catch(function(err){
-			console.log(err);
-
-		//	return $location.path('/companies');
-		});
-		$http.post('http://api.rllinsure.com/api/property/'+$stateParams.propertyId, {username: 'mbarrus', password: 'password'}).success(function (data) {
+		$http.get('/property/'+$stateParams.propertyId).success(function (data) {
+			console.log(data);
+			$scope.coreproperty = data;
 			$scope.property = {
-				name: data.pr_name,
+				name: data.propertyName,
 				company_id: data.c_id,
 				pr_id: data.pr_id,
 			};
 		}).catch(function(){
 			//return $location.path('/companies');
 		});
-		$http.post('http://api.rllinsure.com/api/company/'+$stateParams.companyId, {username: 'mbarrus', password: 'password'}).success(function (data) {
+
+		$scope.openPropertyInfo = function(unit) {
+			var modalInstance = $modal.open({
+				templateUrl: 'modules/units/views/property-info.modal.html',
+				size: 'lg',
+				scope: function () {
+					var scope = $rootScope.$new();
+					scope.property = $scope.coreproperty;
+					return scope;
+				}(),
+				controller: 'UnitFormController'
+			});
+
+			modalInstance.result.then(function (selectedItem) {
+				$scope.findUnits($scope.tableState);
+			}, function () {
+				console.log('Modal dismissed at: ' + new Date());
+			});
+		};
+
+		$scope.openUnitModal = function(unit) {
+			Units.getResidents().then(function(residents) {
+				var modalInstance = $modal.open({
+					templateUrl: 'modules/units/views/unit-form.modal.html',
+					scope: function () {
+						var scope = $rootScope.$new();
+						scope.unit = unit || {};
+						scope.propertyId = $scope.propertyId;
+						scope.residents = residents.data;
+						scope.add_unit= !unit || !unit._id;
+						return scope;
+					}(),
+					controller: 'UnitFormController'
+				});
+
+				modalInstance.result.then(function (selectedItem) {
+					if(selectedItem.resident_modal) {
+						$scope.openResidentModal(selectedItem.unit);
+					} else {
+						$scope.findUnits($scope.tableState);
+					}
+				}, function () {
+					console.log('Modal dismissed at: ' + new Date());
+				});
+			});
+		};
+
+		$scope.displayExtraResidentModal = function(unit) {
+			Units.getResidents().then(function(residents) {
+				var modalInstance = $modal.open({
+					templateUrl: 'modules/users/views/residents/extra-resident-form.modal.html',
+					size: 'lg',
+					scope: function () {
+						var scope = $rootScope.$new();
+						scope.unit = unit || {};
+						scope.propertyId = $scope.propertyId;
+						scope.residents = residents.data;
+						scope.add_unit= !unit || !unit._id;
+						return scope;
+					}(),
+					controller: 'UnitFormController'
+				});
+
+				modalInstance.result.then(function (selectedItem) {
+					if(selectedItem.resident_modal) {
+						$scope.displayResidentModal(selectedItem.unit);
+					} else {
+						$scope.findUnits($scope.tableState);
+					}
+				}, function () {
+					console.log('Modal dismissed at: ' + new Date());
+				});
+			});
+			/*var modalInstance = $modal.open({
+			 templateUrl: 'modules/users/views/residents/extra-resident-form.modal.html',
+			 scope: function () {
+			 var scope = $rootScope.$new();
+			 scope.resident = {appartmentNumber: unit};
+			 scope.add_resident = true;
+			 return scope;
+			 }(),
+			 controller: 'ResidentFormController'
+			 });
+
+			 modalInstance.result.then(function (selectedItem) {
+			 $scope.findUnits($scope.tableState);
+			 }, function () {
+			 console.log('Modal dismissed at: ' + new Date());
+			 });*/
+		};
+
+		$scope.displayResidentModal = function(unit) {
+			var modalInstance = $modal.open({
+				templateUrl: 'modules/users/views/residents/resident-form.modal.html',
+				scope: function () {
+					var scope = $rootScope.$new();
+					scope.resident = {appartmentNumber: unit};
+					scope.add_resident = true;
+					return scope;
+				}(),
+				controller: 'ResidentFormController'
+			});
+
+			modalInstance.result.then(function (selectedItem) {
+				$scope.findUnits($scope.tableState);
+			}, function () {
+				console.log('Modal dismissed at: ' + new Date());
+			});
+		};
+
+		$scope.openResidentModal = function(unit) {
+			var modalInstance = $modal.open({
+				templateUrl: 'modules/users/views/residents/resident-form.modal.html',
+				scope: function () {
+					var scope = $rootScope.$new();
+					scope.resident =  {appartmentNumber:$rootScope.appartmentNumber};
+					scope.add_resident = true;
+					return scope;
+				}(),
+				controller: 'ResidentFormController'
+			});
+
+			modalInstance.result.then(function (selectedItem) {
+				unit.resident = selectedItem.data;
+				$scope.openUnitModal(unit);
+			}, function () {
+				$scope.openUnitModal(unit);
+				console.log('Modal dismissed at: ' + new Date());
+			});
+		};
+
+		var redrawPagination = function(start_index, number) {
+			var start = 1;
+			var end;
+			var i;
+			var prevPage = $scope.currentPage;
+			$scope.totalItemCount = $scope.totalItems;
+			$scope.currentPage = Math.floor(start_index / number) + 1;
+
+			start = Math.max(start, $scope.currentPage - Math.abs(Math.floor($scope.stDisplayedPages / 2)));
+			end = start + $scope.stDisplayedPages;
+
+			if (end > $scope.numberOfPages) {
+				end = $scope.numberOfPages + 1;
+				start = Math.max(1, end - $scope.stDisplayedPages);
+			}
+
+			$scope.pages = [];
+			$scope.numPages = $scope.numberOfPages;
+
+			for (i = start; i < end; i++) {
+				$scope.pages.push(i);
+			}
+		};
+
+		$http.get('/property_unit_list/'+$stateParams.propertyId ).success(function (result) {
+			$scope.propertyunits = result;
+		}).catch(function(err){
+			console.log(err);
+
+		//	return $location.path('/companies');
+		});
+
+		$http.get('/company/'+$stateParams.companyId).success(function (data) {
 			$scope.company = {
-				name: data.c_name,
-				id: data.c_id
+				name: data.name,
+				id: data.mysql_id
 			};
 		}).catch(function(err){
 			console.log(err);
@@ -69,12 +225,10 @@ angular.module('units').controller('UnitsController', ['$scope', '$stateParams',
 		});
 		$http.post("/insurancesByAPIUnitID",{apiunitID:$scope.id}).success(function (coverages) {
 			$scope.coverages = coverages.insurances;
-			console.log($scope.coverages[0])
 
 		});
 
 		$scope.openUnitModal = function(unit,index) {
-			console.log(unit)
 			unit.ApiUnitId = unit.ApiUnitId || $scope.id;
 			unit.moveInDate = unit.policyStartDate || "";
 			unit.moveOutDate = unit.policyEndDate || "";

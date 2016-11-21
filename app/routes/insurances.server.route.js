@@ -9,7 +9,7 @@ var multipart = require('connect-multiparty'),
 module.exports = function(app) {
 	var users = require('../../app/controllers/users.server.controller');
 	var insurances = require('../../app/controllers/insurances.server.controller');
-
+	app.route('/get_recent_insurances').get(users.requiresLogin, users.isAdminUser, insurances.recentInsurances);
 	app.route('/resident_insurances/:propertyId/:unitId/:residentId/insurances')
 		.get(users.requiresLogin, users.isPropertyManager, insurances.residentInsurances)
 		.post(users.requiresLogin, users.isPropertyManager, insurances.createResidentInsurances);
@@ -24,7 +24,6 @@ module.exports = function(app) {
 		.get(users.requiresLogin, users.isAdminUser, insurances.residentInsuranceList)
 		.post(users.requiresLogin, users.isPropertyManager, insurances.createResidentInsurances);
 
-	app.route('/recent_insurances').get(users.requiresLogin, users.isAdminUser, insurances.recentInsurances);
 	app.route('/recent_insurances/:insuranceId')
 		.get(users.requiresLogin, users.isAdminUser, insurances.recentInsuranceDetail);
 

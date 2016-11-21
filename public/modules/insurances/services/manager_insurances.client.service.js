@@ -67,22 +67,29 @@ angular.module('insurances').factory('ManagerInsurance', ['$q', '$filter', '$tim
 				});
 				return deferred.promise;
 			},
-			getRecentInsurances: function(start, number, search, sort, filter) {
+			getRecentInsurances: function() {
+/*
 				var deferred = $q.defer();
-				var url = '/recent_insurances?start=' + start + '&num=' + number + '&search=' + search + '&sort=' + JSON.stringify(sort) + '&filter=' + filter;
+*/console.log(new Date());
+				var url = '/get_recent_insurances';
 				$http.get(url).success(function (data) {
-					deferred.resolve({
+					console.log(data);
+					console.log(new Date());
+					return data;
+					/*deferred.resolve({
 						data: data.insurances,
-						numberOfPages: Math.ceil(data.count / number),
 						count: data.count
-					});
+					});*/
 				}).error(function (msg, code) {
+					return msg;
+/*
 					deferred.reject(msg);
+*/
 				});
-				return deferred.promise;
+				//return deferred.promise;
 			},
 			getRecentInsuranceDetail: function(insuranceId) {
-				var deferred = $q.defer();
+				var deferred = $q.defer();console.log(new Date());
 				$http.get('/recent_insurances/'+insuranceId).success(function (data) {
 					deferred.resolve({
 						insurance: data.insurance,
